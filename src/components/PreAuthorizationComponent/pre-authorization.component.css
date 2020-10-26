@@ -1,0 +1,57 @@
+/*style for pre authorization component.
+*/
+
+.pre-auth {
+    background-color: #00a4f8;
+    width: 100vw;
+    height: 100vh;
+}
+.pre-auth .miran-card {
+    position: fixed;
+    width: 25%;
+    height: auto;
+    padding: 25px;
+    background-color: #fff;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 25px;
+    overflow: hidden;
+}
+.pre-auth .miran-card .miran-card-header {
+    text-align: center;
+    padding:20px 0;
+}
+.pre-auth .miran-card .miran-card-header .logo {
+    width: 150px;
+}
+
+.pre-auth .miran-card .miran-card-body {
+    margin: 15px 0;
+}
+
+
+/*
+Media query ;
+*/
+@media (min-width: 781px) and (max-width: 990px) {
+    .pre-auth .miran-card {
+        width: 50%;
+    }
+}
+@media (max-width: 780px) {
+    .pre-auth .miran-card {
+        width: 60%;
+    }
+}
+@media (max-width: 480px) {
+    .pre-auth .miran-card {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 320px)  {
+    .pre-auth .miran-card {
+        width: 95%;
+    }
+}
