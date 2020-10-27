@@ -29,7 +29,8 @@ const EnglishTranslation = {
         logout:'Logout'
     },
     header : {
-        searchTitle : 'Search Message'
+        searchTitle : 'Search Message',
+        trainer:'Trainer'
     }
   };
 

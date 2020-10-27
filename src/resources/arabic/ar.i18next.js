@@ -29,7 +29,9 @@ const ArabicTranslation = {
     logout:'تسجيل الخروج'
   },
   header : {
-    searchTitle : 'كلمة البحث'
+    searchTitle : 'كلمة البحث',
+    trainer:'مدرب'
+
   }
   }
 
