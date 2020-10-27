@@ -27,6 +27,9 @@ const EnglishTranslation = {
         templates:'Templates',
         settings:'Settings',
         logout:'Logout'
+    },
+    header : {
+        searchTitle : 'Search Message'
     }
   };
 

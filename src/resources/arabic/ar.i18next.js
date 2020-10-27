@@ -27,6 +27,9 @@ const ArabicTranslation = {
     templates:'نماذج',
     settings:'الضبط',
     logout:'تسجيل الخروج'
+  },
+  header : {
+    searchTitle : 'كلمة البحث'
   }
   }
 

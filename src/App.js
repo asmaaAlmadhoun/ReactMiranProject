@@ -6,15 +6,18 @@ import RegisterComponent from "./pages/register/register.component";
 import ForgetPasswordComponent from "./pages/forget-password/forget-password.component";
 import SideBarComponent from "./components/common/side-bar/side-bar.component";
 import FooterComponent from "./components/common/footer/footer.component";
+import HeaderComponent from "./components/common/header/header.component";
 
 
 function App(props) {
   return (
-      <div className="App">
-          <SideBarComponent />
+      <>
+      <SideBarComponent>
+          <HeaderComponent />
           {props.children}
           <FooterComponent />
-      </div>
+      </SideBarComponent>
+      </>
   );
 }
 

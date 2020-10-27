@@ -1,0 +1,14 @@
+.header-app {
+    padding: 40px 40px;
+}
+.header-app .search-container {
+    margin:0;
+    position:relative;
+}
+.header-app .search-container input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 50px !important;
+    height: 45px;
+}

@@ -26,44 +26,55 @@ class SideBarComponent extends Component {
         const isArabic = this.props.i18n.language === 'ar';
         const direction = isArabic ? 'right':'left';
         return (
-            <Sidebar
-                as={Menu}
-                animation={'slide out'}
-                direction={direction}
-                icon='labeled'
-                inverted
-                vertical
-                visible={true}
-                width='wide'
-            >
-                <Menu.Header >
-                    <Image src={logo} width={150} style={{margin:'25px auto'}}/>
-                </Menu.Header>
-                <Menu.Item as='a'>
-                    <Image src={homeIcon} className='icon' width={25} />
-                    {t('menu.dashboard')}
-                </Menu.Item>
-                <Menu.Item as='a'>
-                    <Image src={chatIcon} className='icon' width={25} />
-                    {t('menu.chats')}
-                </Menu.Item>
-                <Menu.Item as='a'>
-                    <Image src={profileIcon} className='icon' width={25} />
-                    {t('menu.profile')}
-                </Menu.Item>
-                <Menu.Item as='a'>
-                    <Image src={templateIcon} className='icon' width={25} />
-                    {t('menu.templates')}
-                </Menu.Item>
-                <Menu.Item as='a'>
-                    <Image src={settingIcon} className='icon' width={25} />
-                    {t('menu.settings')}
-                </Menu.Item>
-                <Menu.Item as='a'>
-                    <Image src={logoutIcon} className='icon logout' width={25} />
-                    {t('menu.logout')}
-                </Menu.Item>
-            </Sidebar>
+            <Grid>
+                <Grid.Column width={16} >
+                    <Sidebar.Pushable as={Segment}>
+                        <Sidebar
+                            as={Menu}
+                            animation={'slide along'}
+                            direction={direction}
+                            icon='labeled'
+                            inverted
+                            vertical
+                            visible={true}
+                            width='wide'
+                        >
+                            <Menu.Header >
+                                <Image src={logo} width={150} style={{margin:'25px auto'}}/>
+                            </Menu.Header>
+                            <Menu.Item as='a'>
+                                <Image src={homeIcon} className='icon' width={25} />
+                                {t('menu.dashboard')}
+                            </Menu.Item>
+                            <Menu.Item as='a'>
+                                <Image src={chatIcon} className='icon' width={25} />
+                                {t('menu.chats')}
+                            </Menu.Item>
+                            <Menu.Item as='a'>
+                                <Image src={profileIcon} className='icon' width={25} />
+                                {t('menu.profile')}
+                            </Menu.Item>
+                            <Menu.Item as='a'>
+                                <Image src={templateIcon} className='icon' width={25} />
+                                {t('menu.templates')}
+                            </Menu.Item>
+                            <Menu.Item as='a'>
+                                <Image src={settingIcon} className='icon' width={25} />
+                                {t('menu.settings')}
+                            </Menu.Item>
+                            <Menu.Item as='a'>
+                                <Image src={logoutIcon} className='icon logout' width={25} />
+                                {t('menu.logout')}
+                            </Menu.Item>
+                        </Sidebar>
+                        <Sidebar.Pusher>
+                            {this.props.children}
+                        </Sidebar.Pusher>
+                    </Sidebar.Pushable>
+                </Grid.Column>
+            </Grid>
+
+
         );
     }
 }
