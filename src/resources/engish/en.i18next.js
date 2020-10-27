@@ -19,6 +19,14 @@ const EnglishTranslation = {
         hasAccount : 'Do you an account ?',
         miranTrainer : 'Miran Trainer',
         sasTrainer : 'SAS Trainer'
+    },
+    menu : {
+        dashboard:'Dashboard',
+        chats:'Chats',
+        profile:'Profile',
+        templates:'Templates',
+        settings:'Settings',
+        logout:'Logout'
     }
   };
 

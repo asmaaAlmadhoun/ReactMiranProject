@@ -1,0 +1,28 @@
+.ui.inverted.menu {
+    background-color: #122027 !important;
+}
+.ui.vertical.inverted.menu .item:before {
+    display: none;
+}
+.ui.labeled.icon.menu .item {
+    display: flex !important;
+    flex-direction : row !important;
+    align-items: center;
+    border: none !important;
+}
+
+.ui.labeled.icon.menu .item  .icon , .ui.labeled.icon.menu .item>.icon:not(.dropdown) {
+    margin: 0 15px !important;
+}
+.ui.labeled.icon.menu .item:last-child {
+    display: flex !important;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+
+.ui.labeled.icon.menu .item {
+    padding: 25px;
+}

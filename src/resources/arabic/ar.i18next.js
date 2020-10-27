@@ -19,6 +19,14 @@ const ArabicTranslation = {
     hasAccount : 'هل تمتلك حساب ؟',
     miranTrainer : 'مدرب ميران',
     sasTrainer : 'مدرب SAS'
+  },
+  menu : {
+    dashboard:'لوحة التحكم',
+    chats:'المحادثات',
+    profile:'الصفحة الشخصية',
+    templates:'نماذج',
+    settings:'الضبط',
+    logout:'تسجيل الخروج'
   }
   }
 
