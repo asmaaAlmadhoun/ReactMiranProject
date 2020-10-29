@@ -1,7 +1,10 @@
 const ArabicTranslation = {
   local:'ar',
   shared : {
-    send  : 'إرسال'
+    send  : 'إرسال',
+    errors: {
+      notFoundUser : 'مستخدم غير موجود'
+    }
   },
   login: {
     title:'تسجيل دخول',

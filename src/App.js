@@ -7,15 +7,17 @@ import ForgetPasswordComponent from "./pages/forget-password/forget-password.com
 import SideBarComponent from "./components/common/side-bar/side-bar.component";
 import FooterComponent from "./components/common/footer/footer.component";
 import HeaderComponent from "./components/common/header/header.component";
+import {ToastContainer} from "react-toastify";
 
 
 function App(props) {
   return (
       <>
+
       <SideBarComponent>
           <HeaderComponent />
           {props.children}
-          <FooterComponent />
+          {/*<FooterComponent />*/}
       </SideBarComponent>
       </>
   );

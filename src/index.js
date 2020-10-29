@@ -11,12 +11,14 @@ import LoginComponent from "./pages/login/login.component";
 import RegisterComponent from "./pages/register/register.component";
 import ForgetPasswordComponent from "./pages/forget-password/forget-password.component";
 import HomeComponent from "./pages/home/home.component";
+import {ToastContainer} from "react-toastify";
 
 ReactDOM.render(
   <React.StrictMode>
       <I18nextProvider i18n={i18n}>
           <Router>
               <Switch>
+
                   <Route path="/login" component={() => <LoginComponent className="login-Component" />} />
                   <Route path="/register" component={() => <RegisterComponent className="register-Component" />} />
                   <Route path="/forget-pw" component={() => <ForgetPasswordComponent className="forgetPw-Component" />} />

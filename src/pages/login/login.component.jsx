@@ -4,28 +4,72 @@ import PreAuthorizationComponent from "../../components/PreAuthorizationComponen
 import InputTextComponent from "../../components/InputTextComponent/input-text.component";
 import PrimaryButtonComponent from "../../components/ButtonComponent/primary-button.component";
 import { withTranslation } from "react-i18next";
-import {Link}  from "react-router-dom";
+import {Link, Switch, withRouter} from "react-router-dom";
+import ToasterComponent from "../../components/common/toaster/toaster.component";
 import AccountService from "../../services/account-service/account.service";
+import { toast } from 'react-toastify';
+
 class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username : null,
-            password:null
+            email : null,
+            password:null,
+            isLoading:false,
+            emailValid : false,
+            passwordValid : false
         }
+        this.emailRef = React.createRef();
+        this.passwordRef = React.createRef();
     }
-    onSubmit = () => {
+    onSubmit = async () => {
 
-        const {username , password} = this.state;
+        const {email , password} = this.state;
         const data = {
-            username,password
+            email,password
         }
+        if(!this.state.emailValid || !this.state.passwordValid){
+             if(!this.state.emailValid) {
+                 this.emailRef.current.showError(true);
+             }
+            if(!this.state.passwordValid) {
+                this.passwordRef.current.showError(true);
+            }
+            return;
+        }
+
+
+
+
         const accountService = new AccountService();
-        accountService.login(data);
+        this.setState({isLoading:true})
+        const {t} = this.props;
+        accountService.login(data).then(response => {
+            this.setState({isLoading : false})
+              if(response && response.status && response.result) {
+                accountService.becomeAuthorize(response.result.token ).then(_ => {
+                    this.props.history.push("/");
+                });
+               }else {
+                  toast.error(t('shared.errors.notFoundUser'))
+              }
+            }).catch(error => {
+            // todo: handling error.
+            toast.error("Error")
+
+
+        });
     }
 
+      makeEmailValidOrNot = (val) => {
+        this.setState({emailValid : val})
+      }
+
+    makePwValidOrNot = (val) => {
+        this.setState({passwordValid : val})
+    }
     onChangeHandler = (e) => {
-        debugger;
+
         if(!e)
             return ;
         const value = e.target.value;
@@ -36,10 +80,11 @@ class LoginComponent extends Component {
     render() {
         const {t} = this.props;
         return (
+            <>
            <PreAuthorizationComponent>
                <form>
-                   <InputTextComponent valueHandler={this.onChangeHandler} name="username" isRequired={true} isArabic={t('local') === 'ar'} labelTitle={t('login.userName')}/>
-                   <InputTextComponent valueHandler={this.onChangeHandler} name="password" isRequired={true} isArabic={t('local') === 'ar'}  labelTitle={t('login.password')} isPassword={true}/>
+                   <InputTextComponent validationFn={this.makeEmailValidOrNot} ref={this.emailRef} valueHandler={this.onChangeHandler} name="email" isRequired={true} isArabic={t('local') === 'ar'} labelTitle={t('login.userName')}/>
+                   <InputTextComponent validationFn={this.makePwValidOrNot} ref={this.passwordRef} valueHandler={this.onChangeHandler} name="password" isRequired={true} isArabic={t('local') === 'ar'}  labelTitle={t('login.password')} isPassword={true}/>
                     <div className="form-group d-flex mt-4">
                         <div className="round flex-grow-1">
                             <input type="checkbox" id="checkbox"/>
@@ -53,7 +98,7 @@ class LoginComponent extends Component {
                             </Link>
                         </div>
                     </div>
-                   <PrimaryButtonComponent  clickHandler={this.onSubmit}  title={t('login.title')}/>
+                   <PrimaryButtonComponent switchLoading={this.state.isLoading} clickHandler={this.onSubmit}  title={t('login.title')}/>
                    <div className="text-center mt-4 reg-title">
                        <span>
                            {t('login.newTrainer')}
@@ -63,9 +108,12 @@ class LoginComponent extends Component {
                        </Link>
                    </div>
                </form>
-           </PreAuthorizationComponent>
+
+                </PreAuthorizationComponent>
+                <ToasterComponent />
+                </>
         );
     }
 }
 
-export default withTranslation("translation")( LoginComponent);
+export default  withTranslation("translation")( withRouter( LoginComponent));

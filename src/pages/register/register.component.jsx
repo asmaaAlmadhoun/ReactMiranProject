@@ -7,6 +7,7 @@ import PrimaryButtonComponent from "../../components/ButtonComponent/primary-but
 import {Link} from "react-router-dom";
 import AccountService from "../../services/account-service/account.service";
 
+
 class RegisterComponent extends Component {
     constructor(props) {
         super(props);
@@ -16,19 +17,31 @@ class RegisterComponent extends Component {
             password:null,
             isMiranTrainer : false,
             isSASTrainer : false,
-
+            isLoading:false
         }
     }
 
     onSubmit = (e) => {
-        e.preventDefault();
 
         const {email , fullName ,password } = this.state;
         const data = {
-            email, fullName , password
+            email, full_name : fullName , password
         }
         const accountService = new AccountService();
+        this.setState({isLoading: true});
         accountService.register(data);
+        // fetch("https://testing.miranapp.com/api/user/register/trainer",{
+        //     method: "POST",
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(data)
+        // }).then(response => {
+        //
+        // }).catch(error => {
+        //
+        // })
     }
 
     onChangeHandler = (e) => {
@@ -68,7 +81,7 @@ class RegisterComponent extends Component {
                            </label>
                    </div>
                </div>
-              <PrimaryButtonComponent title={t('register.title')}  clickHandler={this.onSubmit} />
+              <PrimaryButtonComponent switchLoading={this.state.isLoading} title={t('register.title')}  clickHandler={this.onSubmit} />
               <div className="mt-4 text-center">
                   <Link to="/login"> {t('register.hasAccount')} </Link>
               </div>

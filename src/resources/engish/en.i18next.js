@@ -1,7 +1,10 @@
 const EnglishTranslation = {
     local:'en',
     shared : {
-      send  : 'Send'
+      send  : 'Send',
+        errors: {
+            notFoundUser : 'User Not Found'
+        }
     },
     login: {
         title:'Log in',

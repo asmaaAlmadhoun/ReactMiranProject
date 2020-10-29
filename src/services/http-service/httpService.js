@@ -1,38 +1,25 @@
-import axios from "axios";
-import  {toast} from 'react-toasts';
-axios.defaults.baseURL = "http://miranapp.com/api";  //base url.
+const base_url = 'https://testing.miranapp.com/api'
 
-try{
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
-    axios.defaults.headers.common['Device'] = "device";
-}
-catch{
-}
+ const post = async ({ target, body  }) => {
+    const token = localStorage.getItem('token')
+    try {
+        const url = `${base_url}/${target}`;
+        const result = await fetch(url, {
+            method: "POST",
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : null,
+            },
+            body: JSON.stringify(body)
+        })
+        return await result.json()
 
-
-
-axios.interceptors.response.use((response) => {
-    // TODO : Log response.
-}, error => {
-    const expectedError = error.response && error.response.status >= 400 && error.response.status < 500;
-    if (!expectedError) {
-        toast.error("Error has been happened!" , error);
+    } catch (error) {
+        console.log('error', error)
     }
-    return Promise.reject(error);
-})
+}
 
-// bind the following process into each request to the server.
-axios.interceptors.request.use(request => {
-    request.headers.Authorization = 'Bearer ' + localStorage.getItem("token");
-    request.headers.Xcode = 'MIRAN APP';
-    request.headers.Version = '0.0.1';
-    return request;
-})
-
-const HTTP_REQUEST = {
-    get:axios.get,
-    post:axios.post,
-    put:axios.put,
-    delete:axios.delete
-};
-export default HTTP_REQUEST;
+export  const HTTP_REQUEST = {
+    post
+}

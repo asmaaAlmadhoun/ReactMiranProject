@@ -8,17 +8,27 @@ class InputTextComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasError : false
+            hasError : false,
+            isValid : false
         }
     }
+    showError = (show) => {
+        this.setState({hasError:show})
+    }
     changeHandler = (e) => {
-        debugger;
+
         const value  = e.target.value;
         const isRequired = this.props.isRequired;
         if(value.length === 0 && isRequired) {
             this.setState({hasError : true})
+            if(this.props.validationFn) {
+                this.props.validationFn(false)
+            }
         }else {
-            this.setState({hasError : false})
+            this.setState({hasError : false , isValid : true})
+            if(this.props.validationFn) {
+                this.props.validationFn(true)
+            }
             if(this.props.valueHandler) {
                 this.props.valueHandler(e);
             }
@@ -27,9 +37,11 @@ class InputTextComponent extends Component {
     }
 
 
+
     render() {
         const {isPassword} = this.props;
         const {isArabic} = this.props;
+
         return (
             <div className="form-group miran-primary-input">
                 <label> {this.props.labelTitle} </label>
@@ -63,7 +75,8 @@ InputTextComponent.propTypes = {
     isPassword : PropTypes.bool ,
     paceHolderTitle : PropTypes.string,
     name:PropTypes.string,
-    valueHandler : PropTypes.func
+    valueHandler : PropTypes.func,
+    showError : PropTypes.bool
 }
 
 export default InputTextComponent;
