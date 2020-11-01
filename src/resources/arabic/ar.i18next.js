@@ -3,7 +3,14 @@ const ArabicTranslation = {
   shared : {
     send  : 'إرسال',
     errors: {
-      notFoundUser : 'مستخدم غير موجود'
+      notFoundUser : 'مستخدم غير موجود',
+      globalError : 'لقد حدث خطأ يرجى المحاولة ثانية'
+    },
+    success : {
+      accountCreated : 'تم إنشاء الحساب بنجاح'
+    },
+    warnings : {
+      emailExistBefore : 'البريد الألكترونى مستخدم من قبل'
     }
   },
   login: {
@@ -35,6 +42,10 @@ const ArabicTranslation = {
     searchTitle : 'كلمة البحث',
     trainer:'مدرب'
 
+  },
+  traineeModal : {
+    title:'خطة',
+    Calories:'السعرات الحرارية'
   }
   }
 

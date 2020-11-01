@@ -13,7 +13,7 @@ class ToasterComponent extends Component {
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
-                rtl={false}
+                rtl={isArabic}
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover

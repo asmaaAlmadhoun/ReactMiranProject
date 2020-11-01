@@ -4,7 +4,7 @@ import PreAuthorizationComponent from "../../components/PreAuthorizationComponen
 import InputTextComponent from "../../components/InputTextComponent/input-text.component";
 import PrimaryButtonComponent from "../../components/ButtonComponent/primary-button.component";
 import { withTranslation } from "react-i18next";
-import {Link, Switch, withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
 import AccountService from "../../services/account-service/account.service";
 import { toast } from 'react-toastify';
@@ -17,11 +17,20 @@ class LoginComponent extends Component {
             password:null,
             isLoading:false,
             emailValid : false,
-            passwordValid : false
+            passwordValid : false,
+
         }
         this.emailRef = React.createRef();
         this.passwordRef = React.createRef();
     }
+
+    componentWillMount() {
+       const notAuth =  new URLSearchParams(this.props.location.search).get("notAuth");
+       if(notAuth ) {
+           toast.warn("قم بتسجيل الدخول اولاً" , {position:'top-center'})
+       }
+    }
+
     onSubmit = async () => {
 
         const {email , password} = this.state;
@@ -47,7 +56,10 @@ class LoginComponent extends Component {
         accountService.login(data).then(response => {
             this.setState({isLoading : false})
               if(response && response.status && response.result) {
+
                 accountService.becomeAuthorize(response.result.token ).then(_ => {
+                    debugger;
+                    accountService.userData = response.result;
                     this.props.history.push("/");
                 });
                }else {

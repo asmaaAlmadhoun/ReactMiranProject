@@ -106,3 +106,10 @@ body.rtl .round label {
 body.rtl ,body.rtl a , body.rtl h1 ,body.rtl h2 ,body.rtl h3 ,body.rtl h4 ,body.rtl h5 ,body.rtl p   ,body.rtl * {
   font-family: 'Almarai', sans-serif;
 }
+
+
+.modals.dimmer .ui.scrolling.modal {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,0);
+}

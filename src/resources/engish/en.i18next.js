@@ -3,7 +3,14 @@ const EnglishTranslation = {
     shared : {
       send  : 'Send',
         errors: {
-            notFoundUser : 'User Not Found'
+            notFoundUser : 'User Not Found',
+            globalError : 'Error has been happened! try again'
+        },
+        success : {
+            accountCreated : 'Account is created Successfully'
+        },
+        warnings : {
+            emailExistBefore : 'email address already exists'
         }
     },
     login: {
@@ -34,6 +41,10 @@ const EnglishTranslation = {
     header : {
         searchTitle : 'Search Message',
         trainer:'Trainer'
+    },
+    traineeModal : {
+        title:'Plan',
+        Calories:'Calories Goal'
     }
   };
 

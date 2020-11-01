@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import './trainee-card.component.css';
 import PropTypes from "prop-types";
-import  userProfile from '../../assets/icons/user-profile.jpg';
+import  userProfileMale from '../../assets/icons/user-profile.jpg';
+import  userProfileFemale from '../../assets/images/femaleImage.jpg';
 import  reportIco from '../../assets/icons/report-01.svg'
 import tempIco from '../../assets/icons/temp.svg'
 class TraineeCardComponent extends Component {
 
     render() {
-        let {imgPath ,username , remainingDays} = this.props;
+        let {imgPath ,full_name , remainingDays , isFemale} = this.props;
         if(!imgPath)
-            imgPath = userProfile;
+            imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
             <div className="trainee-card">
                 <div className="user-img">
                     <img src={imgPath} width="56px"  alt={"user image"}   />
                 </div>
                 <div className="user-name">
-                     <span> {username} </span>
+                     <span> {full_name} </span>
                 </div>
                 <div className="remaining-days">
                     <span>
@@ -36,8 +37,10 @@ class TraineeCardComponent extends Component {
     }
 }
 TraineeCardComponent.propTypes = {
-    username: PropTypes.string.isRequired,
+    id:PropTypes.number.isRequired,
+    full_name: PropTypes.string.isRequired,
     imgPath : PropTypes.string,
+    isFemale: PropTypes.bool ,
     remainingDays : PropTypes.number,
 }
 export default TraineeCardComponent;

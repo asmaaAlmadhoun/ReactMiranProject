@@ -16,19 +16,31 @@ class EmailInputComponent extends Component {
         const isRequired = this.props.isRequired;
         if(value.length === 0 && isRequired ) {
             this.setState({hasError :true,isEmailNotValid : false })
+            if(this.props.validationFn) {
+                this.props.validationFn(false);
+            }
         }else {
-           const isEmailValid  =  this.emailValidate(value);
-           if(isEmailValid === false) {
-               this.setState({isEmailNotValid : true , hasError:true})
-           }else {
-               this.setState({hasError :false , isEmailNotValid : false })
-               if(this.props.valueHandler) {
-                   this.props.valueHandler(e);
-               }
-           }
+            const isEmailValid  =  this.emailValidate(value);
+            if(isEmailValid === false) {
+                this.setState({isEmailNotValid : true , hasError:true})
+                if(this.props.validationFn) {
+                    this.props.validationFn(false);
+                }
+            }else {
+                this.setState({hasError :false , isEmailNotValid : false })
+                if(this.props.valueHandler) {
+                    this.props.valueHandler(e);
+                }
+                if(this.props.validationFn) {
+                    this.props.validationFn(true);
+                }
+            }
         }
     }
 
+    showError = (show)  =>  {
+        this.setState({hasError : show})
+    }
     emailValidate  = (val) => {
         return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(val);
     }
@@ -64,6 +76,7 @@ EmailInputComponent.propTypes = {
     isRequired : PropTypes.bool.isRequired,
     paceHolderTitle : PropTypes.string,
     name: PropTypes.string,
-    valueHandler : PropTypes.func
+    valueHandler : PropTypes.func,
+    validationFn : PropTypes.func
 }
 export default EmailInputComponent;

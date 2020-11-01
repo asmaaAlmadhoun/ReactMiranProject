@@ -20,7 +20,19 @@ import profileIcon from '../../../assets/icons/profile-01.svg';
 import templateIcon from '../../../assets/icons/template.svg';
 import settingIcon from '../../../assets/icons/settings.svg';
 import logoutIcon from '../../../assets/icons/logout-01.svg';
+import AccountService from "../../../services/account-service/account.service";
+import {withRouter} from "react-router-dom";
 class SideBarComponent extends Component {
+
+
+    logoutHandler = () => {
+        const accountService = new AccountService() ;
+        accountService.logout().then(_ => {
+            debugger;
+            this.props.history.push('/login')
+        })
+    }
+
     render() {
         const { t } = this.props;
         const isArabic = this.props.i18n.language === 'ar';
@@ -62,7 +74,10 @@ class SideBarComponent extends Component {
                                 <Image src={settingIcon} className='icon' width={25} />
                                 {t('menu.settings')}
                             </Menu.Item>
-                            <Menu.Item as='a'>
+                            <Menu.Item as='a' onClick={(e) => {
+                                e.preventDefault();
+                                this.logoutHandler();
+                            }}>
                                 <Image src={logoutIcon} className='icon logout' width={25} />
                                 {t('menu.logout')}
                             </Menu.Item>
@@ -79,4 +94,4 @@ class SideBarComponent extends Component {
     }
 }
 
-export default withTranslation("translation") (SideBarComponent);
+export default withTranslation("translation") ( withRouter (SideBarComponent));

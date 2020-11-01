@@ -12,18 +12,12 @@ class AccountService extends BaseService {
        return  HTTP_REQUEST.post({target:url , body : data});
     }
 
-    register = (data) => {
+    register = async (data) => {
         if(!data)
             return ;
 
         const url = this._endPoint  + "/register/trainer" ;
-        HTTP_REQUEST.post({target:url , body : data}).then(response => {
-            // TODO: Handle Login;
-            console.log(response);
-        } , error => {
-            // TODO: Handle Error;
-            console.log(error);
-        })
+      return await  HTTP_REQUEST.post({target:url , body : data});
     }
 
 
@@ -57,6 +51,15 @@ class AccountService extends BaseService {
 
     }
 
+     set userData (val) {
+        debugger;
+         localStorage.setItem('miran-user-data' , JSON.stringify(val));
+     }
+
+    get userData () {
+        return localStorage.getItem('miran-user-data');
+    }
+
     /*
     * <summary> purpose of this func to check if current user is authorize or not </summary>
     * <returns> true : if authorize  , false : if not authorize </returns>
@@ -64,6 +67,20 @@ class AccountService extends BaseService {
     isAuthorize = () => {
        const token =  localStorage.getItem('miran-token');
        return !!token;
+    }
+
+    /*
+       * <summary> Purpose of the func is logout from  app </summary>
+       * <returns> return promise  </returns>
+     */
+    logout = () => {
+      return new Promise(resolve =>  {
+            const token =  localStorage.getItem('miran-token');
+            if(token) {
+                localStorage.removeItem('miran-token');
+                resolve();
+            }
+        })
     }
 }
 
