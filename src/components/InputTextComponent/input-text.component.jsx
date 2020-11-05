@@ -48,6 +48,7 @@ class InputTextComponent extends Component {
                 <input className={this.state.hasError ? 'error-input form-control' : 'form-control'}
                        onBlur={this.changeHandler}  onChange={this.changeHandler} required={this.props.isRequired}
                        name={this.props.name}
+                       value={this.props.value}
                        type={isPassword ? 'password' : 'text'} />
                 {
                     this.state.hasError ?
@@ -76,7 +77,8 @@ InputTextComponent.propTypes = {
     paceHolderTitle : PropTypes.string,
     name:PropTypes.string,
     valueHandler : PropTypes.func,
-    showError : PropTypes.bool
+    showError : PropTypes.bool,
+     value : PropTypes.string
 }
 
 export default InputTextComponent;

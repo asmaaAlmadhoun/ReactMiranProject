@@ -1,17 +1,28 @@
 const EnglishTranslation = {
     local:'en',
+
     shared : {
       send  : 'Send',
+        save:'Save',
+        cancel:'Cancel',
         errors: {
             notFoundUser : 'User Not Found',
             globalError : 'Error has been happened! try again'
         },
         success : {
-            accountCreated : 'Account is created Successfully'
+            accountCreated : 'Account is created Successfully',
+            deletedSuccess : 'Deleted Successfully !',
+            addedSuccess : 'Added Successfully !'
         },
         warnings : {
             emailExistBefore : 'email address already exists'
         }
+    },
+    breadcrumb :  {
+        overview : 'Overview',
+        profile : 'Profile',
+        setting:'Settings',
+        templates: 'Templates'
     },
     login: {
         title:'Log in',
@@ -30,6 +41,10 @@ const EnglishTranslation = {
         miranTrainer : 'Miran Trainer',
         sasTrainer : 'SAS Trainer'
     },
+    forgetPwPage : {
+        success : "A reset link has been sent to your email",
+        failed: "User with that email does not exist"
+    },
     menu : {
         dashboard:'Dashboard',
         chats:'Chats',
@@ -44,7 +59,38 @@ const EnglishTranslation = {
     },
     traineeModal : {
         title:'Plan',
-        Calories:'Calories Goal'
+        Calories:'Calories Goal',
+        exercises: 'Exercises',
+        meals : 'Meals',
+        mealDetails:'Meal Details',
+        calories:'Calories',
+        carbs:'Carbs',
+        fat:'Fat',
+        protein: 'Protein',
+        totalDayIntakes : 'Total Day Intakes',
+        totalTargetIntakes:  'Total Target Intakes',
+        addMead : 'Add Meal',
+        breakDay : 'Break Day',
+        copyMeal: 'Copy Meal'
+
+    },
+    profile : {
+        fullName : 'Full Name',
+        email : 'Email' ,
+        tele : 'Telephone',
+        gender : 'Gender',
+        country : 'Country',
+        aboutMe : 'About me'
+    },
+    settingPage : {
+        language : 'Language',
+        receiveTrainingRequest: 'Receive Training Requests',
+        receiveRenewalRequest : 'Receive Renewal Requests',
+        notification : 'Notifications'
+    },
+    templatePage : {
+        assign : 'Assign',
+        add : 'Add Template'
     }
   };
 

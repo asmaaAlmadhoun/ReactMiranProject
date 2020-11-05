@@ -12,6 +12,9 @@ import RegisterComponent from "./pages/register/register.component";
 import ForgetPasswordComponent from "./pages/forget-password/forget-password.component";
 import HomeComponent from "./pages/home/home.component";
 import {ToastContainer} from "react-toastify";
+import ProfileComponent from "./pages/profile/profile.component";
+import SettingComponent from "./pages/setting/setting.component";
+import TemplateComponent from "./pages/template/template.component";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -25,6 +28,9 @@ ReactDOM.render(
 
               <App >
                   <Route path="/" exact component={HomeComponent} />
+                  <Route path="/profile"  component={ProfileComponent} />
+                  <Route path="/setting"  component={SettingComponent} />
+                  <Route path="/template"  component={TemplateComponent} />
               </App>
               </Switch>
           </Router>

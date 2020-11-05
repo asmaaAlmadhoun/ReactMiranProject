@@ -8,7 +8,7 @@ import tempIco from '../../assets/icons/temp.svg'
 class TraineeCardComponent extends Component {
 
     render() {
-        let {imgPath ,full_name , remainingDays , isFemale} = this.props;
+        let {imgPath ,full_name , remainingDays , isFemale ,openModalFn} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
@@ -25,10 +25,12 @@ class TraineeCardComponent extends Component {
                     </span>
                 </div>
                 <div className="action-icons d-flex justify-content-center">
-                    <div className="ico">
+                    <div className="ico" >
                         <img src={reportIco}  alt="icon" />
                     </div>
-                    <div className="ico">
+                    <div className="ico" onClick={e => {
+                        openModalFn(1);
+                    }}>
                         <img src={tempIco}  alt="icon" />
                     </div>
                 </div>
@@ -42,5 +44,6 @@ TraineeCardComponent.propTypes = {
     imgPath : PropTypes.string,
     isFemale: PropTypes.bool ,
     remainingDays : PropTypes.number,
+    openModalFn : PropTypes.func
 }
 export default TraineeCardComponent;

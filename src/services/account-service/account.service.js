@@ -21,16 +21,10 @@ class AccountService extends BaseService {
     }
 
 
-    forgetPassword = data => {
+    forgetPassword = async (data) => {
         if(!data) return ;
-        const url =  "v1/"+ this._endPoint + "/request-reset-password/"
-        HTTP_REQUEST.post({target:url , body : data}).then(response => {
-            // TODO: Handle Login;
-            console.log(response);
-        }, error => {
-            // TODO: Handle Error;
-            console.log(error);
-        })
+        const url =   this._endPoint + "/request-reset-password?email=" + data
+       return  await HTTP_REQUEST.get({target:url });
     }
 
     /*

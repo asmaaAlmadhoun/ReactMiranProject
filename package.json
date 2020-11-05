@@ -12,15 +12,18 @@
     "pretty-checkbox": "^3.0.3",
     "pretty-checkbox-react": "^3.0.3",
     "prop-types": "^15.7.2",
+    "qier-player": "^1.2.10",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-i18next": "^11.7.3",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-slick": "^0.27.12",
     "react-toastify": "^6.0.9",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
+    "slick-carousel": "^1.8.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

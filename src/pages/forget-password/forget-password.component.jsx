@@ -5,21 +5,51 @@ import PrimaryButtonComponent from "../../components/ButtonComponent/primary-but
 import {withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 import AccountService from "../../services/account-service/account.service";
-
+import InputTextComponent from "../../components/InputTextComponent/input-text.component";
+import { toast } from 'react-toastify';
+import ToasterComponent from "../../components/common/toaster/toaster.component";
 class ForgetPasswordComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email : null
+            email : null,
+            isLoading:false,
+            emailValid : false,
         }
+
+        this.emailRef = React.createRef();
     }
 
     onSubmit = () => {
         const {email} = this.state;
+        if(!this.state.emailValid) {
+            this.emailRef.current.showError(true);
+            return;
+        }
         const accountService = new AccountService();
-        accountService.forgetPassword({email});
-    }
+        this.setState({isLoading:true})
+        const {t} = this.props;
+        accountService.forgetPassword(email).then(response => {
+            this.setState({isLoading : false})
+            // TODO: Handle Response ;
+            console.log(response);
 
+            if(response.status) {
+                toast.success(t('forgetPwPage.success'))
+            }else {
+                // email not exist;
+                toast.error(t('forgetPwPage.failed'))
+            }
+        }).catch(error => {
+            this.setState({isLoading : false})
+            console.log(error);
+            toast.error(t('shared.errors.globalError'))
+
+        });
+    }
+    makeEmailValidOrNot = (val) => {
+        this.setState({emailValid : val})
+    }
     onChangeHandler = e => {
         if(!e)
             return;
@@ -33,13 +63,18 @@ class ForgetPasswordComponent extends Component {
     render() {
         const {t} = this.props;
         return (
-           <PreAuthorizationComponent>
-               <EmailInputComponent valueHandler={this.onChangeHandler}  isRequired={true} isArabic={t('local') === 'ar'} />
-               <PrimaryButtonComponent  clickHandler={this.onSubmit} title={t('shared.send')} />
-               <div className="mt-4 text-center">
-                   <Link to="/login"> {t('login.title')} </Link>
-               </div>
-           </PreAuthorizationComponent>
+            <>
+                <PreAuthorizationComponent>
+                    <EmailInputComponent validationFn={this.makeEmailValidOrNot}  ref={this.emailRef} valueHandler={this.onChangeHandler}  isRequired={true} isArabic={t('local') === 'ar'} />
+                    <PrimaryButtonComponent switchLoading={this.state.isLoading} clickHandler={this.onSubmit} title={t('shared.send')} />
+                    <div className="mt-4 text-center">
+                        <Link to="/login"> {t('login.title')} </Link>
+                    </div>
+
+                </PreAuthorizationComponent>
+                <ToasterComponent />
+            </>
+
         );
     }
 }

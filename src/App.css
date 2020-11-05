@@ -113,3 +113,7 @@ body.rtl ,body.rtl a , body.rtl h1 ,body.rtl h2 ,body.rtl h3 ,body.rtl h4 ,body.
   left: 50%;
   transform: translate(-50%,0);
 }
+
+ul {
+  list-style: none;
+}

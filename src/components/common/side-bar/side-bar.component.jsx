@@ -21,7 +21,7 @@ import templateIcon from '../../../assets/icons/template.svg';
 import settingIcon from '../../../assets/icons/settings.svg';
 import logoutIcon from '../../../assets/icons/logout-01.svg';
 import AccountService from "../../../services/account-service/account.service";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter } from "react-router-dom";
 class SideBarComponent extends Component {
 
 
@@ -54,7 +54,9 @@ class SideBarComponent extends Component {
                             <Menu.Header >
                                 <Image src={logo} width={150} style={{margin:'25px auto'}}/>
                             </Menu.Header>
-                            <Menu.Item as='a'>
+                            <Menu.Item as='a' onClick={e => {
+                                this.props.history.push('/');
+                            }}>
                                 <Image src={homeIcon} className='icon' width={25} />
                                 {t('menu.dashboard')}
                             </Menu.Item>
@@ -62,15 +64,24 @@ class SideBarComponent extends Component {
                                 <Image src={chatIcon} className='icon' width={25} />
                                 {t('menu.chats')}
                             </Menu.Item>
-                            <Menu.Item as='a'>
+                            <Menu.Item as='a' onClick={e => {
+                                this.props.history.push('/profile');
+                            }}>
                                 <Image src={profileIcon} className='icon' width={25} />
                                 {t('menu.profile')}
                             </Menu.Item>
-                            <Menu.Item as='a'>
+                            <Menu.Item as='a'
+                                       onClick={e => {
+                                           this.props.history.push('/template');
+                                       }}
+                            >
                                 <Image src={templateIcon} className='icon' width={25} />
                                 {t('menu.templates')}
                             </Menu.Item>
-                            <Menu.Item as='a'>
+                            <Menu.Item as='a' onClick={e => {
+                                this.props.history.push('/setting');
+                            }}
+                            >
                                 <Image src={settingIcon} className='icon' width={25} />
                                 {t('menu.settings')}
                             </Menu.Item>

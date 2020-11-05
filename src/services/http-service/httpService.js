@@ -41,7 +41,49 @@ const get = async ({target}) => {
     }
 }
 
+
+const put = async({ target, body }) => {
+    try {
+        const url = `${base_url}/${target}`;
+        const token = localStorage.getItem('miran-token')
+        const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': token ? `token ${token}` : null,
+            },
+            body: JSON.stringify(body)
+        })
+        return await result.json()
+
+    } catch (error) {
+        console.log('error', error)
+    }
+}
+
+const  _delete = async ({ target }) => {
+    try {
+        const url = `${base_url}/${target}`;
+        const token = localStorage.getItem('miran-token')
+        const result = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': token ? `token ${token}` : null,
+
+            },
+        })
+        return await result.json()
+    } catch (error) {
+        console.log('error', error)
+    }
+}
+
 export  const HTTP_REQUEST = {
     post,
-    get
+    get,
+    put,
+    _delete
 }

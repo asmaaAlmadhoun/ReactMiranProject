@@ -21,7 +21,7 @@ class EmailInputComponent extends Component {
             }
         }else {
             const isEmailValid  =  this.emailValidate(value);
-            if(isEmailValid === false) {
+            if(isEmailValid === false && value.length > 0) {
                 this.setState({isEmailNotValid : true , hasError:true})
                 if(this.props.validationFn) {
                     this.props.validationFn(false);
@@ -53,6 +53,7 @@ class EmailInputComponent extends Component {
                         className={this.state.hasError  ? 'error-input form-control' : 'form-control'}
                         onBlur={this.changeHandler}
                         name={this.props.name ? this.props.name : 'email'}
+                        value={this.props.value}
                         required={this.props.isRequired}/>
                 {
                     this.state.hasError  && !this.state.isEmailNotValid?
@@ -77,6 +78,7 @@ EmailInputComponent.propTypes = {
     paceHolderTitle : PropTypes.string,
     name: PropTypes.string,
     valueHandler : PropTypes.func,
-    validationFn : PropTypes.func
+    validationFn : PropTypes.func,
+    value : PropTypes.string
 }
 export default EmailInputComponent;

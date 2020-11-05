@@ -7,9 +7,10 @@ class BreadcrumbComponent extends Component {
 
         return (
             <div className="breadcrumb-app">
-                <span>
+                 <span>
                     {title ? title : 'Unknown'}
                 </span>
+
                 <span className="separator">
 
                 </span>

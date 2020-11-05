@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import defaultProfile from '../../../assets/images/profile-default-01-01.svg';
 import './header-user-profile.component.css';
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 
 class HeaderUserProfileComponent extends Component {
     render() {
@@ -18,7 +19,9 @@ class HeaderUserProfileComponent extends Component {
                  <div className="user-data" style={{marginRight:isArabic ? '10px' : 0 , marginLeft: isArabic ? 0 : '10px'}}>
                      <span> {t('header.trainer')} </span>
                      <div className="name">
-                         {this.props.username.length > 15 ? this.props.username.substr(0,15) + '...':this.props.username}
+                         <Link to={'/profile'} >
+                             {this.props.username.length > 15 ? this.props.username.substr(0,15) + '...':this.props.username}
+                         </Link>
                      </div>
                  </div>
 
