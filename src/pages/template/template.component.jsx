@@ -11,12 +11,15 @@ import { FiPlus } from "react-icons/fi";
 import AddTemplateComponent from "../../components/add-template/add-template.component";
 import EmptyPage from '../../assets/icons/empty.svg';
 import EmptyComponent from "../../components/common/empty-page/empty.component";
+import AssignTemplateComponent from "../../components/assign-template/assign-template.component";
 class TemplateComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data : null,
-            loading:false
+            loading:false,
+            openAssignModal: false,
+            templateModalId : null
         }
     }
 
@@ -24,7 +27,15 @@ class TemplateComponent extends Component {
         // TODO: fetch templates for trainer.
         this.fetchData();
     }
-
+    
+    openAssignTemplateModal = (templateId) => {
+        if(!templateId)
+            return ;
+        this.setState({openAssignModal : true ,templateModalId : templateId })
+        
+    }
+    
+    
     fetchData = () => {
         const templateService = new TemplateService();
         this.setState({loading:true})
@@ -73,11 +84,19 @@ class TemplateComponent extends Component {
     }
 
 
+    onCloseAssignModal = () => {
+
+        this.setState({openAssignModal : false})
+    }
 
     render() {
-        const {t} = this.props;
+
+        const {t } = this.props;
         return (
             <>
+                {
+                    this.state.openAssignModal ? <AssignTemplateComponent handleClosingModal={this.onCloseAssignModal} open={this.state.openAssignModal}  templateId={this.state.templateModalId}/> : null
+                }
                 <ToasterComponent />
                 <div className="container">
                     <div className="row">
@@ -97,7 +116,7 @@ class TemplateComponent extends Component {
                                 this.state.data && this.state.data.length > 0 ?  this.state.data.map( (item , i) => {
                                     return (
                                         <div className="col-md-3 mt-4" key={i}>
-                                            <TemplateCardComponent deleteFn={this.deleteTemplateHandler} tempName={item.name}  id={item.id}/>
+                                            <TemplateCardComponent openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name}  id={item.id}/>
                                         </div>
                                     );
                                 } ) : <EmptyComponent />

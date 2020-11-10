@@ -17,7 +17,12 @@ class TemplateCardComponent extends Component {
                        <span> {this.props.tempName} </span>
                    </div>
                    <div className="action">
-                       <button className="btn" style={{borderRadius:'50px'}}>
+                       <button className="btn" onClick={e => {
+                           const {openAssignModal , id} = this.props;
+                           if(openAssignModal) {
+                               openAssignModal(id)
+                           }
+                       }} style={{borderRadius:'50px'}}>
                            {t('templatePage.assign')}
                        </button>
                    </div>
@@ -38,7 +43,8 @@ class TemplateCardComponent extends Component {
 TemplateCardComponent.propTypes = {
     id:PropTypes.number.isRequired,
     tempName : PropTypes.string.isRequired,
-    deleteFn: PropTypes.func
+    deleteFn: PropTypes.func,
+    openAssignModal : PropTypes.func.isRequired
 }
 
 export default withTranslation('translation') (TemplateCardComponent);

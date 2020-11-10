@@ -8,14 +8,14 @@ class PrimaryButtonComponent extends Component {
         const {switchLoading}  = this.props;
 
         return (
-            <button disabled={switchLoading} onClick={(e) => {
+            <button  style={{backgroundColor: this.props.backgroundColor}} disabled={switchLoading} onClick={(e) => {
                 e.preventDefault();
                 if(this.props.clickHandler) {
                     this.props.clickHandler();
                 }
-            }} className="btn btn-primary font-weight-bold">
-                {!switchLoading ?  this.props.title : null}
-                <Loader active={switchLoading} inline='centered' />
+            }} className={`btn btn-${this.props.isSecondaryBtn  ?  'secondary' :'primary'} ${this.props.isOutline? 'outline-btn' : ''}    font-weight-bold`}>
+                {!switchLoading ?  this.props.title : <Loader active={switchLoading} inline='centered' />}
+
             </button>
         );
     }
@@ -23,6 +23,8 @@ class PrimaryButtonComponent extends Component {
 PrimaryButtonComponent.propTypes = {
     title:PropTypes.string.isRequired,
     clickHandler: PropTypes.func,
-    switchLoading : PropTypes.bool
+    switchLoading : PropTypes.bool,
+    isSecondaryBtn : PropTypes.bool,
+    isOutline : PropTypes.bool
 }
 export default PrimaryButtonComponent;

@@ -43,13 +43,13 @@ class InputTextComponent extends Component {
         const {isArabic} = this.props;
 
         return (
-            <div className="form-group miran-primary-input">
+            <div className="form-group miran-primary-input" style={this.props.style}>
                 <label> {this.props.labelTitle} </label>
                 <input className={this.state.hasError ? 'error-input form-control' : 'form-control'}
                        onBlur={this.changeHandler}  onChange={this.changeHandler} required={this.props.isRequired}
                        name={this.props.name}
                        value={this.props.value}
-                       type={isPassword ? 'password' : 'text'} />
+                       type={isPassword ? 'password' : this.props.isNumber ? 'number': 'text'} />
                 {
                     this.state.hasError ?
                         <small className="error-title">
@@ -74,6 +74,7 @@ InputTextComponent.propTypes = {
     maxLength: PropTypes.number ,
     labelTitle : PropTypes.string.isRequired ,
     isPassword : PropTypes.bool ,
+    isNumber : PropTypes.bool,
     paceHolderTitle : PropTypes.string,
     name:PropTypes.string,
     valueHandler : PropTypes.func,

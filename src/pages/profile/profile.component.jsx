@@ -10,6 +10,7 @@ import { FiPlus } from "react-icons/fi";
 import InputTextComponent from "../../components/InputTextComponent/input-text.component";
 import EmailInputComponent from "../../components/EmailComponent/email-input.component";
 import { Select } from 'semantic-ui-react'
+import PrimaryButtonComponent from "../../components/ButtonComponent/primary-button.component";
 
 class ProfileComponent extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class ProfileComponent extends Component {
         this.setState({loading:true ,imgDefaultPath : userService.imageDefaultPath })
         userService.profile.then(data => {
             // Todo Handle the data before log it.
-            console.log(data);
+            console.log('profile data ===>',data);
             this.setState({loading:false })
             if(data.status) {
                 this.setState({data : data.result})
@@ -113,6 +114,9 @@ class ProfileComponent extends Component {
                                                        {t('profile.aboutMe')}
                                                    </label>
                                                    <textarea  className="form-control" rows={5}/>
+                                               </div>
+                                               <div className="col-sm-12 mt-4 ">
+                                                   <PrimaryButtonComponent title={t('shared.update')} />
                                                </div>
                                            </div>
                                        </div>

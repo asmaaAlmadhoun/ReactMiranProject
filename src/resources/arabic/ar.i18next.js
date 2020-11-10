@@ -1,9 +1,11 @@
 const ArabicTranslation = {
   local:'ar',
   shared : {
+    add:'إضافة',
     send  : 'إرسال',
     save:'حفظ',
     cancel:'الغاء',
+    update:'تحديث',
     errors: {
       notFoundUser : 'مستخدم غير موجود',
       globalError : 'لقد حدث خطأ يرجى المحاولة ثانية'
@@ -38,7 +40,20 @@ const ArabicTranslation = {
     fullName : 'الأسم بالكامل',
     hasAccount : 'هل تمتلك حساب ؟',
     miranTrainer : 'مدرب مران',
-    sasTrainer : 'مدرب SaaS'
+    sasTrainer : 'مدرب SaaS',
+    experienceYear : 'سنوات الخبرة',
+    phoneNumber : 'رقم الهاتف',
+    nationality : 'الجنسية',
+    gender:'الجنس',
+    male:'ذكر',
+    female:'أنثى',
+    languages : 'اللغات',
+    lang : 'اللغة',
+    aboutMe: 'نبذه عنى' ,
+    profileImg:'الصورة الشخصية',
+    addDoc:'أضافة مستندات',
+    next : 'التالى',
+    previous:'السابق'
   },
   forgetPwPage : {
     success : "تم ارسال رابط تغيير كلمة المرور على البريد الألكترونى",

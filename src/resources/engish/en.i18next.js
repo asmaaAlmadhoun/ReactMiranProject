@@ -2,9 +2,11 @@ const EnglishTranslation = {
     local:'en',
 
     shared : {
+        add:'Add',
       send  : 'Send',
         save:'Save',
         cancel:'Cancel',
+        update:'Update',
         errors: {
             notFoundUser : 'User Not Found',
             globalError : 'Error has been happened! try again'
@@ -39,7 +41,20 @@ const EnglishTranslation = {
         fullName : 'Full Name',
         hasAccount : 'Do you an account ?',
         miranTrainer : 'Miran Trainer',
-        sasTrainer : 'SAS Trainer'
+        sasTrainer : 'SAS Trainer',
+        experienceYear : 'Experience Year',
+        phoneNumber : 'Phone Number',
+        nationality : 'Nationality',
+        gender:'Gender',
+        male:'Male',
+        female:'Female',
+        languages : 'Languages',
+        lang : 'Language',
+        aboutMe: 'About me' ,
+        profileImg:'Profile Image',
+        addDoc:'Add Documents',
+        next : 'Next',
+        previous:'Previous'
     },
     forgetPwPage : {
         success : "A reset link has been sent to your email",

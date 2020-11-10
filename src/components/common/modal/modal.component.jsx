@@ -9,19 +9,26 @@ class ModalComponent extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        const {isOpen} = this.props;
-        this.setState({isOpen})
-    }
+    // componentWillReceiveProps(nextProps, nextContext) {
+    //     const {isOpen} = this.props;
+    //     this.setState({isOpen})
+    // }
 
     render() {
+        const  {isOpen} = this.props;
         return (
             <Modal
                 centered={true}
-                onClose={() => this.setState({isOpen:false})}
-                onOpen={() => this.setState({isOpen: true})}
+                onClose={() => {
+                    // this.setState({isOpen:false});
+                     const {handleClosed} = this.props;
+                    if(handleClosed) {
+                        handleClosed();
+                    }
+
+                }}
                 size="small"
-                open={ this.state.isOpen}
+                open={ isOpen}
                 style={{height:'auto' , position:'absolute' , top:'50%' , left:'50%' , transform:'translate(-50%,-50%)'}}
             >
                 <Modal.Content>
@@ -40,7 +47,8 @@ class ModalComponent extends Component {
 ModalComponent.propTypes = {
     isOpen : PropTypes.bool.isRequired,
     Actions: PropTypes.element,
-    hideAction:PropTypes.bool
+    hideAction:PropTypes.bool,
+    handleClosed: PropTypes.func
 }
 
 export default ModalComponent;

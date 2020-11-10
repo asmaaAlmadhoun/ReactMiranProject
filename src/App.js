@@ -16,15 +16,29 @@ class App extends  React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAuthorize : false
+            isAuthorize : false,
+            hasHorizontalScrollbar : false,
+            hasVerticalScrollbar:false
         }
     }
     componentWillMount() {
+
         const accountService = new AccountService();
          const _authorize = accountService.isAuthorize();
          this.setState({
              isAuthorize : _authorize
          })
+    }
+
+
+    displayScrollbar  = () => {
+        const pusherElement = document.getElementsByClassName('pusher')[0];
+        if(pusherElement) {
+            const hasHorizontalScrollbar = pusherElement.scrollWidth > pusherElement.clientWidth;
+            const hasVerticalScrollbar = pusherElement.scrollHeight > pusherElement.clientHeight;
+            this.setState({hasHorizontalScrollbar , hasVerticalScrollbar})
+        }
+
     }
 
     render() {
@@ -36,7 +50,16 @@ class App extends  React.Component {
                 <SideBarComponent>
                     <HeaderComponent />
                     {this.props.children}
-                    {/*<FooterComponent />*/}
+                    <div className="mt-4">
+                        <FooterComponent />
+                    </div>
+
+                    {
+
+                        this.state.hasVerticalScrollbar ?   <div className="scroll-bar">
+                            scroll
+                        </div>  : null
+                    }
                 </SideBarComponent>
             </>
         );

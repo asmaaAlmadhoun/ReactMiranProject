@@ -16,6 +16,9 @@ import ProfileComponent from "./pages/profile/profile.component";
 import SettingComponent from "./pages/setting/setting.component";
 import TemplateComponent from "./pages/template/template.component";
 
+
+
+
 ReactDOM.render(
   <React.StrictMode>
       <I18nextProvider i18n={i18n}>

@@ -19,7 +19,17 @@ a {
   box-shadow: none !important;
   padding: 10px 10px !important;
 }
-
+.btn-secondary {
+  background-color: #00a4f8 !important;
+  color:#fff;
+  border-radius: 50px !important;
+  width: 100% !important;
+  border:none !important;
+  font-size: 18px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 10px 10px !important;
+}
 .round {
   position: relative;
 }
@@ -117,3 +127,11 @@ body.rtl ,body.rtl a , body.rtl h1 ,body.rtl h2 ,body.rtl h3 ,body.rtl h4 ,body.
 ul {
   list-style: none;
 }
+
+
+.pusher {
+  height: 100% !important;
+  overflow-y: auto !important ;
+  scroll-behavior: auto;
+}
+
