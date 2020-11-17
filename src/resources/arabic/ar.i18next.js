@@ -23,7 +23,8 @@ const ArabicTranslation = {
     overview : 'عام',
     profile : 'الصفحة الشخصية',
     setting:'ضبط',
-    templates: 'نماذج'
+    templates: 'نماذج',
+    inviteTrainee : 'دعوة متدرب'
   },
   login: {
     title:'تسجيل دخول',
@@ -62,6 +63,8 @@ const ArabicTranslation = {
   menu : {
     dashboard:'لوحة التحكم',
     chats:'المحادثات',
+    addUser : 'اضافة متدرب',
+    trainees: 'المتدربين',
     profile:'الصفحة الشخصية',
     templates:'نماذج',
     settings:'الضبط',

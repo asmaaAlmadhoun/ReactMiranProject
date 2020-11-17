@@ -15,6 +15,9 @@ import {ToastContainer} from "react-toastify";
 import ProfileComponent from "./pages/profile/profile.component";
 import SettingComponent from "./pages/setting/setting.component";
 import TemplateComponent from "./pages/template/template.component";
+import ConfirmAlertComponent from "./pages/confirm-alert/confirm-alert.component";
+import SendInvitationComponent from "./pages/send-invitation/send-invitation.component";
+import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.component";
 
 
 
@@ -28,12 +31,13 @@ ReactDOM.render(
                   <Route path="/login" component={() => <LoginComponent className="login-Component" />} />
                   <Route path="/register" component={() => <RegisterComponent className="register-Component" />} />
                   <Route path="/forget-pw" component={() => <ForgetPasswordComponent className="forgetPw-Component" />} />
-
+                  <Route  path="/confirm-alert" component={() => <ConfirmAlertComponent />} />
               <App >
                   <Route path="/" exact component={HomeComponent} />
                   <Route path="/profile"  component={ProfileComponent} />
                   <Route path="/setting"  component={SettingComponent} />
                   <Route path="/template"  component={TemplateComponent} />
+                  <Route path="/trainees"  component={DisplayTraineesComponent} />
               </App>
               </Switch>
           </Router>

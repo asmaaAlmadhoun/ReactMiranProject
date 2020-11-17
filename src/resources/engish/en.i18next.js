@@ -24,7 +24,8 @@ const EnglishTranslation = {
         overview : 'Overview',
         profile : 'Profile',
         setting:'Settings',
-        templates: 'Templates'
+        templates: 'Templates',
+        inviteTrainee : 'Invite Trainee'
     },
     login: {
         title:'Log in',
@@ -63,6 +64,8 @@ const EnglishTranslation = {
     menu : {
         dashboard:'Dashboard',
         chats:'Chats',
+        addUser : 'Add Trainee',
+        trainees: 'Trainees',
         profile:'Profile',
         templates:'Templates',
         settings:'Settings',

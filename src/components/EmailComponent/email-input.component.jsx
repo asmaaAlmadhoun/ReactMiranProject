@@ -11,28 +11,27 @@ class EmailInputComponent extends Component {
        }
     }
     changeHandler = e => {
-        debugger
+        debugger;
         const value = e.target.value;
         const isRequired = this.props.isRequired;
         if(value.length === 0 && isRequired ) {
+
             this.setState({hasError :true,isEmailNotValid : false })
             if(this.props.validationFn) {
-                this.props.validationFn(false);
+                this.props.validationFn(false , value);
             }
         }else {
             const isEmailValid  =  this.emailValidate(value);
             if(isEmailValid === false && value.length > 0) {
                 this.setState({isEmailNotValid : true , hasError:true})
                 if(this.props.validationFn) {
-                    this.props.validationFn(false);
+                    this.props.validationFn(false ,value);
                 }
             }else {
                 this.setState({hasError :false , isEmailNotValid : false })
-                if(this.props.valueHandler) {
-                    this.props.valueHandler(e);
-                }
+
                 if(this.props.validationFn) {
-                    this.props.validationFn(true);
+                    this.props.validationFn(true , value);
                 }
             }
         }
@@ -51,7 +50,7 @@ class EmailInputComponent extends Component {
                 <label> {isArabic ? 'البريد الألكترونى' : 'Email'} </label>
                 <input  type="email"
                         className={this.state.hasError  ? 'error-input form-control' : 'form-control'}
-                        onBlur={this.changeHandler}
+                        onChange={this.changeHandler}
                         name={this.props.name ? this.props.name : 'email'}
                         value={this.props.value}
                         required={this.props.isRequired}/>

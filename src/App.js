@@ -18,16 +18,25 @@ class App extends  React.Component {
         this.state = {
             isAuthorize : false,
             hasHorizontalScrollbar : false,
-            hasVerticalScrollbar:false
+            hasVerticalScrollbar:false,
+            isActive:false
         }
     }
-    componentWillMount() {
+   async componentWillMount() {
 
         const accountService = new AccountService();
          const _authorize = accountService.isAuthorize();
-         this.setState({
-             isAuthorize : _authorize
+
+
+        const isActive = JSON.parse(accountService.isAccountActivated());
+        debugger;
+        this.setState({
+             isAuthorize : _authorize,
+             isActive
          })
+
+
+
     }
 
 
@@ -44,6 +53,10 @@ class App extends  React.Component {
     render() {
         if(!this.state.isAuthorize) {
             return <Redirect to={'/login?notAuth=true'} />
+        }
+
+        if(!this.state.isActive) {
+            return <Redirect to={'/login?notActive=true'} />
         }
         return (
             <>

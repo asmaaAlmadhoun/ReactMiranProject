@@ -105,9 +105,9 @@ class ProfileComponent extends Component {
                                                <div className="col-sm-6 mt-2">
                                                    <InputTextComponent
                                                         value={this.state.data && this.state.data.profile && this.state.data.profile.nationality ?
-                                                          t('local') === 'ar' ? this.state.data.profile.nationality.name_ar : this.state.data.profile.nationality.name  : null
+                                                     t('local') === 'ar' ? this.state.data.profile.nationality.name_ar : this.state.data.profile.nationality.name  : null
                                                         }
-                                                       isRequired={false} labelTitle={t('profile.country')} />
+                                                        isRequired={false} labelTitle={t('profile.country')} />
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >

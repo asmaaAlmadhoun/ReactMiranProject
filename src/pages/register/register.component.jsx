@@ -13,6 +13,7 @@ import AddLanguageComponent from "../../components/register-add-language/add-lan
 import ImageUploader from 'react-images-upload';
 import './register.component.css';
 import RegisterAddDocComponent from "../../components/register-add-doc/register-add-doc.component";
+import Select from 'react-select';
 
 class RegisterComponent extends Component {
     constructor(props) {
@@ -25,11 +26,13 @@ class RegisterComponent extends Component {
             isSASTrainer : false,
             experienceYear : 0 ,
             phoneNumber: null ,
-            nationality: null,
+            nationalities:[],
+            nationality:null,
             isLoading:false,
             isMale : false ,
             isFemale : false ,
-            languages : [] ,
+            languages:[],
+            languagesValue : [] ,
             emailValid:false,
             fullNameValid:false,
             passwordValid: false,
@@ -37,19 +40,87 @@ class RegisterComponent extends Component {
             profile: null,
             displayProfileImg : null,
             bio : null,
-            docs:[]
+            docs:[],
+            loadingNationalities: false,
+            isRegistered : false
         }
-
         // create component references;
         this.emailRef = React.createRef();
         this.fullNameRef = React.createRef();
         this.passwordRef = React.createRef();
     }
 
+    componentWillMount() {
+        this.fetchLanguages();
+    }
+    accountService = new AccountService();
+    fetchLanguages = () => {
+        this.accountService.languages.then(res => {
+            debugger;
+            if(res && res.status) {
+                this.setState({languages : res.result})
+            }
+        })
+    }
+
+
+
+    addProfile = () => {
+        const years_of_experience = this.state.experienceYear;
+        const mobile = this.state.phoneNumber;
+        const avatar  = this.state.profile;
+        const gender = this.state.isFemale ? "female" : "male";
+        const {bio , languagesValue} = this.state;
+        const nationality = this.state.nationality ? this.state.nationality.value : null;
+
+        const formData = new FormData();
+        formData.append('years_of_experience' , years_of_experience.toString());
+        formData.append('mobile' , mobile);
+        formData.append('avatar' , avatar);
+        formData.append('gender' , gender);
+        formData.append('bio' , bio);
+        formData.append("nationality" , nationality);
+        if(languagesValue && languagesValue.length > 0) {
+            languagesValue.forEach(item => {
+                formData.append("languages" , item.value);
+            })
+        }
+
+        const {t} = this.props;
+        this.accountService.addProfile(formData).then(res => {
+            if(res && res.status) {
+                toast.success(t('shared.success.addedSuccess'))
+               setTimeout(() => {
+                   this.props.history.push('/login');
+               }, 1000)
+            }else {
+                toast.error(t('shared.errors.globalError'))
+            }
+        }).catch(error => {
+            toast.error(t('shared.errors.globalError'))
+        })
+
+
+    }
+
+
+    fetchNationalities = () => {
+        this.setState({loadingNationalities : true})
+        this.accountService.nationalities.then(res => {
+            this.setState({loadingNationalities : false})
+            if(res && res.status) {
+                this.setState({nationalities : res.result})
+            }
+        }).catch(error => {
+            this.setState({loadingNationalities : false})
+        })
+    }
+
+
+
     onSubmit = async (e) => {
 
         // check if all valid ;
-        debugger;
         if(!this.state.emailValid || !this.state.fullNameValid || !this.state.passwordValid ) {
             /*
             * show error for specific element ;
@@ -67,27 +138,18 @@ class RegisterComponent extends Component {
             return ;
         }
 
-        const {email , fullName ,password ,isMale ,phoneNumber , bio , nationality , experienceYear , isSASTrainer } = this.state;
+        const {email , fullName ,password , isSASTrainer } = this.state;
 
         const data = {
             email,
             full_name : fullName ,
             password ,
-            profile : {
-                full_name : fullName,
-                email,
-                gender : isMale ? 'male' : 'female',
-                mobile:phoneNumber,
-                bio,
-                nationality:nationality,
-                years_of_experience : experienceYear,
-                is_saas : isSASTrainer
-            }
+            is_saas:  isSASTrainer
         }
-        const accountService = new AccountService();
+        debugger;
         this.setState({isLoading: true});
         const {t} = this.props;
-        accountService.register(data).then(response => {
+        this.accountService.register(data).then(response => {
 
             this.setState({isLoading: false});
             if(!response) {
@@ -101,42 +163,36 @@ class RegisterComponent extends Component {
                  * show message and redirect to home page;
                  */
                 toast.success(t('shared.success.accountCreated'))
-                if(response.result) {
-                    accountService.becomeAuthorize(response.result.token).then( _ =>  {
-                        accountService.userData = response.result;
-                        setTimeout(() => {
-                            this.props.history.push('/');
-                            } , 1000)
-                    });
-
-                }
+                this.setState({isRegistered: true , stage : 2})
+                this.accountService.becomeAuthorize(response.result.token)
             }
 
             if(response && response.status === false) {
                 /*
                  * bad request, maybe because email is exist before.
                  */
-                 this.setState({isLoading: false});
-                 toast.warn(t('shared.warnings.emailExistBefore'))
-             }
-         }).catch(error => {
-             console.log(error);
-             toast.error(t('shared.errors.globalError'))
-         });
+                this.setState({isLoading: false});
+                toast.warn(t('shared.warnings.emailExistBefore'))
+            }
+        }).catch(error => {
+            console.log(error);
+            toast.error(t('shared.errors.globalError'))
+        });
     }
 
-    makeEmailValidOrNot = value => {
-        this.setState({emailValid : value})
+    makeEmailValidOrNot = (valid ,value) => {
+        this.setState({emailValid : valid , email:value })
     }
-    makeFullNameValidOrNot = value => {
-        this.setState({fullNameValid : value})
+    makeFullNameValidOrNot = (valid , value) => {
+        this.setState({fullNameValid : valid , fullName : value})
     }
 
-    makePasswordValidOrNot = value => {
-        this.setState({passwordValid : value})
+    makePasswordValidOrNot = (valid,value) => {
+        this.setState({passwordValid : valid , password:value})
     }
 
     onChangeHandler = (e) => {
+        debugger;
         if(!e)
             return ;
         const name = e.target.name;
@@ -147,13 +203,10 @@ class RegisterComponent extends Component {
     }
 
     phoneNumberHandling = (val) => {
-
         this.setState({phoneNumber:val} , () => {
             console.log('current State' , this.state);
         })
     }
-
-
     onDrop = (pictureFiles, pictureDataURLs) => {
         debugger;
         this.setState({
@@ -163,8 +216,20 @@ class RegisterComponent extends Component {
     }
     render() {
         const  {t} = this.props;
+        let _nationalities = [];
+        if(this.state.nationalities.length > 0) {
+            _nationalities = this.state.nationalities.map(item => {
+                return {value : item.id , label : t('local') === 'ar' ? item.name_ar : item.name};
+            })
+        }
 
 
+        let _languages  = [];
+        if(this.state.languages.length > 0) {
+            _languages = this.state.languages.map(item => {
+                return {value : item.id , label : t('local') === 'ar' ? item.title_ar : item.title};
+            })
+        }
         /*
         * switch case for re-render UI depends on stage.
         */
@@ -172,7 +237,7 @@ class RegisterComponent extends Component {
             switch (this.state.stage) {
                 case 1 :  return (
                     <>
-                        <EmailInputComponent value={this.state.email} validationFn={this.makeEmailValidOrNot} ref={this.emailRef} valueHandler={this.onChangeHandler} isRequired={true} isArabic={t('local')==='ar'} />
+                        <EmailInputComponent value={this.state.email} validationFn={this.makeEmailValidOrNot} ref={this.emailRef} valueHandler={this.onChangeHandler} isRequired={true} name="email" isArabic={t('local')==='ar'} />
                         <InputTextComponent value={this.state.fullName} validationFn={this.makeFullNameValidOrNot} ref={this.fullNameRef} valueHandler={this.onChangeHandler} name="fullName" isRequired={true} isArabic={t('local')==='ar'} labelTitle={t('register.fullName')} />
                         <InputTextComponent value={this.state.password} validationFn={this.makePasswordValidOrNot} ref={this.passwordRef} valueHandler={this.onChangeHandler} name="password" isRequired={true} isPassword={true} labelTitle={t('login.password')} isArabic={t('local')==='ar'}/>
                         <div className="form-group d-flex justify-content-center mt-4">
@@ -206,7 +271,32 @@ class RegisterComponent extends Component {
                           this.setState({experienceYear : e.target.value})
                       }} isRequired={true} labelTitle={t('register.experienceYear')} isNumber={true} />
                       <PhoneNumberInputComponent onChange={this.phoneNumberHandling} label={t('register.phoneNumber')} value={this.state.phoneNumber} />
-                      <InputTextComponent value={this.state.nationality} isRequired={false} labelTitle={t('register.nationality')} name="nationality" valueHandler={this.onChangeHandler} />
+                       {/* Nationality */}
+                        <div className="form-group">
+                            <label style={{color:'#8c99a5'}}>
+                                {t('register.nationality')}
+                            </label>
+                            <Select
+                                onChange={e => {
+                                   this.setState({nationality: e})
+                                }}
+                                className="plugin-select"
+                                classNamePrefix="select"
+                                isLoading={this.state.loadingNationalities}
+                                defaultValue={this.state.nationality}
+                                onFocus={e => {
+                                    if(_nationalities.length  === 0) {
+                                        this.fetchNationalities();
+                                    }
+                                }}
+                                isClearable={true}
+                                isRtl={t('local') === 'ar'}
+                                isSearchable={true}
+                                name="color"
+                                options={_nationalities}
+                            />
+                        </div>
+                       {/* End Nationality */}
                        <div className="form-group d-flex align-items-center justify-content-center mt-4">
                            <div className="mx-2" style={{color:'#8c99a5'}}>
                                <label style={{marginBottom:0}}> {t('register.gender')} : </label>
@@ -231,18 +321,40 @@ class RegisterComponent extends Component {
                                </label>
                            </div>
                        </div>
-                       <AddLanguageComponent  value={this.state.languages}
-                                              addHandler={ (languages) => {
-                                                  debugger;
-                                                 this.setState({languages})
-                                                 }}
-                                               removeHandler={(language) => {
-                                                  debugger;
-                                               let {languages} = this.state;
-                                               languages = languages.filter(item => item !== language);
-                                               this.setState({languages});
-                        }}
-                       />
+                       {/*<AddLanguageComponent  value={this.state.languages}*/}
+                       {/*                       addHandler={ (languages) => {*/}
+                       {/*                           debugger;*/}
+                       {/*                          this.setState({languages})*/}
+                       {/*                          }}*/}
+                       {/*                        removeHandler={(language) => {*/}
+                       {/*                           debugger;*/}
+                       {/*                        let {languages} = this.state;*/}
+                       {/*                        languages = languages.filter(item => item !== language);*/}
+                       {/*                        this.setState({languages});*/}
+                       {/* }}*/}
+                       {/*/>*/}
+
+
+                       <div className="form-group">
+                           <label> {t('register.languages')} </label>
+                           <Select
+                               isMulti
+                               name="languages"
+                               options={_languages}
+                               defaultValue={this.state.languagesValue}
+                               className="plugin-select"
+                               classNamePrefix="select"
+                               onChange={e => {
+                                   debugger;
+                                   const languagesValue = e.map(item => item);
+                                   this.setState({languagesValue} , () => {
+                                       console.log("Current State =>" , this.state);
+                                   })
+                               }}
+                           />
+                       </div>
+
+
                    </>
                );
 
@@ -301,7 +413,7 @@ class RegisterComponent extends Component {
                     {
                         this.state.stage === 3 ?
                             <>
-                                <PrimaryButtonComponent switchLoading={this.state.isLoading} title={t('register.title')}  clickHandler={this.onSubmit} />
+                                <PrimaryButtonComponent switchLoading={this.state.isLoading} title={t('shared.save')}  clickHandler={this.addProfile} />
                                 <div className="mx-auto  mt-2">
                                     <PrimaryButtonComponent isSecondaryBtn={true} isOutline={true} title={t('register.previous')} clickHandler={e => {
                                         let {stage} = this.state;
@@ -313,7 +425,7 @@ class RegisterComponent extends Component {
                             :
                            <div className="d-flex justify-content-center align-items-center">
                                {
-                                   this.state.stage < 3 ?  <div className="mx-2 w-50">
+                                   this.state.stage === 2 && this.state.isRegistered?  <div className="mx-2 w-100">
                                        <PrimaryButtonComponent isSecondaryBtn={true}  title={t('register.next')} clickHandler={e => {
                                            let {stage} = this.state;
                                            stage++;
@@ -322,7 +434,7 @@ class RegisterComponent extends Component {
                                    </div> : null
                                }
                                {
-                                   this.state.stage > 1 ?   <div className={`mx-2 w-50`}>
+                                   this.state.stage > 2 && this.state.isRegistered ?   <div className={`mx-2 w-50`}>
                                        <PrimaryButtonComponent isSecondaryBtn={true} title={t('register.previous')} clickHandler={e => {
                                            let {stage} = this.state;
                                            stage--;
@@ -331,6 +443,15 @@ class RegisterComponent extends Component {
                                    </div>  :null
                                }
                            </div>
+                    }
+
+
+                    {
+                        !this.state.isRegistered ?
+
+                            <PrimaryButtonComponent switchLoading={this.state.isLoading} title={t('register.title')}  clickHandler={this.onSubmit} />
+
+                            : null
                     }
 
 

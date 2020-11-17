@@ -26,8 +26,12 @@ class LoginComponent extends Component {
 
     componentWillMount() {
        const notAuth =  new URLSearchParams(this.props.location.search).get("notAuth");
+        const notActive =  new URLSearchParams(this.props.location.search).get("notActive");
        if(notAuth ) {
            toast.warn("قم بتسجيل الدخول اولاً" , {position:'top-center'})
+       }
+       if(notActive) {
+           toast.warn("حسابك غير نشط" , {position:'top-center'})
        }
     }
 
@@ -58,9 +62,31 @@ class LoginComponent extends Component {
               if(response && response.status && response.result) {
 
                 accountService.becomeAuthorize(response.result.token ).then(_ => {
-                    debugger;
                     accountService.userData = response.result;
-                    this.props.history.push("/");
+
+                    // set account type .
+
+                    if(response.result.is_saas) {
+                        accountService.Account_Type = "SAS";
+                    }else {
+                        accountService.Account_Type = "Miran";
+                    }
+
+                    if(response.result.status === "pending") {
+                        accountService.becomeActive(false).then(_ => {
+                            this.props.history.push("/confirm-alert");
+                        });
+
+                    }
+
+                     // activated
+
+                    if(response.result.status === "activated") {
+                        accountService.becomeActive(true).then(_ => {
+                            this.props.history.push("/");
+                        });
+
+                    }
                 });
                }else {
                   toast.error(t('shared.errors.notFoundUser'))
@@ -95,7 +121,7 @@ class LoginComponent extends Component {
             <>
            <PreAuthorizationComponent>
                <form>
-                   <InputTextComponent validationFn={this.makeEmailValidOrNot} ref={this.emailRef} valueHandler={this.onChangeHandler} name="email" isRequired={true} isArabic={t('local') === 'ar'} labelTitle={t('login.userName')}/>
+                   <InputTextComponent validationFn={this.makeEmailValidOrNot} ref={this.emailRef} valueHandler={this.onChangeHandler} name="email" isRequired={true} isArabic={t('local') === 'ar'} labelTitle={t('register.email')}/>
                    <InputTextComponent validationFn={this.makePwValidOrNot} ref={this.passwordRef} valueHandler={this.onChangeHandler} name="password" isRequired={true} isArabic={t('local') === 'ar'}  labelTitle={t('login.password')} isPassword={true}/>
                     <div className="form-group d-flex mt-4">
                         <div className="round flex-grow-1">

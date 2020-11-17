@@ -22,7 +22,7 @@ class InputTextComponent extends Component {
         if(value.length === 0 && isRequired) {
             this.setState({hasError : true})
             if(this.props.validationFn) {
-                this.props.validationFn(false)
+                this.props.validationFn(false , value)
             }
         }else {
             this.setState({hasError : false , isValid : true})

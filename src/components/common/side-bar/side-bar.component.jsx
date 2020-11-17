@@ -22,8 +22,22 @@ import settingIcon from '../../../assets/icons/settings.svg';
 import logoutIcon from '../../../assets/icons/logout-01.svg';
 import AccountService from "../../../services/account-service/account.service";
 import {Link, withRouter } from "react-router-dom";
+import addUSerICo from '../../../assets/icons/add-user-01.svg';
+import fitnessIco from '../../../assets/icons/fitness-01.svg';
 class SideBarComponent extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isSas: false
+        }
+    }
+
+    componentWillMount() {
+        const accountService = new AccountService();
+       const isSas =  accountService.Account_Type === 'SAS';
+       this.setState({isSas});
+    }
 
     logoutHandler = () => {
         const accountService = new AccountService() ;
@@ -64,6 +78,22 @@ class SideBarComponent extends Component {
                                 <Image src={chatIcon} className='icon' width={25} />
                                 {t('menu.chats')}
                             </Menu.Item>
+                            {
+                                this.state.isSas ?
+                                    <>
+                                        <Menu.Item as='a'
+                                                   onClick={e => {
+
+                                                       this.props.history.push('/trainees')
+
+                                                   }}
+                                        >
+                                            <Image src={fitnessIco} className='icon' width={25} />
+                                            {t('menu.trainees')}
+                                        </Menu.Item>
+                                    </>: null
+                            }
+
                             <Menu.Item as='a' onClick={e => {
                                 this.props.history.push('/profile');
                             }}>

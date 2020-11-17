@@ -81,9 +81,31 @@ const  _delete = async ({ target }) => {
     }
 }
 
+
+
+const Post_As_Form_Data = async({target , body}) => {
+    const url = `${base_url}/${target}`;
+    const token = localStorage.getItem('miran-token');
+    try {
+        const result = await fetch(url, {
+            method: "POST",
+            headers: {
+                Accept: 'application/json',
+                'Authorization': token ? `token ${token}` : null,
+            },
+            body
+        })
+        return await result.json()
+    }catch (error) {
+        console.log(error)
+    }
+}
+
+
 export  const HTTP_REQUEST = {
     post,
     get,
     put,
-    _delete
+    _delete,
+    Post_As_Form_Data
 }
