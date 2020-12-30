@@ -89,7 +89,8 @@ const ArabicTranslation = {
     totalTargetIntakes:  'إجمالى المستهدف',
     addMeal : 'إضافة وجبة',
     breakDay : 'يوم عطلة',
-    copyMeal: 'نسخ'
+    copyMeal: 'نسخ',
+    addExercise:'اضافة وجبة'
   },
   profile : {
     fullName : 'الأسم بالكامل',

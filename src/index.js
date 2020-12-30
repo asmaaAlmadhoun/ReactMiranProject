@@ -18,6 +18,8 @@ import TemplateComponent from "./pages/template/template.component";
 import ConfirmAlertComponent from "./pages/confirm-alert/confirm-alert.component";
 import SendInvitationComponent from "./pages/send-invitation/send-invitation.component";
 import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.component";
+import ChatGroupComponent from "./pages/group-chat/chat-group.component";
+import LoginChatComponent from "./pages/group-chat/login-chat/login-chat.component";
 
 
 
@@ -38,6 +40,7 @@ ReactDOM.render(
                   <Route path="/setting"  component={SettingComponent} />
                   <Route path="/template"  component={TemplateComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
+                  <Route path="/chat" component={ChatGroupComponent} />
               </App>
               </Switch>
           </Router>

@@ -89,8 +89,8 @@ const EnglishTranslation = {
         totalTargetIntakes:  'Total Target Intakes',
         addMead : 'Add Meal',
         breakDay : 'Break Day',
-        copyMeal: 'Copy Meal'
-
+        copyMeal: 'Copy Meal',
+        addExercise:'Add Meal'
     },
     profile : {
         fullName : 'Full Name',

@@ -9,6 +9,8 @@ import FooterComponent from "./components/common/footer/footer.component";
 import HeaderComponent from "./components/common/header/header.component";
 import {ToastContainer} from "react-toastify";
 import AccountService from "./services/account-service/account.service";
+import {ChatService} from "./pages/group-chat/service/chat.service";
+import TraineeService from "./services/trainee-service/traniee.service";
 
 
 
@@ -29,13 +31,12 @@ class App extends  React.Component {
 
 
         const isActive = JSON.parse(accountService.isAccountActivated());
-        debugger;
         this.setState({
              isAuthorize : _authorize,
              isActive
          })
 
-
+      await this.chatLoginHandler();
 
     }
 
@@ -48,6 +49,42 @@ class App extends  React.Component {
             this.setState({hasHorizontalScrollbar , hasVerticalScrollbar})
         }
 
+    }
+
+
+
+    chatLoginHandler = async () => {
+       const accountService = new AccountService();
+       const userData = JSON.parse( accountService.userData);
+       if (!userData)
+           return ;
+        //  Generate UID
+        const chatService  = new ChatService(userData.id+"listen");
+        try {
+            debugger;
+            // the user may be have an account in cometchat or not.
+       const loginStatus =      await  chatService.getAuthToken(userData.id.toString() + "_t" )
+       if(loginStatus) {
+           chatService.login('').then(logging => {
+               if(logging.status === "online") {
+                   alert("Logged into chat")
+               }
+           })
+       }else {
+           chatService.createUser({userId: userData.id.toString() + "_t" , userName : userData.email , metadata:accountService.userData }).then(user => {
+               chatService.getAuthToken(user.uid).then(token => {
+                   chatService.login(token.authToken).then(logging => {
+                       if(logging.status === "online") {
+                       }
+                   })
+               })
+           })
+       }
+
+
+        }catch(error) {
+           console.log(error)
+        }
     }
 
     render() {

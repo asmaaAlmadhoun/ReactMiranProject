@@ -11,6 +11,7 @@ import InputTextComponent from "../../components/InputTextComponent/input-text.c
 import EmailInputComponent from "../../components/EmailComponent/email-input.component";
 import { Select } from 'semantic-ui-react'
 import PrimaryButtonComponent from "../../components/ButtonComponent/primary-button.component";
+import {toast, ToastContainer} from "react-toastify";
 
 class ProfileComponent extends Component {
     constructor(props) {
@@ -18,7 +19,9 @@ class ProfileComponent extends Component {
         this.state = {
             data: null,
             loading:false,
-            imgDefaultPath : null
+            imgDefaultPath : null,
+            previewImage : null,
+            imageProfile: null
         }
     }
 
@@ -39,11 +42,38 @@ class ProfileComponent extends Component {
         })
     }
 
+
+    previewImage = (file) => {
+        debugger;
+        if(file) {
+
+            // const fileExtensionsAllowed = ["image/jpeg" , "image/jpg" , "image/png"]
+            if (!file.name.match(/.(jpg|jpeg|png|gif)$/i))
+            {
+                const {t}  = this.props;
+                const isArabic = t('local') === 'ar';
+                toast.warn(isArabic ? 'من فضلك اختر صورة' : 'Please choose an image');
+                return ;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.setState({previewImage: reader.result} , () => {
+                    console.log("state after choose image = " , this.state);
+                })
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
     render() {
         const {t} = this.props;
-        const imgPath = this.state.data &&  this.state.imgDefaultPath  ? this.state.imgDefaultPath + this.state.data.profile.avatar :
+        let imgPath = this.state.data &&  this.state.imgDefaultPath ? this.state.imgDefaultPath + this.state.data.profile.avatar :
             this.state.data && this.state.data.profile && this.state.data.profile.gender && this.state.data.profile.gender.name === 'female'? femaleProfileDefault :
             maleProfileDefault;
+
+        if(this.state.previewImage) {
+            imgPath = this.state.previewImage;
+        }
         return (
 
             <div className="container user-profile">
@@ -69,7 +99,13 @@ class ProfileComponent extends Component {
                                                <div className="user-img">
                                                    <img  src={imgPath} alt={"user image"}/>
                                                </div>
-                                               <div className="icon">
+                                               <div className="icon" onClick={e => {
+                                                   const profileImgInput = document.getElementById('profileImg');
+                                                   profileImgInput.click();
+                                               }} >
+                                                   <input type="file" onChange={e => {
+                                                       this.previewImage(e.target.files[0]);
+                                                   }} id="profileImg" hidden/>
                                                    <FiPlus />
                                                </div>
                                            </div>
@@ -123,6 +159,7 @@ class ProfileComponent extends Component {
                                    </div>
                                </div>
                             </div>
+                        <ToastContainer />
                         </>
                 }
 

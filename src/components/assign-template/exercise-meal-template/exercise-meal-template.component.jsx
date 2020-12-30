@@ -3,6 +3,7 @@ import {Tab} from "semantic-ui-react";
 import ExerciseComponent from "../../trainee-modal/exercise-component/exercise.component";
 import MealComponent from "../../trainee-modal/meal-component/meal.component";
 import {withTranslation} from "react-i18next";
+import AddExerciseTemplateComponent from "../add-exercise-template/add-exercise-template.component";
 
 class ExerciseMealTemplateComponent extends Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class ExerciseMealTemplateComponent extends Component {
                             <Tab.Pane attached={false}>
                                 <ExerciseComponent />
                                 <ExerciseComponent />
+                                <AddExerciseTemplateComponent />
                             </Tab.Pane>,
                     },
                     {

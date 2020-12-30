@@ -26,14 +26,11 @@ class TraineeModalComponent extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        debugger;
         const {isOpen} = nextProps;
         this.setState({ isOpen});
     }
 
     render() {
-
-        debugger;
         const {t  } = this.props;
         const settings = {
             dots: false,

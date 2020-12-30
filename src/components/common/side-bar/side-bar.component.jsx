@@ -74,8 +74,11 @@ class SideBarComponent extends Component {
                                 <Image src={homeIcon} className='icon' width={25} />
                                 {t('menu.dashboard')}
                             </Menu.Item>
-                            <Menu.Item as='a'>
-                                <Image src={chatIcon} className='icon' width={25} />
+                            <Menu.Item as='a'
+                                       onClick={e => {
+                                           this.props.history.push('/chat');
+                                       }}>
+                                  <Image src={chatIcon} className='icon' width={25} />
                                 {t('menu.chats')}
                             </Menu.Item>
                             {
