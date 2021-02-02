@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import QierPlayer from 'qier-player';
 import {withTranslation} from "react-i18next";
 import './exercise.component.css';
-import { FiX } from "react-icons/fi";
-import  {FiMaximize} from "react-icons/fi";
-import  {FiMove} from "react-icons/fi";
+import { FiX, FiMaximize,FiMove } from "react-icons/fi";
 class ExerciseComponent extends Component {
     render() {
         const {t}  = this.props;
@@ -59,7 +57,7 @@ class ExerciseComponent extends Component {
                 <div className="col-sm-4">
                     <div className="icons d-flex flex-row-reverse">
                         <span className="icon delete">
-                             <FiX />
+                             <FiX/>
                         </span>
                         <span className="icon max">
                             <FiMaximize />

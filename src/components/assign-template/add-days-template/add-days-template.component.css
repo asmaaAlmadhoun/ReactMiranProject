@@ -37,3 +37,12 @@
 .add-days-template .slick-initialized .slick-slide   div {
     margin: 0 5px;
 }
+.slick-slider{
+    padding: 0 30px;
+    width: 80%;
+    max-width: 80%;
+    margin: auto;
+}
+.slick-prev {
+    left: -2px !important;
+}

@@ -1,0 +1,41 @@
+﻿.SearchableListTemplateComponent {
+    padding: 20px;
+}
+
+.SearchableListTemplateComponent ul {
+    list-style-type: none;
+}
+.SearchableListTemplateComponent ul li {
+    overflow: hidden;
+    margin: 0 0 20px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 0 20px;
+}
+.SearchableListTemplateComponent ul li:last-child {
+    margin: 0;
+}
+
+.SearchableListTemplateComponent img {
+    float: left;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 10px 0 0;
+}
+
+.SearchableListTemplateComponent span {
+    display: block;
+    width: 100%;
+    font-weight: bolder;
+}
+.SearchableListTemplateComponent span.phone {
+    font-weight: normal;
+    font-style: italic;
+    color: #999;
+}
+
+.SearchableListTemplateComponent .input{
+    width: 100%;
+    margin-bottom: 1rem;
+}

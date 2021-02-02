@@ -80,9 +80,9 @@ export  class  ChatService  {
     }
     listenToLogin = (listenerId) => {
         CometChat.addLoginListener(listenerId , {loginSuccess : () => {
-            alert("Login success")
+          //  alert("Login success")
             } , loginFailure: () => {
-            alert('login failed')
+          //  alert('login failed')
             }})
     }
 }

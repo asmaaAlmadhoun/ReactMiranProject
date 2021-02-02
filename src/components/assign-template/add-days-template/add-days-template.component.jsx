@@ -78,33 +78,34 @@ class AddDaysTemplateComponent extends Component {
                         className="increment-btn"  style={buttonStyle}>
                         +
                     </div>
+                    <Slider ref={slider => {
+                        this.sliderRef = slider
+                    }} {...settings}>
+                        {buttons && buttons.length > 0 && buttons.map( (item,key)  => {
+                            return (
+
+                                <div key={key}
+                                     onClick={ (e) =>  {
+                                         const number = item.props.number;
+                                         this.setState({activeNumber : number})
+                                         const {clickNumberHandler}  = this.props;
+                                         if(clickNumberHandler) {
+                                             clickNumberHandler(number);
+                                         }
+                                     }}
+                                     className={this.state.activeNumber === item.props.number ? 'item-num active':'item-num'}>
+                                    {item}
+                                </div>
+                            );
+                        })}
+                    </Slider>
                     <div className="decrement-btn"
                          onClick={this.decrementDays}
                          style={buttonStyle}>
                         -
                     </div>
                 </div>
-                <Slider ref={slider => {
-                    this.sliderRef = slider
-                }} {...settings}>
-                    {buttons && buttons.length > 0 && buttons.map( (item,key)  => {
-                        return (
 
-                            <div key={key}
-                                 onClick={ (e) =>  {
-                                     const number = item.props.number;
-                                     this.setState({activeNumber : number})
-                                     const {clickNumberHandler}  = this.props;
-                                     if(clickNumberHandler) {
-                                         clickNumberHandler(number);
-                                     }
-                                 }}
-                                 className={this.state.activeNumber === item.props.number ? 'item-num active':'item-num'}>
-                                {item}
-                            </div>
-                        );
-                    })}
-                </Slider>
 
             </div>
         );

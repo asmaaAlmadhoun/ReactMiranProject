@@ -90,7 +90,8 @@ const EnglishTranslation = {
         addMead : 'Add Meal',
         breakDay : 'Break Day',
         copyMeal: 'Copy Meal',
-        addExercise:'Add Meal'
+        addExercise:'Add Exercise',
+        searchFor: 'Search'
     },
     profile : {
         fullName : 'Full Name',

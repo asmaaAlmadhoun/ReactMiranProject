@@ -90,11 +90,12 @@ const ArabicTranslation = {
     addMeal : 'إضافة وجبة',
     breakDay : 'يوم عطلة',
     copyMeal: 'نسخ',
-    addExercise:'اضافة وجبة'
+    addExercise:'اضافة تمرين',
+    searchFor: 'بحث'
   },
   profile : {
-    fullName : 'الأسم بالكامل',
-    email : 'البريد الألكترونى' ,
+    fullName : 'الإسم بالكامل',
+    email : 'البريد الإلكترونى' ,
     tele : 'الجوال',
     gender : 'النوع',
     country : 'الدولة',

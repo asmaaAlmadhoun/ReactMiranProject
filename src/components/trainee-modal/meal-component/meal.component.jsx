@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { FiX } from "react-icons/fi";
-import  {FiMaximize} from "react-icons/fi";
-import  {FiMove} from "react-icons/fi";
+import { FiX,FiMaximize,FiMove } from "react-icons/fi";
 import {withTranslation} from "react-i18next";
 import  './meal.component.css';
 class MealComponent extends Component {

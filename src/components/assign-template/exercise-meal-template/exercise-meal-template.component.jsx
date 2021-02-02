@@ -21,7 +21,6 @@ class ExerciseMealTemplateComponent extends Component {
                         render: () =>
                             <Tab.Pane attached={false}>
                                 <ExerciseComponent />
-                                <ExerciseComponent />
                                 <AddExerciseTemplateComponent />
                             </Tab.Pane>,
                     },
