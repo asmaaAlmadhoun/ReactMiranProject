@@ -1,56 +1,40 @@
 ﻿import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
-import  './add-exercise-template.component.css';
+import './add-meal-template.component.css';
 import {Header, Modal} from "semantic-ui-react";
 import SearchableListTemplateComponent from '../searchable-template-list/searchable-list-template.component.jsx'
 import ModalComponent from "../../common/modal/modal.component";
-import MusclesService from "../../../../src/services/trainee-service/muscles.service";
-
-class AddExerciseTemplateComponent extends  React.Component {
-
+class AddMealTemplateComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             __addModal__ : false,
-            isLoading: false,
             CONTACTS : [
                 {
                     id: 1,
-                    name: 'Box',
+                    name: 'Carrot',
                     image: 'https://accounts-cdn.9gag.com/media/avatar/12368885_100_3.jpg'
                 },
                 {
                     id: 2,
-                    name: 'Box Jumps',
+                    name: 'Onion',
                     image: 'http://forums.animeboston.com/download/file.php?avatar=11355_1455595397.png'
 
                 },
                 {
                     id: 3,
-                    name: 'Box Jumps',
+                    name: 'Tomato',
                     image: 'http://avatars-cdn.9gag.com/avatar/erickson8903_14899765_100.jpg'
                 },
                 {
                     id: 4,
-                    name: 'Box Jumps',
+                    name: 'Cucumber',
                     image: 'https://38.media.tumblr.com/4249a67e76729e9126ef3f70e741c323/tumblr_inline_mixcyvIPd81qz4rgp.jpg'
                 }
-            ],
-            muscles: []
+            ]
         }
     }
-    async componentWillMount() {
-        const musclesService  = new MusclesService();
-        this.setState({isLoading : true})
-        musclesService.muscles.then(data => {
-            this.setState({isLoading : false})
-            if(data && data.status) {
-                this.setState({muscles : data.result})
-            }
-        }).catch(error => {
-            this.setState({isLoading : false})
-        })
-    }
+
     showModalHandler =() => {
         this.setState({__addModal__ : true});
     }
@@ -67,7 +51,7 @@ class AddExerciseTemplateComponent extends  React.Component {
                             e.preventDefault();
                             this.showModalHandler();
                         }} className="btn primary-color">
-                            {t('traineeModal.addExercise')}
+                            {t('traineeModal.addMeal')}
                         </button>
                         <button className="btn danger-color">
                             {t('traineeModal.breakDay')}
@@ -80,11 +64,11 @@ class AddExerciseTemplateComponent extends  React.Component {
                 </div>
 
                 <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
-                    <SearchableListTemplateComponent list={this.state.muscles}/>
+                    <SearchableListTemplateComponent contact={this.state.CONTACTS}/>
                 </ModalComponent>
             </React.Fragment>
         );
     }
 }
 
-export default withTranslation('translation')( AddExerciseTemplateComponent);
+export default withTranslation('translation')( AddMealTemplateComponent);

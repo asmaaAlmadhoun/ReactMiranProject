@@ -51,7 +51,7 @@ class MealComponent extends Component {
                 </div>
                 <div className="col-sm-12 mt-4">
                     <div className="row">
-                        <div className={t('local')==='ar' ? 'col-sm-6 text-right' : 'col-sm-6'}>
+                        <div className={t('local')==='ar' ? 'text-right' : ''}>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <div>
@@ -73,80 +73,59 @@ class MealComponent extends Component {
                                         <span className="val"> {protein}  </span>
                                     </div>
                                 </div>
+                                <div className="col-sm-12 mt-3">
+                                    <div className="d-flex align-items-center">
+                                        <span className="strip-title">
+                                            {t('traineeModal.totalDayIntakes')}
+                                        </span>
+                                        <div className="stripe grey">
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.calories')}: </span>
+                                                <span className="val"> 128  </span>
+                                            </div>
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.carbs')}: </span>
+                                                <span className="val"> 16  </span>
+                                            </div>
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.fat')}: </span>
+                                                <span className="val"> 6  </span>
+                                            </div>
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.protein')} : </span>
+                                                <span className="val"> 3  </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex align-items-center mt-2">
+                            <span className="strip-title">
+                                {t('traineeModal.totalTargetIntakes')}
+                            </span>
+                                        <div className="stripe primary-color">
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.calories')}: </span>
+                                                <span className="val"> 128  </span>
+                                            </div>
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.carbs')}: </span>
+                                                <span className="val"> 16  </span>
+                                            </div>
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.fat')}: </span>
+                                                <span className="val"> 6  </span>
+                                            </div>
+                                            <div className="">
+                                                <span className="key"> {t('traineeModal.protein')} : </span>
+                                                <span className="val"> 3  </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </div>
 
-                <div className="col-sm-12 mt-4">
-                   <div className="row">
-                       <div className="col-sm-8">
-                           <div className="d-flex align-items-center">
-                            <span className="strip-title">
-                                {t('traineeModal.totalDayIntakes')}
-                            </span>
-                               <div className="stripe grey">
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.calories')}: </span>
-                                       <span className="val"> 128  </span>
-                                   </div>
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.carbs')}: </span>
-                                       <span className="val"> 16  </span>
-                                   </div>
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.fat')}: </span>
-                                       <span className="val"> 6  </span>
-                                   </div>
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.protein')} : </span>
-                                       <span className="val"> 3  </span>
-                                   </div>
-                               </div>
-                           </div>
-                           <div className="d-flex align-items-center mt-4">
-                            <span className="strip-title">
-                                {t('traineeModal.totalTargetIntakes')}
-                            </span>
-                               <div className="stripe primary-color">
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.calories')}: </span>
-                                       <span className="val"> 128  </span>
-                                   </div>
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.carbs')}: </span>
-                                       <span className="val"> 16  </span>
-                                   </div>
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.fat')}: </span>
-                                       <span className="val"> 6  </span>
-                                   </div>
-                                   <div className="">
-                                       <span className="key"> {t('traineeModal.protein')} : </span>
-                                       <span className="val"> 3  </span>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div className="col-sm-4">
-                           <div className="d-flex meal-buttons">
-                               <button className="btn primary-color">
-                                   {t('traineeModal.addMeal')}
-                               </button>
-                               <button className="btn danger-color">
-                                   {t('traineeModal.breakDay')}
-                               </button>
-                               <button className="btn primary-color">
-                                   {t('traineeModal.copyMeal')}
-                               </button>
-                           </div>
-                       </div>
-                   </div>
-                </div>
             </div>
         );
     }

@@ -87,7 +87,7 @@ const EnglishTranslation = {
         protein: 'Protein',
         totalDayIntakes : 'Total Day Intakes',
         totalTargetIntakes:  'Total Target Intakes',
-        addMead : 'Add Meal',
+        addMeal : 'Add Meal',
         breakDay : 'Break Day',
         copyMeal: 'Copy Meal',
         addExercise:'Add Exercise',

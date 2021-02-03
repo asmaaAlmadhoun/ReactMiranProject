@@ -1,41 +1,53 @@
-﻿.SearchableListTemplateComponent {
+﻿.SearchableListTemplateComponent-withImg {
     padding: 20px;
 }
-
-.SearchableListTemplateComponent ul {
-    list-style-type: none;
-}
-.SearchableListTemplateComponent ul li {
-    overflow: hidden;
-    margin: 0 0 20px;
+.SearchableListTemplateComponent-withImg ul li {
+    display: grid;
+    grid-template-columns: 88% 12%;
+    grid-template-rows: 20% 80%;
+    grid-gap: 0.3rem;
+    margin: 0.2rem 0;
     border-bottom: 1px solid #ccc;
-    padding: 0 0 20px;
 }
-.SearchableListTemplateComponent ul li:last-child {
-    margin: 0;
+.SearchableListTemplateComponent-withImg span:nth-child(1){
+    grid-row: 2/3;
 }
-
-.SearchableListTemplateComponent img {
-    float: left;
-    display: block;
+.SearchableListTemplateComponent-withImg span:nth-child(2){
+    grid-row: span 2;
+    justify-self: center;
+}
+.SearchableListTemplateComponent-withImg span img {
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-    margin: 0 10px 0 0;
+    border-radius: 8px;
 }
-
-.SearchableListTemplateComponent span {
-    display: block;
-    width: 100%;
+.SearchableListTemplateComponent-withImg span {
+    justify-content: center;
     font-weight: bolder;
 }
-.SearchableListTemplateComponent span.phone {
-    font-weight: normal;
-    font-style: italic;
-    color: #999;
+.SearchableListTemplateComponent ul{
+    padding: 0;
 }
-
+.SearchableListTemplateComponent ul li{
+    margin: 0.7rem 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
 .SearchableListTemplateComponent .input{
     width: 100%;
     margin-bottom: 1rem;
+}
+.rtl .ui.input>input{
+    text-align: right;
+}
+.rtl .ui.icon.input>i.icon{
+    right: auto;
+    left: 0;
+}
+.rtl .ui.icon.input>input {
+    padding-left: 2.67142857em!important;
+    padding-right: 1em!important;
+}
+.rtl .SearchableListTemplateComponent ul {
+    text-align: right;
 }
