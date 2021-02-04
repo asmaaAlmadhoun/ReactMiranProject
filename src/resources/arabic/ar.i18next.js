@@ -109,7 +109,8 @@ const ArabicTranslation = {
   },
   templatePage : {
     assign : 'تعيين',
-    add : 'اضافة نموذج'
+    add : 'اضافة نموذج',
+    numberOf: 'أضف رقم'
   }
   }
 

@@ -109,7 +109,8 @@ const EnglishTranslation = {
     },
     templatePage : {
         assign : 'Assign',
-        add : 'Add Template'
+        add : 'Add Template',
+        numberOf: 'Number of'
     }
   };
 

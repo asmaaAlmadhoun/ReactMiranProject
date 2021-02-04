@@ -2,37 +2,30 @@
 import {withTranslation} from "react-i18next";
 import './add-meal-template.component.css';
 import {Header, Modal} from "semantic-ui-react";
-import SearchableListTemplateComponent from '../searchable-template-list/searchable-list-template.component.jsx'
+import SearchableListWithImgTemplateComponent from '../searchable-list-template/searchable-list-withImg-template.component.jsx'
 import ModalComponent from "../../common/modal/modal.component";
+import MealService from "../../../../src/services/trainee-service/meal.service";
+
 class AddMealTemplateComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             __addModal__ : false,
-            CONTACTS : [
-                {
-                    id: 1,
-                    name: 'Carrot',
-                    image: 'https://accounts-cdn.9gag.com/media/avatar/12368885_100_3.jpg'
-                },
-                {
-                    id: 2,
-                    name: 'Onion',
-                    image: 'http://forums.animeboston.com/download/file.php?avatar=11355_1455595397.png'
-
-                },
-                {
-                    id: 3,
-                    name: 'Tomato',
-                    image: 'http://avatars-cdn.9gag.com/avatar/erickson8903_14899765_100.jpg'
-                },
-                {
-                    id: 4,
-                    name: 'Cucumber',
-                    image: 'https://38.media.tumblr.com/4249a67e76729e9126ef3f70e741c323/tumblr_inline_mixcyvIPd81qz4rgp.jpg'
-                }
-            ]
+            isLoading: false,
+            FoodList : []
         }
+    }
+    async componentWillMount() {
+        const mealService  = new MealService();
+        this.setState({isLoading : true})
+        mealService.food.then(data => {
+            this.setState({isLoading : false})
+            if(data && data.status) {
+                this.setState({FoodList : data.result})
+            }
+        }).catch(error => {
+            this.setState({isLoading : false})
+        })
     }
 
     showModalHandler =() => {
@@ -64,7 +57,7 @@ class AddMealTemplateComponent extends Component {
                 </div>
 
                 <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
-                    <SearchableListTemplateComponent contact={this.state.CONTACTS}/>
+                    <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>
                 </ModalComponent>
             </React.Fragment>
         );

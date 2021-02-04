@@ -4,7 +4,6 @@ import {HTTP_REQUEST} from "../http-service/httpService";
 class MusclesService extends BaseService{
     constructor() {
         super("resources");
-        console.log('test');
     }
     get muscles() {
         const url = this._endPoint + "/muscles";

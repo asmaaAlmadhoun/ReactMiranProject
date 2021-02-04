@@ -2,9 +2,10 @@
 import {withTranslation} from "react-i18next";
 import  './add-exercise-template.component.css';
 import {Header, Modal} from "semantic-ui-react";
-import SearchableListTemplateComponent from '../searchable-template-list/searchable-list-template.component.jsx'
+import SearchableListTemplateComponent from '../searchable-list-template/searchable-list-template.component.jsx'
 import ModalComponent from "../../common/modal/modal.component";
 import MusclesService from "../../../../src/services/trainee-service/muscles.service";
+import ExerciseService from "../../../../src/services/trainee-service/exercise.service";
 
 class AddExerciseTemplateComponent extends  React.Component {
 

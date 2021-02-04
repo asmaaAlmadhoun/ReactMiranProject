@@ -12,18 +12,6 @@ class ListItem extends Component{
         )
     }
 }
-class ListItemWithImg extends Component{
-    render () {
-        return (
-            <li>
-                <span>{this.props.name}</span>
-                <span>
-                    <img src={this.props.image} alt="img"/>
-                </span>
-            </li>
-        )
-    }
-}
 
 class SearchableListTemplateComponent extends Component {
     constructor(props) {
