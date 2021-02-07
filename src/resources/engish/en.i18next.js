@@ -88,10 +88,12 @@ const EnglishTranslation = {
         totalDayIntakes : 'Total Day Intakes',
         totalTargetIntakes:  'Total Target Intakes',
         addMeal : 'Add Meal',
+        mealTitle : 'Meal Title',
         breakDay : 'Break Day',
         copyMeal: 'Copy Meal',
         addExercise:'Add Exercise',
-        searchFor: 'Search'
+        searchFor: 'Search',
+        gram: 'g'
     },
     profile : {
         fullName : 'Full Name',
@@ -110,7 +112,8 @@ const EnglishTranslation = {
     templatePage : {
         assign : 'Assign',
         add : 'Add Template',
-        numberOf: 'Number of'
+        numberOf: 'Number of',
+        comments : 'Comment',
     }
   };
 

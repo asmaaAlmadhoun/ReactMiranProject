@@ -5,6 +5,8 @@ import {Header, Modal} from "semantic-ui-react";
 import SearchableListWithImgTemplateComponent from '../searchable-list-template/searchable-list-withImg-template.component.jsx'
 import ModalComponent from "../../common/modal/modal.component";
 import MealService from "../../../../src/services/trainee-service/meal.service";
+import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
+import InputTextComponent from "../../InputTextComponent/input-text.component";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -58,6 +60,33 @@ class AddMealTemplateComponent extends Component {
 
                 <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>
+                </ModalComponent>
+
+                <ModalComponent isOpen={this.state.open} hideAction={true} handleClosed={e => {
+                    this.setState({open:false})
+                }}>
+                    <div className="">
+                        <h2>  {t('traineeModal.addMeal')} </h2>
+                        <InputTextComponent
+                            valueHandler={e => {
+                                this.setState({val: e.target.value})
+                            }}
+                            value={this.state.val}
+                            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
+                            isRequired={true} labelTitle={t('traineeModal.mealTitle')}  />
+                        <InputTextComponent
+                            valueHandler={e => {
+                                this.setState({val: e.target.value})
+                            }}
+                            value={this.state.val}
+                            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
+                            isRequired={true} labelTitle={t('templatePage.comments')}  />
+
+                        <PrimaryButtonComponent disable={this.state.disableBtn}
+                                                switchLoading={this.state.loading}
+                                                clickHandler={this.sendInvitation}
+                                                title={t('shared.add')} />
+                    </div>
                 </ModalComponent>
             </React.Fragment>
         );

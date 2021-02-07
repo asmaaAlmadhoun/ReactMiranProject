@@ -33,7 +33,9 @@ class ListItemWithImg extends Component{
                     </a>
                 </li>
                 <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
-                    <DetailListItemTemplateComponent item={this.props}/>
+                    <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}
+                                                     image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs}
+                                                   />
                 </ModalComponent>
             </React.Fragment>
         )
@@ -66,8 +68,8 @@ class SearchableListWithImgTemplateComponent extends Component {
                 <ul>
                     {
                         List.map((el) => {
-                            return <ListItemWithImg key={el.id}
-                                                    image={el.image}
+                            return <ListItemWithImg key={el.id} quantity={el.quantity} calories={el.calories} fat={el.fat}
+                                                    image={el.image}  protein={el.protein} carbs={el.carbs}
                                              name={t('local')==='ar' ? el.title_ar : el.title}
                             />
                         })

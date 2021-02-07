@@ -88,10 +88,12 @@ const ArabicTranslation = {
     totalDayIntakes : 'إجمالى ماأخذ اليوم',
     totalTargetIntakes:  'إجمالى المستهدف',
     addMeal : 'إضافة وجبة',
+    mealTitle : 'عنوان الوجبة',
     breakDay : 'يوم عطلة',
     copyMeal: 'نسخ',
     addExercise:'اضافة تمرين',
-    searchFor: 'بحث'
+    searchFor: 'بحث',
+    gram: 'جم'
   },
   profile : {
     fullName : 'الإسم بالكامل',
@@ -110,7 +112,8 @@ const ArabicTranslation = {
   templatePage : {
     assign : 'تعيين',
     add : 'اضافة نموذج',
-    numberOf: 'أضف رقم'
+    numberOf: 'أضف رقم',
+    comments: 'تعليقات'
   }
   }
 
