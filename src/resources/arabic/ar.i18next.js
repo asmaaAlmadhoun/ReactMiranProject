@@ -113,7 +113,8 @@ const ArabicTranslation = {
     assign : 'تعيين',
     add : 'اضافة نموذج',
     numberOf: 'أضف رقم',
-    comments: 'تعليقات'
+    comments: 'تعليقات',
+    templateName: 'اسم القالب'
   }
   }
 

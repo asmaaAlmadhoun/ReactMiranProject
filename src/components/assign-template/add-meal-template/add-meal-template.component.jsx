@@ -14,7 +14,8 @@ class AddMealTemplateComponent extends Component {
         this.state = {
             __addModal__ : false,
             isLoading: false,
-            FoodList : []
+            FoodList : [],
+            size: 'mini'
         }
     }
     async componentWillMount() {
@@ -62,7 +63,7 @@ class AddMealTemplateComponent extends Component {
                     <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>
                 </ModalComponent>
 
-                <ModalComponent isOpen={this.state.open} hideAction={true} handleClosed={e => {
+                <ModalComponent size={this.state.size} isOpen={this.state.open} hideAction={true} handleClosed={e => {
                     this.setState({open:false})
                 }}>
                     <div className="">

@@ -16,6 +16,7 @@ import ProfileComponent from "./pages/profile/profile.component";
 import SettingComponent from "./pages/setting/setting.component";
 import TemplateComponent from "./pages/template/template.component";
 import ConfirmAlertComponent from "./pages/confirm-alert/confirm-alert.component";
+import TemplateDetailsComponent from "./pages/template/template-details.component";
 import SendInvitationComponent from "./pages/send-invitation/send-invitation.component";
 import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.component";
 import ChatGroupComponent from "./pages/group-chat/chat-group.component";
@@ -39,6 +40,7 @@ ReactDOM.render(
                   <Route path="/profile"  component={ProfileComponent} />
                   <Route path="/setting"  component={SettingComponent} />
                   <Route path="/template"  component={TemplateComponent} />
+                  <Route path="/template-details"  component={TemplateDetailsComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
                   <Route path="/chat" component={ChatGroupComponent} />
               </App>

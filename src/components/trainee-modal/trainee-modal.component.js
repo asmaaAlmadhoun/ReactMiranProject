@@ -47,7 +47,7 @@ class TraineeModalComponent extends Component {
         };
         return (
             <div>
-                <ModalComponent isOpen={this.state.isOpen}  Actions={
+                <ModalComponent size="mini" isOpen={this.state.isOpen}  Actions={
                     <div className="card-foot" >
                       <div style={{float:t('local') === 'ar' ? 'right' : 'left' }}>
                          <div className="d-flex">

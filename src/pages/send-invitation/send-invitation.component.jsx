@@ -61,7 +61,7 @@ class SendInvitationComponent extends Component {
                 }}>
                     {t('menu.addUser')} +
                 </button>
-                <ModalComponent isOpen={this.state.open} hideAction={true} handleClosed={e => {
+                <ModalComponent size="mini" isOpen={this.state.open} hideAction={true} handleClosed={e => {
                     this.setState({open:false})
                 }}>
                     <div className="">

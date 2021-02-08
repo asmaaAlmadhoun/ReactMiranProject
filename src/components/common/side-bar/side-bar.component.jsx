@@ -68,15 +68,20 @@ class SideBarComponent extends Component {
                             <Menu.Header >
                                 <Image src={logo} width={150} style={{margin:'25px auto'}}/>
                             </Menu.Header>
-                            <Menu.Item as='a' onClick={e => {
+                            <Menu.Item  as='a'
+                                        className={this.state.active === '/' ? 'active' : {}}
+                                        onClick={e => {
                                 this.props.history.push('/');
+                                this.setState({ active: '/' });
                             }}>
                                 <Image src={homeIcon} className='icon' width={25} />
                                 {t('menu.dashboard')}
                             </Menu.Item>
                             <Menu.Item as='a'
+                                       className={this.state.active === 'chats' ? 'active' : {}}
                                        onClick={e => {
                                            this.props.history.push('/chat');
+                                           this.setState({ active: 'chats' });
                                        }}>
                                   <Image src={chatIcon} className='icon' width={25} />
                                 {t('menu.chats')}
@@ -85,10 +90,10 @@ class SideBarComponent extends Component {
                                 this.state.isSas ?
                                     <>
                                         <Menu.Item as='a'
+                                                   className={this.state.active === 'trainees' ? 'active' : {}}
                                                    onClick={e => {
-
                                                        this.props.history.push('/trainees')
-
+                                                       this.setState({ active: 'trainees' });
                                                    }}
                                         >
                                             <Image src={fitnessIco} className='icon' width={25} />
@@ -97,22 +102,30 @@ class SideBarComponent extends Component {
                                     </>: null
                             }
 
-                            <Menu.Item as='a' onClick={e => {
+                            <Menu.Item as='a'
+                                       className={this.state.active === 'profile' ? 'active' : {}}
+                                       onClick={e => {
                                 this.props.history.push('/profile');
+                                this.setState({ active: 'profile' });
                             }}>
                                 <Image src={profileIcon} className='icon' width={25} />
                                 {t('menu.profile')}
                             </Menu.Item>
                             <Menu.Item as='a'
+                                       className={this.state.active === 'template' ? 'active' : {}}
                                        onClick={e => {
                                            this.props.history.push('/template');
+                                           this.setState({ active: 'template' });
                                        }}
                             >
                                 <Image src={templateIcon} className='icon' width={25} />
                                 {t('menu.templates')}
                             </Menu.Item>
-                            <Menu.Item as='a' onClick={e => {
+                            <Menu.Item as='a'
+                                       className={this.state.active === 'setting' ? 'active' : {}}
+                                       onClick={e => {
                                 this.props.history.push('/setting');
+                                this.setState({ active: 'setting' });
                             }}
                             >
                                 <Image src={settingIcon} className='icon' width={25} />

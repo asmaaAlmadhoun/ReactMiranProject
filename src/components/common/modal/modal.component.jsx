@@ -5,7 +5,8 @@ class ModalComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen : false
+            isOpen : false,
+            size : 'small',
         }
     }
 
@@ -16,6 +17,7 @@ class ModalComponent extends Component {
 
     render() {
         const  {isOpen} = this.props;
+        const  {size} = this.props;
         return (
             <Modal
                 centered={true}
@@ -25,14 +27,13 @@ class ModalComponent extends Component {
                     if(handleClosed) {
                         handleClosed();
                     }
-
                 }}
-                size="small"
+                size={size}
                 open={ isOpen}
                 style={{height:'auto' , position:'absolute' , top:'50%' , left:'50%' , transform:'translate(-50%,-50%)'}}
                 
             >
-                <Modal.Content>
+                <Modal.Content scrolling>
                     {this.props.children}
                 </Modal.Content>
                 {
@@ -47,6 +48,7 @@ class ModalComponent extends Component {
 }
 ModalComponent.propTypes = {
     isOpen : PropTypes.bool.isRequired,
+    size : PropTypes.string,
     Actions: PropTypes.element,
     hideAction:PropTypes.bool,
     handleClosed: PropTypes.func

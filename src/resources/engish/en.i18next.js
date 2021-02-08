@@ -114,6 +114,7 @@ const EnglishTranslation = {
         add : 'Add Template',
         numberOf: 'Number of',
         comments : 'Comment',
+        templateName: 'Template Name'
     }
   };
 

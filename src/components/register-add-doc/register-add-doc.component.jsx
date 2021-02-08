@@ -49,7 +49,7 @@ class RegisterAddDocComponent extends Component {
                             {t('shared.add')} +
                         </button>
                     </div>
-                    <ModalComponent isOpen={this.state.open} hideAction={true}
+                    <ModalComponent size="small" isOpen={this.state.open} hideAction={true}
                      handleClosed={e => {
                          this.setState({open:false})
                      }}

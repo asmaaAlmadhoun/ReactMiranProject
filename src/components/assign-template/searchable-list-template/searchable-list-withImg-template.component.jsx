@@ -32,7 +32,7 @@ class ListItemWithImg extends Component{
                             <span>{this.props.name}</span>
                     </a>
                 </li>
-                <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                <ModalComponent size="small" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}
                                                      image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs}
                                                    />

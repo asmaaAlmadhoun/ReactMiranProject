@@ -75,7 +75,7 @@ class AddLanguageComponent extends Component {
                     <div className="clearfix">
 
                     </div>
-                    <ModalComponent handleClosed={e => {
+                    <ModalComponent size="small" handleClosed={e => {
                         this.setState({open : false})
                     }} isOpen={this.state.open} hideAction={true}>
                         <InputTextComponent

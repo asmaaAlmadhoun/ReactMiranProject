@@ -80,7 +80,7 @@ class AddExerciseTemplateComponent extends  React.Component {
                     </div>
                 </div>
 
-                <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                <ModalComponent size="small" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <SearchableListTemplateComponent list={this.state.muscles}/>
                 </ModalComponent>
             </React.Fragment>

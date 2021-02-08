@@ -3,6 +3,7 @@ import PenWriteIco from '../../assets/icons/pen_write.svg';
 import PropTypes from 'prop-types';
 import {withTranslation} from "react-i18next";
 import  './template-card.component.css';
+import {withRouter} from "react-router-dom";
 import { FiX } from "react-icons/fi";
 class TemplateCardComponent extends Component {
     render() {
@@ -17,8 +18,12 @@ class TemplateCardComponent extends Component {
                        <span> {this.props.tempName} </span>
                    </div>
                    <div className="action">
-                       <button className="btn" onClick={e => {
+                       <button className="btn"  onClick={e => {
                            const {openAssignModal , id} = this.props;
+                           this.props.history.push({
+                               pathname: '/template-details',
+                               state: { templateId: id },
+                           });
                            if(openAssignModal) {
                                openAssignModal(id)
                            }
@@ -47,4 +52,4 @@ TemplateCardComponent.propTypes = {
     openAssignModal : PropTypes.func.isRequired
 }
 
-export default withTranslation('translation') (TemplateCardComponent);
+export default withTranslation('translation') (withRouter(TemplateCardComponent));

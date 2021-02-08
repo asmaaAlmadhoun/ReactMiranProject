@@ -4,7 +4,7 @@ import BreadcrumbComponent from "../../components/common/breadcrumb/breadcrumb.c
 import {withTranslation} from "react-i18next";
 import TemplateCardComponent from "../../components/template-card/template-card.component";
 import TemplateService from "../../services/template-service/template.service";
-import {Loader} from "semantic-ui-react";
+import {Loader, Menu} from "semantic-ui-react";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
 import {toast} from "react-toastify";
 import { FiPlus } from "react-icons/fi";
@@ -95,7 +95,8 @@ class TemplateComponent extends Component {
         return (
             <>
                 {
-                    this.state.openAssignModal ? <AssignTemplateComponent handleClosingModal={this.onCloseAssignModal} open={this.state.openAssignModal}  templateId={this.state.templateModalId}/> : null
+                    // this.state.openAssignModal ? <AssignTemplateComponent handleClosingModal={this.onCloseAssignModal} open={this.state.openAssignModal}  templateId={this.state.templateModalId}/> : null
+                    // this.state.openAssignModal ? <TemplateDetails templateId={this.state.templateModalId}/> : null
                 }
                 <ToasterComponent />
                 <div className="container">
@@ -116,7 +117,7 @@ class TemplateComponent extends Component {
                                 this.state.data && this.state.data.length > 0 ?  this.state.data.map( (item , i) => {
                                     return (
                                         <div className="col-md-3 mt-4" key={i}>
-                                            <TemplateCardComponent openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name}  id={item.id}/>
+                                            <TemplateCardComponent  openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name}  id={item.id}/>
                                         </div>
                                     );
                                 } ) : <EmptyComponent />

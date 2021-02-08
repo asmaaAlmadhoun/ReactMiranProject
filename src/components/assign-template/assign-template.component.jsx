@@ -26,7 +26,7 @@ class AssignTemplateComponent extends Component {
         const  {open  , handleClosingModal } = this.props;
         return (
             <>
-                <ModalComponent isOpen={open} handleClosed={handleClosingModal}>
+                <ModalComponent size="small" isOpen={open} handleClosed={handleClosingModal}>
                     <AddDaysTemplateComponent daysNumber={7} clickNumberHandler={this.clickNumberHandler} />
                     <ExerciseMealTemplateComponent />
                 </ModalComponent>
