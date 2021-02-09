@@ -1,3 +1,5 @@
+import React from "react";
+
 const ArabicTranslation = {
   local:'ar',
   shared : {
@@ -114,7 +116,9 @@ const ArabicTranslation = {
     add : 'اضافة نموذج',
     numberOf: 'أضف رقم',
     comments: 'تعليقات',
-    templateName: 'اسم القالب'
+    templateName: 'اسم القالب',
+    chooseTrainee: 'اختر المدرب',
+    date: 'التاريخ'
   }
   }
 

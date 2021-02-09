@@ -47,7 +47,7 @@ class TraineeModalComponent extends Component {
         };
         return (
             <div>
-                <ModalComponent size="mini" isOpen={this.state.isOpen}  Actions={
+                <ModalComponent size="tiny" isOpen={this.state.isOpen} Actions={
                     <div className="card-foot" >
                       <div style={{float:t('local') === 'ar' ? 'right' : 'left' }}>
                          <div className="d-flex">
@@ -80,7 +80,6 @@ class TraineeModalComponent extends Component {
                         </div>
                     </div>
                  }>
-
                    <div className="planing-schedule">
                        <div className="heading row">
                            <div className="col-sm-1 d-flex">

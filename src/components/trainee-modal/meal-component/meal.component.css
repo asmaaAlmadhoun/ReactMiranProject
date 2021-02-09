@@ -72,3 +72,6 @@
     background-color: #ee6d52;
     color: #ffffff;
 }
+.meal .meal-buttons svg {
+    font-size: 2rem;
+}

@@ -4,6 +4,7 @@
     border-radius: 25px;
     max-width: 90%;
     margin: auto;
+    display: block;
 }
 
 .trainee-card .user-img {
@@ -44,4 +45,7 @@
     height: 35px;
     cursor: pointer;
 
+}
+.d-none {
+    display: none !important;
 }

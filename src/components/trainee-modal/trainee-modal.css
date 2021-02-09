@@ -59,12 +59,12 @@
 }
 .ui.modal {
     background: transparent;
-    border-radius: 0 !important;
+    border-radius: 10px !important;
 }
 .ui.modal .content ,.ui.modal>.actions {
     border-radius: 0 !important;
 }
-.ui.modal>.actions {
+.ui.modal>.actions .card-foot{
     background-color: #122027;
     border: none !important;
     outline: none !important;

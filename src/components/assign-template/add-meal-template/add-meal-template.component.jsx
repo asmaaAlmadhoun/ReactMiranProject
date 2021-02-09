@@ -7,6 +7,9 @@ import ModalComponent from "../../common/modal/modal.component";
 import MealService from "../../../../src/services/trainee-service/meal.service";
 import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
 import InputTextComponent from "../../InputTextComponent/input-text.component";
+import {FiPlus   } from "react-icons/fi";
+import { BiCopy  } from "react-icons/bi";
+import { BsClockHistory  } from "react-icons/bs";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -40,56 +43,54 @@ class AddMealTemplateComponent extends Component {
     render() {
         const {t} = this.props;
         return (
-            <React.Fragment>
-                <div className={"AddMealTemplateComponent mt-4"}>
-                    <div className="d-flex meal-buttons justify-content-center">
+            <>
+                <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
+                    <div className="meal-buttons justify-content-center">
                         <button onClick={e => {
                             e.preventDefault();
                             this.showModalHandler();
                         }} className="btn primary-color">
-                            {t('traineeModal.addMeal')}
+                            <FiPlus />
+                            <div><small>{t('traineeModal.addMeal')}</small></div>
                         </button>
                         <button className="btn danger-color">
-                            {t('traineeModal.breakDay')}
+                            <BsClockHistory />
+                            <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
                         <button className="btn primary-color">
-                            {t('traineeModal.copyMeal')}
+                            <BiCopy />
+                            <div><small>{t('traineeModal.copyMeal')}</small></div>
                         </button>
 
                     </div>
                 </div>
 
-                <ModalComponent isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                <ModalComponent  size='tiny' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={this.closeModalHandler} >
                     <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>
                 </ModalComponent>
 
-                <ModalComponent size={this.state.size} isOpen={this.state.open} hideAction={true} handleClosed={e => {
-                    this.setState({open:false})
-                }}>
-                    <div className="">
-                        <h2>  {t('traineeModal.addMeal')} </h2>
-                        <InputTextComponent
-                            valueHandler={e => {
-                                this.setState({val: e.target.value})
-                            }}
-                            value={this.state.val}
-                            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
-                            isRequired={true} labelTitle={t('traineeModal.mealTitle')}  />
-                        <InputTextComponent
-                            valueHandler={e => {
-                                this.setState({val: e.target.value})
-                            }}
-                            value={this.state.val}
-                            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
-                            isRequired={true} labelTitle={t('templatePage.comments')}  />
+                {/*<ModalComponent size='mini' isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >*/}
+                {/*    <div className="text-center">*/}
+                {/*        <h4 className='mb-4'>  {t('traineeModal.addMeal')} </h4>*/}
+                {/*        <InputTextComponent*/}
+                {/*            valueHandler={e => {*/}
+                {/*                this.setState({val: e.target.value})*/}
+                {/*            }}*/}
+                {/*            value={this.state.val}*/}
+                {/*            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}*/}
+                {/*            isRequired={true} labelTitle={t('traineeModal.mealTitle')}  />*/}
+                {/*        <InputTextComponent*/}
+                {/*            valueHandler={e => {*/}
+                {/*                this.setState({val: e.target.value})*/}
+                {/*            }}*/}
+                {/*            value={this.state.val}*/}
+                {/*            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}*/}
+                {/*            isRequired={true} labelTitle={t('templatePage.comments')}  />*/}
 
-                        <PrimaryButtonComponent disable={this.state.disableBtn}
-                                                switchLoading={this.state.loading}
-                                                clickHandler={this.sendInvitation}
-                                                title={t('shared.add')} />
-                    </div>
-                </ModalComponent>
-            </React.Fragment>
+                {/*        <button className='btn btn-secondary w-50'>{t('shared.add')} </button>*/}
+                {/*    </div>*/}
+                {/*</ModalComponent>*/}
+            </>
         );
     }
 }

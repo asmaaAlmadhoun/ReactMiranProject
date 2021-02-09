@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { FiX,FiMaximize,FiMove } from "react-icons/fi";
 import {withTranslation} from "react-i18next";
 import  './meal.component.css';
+import AddMealTemplateComponent from "../../assign-template/add-meal-template/add-meal-template.component";
+import {Tab} from "semantic-ui-react";
 class MealComponent extends Component {
 
     render() {
@@ -73,7 +75,7 @@ class MealComponent extends Component {
                                         <span className="val"> {protein}  </span>
                                     </div>
                                 </div>
-                                <div className="col-sm-12 mt-3">
+                                <div className="col-sm-8 mt-4">
                                     <div className="d-flex align-items-center">
                                         <span className="strip-title">
                                             {t('traineeModal.totalDayIntakes')}
@@ -121,6 +123,7 @@ class MealComponent extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                <AddMealTemplateComponent/>
                             </div>
                         </div>
                     </div>

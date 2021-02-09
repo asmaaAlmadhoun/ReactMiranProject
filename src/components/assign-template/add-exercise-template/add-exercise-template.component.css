@@ -1,6 +1,6 @@
 ﻿.AddMealTemplateComponent .meal-buttons button {
     border-radius: 10px;
-    margin: 0 7px;
+    margin: 0 3px;
 }
 .AddMealTemplateComponent .meal-buttons .primary-color {
     background-color: #00a4f8;

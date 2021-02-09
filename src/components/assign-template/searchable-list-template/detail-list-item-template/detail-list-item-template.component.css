@@ -6,3 +6,6 @@
     width: 50%;
     display: inline-flex;
 }
+.detail-list img{
+    max-height: 200px;
+}

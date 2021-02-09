@@ -37,7 +37,8 @@ class ModalComponent extends Component {
                     {this.props.children}
                 </Modal.Content>
                 {
-                    !this.props.hideAction ?  <Modal.Actions>
+                    !this.props.hideAction ?
+                    <Modal.Actions>
                         {this.props.Actions}
                     </Modal.Actions> : null
                 }

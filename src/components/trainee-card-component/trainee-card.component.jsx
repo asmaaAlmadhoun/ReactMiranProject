@@ -8,11 +8,11 @@ import tempIco from '../../assets/icons/temp.svg'
 class TraineeCardComponent extends Component {
 
     render() {
-        let {imgPath ,full_name , remainingDays , isFemale ,openModalFn} = this.props;
+        let {imgPath ,full_name , remainingDays , isFemale ,openModalFn, className, classNameAction} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
-            <div className="trainee-card">
+            <a className={"trainee-card " +(className ? className : '')} >
                 <div className="user-img">
                     <img src={imgPath} width="56px"  alt={"user image"}   />
                 </div>
@@ -21,10 +21,10 @@ class TraineeCardComponent extends Component {
                 </div>
                 <div className="remaining-days">
                     <span>
-                        {remainingDays ? remainingDays : 'Unknown'}
+                        {remainingDays ? remainingDays : ''}
                     </span>
                 </div>
-                <div className="action-icons d-flex justify-content-center">
+                <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
                     <div className="ico" >
                         <img src={reportIco}  alt="icon" />
                     </div>
@@ -34,7 +34,7 @@ class TraineeCardComponent extends Component {
                         <img src={tempIco}  alt="icon" />
                     </div>
                 </div>
-            </div>
+            </a>
         );
     }
 }

@@ -114,7 +114,9 @@ const EnglishTranslation = {
         add : 'Add Template',
         numberOf: 'Number of',
         comments : 'Comment',
-        templateName: 'Template Name'
+        templateName: 'Template Name',
+        chooseTrainee: 'Choose Trainee',
+        date: 'Date'
     }
   };
 

@@ -18,7 +18,7 @@ class TemplateDetailsComponent extends Component {
 
     componentWillMount() {
         const templateId1 = this.props.location.state;
-        this.setState({templateId: templateId1.templateId})
+        // this.setState({templateId: templateId1.templateId})
     }
 
     render() {

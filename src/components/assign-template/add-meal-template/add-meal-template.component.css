@@ -11,3 +11,13 @@
     background-color: #ee6d52;
     color: #ffffff;
 }
+.form-control{
+    background-color: #F4F6F8;
+    color: #C4C9CD;
+    padding: 10px;
+    text-align: center;
+    border: none !important;
+}
+.form-control:focus {
+    background-color: #F4F6F8;
+}

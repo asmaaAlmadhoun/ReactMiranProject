@@ -12,7 +12,7 @@
     font-size: 17px;
     line-height: 30px;
     position: absolute;
-    right: -10px;
+    right: 20px;
     top: -10px;
     cursor: pointer;
 }
@@ -45,5 +45,33 @@
 }
 .template-card .content .action button:hover {
     background-color: #122027 !important;
+}
+.modal-title{
+    background-color: black;
+    color: white;
+    width: 100%;
+    border-radius: 20px;
+    padding: 8px;
+    text-align: center;
+}
+.modal-title-date{
+    background-color: #f4f4f4;
+    text-align: center;
+    color: gray;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+.card-custom{
+    background-color: #f4f4f4;
+    display: inline-block;
+    width: 30%;
+    margin: 1%;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    color: black;
+}
+.card-custom:hover{
+    background-color: #BBECFF;
+    color: black;
 }
 

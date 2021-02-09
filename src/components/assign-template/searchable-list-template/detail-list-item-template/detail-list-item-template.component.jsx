@@ -2,13 +2,15 @@
 import {withTranslation} from "react-i18next";
 import './detail-list-item-template.component.css';
 import {Input} from "semantic-ui-react";
+import UserService from "../../../../services/user-service/user.service";
 
 class DetailListItemTemplateComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             displayedData: this.props.list,
-            ratio : 1
+            ratio : 1,
+            imgDefaultPath: ''
         }
     }
     onChangeGram = e => {
@@ -24,6 +26,11 @@ class DetailListItemTemplateComponent extends Component {
             this.prepareTotalDataSource(oldValue,oldValue);
         }
     }
+    componentWillMount() {
+        const userService = new UserService();
+        this.setState({imgDefaultPath : userService.imageDefaultPath })
+    }
+
     prepareTotalDataSource(oldQty,newQty){
         let NewRatio = parseFloat(newQty) / parseFloat(oldQty)
         if(NewRatio.isNaN) {
@@ -38,12 +45,12 @@ class DetailListItemTemplateComponent extends Component {
         const {t} = this.props;
         return (
             <div className={t('local')==='ar' ? 'text-right' : ''}>
-                <h2>{this.props.title}</h2>
                 <div className="row detail-list">
-                    <div className="col-sm-12">
-                        <img src={this.props.image} alt="image"/>
+                    <div className="col-sm-12 text-center">
+                        <img width='100%' src={this.state.imgDefaultPath+this.props.image} alt="image"/>
+                        <h3 className='my-4'>{this.props.title}</h3>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-6 text-left">
                         <div>
                             <span className="key"> {t('traineeModal.calories')} : </span>
                             <span className="val"> {((parseFloat(this.props.calories)) * this.state.ratio).toFixed(2)}  </span>
@@ -53,7 +60,7 @@ class DetailListItemTemplateComponent extends Component {
                             <span className="val"> {((parseFloat(this.props.fat)) * this.state.ratio).toFixed(2)} </span>
                         </div>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-6 text-right">
                         <div>
                             <span className="key"> {t('traineeModal.carbs')} : </span>
                             <span className="val"> {((parseFloat(this.props.carbs)) * this.state.ratio).toFixed(2)} </span>
@@ -63,12 +70,18 @@ class DetailListItemTemplateComponent extends Component {
                             <span className="val"> {((parseFloat(this.props.protein)) * this.state.ratio).toFixed(2)} </span>
                         </div>
                     </div>
-                    <div className="col-sm-12">
+                    <div className="col-sm-12 text-center">
                         <div>
                             <Input type="text" onChange={this.onChangeGram} placeholder={t('templatePage.numberOf')} />
                             <span>{t('traineeModal.gram')}</span>
                         </div>
                     </div>
+                    <div className='text-center w-100 mt-4'>
+                        <button className="btn btn-secondary w-50">
+                            {t('templatePage.add')}
+                        </button>
+                    </div>
+
                 </div>
             </div>
         )

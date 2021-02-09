@@ -4,6 +4,7 @@ import {withTranslation} from "react-i18next";
 import './searchable-list-template.component.css';
 import ModalComponent from "../../common/modal/modal.component";
 import DetailListItemTemplateComponent from "./detail-list-item-template/detail-list-item-template.component";
+import UserService from "../../../services/user-service/user.service";
 
 class ListItemWithImg extends Component{
     constructor(props) {
@@ -11,8 +12,13 @@ class ListItemWithImg extends Component{
         this.state = {
             __addModal__ : false,
             isLoading: false,
-            FoodList : []
+            FoodList : [],
+            imgDefaultPath: ''
         }
+    }
+    componentWillMount() {
+        const userService = new UserService();
+        this.setState({imgDefaultPath : userService.imageDefaultPath })
     }
 
     showModalHandler =() => {
@@ -22,18 +28,19 @@ class ListItemWithImg extends Component{
         this.setState({__addModal__ : false});
     }
     render () {
+        const {t} = this.props;
         return (
             <React.Fragment>
                 <li>
                     <a href="#" className='item' onClick= {() => this.showModalHandler()}>
                         <span>
-                            <img src={this.props.image} alt="img"/>
+                            <img src={this.state.imgDefaultPath+this.props.image} alt="img"/>
                         </span>
                             <span>{this.props.name}</span>
                     </a>
                 </li>
-                <ModalComponent size="small" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
-                    <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}
+                <ModalComponent size="tiny" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                    <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}   title={this.props.name}
                                                      image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs}
                                                    />
                 </ModalComponent>

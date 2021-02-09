@@ -94,10 +94,6 @@ class TemplateComponent extends Component {
         const {t } = this.props;
         return (
             <>
-                {
-                    // this.state.openAssignModal ? <AssignTemplateComponent handleClosingModal={this.onCloseAssignModal} open={this.state.openAssignModal}  templateId={this.state.templateModalId}/> : null
-                    // this.state.openAssignModal ? <TemplateDetails templateId={this.state.templateModalId}/> : null
-                }
                 <ToasterComponent />
                 <div className="container">
                     <div className="row">
