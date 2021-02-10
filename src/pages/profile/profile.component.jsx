@@ -5,13 +5,16 @@ import {withTranslation} from "react-i18next";
 import maleProfileDefault from '../../assets/icons/user-profile.jpg';
 import femaleProfileDefault from '../../assets/images/femaleImage.jpg';
 import UserService from "../../services/user-service/user.service";
-import {Loader} from "semantic-ui-react";
+import {Loader, Menu} from "semantic-ui-react";
 import { FiPlus } from "react-icons/fi";
+import { RiArrowRightFill, RiArrowLeftFill } from "react-icons/ri";
 import InputTextComponent from "../../components/InputTextComponent/input-text.component";
 import EmailInputComponent from "../../components/EmailComponent/email-input.component";
 import { Select } from 'semantic-ui-react'
 import PrimaryButtonComponent from "../../components/ButtonComponent/primary-button.component";
 import {toast, ToastContainer} from "react-toastify";
+import { withRouter } from "react-router-dom";
+
 
 class ProfileComponent extends Component {
     constructor(props) {
@@ -151,6 +154,18 @@ class ProfileComponent extends Component {
                                                    </label>
                                                    <textarea  className="form-control" rows={5}/>
                                                </div>
+                                               <div className="col-sm-12 mt-2">
+                                                   <label >
+                                                       {t('faqPage.faq')}
+                                                   </label>
+
+                                                   <button className='ui icon button bg-white d-block px-4 py-1'
+                                                           onClick={e => {
+                                                                this.props.history.push('/faq')}
+                                                           }>
+                                                       { t('local') === 'ar' ?  <font size="+2"><RiArrowLeftFill/></font>: <font size="+2"><RiArrowRightFill/></font>}
+                                                   </button>
+                                               </div>
                                                <div className="col-sm-12 mt-4 ">
                                                    <PrimaryButtonComponent title={t('shared.update')} />
                                                </div>
@@ -168,4 +183,4 @@ class ProfileComponent extends Component {
     }
 }
 
-export default  withTranslation('translation')(ProfileComponent);
+export default  withTranslation('translation')(withRouter(ProfileComponent));

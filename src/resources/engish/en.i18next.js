@@ -3,6 +3,7 @@ const EnglishTranslation = {
 
     shared : {
         add:'Add',
+        edit:'Edit',
       send  : 'Send',
         save:'Save',
         cancel:'Cancel',
@@ -116,7 +117,14 @@ const EnglishTranslation = {
         comments : 'Comment',
         templateName: 'Template Name',
         chooseTrainee: 'Choose Trainee',
-        date: 'Date'
+        date: 'Date',
+        addFood: 'Add Food'
+    },
+    faqPage: {
+        faq: 'FAQ',
+        addQuestion : 'Add Question',
+        question: 'Question',
+        answer: 'Answer',
     }
   };
 

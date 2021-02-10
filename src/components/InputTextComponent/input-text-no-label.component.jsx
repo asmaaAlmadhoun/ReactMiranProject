@@ -44,11 +44,10 @@ class InputTextComponent extends Component {
 
         return (
             <div className="form-group miran-primary-input" style={this.props.style}>
-                <label> {this.props.labelTitle} </label>
                 <input className={this.state.hasError ? 'error-input form-control' : 'form-control'}
                        onBlur={this.changeHandler}  onChange={this.changeHandler} required={this.props.isRequired}
                        name={this.props.name}
-                       value={this.props.value}
+                       value={this.props.value} placeholder={this.props.labelTitle}
                        type={isPassword ? 'password' : this.props.isNumber ? 'number': 'text'} />
                 {
                     this.state.hasError ?

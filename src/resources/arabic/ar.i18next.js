@@ -5,6 +5,7 @@ const ArabicTranslation = {
   shared : {
     add:'إضافة',
     send  : 'إرسال',
+    edit:'تعديل',
     save:'حفظ',
     cancel:'الغاء',
     update:'تحديث',
@@ -103,7 +104,7 @@ const ArabicTranslation = {
     tele : 'الجوال',
     gender : 'النوع',
     country : 'الدولة',
-    aboutMe : 'عنى'
+    aboutMe : 'نبذة عني'
   },
   settingPage : {
     language : 'اللغة',
@@ -115,10 +116,17 @@ const ArabicTranslation = {
     assign : 'تعيين',
     add : 'اضافة نموذج',
     numberOf: 'أضف رقم',
-    comments: 'تعليقات',
+    comments: 'تعليق',
     templateName: 'اسم القالب',
     chooseTrainee: 'اختر المدرب',
-    date: 'التاريخ'
+    date: 'التاريخ',
+    addFood: 'أضف طعام'
+  },
+  faqPage: {
+    faq: 'أسئلة شائعة',
+    addQuestion : 'إضافة سؤال',
+    question: 'السؤال',
+    answer: 'الإجابة',
   }
   }
 

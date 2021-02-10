@@ -21,6 +21,7 @@ import SendInvitationComponent from "./pages/send-invitation/send-invitation.com
 import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.component";
 import ChatGroupComponent from "./pages/group-chat/chat-group.component";
 import LoginChatComponent from "./pages/group-chat/login-chat/login-chat.component";
+import FaqComponent from "./pages/faq/faq.component";
 
 
 
@@ -41,6 +42,7 @@ ReactDOM.render(
                   <Route path="/setting"  component={SettingComponent} />
                   <Route path="/template"  component={TemplateComponent} />
                   <Route path="/template-details"  component={TemplateDetailsComponent} />
+                  <Route path="/faq"  component={FaqComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
                   <Route path="/chat" component={ChatGroupComponent} />
               </App>
