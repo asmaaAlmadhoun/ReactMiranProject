@@ -12,6 +12,10 @@ class UserService extends BaseService {
         const url = this._endPoint + "/trainer-profile";
         return HTTP_REQUEST.get({target:url});
     }
+    get faq () {
+        const url = this._endPoint + "/faq";
+        return HTTP_REQUEST.get({target:url});
+    }
 }
 
 export default UserService;

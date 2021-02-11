@@ -26,7 +26,6 @@ class TemplateDetailsComponent extends Component {
 
         return (
             <>
-
                 <div className="container">
                     <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={[
                         {

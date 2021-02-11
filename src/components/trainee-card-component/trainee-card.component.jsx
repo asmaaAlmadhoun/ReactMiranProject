@@ -5,9 +5,14 @@ import  userProfileMale from '../../assets/icons/user-profile.jpg';
 import  userProfileFemale from '../../assets/images/femaleImage.jpg';
 import  reportIco from '../../assets/icons/report-01.svg'
 import tempIco from '../../assets/icons/temp.svg'
+import {withTranslation} from "react-i18next";
+import {GiChart} from "react-icons/gi";
+import { withRouter } from "react-router-dom";
+import {Button, Icon, Label, Menu} from 'semantic-ui-react'
 class TraineeCardComponent extends Component {
 
     render() {
+        const {t} = this.props;
         let {imgPath ,full_name , remainingDays , isFemale ,openModalFn, className, classNameAction} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
@@ -21,7 +26,7 @@ class TraineeCardComponent extends Component {
                 </div>
                 <div className="remaining-days">
                     <span>
-                        {remainingDays ? remainingDays : ''}
+                        {remainingDays ? remainingDays +'  '+ t('traineeModal.remainingDays') : ''}
                     </span>
                 </div>
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
@@ -32,6 +37,14 @@ class TraineeCardComponent extends Component {
                         openModalFn(1);
                     }}>
                         <img src={tempIco}  alt="icon" />
+                    </div>
+                    <div className="ico" >
+                        <Button className='p-0' basic color='blue' onClick={e => {
+                            this.props.history.push('/progress');
+                        }}>
+                            <GiChart/>
+                        </Button>
+
                     </div>
                 </div>
             </a>
@@ -46,4 +59,4 @@ TraineeCardComponent.propTypes = {
     remainingDays : PropTypes.number,
     openModalFn : PropTypes.func
 }
-export default TraineeCardComponent;
+export default  withTranslation('translation')(withRouter(TraineeCardComponent));

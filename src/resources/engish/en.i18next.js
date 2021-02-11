@@ -23,6 +23,7 @@ const EnglishTranslation = {
     },
     breadcrumb :  {
         overview : 'Overview',
+        request : 'Request',
         profile : 'Profile',
         setting:'Settings',
         templates: 'Templates',
@@ -56,7 +57,7 @@ const EnglishTranslation = {
         profileImg:'Profile Image',
         addDoc:'Add Documents',
         next : 'Next',
-        previous:'Previous'
+        previous:'Previous',
     },
     forgetPwPage : {
         success : "A reset link has been sent to your email",
@@ -74,7 +75,14 @@ const EnglishTranslation = {
     },
     header : {
         searchTitle : 'Search Message',
-        trainer:'Trainer'
+        trainer:'Trainer',
+    },
+    request: {
+        request: 'Requests',
+        viewRequest: 'View requests',
+        onHold: 'On Hold',
+        newRequest: 'New Requests',
+        invitationsTrainees: 'Invitations Trainees'
     },
     traineeModal : {
         title:'Plan',
@@ -94,7 +102,8 @@ const EnglishTranslation = {
         copyMeal: 'Copy Meal',
         addExercise:'Add Exercise',
         searchFor: 'Search',
-        gram: 'g'
+        gram: 'g',
+        remainingDays: 'days remaining'
     },
     profile : {
         fullName : 'Full Name',
@@ -125,6 +134,13 @@ const EnglishTranslation = {
         addQuestion : 'Add Question',
         question: 'Question',
         answer: 'Answer',
+    },
+    progressPage: {
+        progress: 'Progress',
+        measurement: 'Measurements',
+        weight : 'Weight',
+        water: 'Water',
+        picture: 'Pictures',
     }
   };
 
