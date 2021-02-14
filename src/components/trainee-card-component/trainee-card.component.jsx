@@ -13,7 +13,7 @@ class TraineeCardComponent extends Component {
 
     render() {
         const {t} = this.props;
-        let {imgPath ,full_name , remainingDays , isFemale ,openModalFn, className, classNameAction} = this.props;
+        let {imgPath ,full_name , remainingDays , isFemale ,openModalFn, openModalNote, className, classNameAction} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
@@ -30,7 +30,9 @@ class TraineeCardComponent extends Component {
                     </span>
                 </div>
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
-                    <div className="ico" >
+                    <div className="ico"  onClick={e => {
+                        openModalNote(1);
+                    }}>
                         <img src={reportIco}  alt="icon" />
                     </div>
                     <div className="ico" onClick={e => {
@@ -55,8 +57,9 @@ TraineeCardComponent.propTypes = {
     id:PropTypes.number.isRequired,
     full_name: PropTypes.string.isRequired,
     imgPath : PropTypes.string,
-    isFemale: PropTypes.bool ,
+    isFemale: PropTypes.bool,
     remainingDays : PropTypes.number,
-    openModalFn : PropTypes.func
+    openModalFn : PropTypes.func,
+    openModalNote : PropTypes.func
 }
 export default  withTranslation('translation')(withRouter(TraineeCardComponent));

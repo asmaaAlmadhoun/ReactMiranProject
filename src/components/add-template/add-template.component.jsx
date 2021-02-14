@@ -65,7 +65,7 @@ class AddTemplateComponent extends Component {
                      {t('templatePage.add')}
                     <FiPlus />
                 </button>
-                <ModalComponent  size={this.state.size} hideAction={true} isOpen={this.state.open} >
+                <ModalComponent size={this.state.size} hideAction={true} isOpen={this.state.open} >
                     <div className="add-template">
                         <div className="title" style={{textAlign: t('local') === 'ar' ? 'right' : 'left'}}>
                             <span>

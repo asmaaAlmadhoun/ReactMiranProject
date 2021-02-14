@@ -5,6 +5,7 @@ import BreadcrumbComponent from "../../components/common/breadcrumb/breadcrumb.c
 import TraineeService from "../../services/trainee-service/traniee.service";
 import {Loader, Tab} from 'semantic-ui-react'
 import TraineeModalComponent from "../../components/trainee-modal/trainee-modal.component";
+import TraineeModalNoteComponent from "../../components/trainee-modal/trainee-modal-note.component";
 import {withTranslation} from "react-i18next";
 import EmptyComponent from "../../components/common/empty-page/empty.component";
 import { Card,Button } from 'semantic-ui-react'
@@ -17,7 +18,8 @@ class HomeComponent extends Component {
             trainees : [],
             requests : [],
             isLoading : false,
-            openModal : false
+            openModal : false,
+            openModalNote : false
         }
     }
 
@@ -49,12 +51,21 @@ class HomeComponent extends Component {
         debugger;
         this.setState({openModal : true})
     }
+    openModalHandlerNote = (traineeId) => {
+        /*
+        * TODO : get trainee id from trainee card component and pass it to modal and fetch specific data which
+        *  depends on user id
+        */
+        debugger;
+        this.setState({openModalNote : true})
+    }
     render() {
-        const {openModal} = this.state;
+        const {openModal, openModalNote} = this.state;
         const {t} = this.props;
         return (
             <>
                 <TraineeModalComponent isOpen={openModal} />
+                <TraineeModalNoteComponent isOpen={openModalNote} />
              <div className="container">
 
                  <div className="row" style={{marginLeft:0, marginRight:0}}>
@@ -81,7 +92,7 @@ class HomeComponent extends Component {
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
                                                              <TraineeCardComponent
-                                                                 openModalFn={this.openModalHandler}
+                                                                 openModalFn={this.openModalHandler} openModalNote={this.openModalHandlerNote}
                                                                  isFemale={ _isFemale} imgPath={_imgPath} remainingDays={_remainingTime}  full_name={item.full_name} id={item.id}/>
                                                          </div>
                                                      );

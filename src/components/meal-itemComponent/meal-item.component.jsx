@@ -3,7 +3,7 @@ import {withTranslation} from "react-i18next";
 import './meal-item.component.css'
 import {FiPlus} from "react-icons/fi";
 import {BsClockHistory} from "react-icons/bs";
-import {BiCopy} from "react-icons/bi";
+import {BiCopy, BiEditAlt} from "react-icons/bi";
 
 class MealItemComponent extends Component {
     constructor(props) {
@@ -55,7 +55,7 @@ class MealItemComponent extends Component {
                         <button onClick={e => {
                             e.preventDefault();
                             this.showModalHandler();
-                        }} className="ui button icon primary-color p-1">
+                        }} className="ui button icon primary p-1">
                             <FiPlus />
                             <div className='f-1-half'>{t('templatePage.addFood')}</div>
                         </button>
@@ -64,7 +64,7 @@ class MealItemComponent extends Component {
                             <div className='f-1-half'>{t('traineeModal.copyMeal')}</div>
                         </button>
                         <button className="ui button icon py-1">
-                            <BsClockHistory />
+                            <BiEditAlt />
                             <div className='f-1-half'>{t('shared.edit')}</div>
                         </button>
                     </div>

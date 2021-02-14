@@ -4,7 +4,8 @@ const EnglishTranslation = {
     shared : {
         add:'Add',
         edit:'Edit',
-      send  : 'Send',
+        remove: 'Remove',
+        send  : 'Send',
         save:'Save',
         cancel:'Cancel',
         update:'Update',
@@ -103,7 +104,10 @@ const EnglishTranslation = {
         addExercise:'Add Exercise',
         searchFor: 'Search',
         gram: 'g',
-        remainingDays: 'days remaining'
+        remainingDays: 'days remaining',
+        note: 'Note',
+        addNote: 'Add Note',
+        notes: 'Notes',
     },
     profile : {
         fullName : 'Full Name',

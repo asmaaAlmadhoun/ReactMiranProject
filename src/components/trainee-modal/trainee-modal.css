@@ -116,3 +116,9 @@
     border-radius: 25px;
     padding: 0!important;
 }
+
+.ui.message.custom-message {
+    background: #ececec;
+    border-radius: 1rem;
+    box-shadow: 0 0 0 0 rgb(34 36 38 / 22%) inset, 0 0 0 0 transparent;
+}

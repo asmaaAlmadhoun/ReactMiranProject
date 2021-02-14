@@ -13,7 +13,7 @@ class PrimaryButtonComponent extends Component {
                 if(this.props.clickHandler) {
                     this.props.clickHandler();
                 }
-            }} className={`btn btn-${this.props.isSecondaryBtn  ?  'secondary' :'primary'} ${this.props.isOutline? 'outline-btn' : ''}    font-weight-bold`}>
+            }} className={`btn btn-${this.props.isSecondaryBtn  ?  'secondary' :'primary'} ${this.props.className? this.props.className : ''} ${this.props.isOutline? 'outline-btn' : ''}    font-weight-bold`}>
                 {!switchLoading ?  this.props.title : <Loader active={switchLoading} inline='centered' />}
 
             </button>

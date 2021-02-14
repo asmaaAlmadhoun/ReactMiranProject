@@ -16,6 +16,12 @@ class UserService extends BaseService {
         const url = this._endPoint + "/faq";
         return HTTP_REQUEST.get({target:url});
     }
+    addFaq = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/faq";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
 }
 
 export default UserService;
