@@ -6,6 +6,7 @@ import TraineeService from "../../services/trainee-service/traniee.service";
 import {Loader, Tab} from 'semantic-ui-react'
 import TraineeModalComponent from "../../components/trainee-modal/trainee-modal.component";
 import TraineeModalNoteComponent from "../../components/trainee-modal/trainee-modal-note.component";
+import ProfileModalComponent from "../../components/profile-modal/profile-modal.component";
 import {withTranslation} from "react-i18next";
 import EmptyComponent from "../../components/common/empty-page/empty.component";
 import { Card,Button } from 'semantic-ui-react'
@@ -19,7 +20,8 @@ class HomeComponent extends Component {
             requests : [],
             isLoading : false,
             openModal : false,
-            openModalNote : false
+            openModalNote : false,
+            openModalRequest : false
         }
     }
 
@@ -60,7 +62,7 @@ class HomeComponent extends Component {
         this.setState({openModalNote : true})
     }
     render() {
-        const {openModal, openModalNote} = this.state;
+        const {openModal, openModalNote, openModalRequest} = this.state;
         const {t} = this.props;
         return (
             <>
@@ -125,11 +127,12 @@ class HomeComponent extends Component {
                                                                  header='Elliot Baker'
                                                                  className='text-center card-custom'
                                                                  extra={
-                                                                     <button className='btn-secondary w-75 m-auto'>
+                                                                     <button className='btn-secondary w-75 m-auto' >
                                                                          {t('request.viewRequest')}
                                                                      </button>
                                                                  }
                                                              />
+                                                             <ProfileModalComponent isOpen={openModalRequest} />
                                                          </div>
                                                      );
                                                  })
@@ -153,11 +156,14 @@ class HomeComponent extends Component {
                                                                      header='Elliot Baker'
                                                                      className='text-center card-custom'
                                                                      extra={
-                                                                         <button className='btn-secondary w-75 m-auto'>
+                                                                         <button className='btn-secondary w-75 m-auto' onClick={(e) => {
+                                                                             this.setState({openModalRequest:true});
+                                                                         }}>
                                                                              {t('request.viewRequest')}
                                                                          </button>
                                                                      }
                                                                  />
+
                                                              </div>
                                                          );
                                                      })
@@ -177,4 +183,4 @@ class HomeComponent extends Component {
     }
 }
 
-export default withTranslation('translation') (HomeComponent);
+export default withTranslation('translation') (HomeComponent)

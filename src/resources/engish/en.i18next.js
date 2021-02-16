@@ -8,6 +8,8 @@ const EnglishTranslation = {
         send  : 'Send',
         save:'Save',
         cancel:'Cancel',
+        reject: 'Reject',
+        accept: 'Accept',
         update:'Update',
         errors: {
             notFoundUser : 'User Not Found',
@@ -115,7 +117,14 @@ const EnglishTranslation = {
         tele : 'Telephone',
         gender : 'Gender',
         country : 'Country',
-        aboutMe : 'About me'
+        aboutMe : 'About me',
+        BirthDate: 'Date of Birth',
+        nationality: 'Nationality',
+        height: 'Height',
+        levelOfActivity: 'Level Of Activity',
+        warning: 'Warning',
+        Allergies: 'Allergies',
+        myGoal: 'My Goal'
     },
     settingPage : {
         language : 'Language',

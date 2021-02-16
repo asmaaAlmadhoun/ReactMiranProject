@@ -8,6 +8,8 @@ ArabicTranslation = {
     send: 'إرسال',
     edit: 'تعديل',
     remove: 'حذف',
+    reject: 'رفض',
+    accept: 'قبول',
     save: 'حفظ',
     cancel: 'الغاء',
     update: 'تحديث',
@@ -117,7 +119,14 @@ ArabicTranslation = {
     tele: 'الجوال',
     gender: 'النوع',
     country: 'الدولة',
-    aboutMe: 'نبذة عني'
+    aboutMe: 'نبذة عني',
+    BirthDate: 'تاريخ الميلاد',
+    nationality: 'الجنسية',
+    height: 'الطول',
+    levelOfActivity: 'مرحلة النشاط',
+    warning: 'التحذير',
+    Allergies: 'الحساسية',
+    myGoal: 'أهدافي'
   },
   settingPage: {
     language: 'اللغة',
