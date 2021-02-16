@@ -4,9 +4,9 @@ import ModalComponent from "../common/modal/modal.component";
 import {withTranslation} from "react-i18next";
 import {AiOutlineClose} from "react-icons/ai";
 import {BsCheck} from "react-icons/bs";
-import UserService from "../../services/user-service/user-version.services";
+import TranieeService from "../../services/trainee-service/trainer.service";
 import {toast} from "react-toastify";
-import {Button} from "semantic-ui-react";
+import ToasterComponent from "../common/toaster/toaster.component";
 
 class ProfileModalComponent extends Component {
 
@@ -15,7 +15,6 @@ class ProfileModalComponent extends Component {
         this.state = {
             isOpen : false,
             notes: [],
-            newNote: '',
             __addNoteModal__: false
         }
     }
@@ -24,35 +23,20 @@ class ProfileModalComponent extends Component {
         const {isOpen} = nextProps;
         this.setState({ isOpen});
     }
-    componentWillMount() {
-        this.fetchData();
-    }
-    fetchData = () => {
-        const userService  = new UserService();
-        this.setState({isLoading : true})
-        userService.note.then(data => {
-            this.setState({isLoading : false})
-            if(data) {
-                this.setState({notes : data.result})
-            }
-        }).catch(error => {
-            this.setState({isLoading : false})
-        })
-    }
 
-    onSubmit = async () => {
-        const { newNote } = this.state;
+    submitRequest = (Status) => {
+        const {t, requestId} = this.props;
         const data = {
-            newNote
+            'request' : requestId,
+            'status' : Status
         }
-        const userService  = new UserService();
+        console.log('status' + data  );
+        const tranieeService  = new TranieeService();
         this.setState({isLoading:true})
-        const {t} = this.props;
-        userService.addNote(data).then(response => {
+        tranieeService.acceptRequest(data).then(response => {
             this.setState({isLoading : false})
-            if(response && response.message) {
+            if(response.status) {
                 toast.done(t('shared.success.addedSuccess'));
-                this.fetchData();
                 this.onClose();
             }else {
                 toast.error(t('shared.errors.globalError'))
@@ -66,7 +50,7 @@ class ProfileModalComponent extends Component {
         if(e) {
             e.preventDefault();
         }
-        this.setState({__addNoteModal__:false , newNote : null});
+        this.setState({isOpen:false});
     }
     render() {
         const { t } = this.props;
@@ -81,13 +65,17 @@ class ProfileModalComponent extends Component {
                                 <img src="https://www.w3schools.com/howto/img_avatar.png" className='w-100' alt="img_avatar"/>
                             </div>
                             <div className="col-8">
-                                <h3>{t('traineeModal.notes')}</h3>
+                                <h3 className='pb-3'>{t('traineeModal.notes')}</h3>
                                 <div>
-                                    <button className="ui button icon red py-2 px-3">
+                                    <button className="ui button icon red py-2 px-3" onClick={()=>
+                                        this.submitRequest('rejected')
+                                    }>
                                         <i><AiOutlineClose /></i>
                                         <span>{t('shared.reject')}</span>
                                     </button>
-                                    <button className="ui button icon primary py-2 px-3">
+                                    <button className="ui button icon primary py-2 px-3" onClick={()=>{
+                                       this.submitRequest('approved')
+                                    }}>
                                         <i><BsCheck /></i>
                                         <span>{t('shared.accept')}</span>
                                     </button>
@@ -149,7 +137,8 @@ class ProfileModalComponent extends Component {
 }
 
 ProfileModalComponent.propTypes = {
-    isOpen : PropTypes.bool
+    isOpen : PropTypes.bool,
+    requestId : PropTypes.number
 }
 
 export default  withTranslation('translation')(ProfileModalComponent);

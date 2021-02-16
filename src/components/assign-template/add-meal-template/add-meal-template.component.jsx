@@ -4,12 +4,14 @@ import './add-meal-template.component.css';
 import {Header, Modal} from "semantic-ui-react";
 import SearchableListWithImgTemplateComponent from '../searchable-list-template/searchable-list-withImg-template.component.jsx'
 import ModalComponent from "../../common/modal/modal.component";
-import MealService from "../../../../src/services/trainee-service/meal.service";
+import ResourcesService from "../../../services/trainee-service/resources.service";
 import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
 import InputTextComponent from "../../InputTextComponent/input-text-no-label.component";
 import {FiPlus   } from "react-icons/fi";
 import { BiCopy  } from "react-icons/bi";
 import { BsClockHistory  } from "react-icons/bs";
+import MealServices from "../../../services/meal-services/meal.services";
+import {toast} from "react-toastify";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -24,7 +26,7 @@ class AddMealTemplateComponent extends Component {
         }
     }
     async componentWillMount() {
-        const mealService  = new MealService();
+        const mealService  = new ResourcesService();
         this.setState({isLoading : true})
         mealService.food.then(data => {
             this.setState({isLoading : false})
@@ -33,9 +35,39 @@ class AddMealTemplateComponent extends Component {
             }
         }).catch(error => {
             this.setState({isLoading : false})
-        })
+        });
+
     }
 
+    onChangeHandler = (e) => {
+        if(!e)
+            return ;
+        const value = e.target.value;
+        this.setState({[e.target.name] : value});
+    }
+    submitNewMeal = () => {
+        const {t, requestId} = this.props;
+        const {mealComment, mealTitle} = this.state;
+        const data = {
+            'template_day' : 2,
+            'title' : mealTitle,
+            'comment' : mealComment
+        }
+        const mealServices  = new MealServices();
+        this.setState({isLoading:true})
+        mealServices.addMealToTemplateDay(data).then(response => {
+            this.setState({isLoading : false})
+            if(response.status) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.closeModalHandler();
+            }else {
+                toast.error(t('shared.errors.globalError'))
+            }
+        }).catch(error => {
+            // todo: handling error.
+            toast.error("Error")
+        });
+    }
     showModalHandler =() => {
         this.setState({__addModal__ : true});
     }
@@ -74,21 +106,18 @@ class AddMealTemplateComponent extends Component {
                     <div className="text-center mini-shared-modal px-3">
                         <h4 className='mb-4'>  {t('traineeModal.addMeal')} </h4>
                         <InputTextComponent
-                            valueHandler={e => {
-                                this.setState({val: e.target.value})
-                            }}
-                            value={this.state.mealTitle}
+                            valueHandler={this.onChangeHandler} name='mealTitle'
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             isRequired={true} labelTitle={t('traineeModal.mealTitle')}  />
                         <InputTextComponent
-                            valueHandler={e => {
-                                this.setState({val: e.target.value})
-                            }}
-                            value={this.state.mealComment}
+                            valueHandler={this.onChangeHandler} name='mealComment'
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             isRequired={true} labelTitle={t('templatePage.comments')}  />
+                        <PrimaryButtonComponent switchLoading={this.state.isLoading}
+                                                isSecondaryBtn='true' className='btn w-50'
+                                                clickHandler={this.submitNewMeal}
+                                                title={t('shared.add')}> </PrimaryButtonComponent>
 
-                        <button className='btn btn-secondary w-50'>{t('shared.add')} </button>
                     </div>
                 </ModalComponent>
             </>

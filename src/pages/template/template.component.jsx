@@ -24,7 +24,6 @@ class TemplateComponent extends Component {
     }
 
     componentWillMount() {
-        // TODO: fetch templates for trainer.
         this.fetchData();
     }
     
@@ -34,8 +33,7 @@ class TemplateComponent extends Component {
         this.setState({openAssignModal : true ,templateModalId : templateId })
         
     }
-    
-    
+
     fetchData = () => {
         const templateService = new TemplateService();
         this.setState({loading:true})
@@ -99,7 +97,6 @@ class TemplateComponent extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <BreadcrumbComponent title={t('breadcrumb.templates')} />
-
                         </div>
                     </div>
                     <div className="row mt-4">
@@ -113,7 +110,7 @@ class TemplateComponent extends Component {
                                 this.state.data && this.state.data.length > 0 ?  this.state.data.map( (item , i) => {
                                     return (
                                         <div className="col-md-3 mt-4" key={i}>
-                                            <TemplateCardComponent  openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name}  id={item.id}/>
+                                            <TemplateCardComponent  openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name} data={this.state.data}  id={item.id}/>
                                         </div>
                                     );
                                 } ) : <EmptyComponent />

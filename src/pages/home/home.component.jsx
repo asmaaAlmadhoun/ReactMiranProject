@@ -11,6 +11,7 @@ import {withTranslation} from "react-i18next";
 import EmptyComponent from "../../components/common/empty-page/empty.component";
 import { Card,Button } from 'semantic-ui-react'
 import './home.component.css';
+import ToasterComponent from "../../components/common/toaster/toaster.component";
 
 class HomeComponent extends Component {
     constructor(props) {
@@ -46,19 +47,9 @@ class HomeComponent extends Component {
         })
     }
     openModalHandler = (traineeId) => {
-        /*
-        * TODO : get trainee id from trainee card component and pass it to modal and fetch specific data which
-        *  depends on user id
-        */
-        debugger;
         this.setState({openModal : true})
     }
     openModalHandlerNote = (traineeId) => {
-        /*
-        * TODO : get trainee id from trainee card component and pass it to modal and fetch specific data which
-        *  depends on user id
-        */
-        debugger;
         this.setState({openModalNote : true})
     }
     render() {
@@ -132,12 +123,10 @@ class HomeComponent extends Component {
                                                                      </button>
                                                                  }
                                                              />
-                                                             <ProfileModalComponent isOpen={openModalRequest} />
+                                                             <ProfileModalComponent isOpen={openModalRequest} requestId={item.id}/>
                                                          </div>
                                                      );
-                                                 })
-                                                 :
-                                                 <EmptyComponent />
+                                                 }): ''
                                          }
                                          </div>
 
@@ -176,6 +165,7 @@ class HomeComponent extends Component {
                          ]} />
                      </div>
                  </div>
+                 <ToasterComponent />
 
              </div>
             </>

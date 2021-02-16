@@ -7,13 +7,17 @@ import { withRouter} from "react-router-dom";
 import { FiX } from "react-icons/fi";
 import ModalComponent from "../common/modal/modal.component";
 import TraineeCardComponent from '../trainee-card-component/trainee-card.component';
+import {Loader} from "semantic-ui-react";
+import EmptyComponent from "../common/empty-page/empty.component";
+import UserService from "../../services/user-service/user.service";
 
 class TemplateCardComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             __addModal__: false,
-            id: this.props.id
+            id: this.props.id,
+            traineeList: []
         }
     }
     showModalHandler =(e) => {
@@ -24,15 +28,33 @@ class TemplateCardComponent extends Component {
         this.setState({__addModal__ : false});
     }
 
+    componentWillMount() {
+        this.fetchData();
+    }
+
+    fetchData = () => {
+        const userService = new UserService();
+        this.setState({loading:true})
+        userService.traineeList.then(data => {
+            this.setState({loading:false})
+            if(data) {
+                this.setState({traineeList : data.result})
+            }
+        }).catch(error => {
+            this.setState({loading:false})
+            console.log(error);
+        })
+    }
+
     render() {
-        const {t} = this.props;
+        const {t, data} = this.props;
         return (
             <>
             <a className="template-card" onClick={e => {
                 const {openAssignModal , id} = this.props;
                 this.props.history.push({
                     pathname: '/template-details',
-                    state: { templateId: id },
+                    state: { templateId: id, data: data },
                 });
             }}>
                <div className="content">
@@ -77,10 +99,15 @@ class TemplateCardComponent extends Component {
                         </div>
                     </div>
                     <hr/>
-                    <TraineeCardComponent full_name='Mohammed Omar' imgPath='https://picsum.photos/seed/picsum/200/300' className='card-custom' classNameAction='d-none' />
-                    <TraineeCardComponent full_name='Noura Khalid' imgPath='https://source.unsplash.com/user/erondu' className='card-custom' classNameAction='d-none' />
-                    <TraineeCardComponent full_name='Mohammed Omar' imgPath='https://picsum.photos/seed/picsum/200/300' className='card-custom' classNameAction='d-none' />
-                    <TraineeCardComponent full_name='Noura Khalid' imgPath='https://source.unsplash.com/user/erondu' className='card-custom' classNameAction='d-none' />
+                    {
+                        this.state.loading ?  <Loader active={true} inline='centered' /> :
+                            this.state.traineeList && this.state.traineeList.length > 0 ?  this.state.traineeList.map( (item , i) => {
+                                const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                return (
+                                        <TraineeCardComponent key={i} full_name={item.full_name} imgPath={_imgPath} className='card-custom' classNameAction='d-none' />
+                                );
+                            } ) : <EmptyComponent />
+                    }
                 </ModalComponent>
             </>
         );
@@ -91,7 +118,8 @@ TemplateCardComponent.propTypes = {
     id:PropTypes.number.isRequired,
     tempName : PropTypes.string.isRequired,
     deleteFn: PropTypes.func,
-    openAssignModal : PropTypes.func.isRequired
+    openAssignModal : PropTypes.func.isRequired,
+    data : PropTypes.array,
 }
 
 export default withTranslation('translation') (withRouter(TemplateCardComponent));

@@ -1,7 +1,7 @@
 import BaseService from "../base-service/base.service";
 import {HTTP_REQUEST} from "../http-service/httpService";
 
-class MealService extends BaseService{
+class ResourcesService extends BaseService{
     constructor() {
         super("resources");
     }
@@ -28,4 +28,4 @@ class MealService extends BaseService{
     }
 }
 
-export  default  MealService;
+export  default  ResourcesService;

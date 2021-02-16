@@ -22,6 +22,11 @@ class UserService extends BaseService {
         const url =   this._endPoint + "/faq";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
+
+    get traineeList () {
+        const url = this._endPoint + "/trainer/students";
+        return HTTP_REQUEST.get({target:url});
+    }
 }
 
 export default UserService;

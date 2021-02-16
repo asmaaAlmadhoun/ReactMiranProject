@@ -13,18 +13,18 @@ class TraineeService extends BaseService{
     }
 
     get trainees() {
-      const url = this._endPoint + "/students";
-      return new Promise(async (resolve) => {
-          resolve(await HTTP_REQUEST.get({target: url}));
+        const url = this._endPoint + "/students";
+        return new Promise(async (resolve) => {
+            resolve(await HTTP_REQUEST.get({target: url}));
 
-      })
+        })
     }
     get trainees_list() {
-       const url = this._endPoint + "?name=trainers-list";
-       return new Promise(async (resolve) =>  {
-           resolve ( await  HTTP_REQUEST.get({target: url}));
+        const url = this._endPoint + "?name=trainers-list";
+        return new Promise(async (resolve) =>  {
+            resolve ( await  HTTP_REQUEST.get({target: url}));
 
-       })
+        })
     }
     get requests() {
         const url = this._endPoint + "/requests?name=trainers-requests";

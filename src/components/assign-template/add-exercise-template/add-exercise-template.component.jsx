@@ -6,6 +6,9 @@ import SearchableListTemplateComponent from '../searchable-list-template/searcha
 import ModalComponent from "../../common/modal/modal.component";
 import MusclesService from "../../../../src/services/trainee-service/muscles.service";
 import ExerciseService from "../../../../src/services/trainee-service/exercise.service";
+import {FiPlus} from "react-icons/fi";
+import {BsClockHistory} from "react-icons/bs";
+import {BiCopy} from "react-icons/bi";
 
 class AddExerciseTemplateComponent extends  React.Component {
 
@@ -62,23 +65,26 @@ class AddExerciseTemplateComponent extends  React.Component {
         const {t} = this.props;
         return (
             <React.Fragment>
-                <div className={"AddMealTemplateComponent mt-4"}>
-                    <div className="d-flex meal-buttons justify-content-center">
+                <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
+                    <div className="meal-buttons justify-content-center">
                         <button onClick={e => {
                             e.preventDefault();
                             this.showModalHandler();
                         }} className="btn primary-color">
-                            {t('traineeModal.addExercise')}
+                            <FiPlus />
+                            <div><small>{t('traineeModal.addExercise')}</small></div>
                         </button>
                         <button className="btn danger-color">
-                            {t('traineeModal.breakDay')}
+                            <BsClockHistory />
+                            <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
                         <button className="btn primary-color">
-                            {t('traineeModal.copyMeal')}
+                            <BiCopy />
+                            <div><small>{t('traineeModal.copyExercise')}</small></div>
                         </button>
-
                     </div>
                 </div>
+
 
                 <ModalComponent size="tiny" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <SearchableListTemplateComponent list={this.state.muscles}/>
