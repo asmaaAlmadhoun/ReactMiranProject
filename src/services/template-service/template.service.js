@@ -9,6 +9,10 @@ class TemplateService extends BaseService{
         const url = this._endPoint;
         return HTTP_REQUEST.get({target:url});
     }
+    getTemplateForDay(tempId, day) {
+        const url = this._endPoint + "/"+tempId+"?day="+day;
+        return HTTP_REQUEST.get({target:url});
+    }
     createTemplate({name}) {
         const url = this._endPoint  + "/";
         return HTTP_REQUEST.post({target:url , body : {name}})

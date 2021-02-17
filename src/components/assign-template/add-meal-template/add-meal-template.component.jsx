@@ -1,17 +1,17 @@
 ﻿import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
 import './add-meal-template.component.css';
-import {Header, Modal} from "semantic-ui-react";
-import SearchableListWithImgTemplateComponent from '../searchable-list-template/searchable-list-withImg-template.component.jsx'
 import ModalComponent from "../../common/modal/modal.component";
 import ResourcesService from "../../../services/trainee-service/resources.service";
 import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
 import InputTextComponent from "../../InputTextComponent/input-text-no-label.component";
-import {FiPlus   } from "react-icons/fi";
-import { BiCopy  } from "react-icons/bi";
-import { BsClockHistory  } from "react-icons/bs";
+import {FiPlus} from "react-icons/fi";
+import {BiCopy} from "react-icons/bi";
+import {BsClockHistory} from "react-icons/bs";
 import MealServices from "../../../services/meal-services/meal.services";
+import TemplateServices from "../../../services/template-service/template.service";
 import {toast} from "react-toastify";
+import ToasterComponent from "../../common/toaster/toaster.component";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -22,7 +22,9 @@ class AddMealTemplateComponent extends Component {
             FoodList : [],
             size: 'mini',
             mealComment: '',
-            mealTitle: ''
+            mealTitle: '',
+            fullDataDay: [],
+            dataMeal: ''
         }
     }
     async componentWillMount() {
@@ -45,27 +47,28 @@ class AddMealTemplateComponent extends Component {
         const value = e.target.value;
         this.setState({[e.target.name] : value});
     }
-    submitNewMeal = () => {
-        const {t, requestId} = this.props;
-        const {mealComment, mealTitle} = this.state;
-        const data = {
-            'template_day' : 2,
-            'title' : mealTitle,
-            'comment' : mealComment
+    submitNewMeal = async () => {
+        const {t, exerciseMealData} = this.props;
+        const {mealTitle, mealComment} = this.state;
+        let id= exerciseMealData.day.id;
+        const dataMeal = {
+           'template_day': id,
+           'title': mealTitle,
+           'comment': mealComment
         }
-        const mealServices  = new MealServices();
-        this.setState({isLoading:true})
-        mealServices.addMealToTemplateDay(data).then(response => {
-            this.setState({isLoading : false})
-            if(response.status) {
-                toast.done(t('shared.success.addedSuccess'));
+        const mealServices = new MealServices();
+        mealServices.addMealToTemplateDay(dataMeal).then(response => {
+            this.setState({isLoading: false})
+            if (response.status) {
                 this.closeModalHandler();
-            }else {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay();
+            } else {
                 toast.error(t('shared.errors.globalError'))
             }
         }).catch(error => {
             // todo: handling error.
-            toast.error("Error")
+            // toast.error("Error")
         });
     }
     showModalHandler =() => {
@@ -75,7 +78,7 @@ class AddMealTemplateComponent extends Component {
         this.setState({__addModal__ : false});
     }
     render() {
-        const {t} = this.props;
+        const {t, templateId} = this.props;
         return (
             <>
                 <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
@@ -83,15 +86,15 @@ class AddMealTemplateComponent extends Component {
                         <button onClick={e => {
                             e.preventDefault();
                             this.showModalHandler();
-                        }} className="btn primary-color">
+                        }} className="btn primary-color p-1">
                             <FiPlus />
                             <div><small>{t('traineeModal.addMeal')}</small></div>
                         </button>
-                        <button className="btn danger-color">
+                        <button className="btn danger-color p-1">
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
-                        <button className="btn primary-color">
+                        <button className="btn primary-color p-1">
                             <BiCopy />
                             <div><small>{t('traineeModal.copyMeal')}</small></div>
                         </button>
@@ -120,6 +123,8 @@ class AddMealTemplateComponent extends Component {
 
                     </div>
                 </ModalComponent>
+                <ToasterComponent />
+
             </>
         );
     }

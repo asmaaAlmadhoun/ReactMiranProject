@@ -92,6 +92,7 @@ class AddDaysTemplateComponent extends Component {
                                          if(clickNumberHandler) {
                                              clickNumberHandler(number);
                                          }
+                                         this.props.parentCallback(number);
                                      }}
                                      className={this.state.activeNumber === item.props.number ? 'item-num active':'item-num'}>
                                     {item}
