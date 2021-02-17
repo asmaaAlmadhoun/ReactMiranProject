@@ -29,6 +29,14 @@ class TemplateService extends BaseService{
         const url = this._endPoint+"/" + id;
         return HTTP_REQUEST._delete({target:url});
     }
+
+    addTemplateBreakDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/break_day/";
+        return  HTTP_REQUEST.put({target:url , body : data});
+    }
+
 }
 
 export  default  TemplateService;

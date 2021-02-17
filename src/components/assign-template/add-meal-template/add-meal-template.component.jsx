@@ -66,10 +66,27 @@ class AddMealTemplateComponent extends Component {
             } else {
                 toast.error(t('shared.errors.globalError'))
             }
-        }).catch(error => {
-            // todo: handling error.
-            // toast.error("Error")
-        });
+        })
+    }
+    addTemplateBreakDay = () => {
+
+        const {t, exerciseMealData} = this.props;
+        let id= exerciseMealData.day.id;
+
+        const templateServices = new TemplateServices();
+        const dataBreak = {
+            'template_day_id': id,
+            'type': 'meal',
+        }
+        templateServices.addTemplateBreakDay(dataBreak).then(response => {
+            this.setState({isLoading: false})
+            if (response.status) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay();
+            } else {
+                toast.error(t('shared.errors.globalError'))
+            }
+        })
     }
     showModalHandler =() => {
         this.setState({__addModal__ : true});
@@ -90,7 +107,10 @@ class AddMealTemplateComponent extends Component {
                             <FiPlus />
                             <div><small>{t('traineeModal.addMeal')}</small></div>
                         </button>
-                        <button className="btn danger-color p-1">
+                        <button className="btn danger-color p-1" onClick={e => {
+                            e.preventDefault();
+                            this.addTemplateBreakDay();
+                        }}>
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
