@@ -47,7 +47,8 @@ class TraineeModalNoteComponent extends Component {
     onSubmit = async () => {
         const { newNote } = this.state;
         const data = {
-            newNote
+           note: newNote,
+           trainee_id: 1
         }
         const userService  = new UserService();
         this.setState({isLoading:true})
@@ -61,10 +62,7 @@ class TraineeModalNoteComponent extends Component {
             }else {
                 toast.error(t('shared.errors.globalError'))
             }
-        }).catch(error => {
-            // todo: handling error.
-            toast.error("Error")
-        });
+        })
     }
     onClose = (e) => {
         if(e) {

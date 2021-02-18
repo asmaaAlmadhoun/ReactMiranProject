@@ -10,6 +10,8 @@ import TemplateService from "../../services/template-service/template.service";
 import TemplateCardComponent from "../../components/template-card/template-card.component";
 import EmptyComponent from "../../components/common/empty-page/empty.component";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
+import TemplateServices from "../../services/template-service/template.service";
+import {toast} from "react-toastify";
 
 class TemplateDetailsComponent extends Component {
     constructor(props) {
@@ -17,42 +19,60 @@ class TemplateDetailsComponent extends Component {
         this.state = {
             templateId : null,
             data: [],
-            activeDay: '',
-            fullTemplateDataForThisDay: []
+            activeDay: 1,
+            fullTemplateDataForThisDay: [],
+            exerciseMealForThisDay: [],
+            activeIndex: ''
         }
     }
 
+    getTemplateForDay = (Id,activeDay) =>{
+        const {t} = this.props;
+        if(activeDay === undefined){
+            activeDay = this.state.activeDay;
+        }
+        const templateServices = new TemplateServices();
+        templateServices.getTemplateForDay(Id, activeDay).then(response => {
+            if (response) {
+                this.setState({exerciseMealForThisDay :response.result });
+            }
+        })
+    }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
-         this.setState({data: dataFromLocation.data})
+         this.setState({data: dataFromLocation.data, templateId: dataFromLocation.templateId});
     }
+    componentDidMount() {
+        const templateId = this.state.templateId;
+        this.getTemplateForDay(templateId);
+    }
+    handleTabChange(){
+        alert('asma');
+
+    }
+
     render() {
         const {t } = this.props;
-        const data = [
-            { name: "10jan", key: "10jan" },
-            { name: "12jan", key: "12jan" },
-            { name: "14jan", key: "14jan" },
-        ];
-
         const panes = this.state.data.length > 0 ? this.state.data.map(item =>({
             menuItem:
-                <Menu.Item key={item.id}>
-                    <div className='row'>
+                <Menu.Item key={item.id}  onClick={(e)=>this.getTemplateForDay(item.id)}>
+                    <a className='row'>
                         <div className="col-8"> {item.name}</div>
                         <div className="col-4 text-left"><BsThreeDotsVertical/></div>
-                    </div>
+                    </a>
                 </Menu.Item>,
             render: () =>
                 <Tab.Pane attached={false}>
-                    <AddDaysTemplateComponent  daysNumber={item.days} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
-                    <ExerciseMealTemplateComponent  ref="child" templateId={item.id} activeDay={this.state.activeDay} />
+                    <ExerciseMealTemplateComponent exerciseMealForThisDay={this.state.exerciseMealForThisDay} parentCallback={(e)=>this.setState({activeDay: e})} getTemplateForDay={this.getTemplateForDay} daysNumber={item.days}  ref="child" templateId={item.id} activeDay={this.state.activeDay} />
                 </Tab.Pane>
         })): '';
 
         return (
             <>
                 <div className="container">
-                    <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={panes} />
+                    <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={panes}
+                         activeTab={this.state.templateId}  onTabChange={this.handleTabChange}
+                    />
                 </div>
                 <ToasterComponent />
             </>

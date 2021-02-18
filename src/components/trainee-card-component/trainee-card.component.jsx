@@ -13,11 +13,13 @@ class TraineeCardComponent extends Component {
 
     render() {
         const {t} = this.props;
-        let {imgPath ,full_name , remainingDays , isFemale ,openModalFn, openModalNote, className, classNameAction} = this.props;
+        let {imgPath ,full_name , remainingDays , traineesId,isFemale , openModalNote,openModalFn, modalRequestProfile, className, classNameAction} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
-            <a className={"trainee-card " +(className ? className : '')} >
+            <a className={"trainee-card " +(className ? className : '')} onClick={e => {
+                modalRequestProfile(traineesId)
+            }}>
                 <div className="user-img">
                     <img src={imgPath} width="56px"  alt={"user image"}   />
                 </div>
@@ -30,9 +32,7 @@ class TraineeCardComponent extends Component {
                     </span>
                 </div>
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
-                    <div className="ico"  onClick={e => {
-                        openModalNote(1);
-                    }}>
+                    <div className="ico">
                         <img src={reportIco}  alt="icon" />
                     </div>
                     <div className="ico" onClick={e => {
@@ -60,6 +60,7 @@ TraineeCardComponent.propTypes = {
     isFemale: PropTypes.bool,
     remainingDays : PropTypes.number,
     openModalFn : PropTypes.func,
-    openModalNote : PropTypes.func
+    openModalNote : PropTypes.func,
+    modalRequestProfile : PropTypes.func
 }
 export default  withTranslation('translation')(withRouter(TraineeCardComponent));

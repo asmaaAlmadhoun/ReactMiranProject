@@ -11,6 +11,7 @@ const EnglishTranslation = {
         reject: 'Reject',
         accept: 'Accept',
         update:'Update',
+        empty: 'Empty Data',
         errors: {
             notFoundUser : 'User Not Found',
             globalError : 'Error has been happened! try again'
@@ -107,10 +108,13 @@ const EnglishTranslation = {
         copyExercise: 'Copy Exer',
         searchFor: 'Search',
         gram: 'g',
+        kGram: 'Kg',
         remainingDays: 'days remaining',
         note: 'Note',
         addNote: 'Add Note',
         notes: 'Notes',
+        rest: 'فترة الراحة',
+        Reps: 'Reps'
     },
     profile : {
         fullName : 'Full Name',

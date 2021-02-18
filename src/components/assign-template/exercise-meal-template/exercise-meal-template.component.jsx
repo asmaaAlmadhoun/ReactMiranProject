@@ -8,53 +8,47 @@ import MealItemComponent from "../../meal-itemComponent/meal-item.component";
 import {toast} from "react-toastify";
 import ToasterComponent from "../../common/toaster/toaster.component";
 import TemplateServices from "../../../services/template-service/template.service";
+import AddDaysTemplateComponent from "../add-days-template/add-days-template.component";
 
 class ExerciseMealTemplateComponent extends Component {
     constructor(props) {
         super(props);
         this.state={
-            exerciseMealForThisDay: []
+            exerciseMealForThisDay: [],
+            activeDay: 1
         }
     }
     async componentWillMount() {
-       this.getTemplateForDay();
+       this.props.getTemplateForDay();
+    }
+    clickNumberHandler= (e) =>{
+        const {templateId} = this.props;
+        this.props.getTemplateForDay(templateId, e);
     }
 
 
-    getTemplateForDay = () =>{
-        let {t, templateId, activeDay} = this.props;
-
-        const templateServices = new TemplateServices();
-        this.setState({isLoading: true})
-        if(activeDay === ''){
-            activeDay = 1;
-        }
-        templateServices.getTemplateForDay(templateId, activeDay).then(response => {
-            if (response.message) {
-                this.setState({exerciseMealForThisDay :response.result });
-            } else {
-                toast.error(t('shared.errors.globalError'))
-            }
-        })
-    }
     render() {
 
-        const {t, templateId, activeDay} = this.props;
+        const {t, templateId, daysNumber, exerciseMealForThisDay} = this.props;
+        let {activeDay} = this.state;
         return (
-            <div className="mt-4">
+            <>
+                <AddDaysTemplateComponent  daysNumber={daysNumber} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
+
+                <div className="mt-4">
                 <Tab menu={{ secondary: true }} panes={ [
                     {
                         menuItem:  t('traineeModal.exercises'),
                         render: () =>
                             <Tab.Pane attached={false}>
-                                <ExerciseComponent />
+                                <ExerciseComponent  exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
                                 <AddExerciseTemplateComponent />
                             </Tab.Pane>,
                     },
                     {
                         menuItem:  t('traineeModal.meals'),
                         render: () => <Tab.Pane attached={false}>
-                            <MealComponent activeDay={activeDay} getTemplateForDay={this.getTemplateForDay} exerciseMealData={this.state.exerciseMealForThisDay} templateId={templateId} />
+                            <MealComponent activeDay={activeDay} getTemplateForDay={this.getTemplateForDay} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
                             {/*<MealItemComponent calories={128} carbs={16} fat={6} protein={3} meadId={1} mealTitle={"Snack"} imgPath={'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'} />*/}
                         </Tab.Pane>,
                     },
@@ -62,6 +56,7 @@ class ExerciseMealTemplateComponent extends Component {
                 <ToasterComponent />
 
             </div>
+                </>
         );
     }
 }

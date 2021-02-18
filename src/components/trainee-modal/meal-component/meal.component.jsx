@@ -7,7 +7,7 @@ import AddMealTemplateComponent from "../../assign-template/add-meal-template/ad
 import {Tab} from "semantic-ui-react";
 import ExerciseMealTemplateComponent
     from "../../assign-template/exercise-meal-template/exercise-meal-template.component";
-import EmptyComponent from "../../common/empty-page/empty.component";
+import BreakDayComponent from "../../common/empty-page/breakDay.component";
 class MealComponent extends Component {
     constructor(props) {
         super(props);
@@ -17,72 +17,70 @@ class MealComponent extends Component {
     }
 
     render() {
-        const {mealTitle , meadId , images , calories, fat , carbs , protein ,t, templateId, activeDay, exerciseMealData} = this.props;
+        const {t, templateId, activeDay, exerciseMealData} = this.props;
         return (
             <div className="meal">
-                {
-                    exerciseMealData !== null ? exerciseMealData.day.meals.map(item =>
-                        <>
-                        <div className="row">
-                            <div className="col-sm-6">
-                                <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
-                                <div className="images">
-                                    {
-                                        (item.meal.foods) ? item.meal.foods.map(item =>
-                                            <span>
-                                            <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
-                                            </span>
+                {!exerciseMealData.day.break_day_meal ?
+                        exerciseMealData.day.meals !== [] ?
+                            exerciseMealData.day.meals.map(item =>
+                            <>
+                                <div className="row">
+                                <div className="col-sm-6">
+                                    <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
+                                    <div className="images">
+                                        {
+                                            (item.meal.foods) ? item.meal.foods.map(item =>
+                                                <span>
+                                                <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
+                                                </span>
 
-                                        ) : ''
-                                    }
+                                            ) : ''
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-sm-6 text-left">
-                                <div className="icons d-flex flex-row-reverse">
-                                <span className="icon delete">
-                                    <FiX />
+                                <div className="col-sm-6 text-left">
+                                    <div className="icons d-flex flex-row-reverse">
+                                    <span className="icon delete">
+                                        <FiX />
+                                    </span>
+                                        <span className="icon max">
+                                        <FiMaximize />
+                                    </span>
+                                        <span className="icon move">
+                                        <FiMove />
                                 </span>
-                                    <span className="icon max">
-                                    <FiMaximize />
-                                </span>
-                                    <span className="icon move">
-                                    <FiMove />
-                            </span>
+                                    </div>
+                                    <button className="btn btn-secondary w-50 mt-3 p-1">
+                                        {t('traineeModal.mealDetails')}
+                                    </button>
                                 </div>
-                                <button className="btn btn-secondary w-50 mt-3 p-1">
-                                    {t('traineeModal.mealDetails')}
-                                </button>
-                            </div>
-                            <div className="col-sm-6">
-                                <div>
-                                    <span className="key"> {t('traineeModal.calories')} : </span>
-                                    <span className="val"> {item.nutrition_info.calories}  </span>
+                                <div className="col-sm-6">
+                                    <div>
+                                        <span className="key"> {t('traineeModal.calories')} : </span>
+                                        <span className="val"> {item.nutrition_info.calories}  </span>
+                                    </div>
+                                    <div>
+                                        <span className="key"> {t('traineeModal.fat')} : </span>
+                                        <span className="val"> {item.nutrition_info.fat}  </span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span className="key"> {t('traineeModal.fat')} : </span>
-                                    <span className="val"> {item.nutrition_info.fat}  </span>
-                                </div>
-                            </div>
-                            <div className="col-sm-6">
-                                <div>
-                                    <span className="key"> {t('traineeModal.carbs')} : </span>
-                                    <span className="val"> {item.nutrition_info.carbs}  </span>
-                                </div>
-                                <div>
-                                    <span className="key"> {t('traineeModal.protein')} : </span>
-                                    <span className="val"> {item.nutrition_info.protein}  </span>
+                                <div className="col-sm-6">
+                                    <div>
+                                        <span className="key"> {t('traineeModal.carbs')} : </span>
+                                        <span className="val"> {item.nutrition_info.carbs}  </span>
+                                    </div>
+                                    <div>
+                                        <span className="key"> {t('traineeModal.protein')} : </span>
+                                        <span className="val"> {item.nutrition_info.protein}  </span>
+                                    </div>
                                 </div>
                             </div>
-
-
-
-
-                        </div>
-                        <hr/>
-                        </>
-                    ):  <EmptyComponent/>
+                                <hr/>
+                            </>)
+                        : <h3> {t('shared.empty')}</h3>
+                    :
+                        <BreakDayComponent/>
                 }
-
                 <div className={t('local')==='ar' ? 'row text-right' : 'row'}>
 
                             <div className="col-sm-8 mt-4">

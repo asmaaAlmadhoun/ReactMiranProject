@@ -22,7 +22,9 @@ class HomeComponent extends Component {
             isLoading : false,
             openModal : false,
             openModalNote : false,
-            openModalRequest : false
+            openModalRequest : false,
+            modalRequestProfile: false,
+            traineesId: 1
         }
     }
 
@@ -52,14 +54,18 @@ class HomeComponent extends Component {
     openModalHandlerNote = (traineeId) => {
         this.setState({openModalNote : true})
     }
+    openModalRequestProfile = (id) => {
+        this.setState({modalRequestProfile : true, traineesId: id})
+    }
     render() {
-        const {openModal, openModalNote, openModalRequest} = this.state;
+        const {openModal, openModalNote, openModalRequest, modalRequestProfile} = this.state;
         const {t} = this.props;
         return (
             <>
                 <TraineeModalComponent isOpen={openModal} />
                 <TraineeModalNoteComponent isOpen={openModalNote} />
-             <div className="container">
+                <ProfileModalComponent isOpen={modalRequestProfile} profileData={this.state.trainees} traineesId={this.state.traineesId}/>
+                <div className="container">
 
                  <div className="row" style={{marginLeft:0, marginRight:0}}>
                      <div className="col-sm-12">
@@ -84,7 +90,7 @@ class HomeComponent extends Component {
                                                      const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
-                                                             <TraineeCardComponent
+                                                             <TraineeCardComponent modalRequestProfile={this.openModalRequestProfile} traineesId={item.id}
                                                                  openModalFn={this.openModalHandler} openModalNote={this.openModalHandlerNote}
                                                                  isFemale={ _isFemale} imgPath={_imgPath} remainingDays={_remainingTime}  full_name={item.full_name} id={item.id}/>
                                                          </div>

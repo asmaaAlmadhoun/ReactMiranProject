@@ -13,7 +13,7 @@ class UserVersionServices extends BaseService {
     addNote = async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "/user/trainer-notes/";
+        const url =   this._endPoint + "/trainer-notes/";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
 }

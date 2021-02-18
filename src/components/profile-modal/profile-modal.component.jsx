@@ -23,6 +23,11 @@ class ProfileModalComponent extends Component {
         const {isOpen} = nextProps;
         this.setState({ isOpen});
     }
+    componentDidMount() {
+        console.log('asma')
+
+        console.log(this.props.profileData)
+    }
 
     submitRequest = (Status) => {
         const {t, requestId} = this.props;
@@ -53,7 +58,7 @@ class ProfileModalComponent extends Component {
         this.setState({isOpen:false});
     }
     render() {
-        const { t } = this.props;
+        const { t,profileData } = this.props;
         return (
             <div>
                 <ModalComponent size="tiny" isOpen={this.state.isOpen}  handleClosed={e => {
@@ -87,7 +92,7 @@ class ProfileModalComponent extends Component {
                     <div className="container">
                         <div className='my-2'>
                             <label className='text-primary'>{t('profile.BirthDate')}</label>
-                            <p>6/6</p>
+                            <p></p>
                             <hr/>
                         </div>
                         <div className='my-2'>
@@ -138,7 +143,8 @@ class ProfileModalComponent extends Component {
 
 ProfileModalComponent.propTypes = {
     isOpen : PropTypes.bool,
-    requestId : PropTypes.number
+    requestId : PropTypes.number,
+    profileData : PropTypes.array
 }
 
 export default  withTranslation('translation')(ProfileModalComponent);

@@ -13,6 +13,7 @@ ArabicTranslation = {
     save: 'حفظ',
     cancel: 'الغاء',
     update: 'تحديث',
+    empty: 'لا يوجد بيانات',
     errors: {
       notFoundUser: 'مستخدم غير موجود',
       globalError: 'لقد حدث خطأ يرجى المحاولة ثانية'
@@ -20,7 +21,8 @@ ArabicTranslation = {
     success: {
       accountCreated: 'تم إنشاء الحساب بنجاح',
       deletedSuccess: 'تم الحذف بنجاح',
-      addedSuccess: 'تم الإضافة بنجاح'
+      addedSuccess: 'تم الإضافة بنجاح',
+
     },
     warnings: {
       emailExistBefore: 'البريد الألكترونى مستخدم من قبل'
@@ -109,10 +111,13 @@ ArabicTranslation = {
     copyExercise: 'نسخ تمرين',
     searchFor: 'بحث',
     gram: 'جم',
+    kGram: 'كجم',
     remainingDays: 'أيام متبقية',
     note: 'ملاحظة',
     addNote: 'أضف ملاحظة',
     notes: 'ملاحظات',
+    Reps: 'عدد العضلات',
+    rest: 'فترة الراحة',
   },
   profile: {
     fullName: 'الإسم بالكامل',
