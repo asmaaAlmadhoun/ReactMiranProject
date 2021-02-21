@@ -23,15 +23,15 @@
     justify-content: center;
     font-weight: bolder;
 }
-ul{
+.SearchableListTemplateComponent-withImg ul,.SearchableListTemplateComponent ul{
     padding: 0;
 }
-ul li{
+.SearchableListTemplateComponent-withImg ul li, .SearchableListTemplateComponent ul li{
     margin: 0.7rem 0;
     padding: 0.5rem;
     border-bottom: 1px solid #ccc;
 }
-.input{
+.SearchableListTemplateComponent-withImg .input,.SearchableListTemplateComponent .input{
     width: 100%;
     margin-bottom: 1rem;
 }

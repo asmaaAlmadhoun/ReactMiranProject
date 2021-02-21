@@ -29,7 +29,12 @@ class TemplateService extends BaseService{
         const url = this._endPoint+"/" + id;
         return HTTP_REQUEST._delete({target:url});
     }
-
+    deleteMealTemplate = async (data) => {
+        if(!data)
+            return;
+        const url = this._endPoint+"/food/delete" ;
+        return HTTP_REQUEST.put({target:url , body : data});
+    }
     addTemplateBreakDay = async (data) => {
         if(!data)
             return ;

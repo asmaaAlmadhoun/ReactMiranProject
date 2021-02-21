@@ -34,7 +34,6 @@ class ProfileComponent extends Component {
         this.setState({loading:true ,imgDefaultPath : userService.imageDefaultPath })
         userService.profile.then(data => {
             // Todo Handle the data before log it.
-            console.log('profile data ===>',data);
             this.setState({loading:false })
             if(data.status) {
                 this.setState({data : data.result})
@@ -86,7 +85,8 @@ class ProfileComponent extends Component {
                             <div className="col-sm-12">
                                 <Loader active={true} inline='centered' />
                             </div>
-                        </div> : <>
+                        </div> :
+                        <>
                             <div className="row">
 
                                 <div className="col-sm-12">
@@ -150,9 +150,23 @@ class ProfileComponent extends Component {
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >
+                                                       {t('register.languages')}
+                                                   </label>
+                                                   <div>
+                                                       {this.state.data && this.state.data.profile ? this.state.data.profile.languages.map((item) =>
+                                                           <>
+                                                               <button className='btn-secondary d-inline-block w-25 mx-1'>{t('local') === 'ar' ? item.title_ar: item.title}</button>
+                                                           </>
+
+                                                       ): '' }
+                                                   </div>
+
+                                               </div>
+                                               <div className="col-sm-12 mt-2">
+                                                   <label >
                                                        {t('profile.aboutMe')}
                                                    </label>
-                                                   <textarea  className="form-control" rows={5}/>
+                                                   <textarea  className="form-control" rows={5} value={this.state.data && this.state.data.profile.bio}/>
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >

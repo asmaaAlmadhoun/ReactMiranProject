@@ -13,7 +13,7 @@ class TraineeCardComponent extends Component {
 
     render() {
         const {t} = this.props;
-        let {imgPath ,full_name , remainingDays , traineesId,isFemale , openModalNote,openModalFn, modalRequestProfile, className, classNameAction} = this.props;
+        let {imgPath ,full_name , remainingDays , traineesId,isFemale ,openModalFn, modalRequestProfile, className, classNameAction} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
@@ -60,7 +60,6 @@ TraineeCardComponent.propTypes = {
     isFemale: PropTypes.bool,
     remainingDays : PropTypes.number,
     openModalFn : PropTypes.func,
-    openModalNote : PropTypes.func,
     modalRequestProfile : PropTypes.func
 }
 export default  withTranslation('translation')(withRouter(TraineeCardComponent));

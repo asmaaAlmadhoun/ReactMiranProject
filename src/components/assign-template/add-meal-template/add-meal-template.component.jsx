@@ -12,6 +12,8 @@ import MealServices from "../../../services/meal-services/meal.services";
 import TemplateServices from "../../../services/template-service/template.service";
 import {toast} from "react-toastify";
 import ToasterComponent from "../../common/toaster/toaster.component";
+import PropTypes from "prop-types";
+import {Loader} from "semantic-ui-react";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -19,28 +21,13 @@ class AddMealTemplateComponent extends Component {
         this.state = {
             __addModal__ : false,
             isLoading: false,
-            FoodList : [],
             size: 'mini',
             mealComment: '',
             mealTitle: '',
             fullDataDay: [],
-            dataMeal: ''
+            dataMeal: '',
         }
     }
-    async componentWillMount() {
-        const mealService  = new ResourcesService();
-        this.setState({isLoading : true})
-        mealService.food.then(data => {
-            this.setState({isLoading : false})
-            if(data && data.status) {
-                this.setState({FoodList : data.result})
-            }
-        }).catch(error => {
-            this.setState({isLoading : false})
-        });
-
-    }
-
     onChangeHandler = (e) => {
         if(!e)
             return ;
@@ -58,18 +45,19 @@ class AddMealTemplateComponent extends Component {
         }
         const mealServices = new MealServices();
         mealServices.addMealToTemplateDay(dataMeal).then(response => {
-            this.setState({isLoading: false})
+            this.setState({isLoading: true})
             if (response.status) {
                 this.closeModalHandler();
+                this.props.parentTriggerAdd();
                 toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay();
+                this.setState({isLoading: false})
+
             } else {
                 toast.error(t('shared.errors.globalError'))
             }
         })
     }
     addTemplateBreakDay = () => {
-
         const {t, exerciseMealData} = this.props;
         let id= exerciseMealData.day.id;
 
@@ -79,12 +67,13 @@ class AddMealTemplateComponent extends Component {
             'type': 'meal',
         }
         templateServices.addTemplateBreakDay(dataBreak).then(response => {
-            this.setState({isLoading: false})
+            this.setState({isLoading: true})
             if (response.status) {
                 toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay();
+                this.props.parentTriggerAdd();
+                this.setState({isLoading: false})
             } else {
-                toast.error(t('shared.errors.globalError'))
+                toast.done(t('shared.success.addedSuccess'));
             }
         })
     }
@@ -97,6 +86,12 @@ class AddMealTemplateComponent extends Component {
     render() {
         const {t, templateId} = this.props;
         return (
+            this.state.loading ?
+                <div className="row">
+                    <div className="col-sm-12">
+                        <Loader active={this.state.isLoading} inline='centered' />
+                    </div>
+                </div> :
             <>
                 <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
                     <div className="meal-buttons justify-content-center">
@@ -121,9 +116,7 @@ class AddMealTemplateComponent extends Component {
                     </div>
                 </div>
 
-                {/*<ModalComponent  size='tiny' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={this.closeModalHandler} >*/}
-                {/*    <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>*/}
-                {/*</ModalComponent>*/}
+
 
                 <ModalComponent size='mini' isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <div className="text-center mini-shared-modal px-3">
@@ -149,5 +142,7 @@ class AddMealTemplateComponent extends Component {
         );
     }
 }
-
+AddMealTemplateComponent.propTypes = {
+    parentTriggerAdd: PropTypes.func
+}
 export default withTranslation('translation')( AddMealTemplateComponent);

@@ -32,9 +32,10 @@ class TraineeModalNoteComponent extends Component {
         this.fetchData();
     }
     fetchData = () => {
+        const { traineesId } = this.props
         const userService  = new UserService();
         this.setState({isLoading : true})
-        userService.note.then(data => {
+        userService.note(traineesId).then(data => {
             this.setState({isLoading : false})
             if(data) {
                 this.setState({notes : data.result})
@@ -46,9 +47,10 @@ class TraineeModalNoteComponent extends Component {
 
     onSubmit = async () => {
         const { newNote } = this.state;
+        const { traineesId } = this.props
         const data = {
            note: newNote,
-           trainee_id: 1
+           trainee_id:traineesId
         }
         const userService  = new UserService();
         this.setState({isLoading:true})
@@ -68,7 +70,8 @@ class TraineeModalNoteComponent extends Component {
         if(e) {
             e.preventDefault();
         }
-        this.setState({__addNoteModal__:false , newNote : null});
+        this.setState({__addNoteModal__:false , newNote : null, note: null});
+        this.props.traineesId = null
     }
     render() {
         const {t  } = this.props;
@@ -129,7 +132,8 @@ class TraineeModalNoteComponent extends Component {
 }
 
 TraineeModalNoteComponent.propTypes = {
-    isOpen : PropTypes.bool
+    isOpen : PropTypes.bool,
+    traineesId : PropTypes.number
 }
 
 export default  withTranslation('translation')(TraineeModalNoteComponent);

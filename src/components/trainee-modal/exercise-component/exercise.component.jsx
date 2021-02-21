@@ -5,11 +5,16 @@ import './exercise.component.css';
 import { FiX, FiMaximize,FiMove } from "react-icons/fi";
 import BreakDayComponent from "../../common/empty-page/breakDay.component";
 class ExerciseComponent extends Component {
+    componentDidMount() {
+        const {t, exerciseMealData}  = this.props;
+    }
+
     render() {
         const {t, exerciseMealData}  = this.props;
         return (
-            <>
-                {exerciseMealData.day.break_day_exercise === false ? [
+            <div>
+                {exerciseMealData.day.break_day_exercise ?
+                    <BreakDayComponent/> :
                     exerciseMealData.day.exercises !== null ?
                         exerciseMealData.day.exercises.map(item =>
                             <>
@@ -65,25 +70,25 @@ class ExerciseComponent extends Component {
 
                                     <div className="col-sm-4">
                                         <div className="icons d-flex flex-row-reverse">
-                        <span className="icon delete">
-                             <FiX/>
-                        </span>
-                                            <span className="icon max">
-                            <FiMaximize />
-                        </span>
-                                            <span className="icon move">
-                            <FiMove />
-                        </span>
+                                            <span className="icon delete">
+                                                 <FiX/>
+                                            </span>
+                                                                <span className="icon max">
+                                                <FiMaximize />
+                                            </span>
+                                                                <span className="icon move">
+                                                <FiMove />
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
+                                <hr/>
                             </>
                         )
                         : <h3> {t('shared.empty')}</h3>
-                ]: <BreakDayComponent/>
                 }
 
-            </>
+            </div>
         );
     }
 }

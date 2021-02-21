@@ -6,8 +6,8 @@ class UserVersionServices extends BaseService {
         super('v1/user');
     }
 
-    get note () {
-        const url = this._endPoint + "/trainer-notes-list/19807/";
+    note (id) {
+        const url = this._endPoint + "/trainer-notes-list/" + id;
         return HTTP_REQUEST.get({target:url});
     }
     addNote = async (data) => {

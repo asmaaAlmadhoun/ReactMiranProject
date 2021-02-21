@@ -62,11 +62,19 @@ class AddExerciseTemplateComponent extends  React.Component {
         this.setState({__addModal__ : false});
     }
     render() {
-        const {t} = this.props;
+        const {t, exerciseMealForThisDay} = this.props;
         return (
             <React.Fragment>
-                <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
-                    <div className="meal-buttons justify-content-center">
+                <div className={"AddMealTemplateComponent row p-0 mt-4"}>
+                    <div className="col-sm-7">
+                        <span className='text-primary f-2'>
+                            {t('traineeModal.Calories')} :
+                        </span>
+                        <span>
+
+                        </span>
+                    </div>
+                    <div className="meal-buttons col-sm-5 text-left">
                         <button onClick={e => {
                             e.preventDefault();
                             this.showModalHandler();

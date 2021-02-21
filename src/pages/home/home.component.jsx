@@ -21,7 +21,6 @@ class HomeComponent extends Component {
             requests : [],
             isLoading : false,
             openModal : false,
-            openModalNote : false,
             openModalRequest : false,
             modalRequestProfile: false,
             traineesId: 1
@@ -51,20 +50,16 @@ class HomeComponent extends Component {
     openModalHandler = (traineeId) => {
         this.setState({openModal : true})
     }
-    openModalHandlerNote = (traineeId) => {
-        this.setState({openModalNote : true})
-    }
     openModalRequestProfile = (id) => {
         this.setState({modalRequestProfile : true, traineesId: id})
     }
     render() {
-        const {openModal, openModalNote, openModalRequest, modalRequestProfile} = this.state;
+        const {openModal, openModalRequest, modalRequestProfile} = this.state;
         const {t} = this.props;
         return (
             <>
                 <TraineeModalComponent isOpen={openModal} />
-                <TraineeModalNoteComponent isOpen={openModalNote} />
-                <ProfileModalComponent isOpen={modalRequestProfile} profileData={this.state.trainees} traineesId={this.state.traineesId}/>
+                <ProfileModalComponent isOpen={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} traineesId={this.state.traineesId}/>
                 <div className="container">
 
                  <div className="row" style={{marginLeft:0, marginRight:0}}>
@@ -91,7 +86,7 @@ class HomeComponent extends Component {
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
                                                              <TraineeCardComponent modalRequestProfile={this.openModalRequestProfile} traineesId={item.id}
-                                                                 openModalFn={this.openModalHandler} openModalNote={this.openModalHandlerNote}
+                                                                 openModalFn={this.openModalHandler}
                                                                  isFemale={ _isFemale} imgPath={_imgPath} remainingDays={_remainingTime}  full_name={item.full_name} id={item.id}/>
                                                          </div>
                                                      );
@@ -129,7 +124,7 @@ class HomeComponent extends Component {
                                                                      </button>
                                                                  }
                                                              />
-                                                             <ProfileModalComponent isOpen={openModalRequest} requestId={item.id}/>
+                                                             <ProfileModalComponent isOpen={openModalRequest} requestClass={true} requestId={item.id}/>
                                                          </div>
                                                      );
                                                  }): ''

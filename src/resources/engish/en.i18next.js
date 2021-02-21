@@ -113,7 +113,7 @@ const EnglishTranslation = {
         note: 'Note',
         addNote: 'Add Note',
         notes: 'Notes',
-        rest: 'فترة الراحة',
+        rest: 'Rest period',
         Reps: 'Reps'
     },
     profile : {

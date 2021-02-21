@@ -2,35 +2,67 @@ import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
 import './meal-item.component.css'
 import {FiPlus} from "react-icons/fi";
-import {BsClockHistory} from "react-icons/bs";
+import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 import {BiCopy, BiEditAlt} from "react-icons/bi";
+import SearchableListWithImgTemplateComponent
+    from "../assign-template/searchable-list-template/searchable-list-withImg-template.component";
+import ModalComponent from "../common/modal/modal.component";
+import ResourcesService from "../../services/trainee-service/resources.service";
 
 class MealItemComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            openDetails2: true,
+            __addModal__: false,
+            FoodList: []
         }
     }
+    async componentWillMount() {
+        const mealService  = new ResourcesService();
+        this.setState({isLoading : true})
+        mealService.food.then(data => {
+            this.setState({isLoading : false})
+            if(data && data.status) {
+                this.setState({FoodList : data.result})
+            }
+        }).catch(error => {
+            this.setState({isLoading : false})
+        });
+
+    }
     render() {
-        const {t} = this.props;
-        let {mealTitle ,comment , carbs , calories ,fat, protein, imgPath} = this.props;
+        const {t, openDetails, nutrition_info,foodImage, mealTitle ,mealComment} = this.props;
+        let { imgPath} = this.props;
         if(!imgPath)
             imgPath = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' ;
         return (
             <>
-                <div className="container">
+                <div className={["container" , openDetails ? '' : ' d-none']}>
+                    <button className='ui button icon primary p-1 mb-3' onClick={(e)=> this.props.parentCall(false)}>
+                        {t('local') === 'ar'?  <i><IoIosArrowForward/> </i>: <i><IoIosArrowBack/></i> }
+
+                    </button>
                     <div className="row">
                         <div className="col-sm-12 mb-3 img-thumbnail">
-                            <img src={imgPath}  alt="Meal Image"/>
+                            <div className="images">
+                                {
+                                    (foodImage) ? foodImage.map(item =>
+                                        <span>
+                                            <img className='w-25' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
+                                        </span>
+                                    ) : ''
+                                }
+                            </div>
                         </div>
                         <div className="col-sm-4">
                             <div>
                                 <label className='primary'> {t('traineeModal.calories')} : </label>
-                                <span>{calories}</span>
+                                <span>{nutrition_info.calories}</span>
                             </div>
                             <div>
                                 <label className='primary'> {t('traineeModal.fat')} : </label>
-                                <span>{fat}</span>
+                                <span>{nutrition_info.fat}</span>
                             </div>
                         </div>
                         <div className="col-sm-4 text-center">
@@ -40,21 +72,21 @@ class MealItemComponent extends Component {
                         <div className="col-sm-4">
                             <div>
                                 <label className='primary'> {t('traineeModal.carbs')} : </label>
-                                <span>{carbs}</span>
+                                <span>{nutrition_info.carbs}</span>
                             </div>
                            <div>
                                <label className='primary'> {t('traineeModal.protein')} : </label>
-                               <span>{protein}</span>
+                               <span>{nutrition_info.protein}</span>
                            </div>
                         </div>
                         <div className="col-sm-12">
-                            <textarea value={comment} rows='4' className='bg-light w-100 my-4 form-control'/>
+                            <textarea value={mealComment} rows='4' className='bg-light w-100 my-4 form-control'/>
                         </div>
                     </div>
-                    <div className="meal-buttons justify-content-center">
+                    <div className="meal-buttons text-left">
                         <button onClick={e => {
                             e.preventDefault();
-                            this.showModalHandler();
+                            this.setState({__addModal__: true});
                         }} className="ui button icon primary p-1">
                             <FiPlus />
                             <div className='f-1-half'>{t('templatePage.addFood')}</div>
@@ -69,6 +101,10 @@ class MealItemComponent extends Component {
                         </button>
                     </div>
                 </div>
+
+                <ModalComponent  size='tiny' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
+                    <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>
+                </ModalComponent>
 
             </>
         );

@@ -1,4 +1,4 @@
-import React, {Component, useRef} from 'react';
+import React, {Component} from 'react';
 import './template.component.css';
 import {withTranslation} from "react-i18next";
 import {Loader, Menu, Tab} from 'semantic-ui-react';
@@ -22,7 +22,8 @@ class TemplateDetailsComponent extends Component {
             activeDay: 1,
             fullTemplateDataForThisDay: [],
             exerciseMealForThisDay: [],
-            activeIndex: ''
+            activeIndex: '',
+            loader: true
         }
     }
 
@@ -34,7 +35,7 @@ class TemplateDetailsComponent extends Component {
         const templateServices = new TemplateServices();
         templateServices.getTemplateForDay(Id, activeDay).then(response => {
             if (response) {
-                this.setState({exerciseMealForThisDay :response.result });
+                this.setState({exerciseMealForThisDay :response.result, loader : false  });
             }
         })
     }
@@ -45,10 +46,6 @@ class TemplateDetailsComponent extends Component {
     componentDidMount() {
         const templateId = this.state.templateId;
         this.getTemplateForDay(templateId);
-    }
-    handleTabChange(){
-        alert('asma');
-
     }
 
     render() {
@@ -63,7 +60,14 @@ class TemplateDetailsComponent extends Component {
                 </Menu.Item>,
             render: () =>
                 <Tab.Pane attached={false}>
-                    <ExerciseMealTemplateComponent exerciseMealForThisDay={this.state.exerciseMealForThisDay} parentCallback={(e)=>this.setState({activeDay: e})} getTemplateForDay={this.getTemplateForDay} daysNumber={item.days}  ref="child" templateId={item.id} activeDay={this.state.activeDay} />
+                    {
+                        this.state.loader ? <Loader active={true} inline='centered'/> :
+                            <ExerciseMealTemplateComponent exerciseMealForThisDay={this.state.exerciseMealForThisDay}
+                                                           parentCallback={(e) => this.setState({activeDay: e})}
+                                                           getTemplateForDay={this.getTemplateForDay}
+                                                           daysNumber={item.days} ref="child" templateId={item.id}
+                                                           activeDay={this.state.activeDay}/>
+                    }
                 </Tab.Pane>
         })): '';
 
