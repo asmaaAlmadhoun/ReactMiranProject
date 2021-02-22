@@ -6,7 +6,7 @@ import './searchable-list-template.component.css';
 class ListItem extends Component{
     render () {
         return (
-            <li>
+            <li onClick={this.props.onClick}>
                 <span>{this.props.name}</span>
             </li>
         )
@@ -39,7 +39,7 @@ class SearchableListTemplateComponent extends Component {
                 <ul>
                     {
                         List.map((el) => {
-                            return <ListItem key={el.id}
+                            return <ListItem key={el.id} onClick={(e)=> this.props.exercise_muscleFunc(el.title)}
                                              category={el.category}
                                              name={t('local')==='ar' ? el.title_ar : el.title}
                             />

@@ -118,6 +118,7 @@ ArabicTranslation = {
     notes: 'ملاحظات',
     Reps: 'عدد العضلات',
     rest: 'فترة الراحة',
+    sets: 'مجموعات',
   },
   profile: {
     fullName: 'الإسم بالكامل',

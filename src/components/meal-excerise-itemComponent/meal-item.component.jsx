@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
-import './meal-item.component.css'
+import './meal-excerise-item.component.css'
 import {FiPlus} from "react-icons/fi";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 import {BiCopy, BiEditAlt} from "react-icons/bi";

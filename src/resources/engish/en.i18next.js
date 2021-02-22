@@ -114,7 +114,8 @@ const EnglishTranslation = {
         addNote: 'Add Note',
         notes: 'Notes',
         rest: 'Rest period',
-        Reps: 'Reps'
+        Reps: 'Reps',
+        sets: 'Sets',
     },
     profile : {
         fullName : 'Full Name',

@@ -4,7 +4,7 @@ import { FiX,FiMaximize,FiMove } from "react-icons/fi";
 import {withTranslation} from "react-i18next";
 import  './meal.component.css';
 import AddMealTemplateComponent from "../../assign-template/add-meal-template/add-meal-template.component";
-import MealItemComponent from "../../meal-itemComponent/meal-item.component";
+import MealItemComponent from "../../meal-excerise-itemComponent/meal-item.component";
 import ExerciseMealTemplateComponent
     from "../../assign-template/exercise-meal-template/exercise-meal-template.component";
 import BreakDayComponent from "../../common/empty-page/breakDay.component";
@@ -22,14 +22,19 @@ class MealComponent extends Component {
     openDetailsFunc(item){
         this.props.openDetailsFunction(item);
     }
-    removeMeal(id){
-        // deleteMealTemplate
+    componentDidMount() {
         const {t} = this.props;
 
+        toast.done(t('shared.success.addedSuccess'));
+        toast.done(t('shared.success.addedSuccess'));
+    }
+
+    deleteMealTemplate(id){
+        // deleteMealTemplate
+        const {t} = this.props;
         const templateServices = new TemplateServices();
         const data = {
             'template_day_meal_id': id,
-            'food_id': 387,
         }
         templateServices.deleteMealTemplate(data).then(response => {
             if (response.status) {
@@ -39,17 +44,17 @@ class MealComponent extends Component {
                 toast.done(t('shared.success.addedSuccess'));
             }
         })
-
     }
     render() {
         const {t, templateId, activeDay, exerciseMealData, getTemplateForDay} = this.props;
         return (
             <div className="meal">
+                <ToasterComponent />
+
                 {!exerciseMealData.day.break_day_meal ?
                         exerciseMealData.day.meals !== [] ?
                             exerciseMealData.day.meals.map(item =>
                             <>
-                                <ToasterComponent/>
                                 <div className="row">
                                     <div className="col-sm-6">
                                         <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
@@ -66,7 +71,7 @@ class MealComponent extends Component {
                                     </div>
                                     <div className="col-sm-6 text-left">
                                         <div className="icons d-flex flex-row-reverse">
-                                            <button className="icon delete" onClick={(e)=> this.removeMeal(item.meal.id)}>
+                                            <button className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.meal.id)}>
                                                 <FiX />
                                             </button>
                                                 <span className="icon max">

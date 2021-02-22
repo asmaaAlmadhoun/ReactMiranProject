@@ -31,7 +31,7 @@ class ListItemWithImg extends Component{
         const {t} = this.props;
         return (
             <React.Fragment>
-                <li>
+                <li onClick={this.props.onClick}>
                     <a href="#" className='item' onClick= {() => this.showModalHandler()}>
                         <span>
                             <img src={this.state.imgDefaultPath+this.props.image} alt="img"/>
@@ -41,8 +41,8 @@ class ListItemWithImg extends Component{
                 </li>
                 <ModalComponent size="tiny" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}   title={this.props.name}
-                                                     image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs}
-                                                   />
+                         image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs}
+                       />
                 </ModalComponent>
             </React.Fragment>
         )
@@ -75,7 +75,7 @@ class SearchableListWithImgTemplateComponent extends Component {
                 <ul>
                     {
                         List.map((el) => {
-                            return <ListItemWithImg key={el.id} quantity={el.quantity} calories={el.calories} fat={el.fat}
+                            return <ListItemWithImg key={el.id} onClick={(e)=> this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)} quantity={el.quantity} calories={el.calories} fat={el.fat}
                                                     image={el.image}  protein={el.protein} carbs={el.carbs}
                                              name={t('local')==='ar' ? el.title_ar : el.title}
                             />
