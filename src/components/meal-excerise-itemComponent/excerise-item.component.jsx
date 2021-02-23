@@ -69,11 +69,6 @@ class ExceriseItemComponent extends Component {
                             <textarea value={ExceriseDataItem.comment} rows='4' className='bg-light w-100 my-4 form-control'/>
                         </div>
                     </div>
-                    <div className="meal-buttons text-center">
-                        <button onClick={(e)=> this.setState({openExceriseListDetails:true})} className="ui btn w-50 m-auto btn-secondary">
-                            {t('shared.add')}
-                        </button>
-                    </div>
                 </div>
             </>
         );

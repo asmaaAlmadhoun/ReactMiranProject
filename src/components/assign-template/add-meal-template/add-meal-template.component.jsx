@@ -77,6 +77,24 @@ class AddMealTemplateComponent extends Component {
             }
         })
     }
+    templateCopyMaelDay(){
+        const {t, exerciseMealData} = this.props;
+        let Dayid= exerciseMealData.day.id;
+        let day= exerciseMealData.day.day;
+        const templateServices = new TemplateServices();
+        const data = {
+            'template_day_id': Dayid,
+            'days':day
+        }
+        templateServices.templateCopyMaelDay(data).then(response => {
+            if (response) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay2();
+            } else {
+                toast.done(t('shared.success.addedSuccess'));
+            }
+        })
+    }
     showModalHandler =() => {
         this.setState({__addModal__ : true});
     }
@@ -109,7 +127,7 @@ class AddMealTemplateComponent extends Component {
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
-                        <button className="btn primary-color p-1">
+                        <button className="btn primary-color p-1"  onClick={(e)=> this.templateCopyMaelDay()}>
                             <BiCopy />
                             <div><small>{t('traineeModal.copyMeal')}</small></div>
                         </button>

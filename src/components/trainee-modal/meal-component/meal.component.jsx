@@ -11,6 +11,7 @@ import BreakDayComponent from "../../common/empty-page/breakDay.component";
 import TemplateServices from "../../../services/template-service/template.service";
 import {toast} from "react-toastify";
 import ToasterComponent from "../../common/toaster/toaster.component";
+import {BiCopy} from "react-icons/bi";
 class MealComponent extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +38,25 @@ class MealComponent extends Component {
             'template_day_meal_id': id,
         }
         templateServices.deleteMealTemplate(data).then(response => {
-            if (response.status) {
+            if (response) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay2();
+            } else {
+                toast.done(t('shared.success.addedSuccess'));
+            }
+        })
+    }
+    templateCopyMeal(id){
+        const {t,exerciseMealData} = this.props;
+        const templateServices = new TemplateServices();
+        let day= exerciseMealData.day.day;
+
+        const data = {
+            'template_day_meal_id': id,
+            'days':day
+        }
+        templateServices.templateCopyMeal(data).then(response => {
+            if (response) {
                 toast.done(t('shared.success.addedSuccess'));
                 this.props.getTemplateForDay2();
             } else {
@@ -71,13 +90,13 @@ class MealComponent extends Component {
                                     </div>
                                     <div className="col-sm-6 text-left">
                                         <div className="icons d-flex flex-row-reverse">
-                                            <button className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.meal.id)}>
+                                            <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.meal.id)}>
                                                 <FiX />
-                                            </button>
-                                                <span className="icon max">
-                                                <FiMaximize />
                                             </span>
-                                                <span className="icon move">
+                                            <span className="icon copy" onClick={(e)=> this.templateCopyMeal(item.meal.id)}>
+                                                <BiCopy />
+                                            </span>
+                                            <span className="icon move">
                                                 <FiMove />
                                             </span>
                                         </div>

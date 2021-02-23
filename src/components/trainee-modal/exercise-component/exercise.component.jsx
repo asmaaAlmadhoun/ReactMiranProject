@@ -34,16 +34,74 @@ class ExerciseComponent extends Component {
     openDetailsFunc(item){
         this.props.openDetailsExceriseFunction(item);
     }
-    deleteExerciseTemplate(id){
-        // deleteMealTemplate
+    deleteExerciseTemplate(e,id){
+        e.stopPropagation();
+        // deleteExerciseTemplate
         const {t} = this.props;
         const templateServices = new TemplateServices();
         const data = {
             'template_day_exercises_id': id,
         }
-        templateServices.deleteExerciseTemplate(id).then(response => {
+        console.log(id)
+        templateServices.deleteExerciseTemplate(data).then(response => {
             if (response) {
                 toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay2();
+            } else {
+                toast.done(t('shared.success.addedSuccess'));
+            }
+        })
+    }
+    copyExerciseTemplate(e,id){
+        e.stopPropagation();
+        const {t,exerciseMealData} = this.props;
+        let day= exerciseMealData.day.day;
+
+        const templateServices = new TemplateServices();
+        const data = {
+            'template_day_exercise_id': id,
+            'days': day
+        }
+        console.log(id)
+        templateServices.templateCopyExercise(data).then(response => {
+            if (response) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay2();
+            } else {
+                toast.done(t('shared.success.addedSuccess'));
+            }
+        })
+    }
+    templateCopyExerciseDay(id){
+        const {t, exerciseMealData} = this.props;
+        let day= exerciseMealData.day.day;
+
+        const templateServices = new TemplateServices();
+        const data = {
+            'template_day_id': id,
+            'days': day
+        }
+        console.log(id)
+        templateServices.templateCopyExerciseDay(data).then(response => {
+            if (response) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay2();
+            } else {
+                toast.done(t('shared.success.addedSuccess'));
+            }
+        })
+    }
+    addTemplateBreakDay = (id) => {
+        const {t} = this.props;
+        const templateServices = new TemplateServices();
+        const dataBreak = {
+            'template_day_id': id,
+            'type': 'exercise',
+        }
+        templateServices.addTemplateBreakDay(dataBreak).then(response => {
+            if (response.status) {
+                toast.done(t('shared.success.addedSuccess'));
+                this.props.getTemplateForDay2();
             } else {
                 toast.done(t('shared.success.addedSuccess'));
             }
@@ -82,8 +140,9 @@ class ExerciseComponent extends Component {
         const {openExceriseListDetails, ExceriseMuscleItem, muscles, muscleExercise, openMuscleExerciseList}  = this.state;
         return (
             <>
-            <ToasterComponent />
             <div className={["container" , (!openExceriseListDetails && !openMuscleExerciseList) ? '' : ' d-none']}>
+                <ToasterComponent />
+
                 <div>
                     {exerciseMealData.day.break_day_exercise ?
                         <BreakDayComponent/> :
@@ -146,11 +205,11 @@ class ExerciseComponent extends Component {
 
                                         <div className="col-sm-4">
                                             <div className="icons d-flex flex-row-reverse">
-                                                <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(item.exercise.exercise_id)}>
+                                                <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(e,item.exercise.exercise_id)}>
                                                      <FiX/>
                                                 </span>
-                                                                    <span className="icon max">
-                                                    <FiMaximize />
+                                                                    <span className="icon copy" onClick={(e)=> this.copyExerciseTemplate(e,item.exercise.exercise_id)}>
+                                                    <BiCopy />
                                                 </span>
                                                                     <span className="icon move">
                                                     <FiMove />
@@ -177,11 +236,11 @@ class ExerciseComponent extends Component {
                             <FiPlus />
                             <div><small>{t('traineeModal.addExercise')}</small></div>
                         </button>
-                        <button className="btn danger-color">
+                        <button className="btn danger-color" onClick={(e)=>this.addTemplateBreakDay(exerciseMealData.day.id)}>
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
-                        <button className="btn primary-color">
+                        <button className="btn primary-color" onClick={(e)=>this.templateCopyExerciseDay(exerciseMealData.day.id)}>
                             <BiCopy />
                             <div><small>{t('traineeModal.copyExercise')}</small></div>
                         </button>
@@ -208,62 +267,6 @@ class ExerciseComponent extends Component {
                 }
             </div>
 
-            {/*<ModalComponent  size="tiny" isOpen={this.state.openModal} hideAction={true} handleClosed={(e)=>this.setState({openModal: false})}>*/}
-            {/*    <div className="row">*/}
-            {/*        <div className="col-sm-12 mb-3 img-thumbnail">*/}
-            {/*            <div className="images">*/}
-
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-sm-12 text-center">*/}
-            {/*            <h4 className='mb-2'>{ExceriseMuscleItem}</h4>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-sm-4 text-center">*/}
-            {/*            <div>*/}
-            {/*                <label className='primary d-block'>*/}
-            {/*                    {t('progressPage.weight')}*/}
-            {/*                </label>*/}
-            {/*                <div className='ui input'>*/}
-            {/*                    <input className='w-100'/>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*            <div>*/}
-            {/*                <label className='primary d-block'> {t('traineeModal.Reps')}  </label>*/}
-            {/*                <div className='ui input'>*/}
-            {/*                    <input className='w-100'/>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-sm-4"></div>*/}
-            {/*        <div className="col-sm-4 text-center">*/}
-            {/*            <div>*/}
-            {/*                <label className='primary d-block'>*/}
-            {/*                    {t('traineeModal.rest')}*/}
-            {/*                </label>*/}
-            {/*                <div className='ui input'>*/}
-            {/*                    <input className='w-100'/>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*            <div>*/}
-            {/*                <label className='primary d-block'> {t('traineeModal.sets')} </label>*/}
-            {/*                <div className='ui input'>*/}
-            {/*                    <input className='w-100'/>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-sm-12 text-center">*/}
-            {/*            <h4>{t('templatePage.comments')}</h4>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-sm-12">*/}
-            {/*            <textarea value='' rows='4' className='bg-light w-100 my-4 form-control'/>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div className="meal-buttons text-center">*/}
-            {/*        <button onClick={(e)=> this.setState({openExceriseListDetails:true})} className="ui btn w-50 m-auto btn-secondary">*/}
-            {/*            {t('shared.add')}*/}
-            {/*        </button>*/}
-            {/*    </div>*/}
-            {/*</ModalComponent>*/}
             </>
         );
     }

@@ -46,13 +46,13 @@ class ExerciseMealTemplateComponent extends Component {
                             menuItem:  t('traineeModal.exercises'),
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ExerciseComponent openDetailsExceriseFunction={(e)=>this.setState({ExceriseDataItem: e, openExceriseDetails: true})} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
+                                    <ExerciseComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} openDetailsExceriseFunction={(e)=>this.setState({ExceriseDataItem: e, openExceriseDetails: true})} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
                                 </Tab.Pane>,
                         },
                         {
                             menuItem:  t('traineeModal.meals'),
                             render: () => <Tab.Pane attached={false}>
-                                <MealComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay()}  openDetailsFunction={(e)=>this.setState({mealDataItem: e, openDetails: true})} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
+                                <MealComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)}  openDetailsFunction={(e)=>this.setState({mealDataItem: e, openDetails: true})} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
                             </Tab.Pane>,
                         },
                     ]} />

@@ -36,17 +36,41 @@ class TemplateService extends BaseService{
         const url =   this._endPoint + "/break_day/";
         return  HTTP_REQUEST.put({target:url , body : data});
     }
-    deleteMealTemplate (data) {
+    templateCopyExercise = async (data) => {
         if(!data)
-            return;
-        const url = this._endPoint+"/meal/?template_day_meal_id=" + data ;
-        return HTTP_REQUEST._delete({target:url});
+            return ;
+        const url =   this._endPoint + "/copy-exercise";
+        return  HTTP_REQUEST.post({target:url , body : data});
     }
-    deleteExerciseTemplate (data) {
+    templateCopyExerciseDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/copy-exercise-day";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    templateCopyMeal = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/copy-meal";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    templateCopyMaelDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/copy-meal-day";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    deleteMealTemplate (data){
+        if(!data)
+            return ;
+        const url = this._endPoint+"/meal/"  ;
+        return HTTP_REQUEST._delete({target:url, body : data});
+    }
+    deleteExerciseTemplate = async (data) =>{
         if(!data)
             return;
-        const url = this._endPoint+"/exercise/?template_day_exercises_id=" + data ;
-        return HTTP_REQUEST._delete({target:url});
+        const url = this._endPoint+"/exercise/" ;
+        return HTTP_REQUEST._delete({target:url, body : data});
     }
 
 }
