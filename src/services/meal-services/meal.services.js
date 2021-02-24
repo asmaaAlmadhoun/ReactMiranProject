@@ -12,6 +12,12 @@ class MealService extends BaseService{
         const url =   this._endPoint + "/";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
+    addFood = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/";
+        return  HTTP_REQUEST.put({target:url , body : data});
+    }
 }
 
 export  default  MealService;

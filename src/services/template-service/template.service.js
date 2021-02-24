@@ -39,28 +39,35 @@ class TemplateService extends BaseService{
     templateCopyExercise = async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "/copy-exercise";
+        const url =   this._endPoint + "/copy-exercise/";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
     templateCopyExerciseDay = async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "/copy-exercise-day";
+        const url =   this._endPoint + "/copy-exercise-day/";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
     templateCopyMeal = async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "/copy-meal";
+        const url =   this._endPoint + "/copy-meal/";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
     templateCopyMaelDay = async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "/copy-meal-day";
+        const url =   this._endPoint + "/copy-meal-day/";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
-    deleteMealTemplate (data){
+
+    addExerciseToTemplate = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/exercise/";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    deleteMealTemplate = async (data) =>{
         if(!data)
             return ;
         const url = this._endPoint+"/meal/"  ;

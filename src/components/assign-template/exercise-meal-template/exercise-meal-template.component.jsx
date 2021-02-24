@@ -46,7 +46,7 @@ class ExerciseMealTemplateComponent extends Component {
                             menuItem:  t('traineeModal.exercises'),
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ExerciseComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} openDetailsExceriseFunction={(e)=>this.setState({ExceriseDataItem: e, openExceriseDetails: true})} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
+                                    <ExerciseComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} openDetailsExceriseFunction={(e)=>this.setState({ExceriseDataItem: e, openExceriseDetails: true})} exerciseMealData={exerciseMealForThisDay} templateId={templateId} activeDay={activeDay}/>
                                 </Tab.Pane>,
                         },
                         {
@@ -61,11 +61,11 @@ class ExerciseMealTemplateComponent extends Component {
 
                 {!openDetails?
                      '':
-                    <MealItemComponent foodImage={mealDataItem.meal.foods} parentCall={(e)=> this.setState({openDetails: e})} nutrition_info={mealDataItem.nutrition_info} openDetails={openDetails}  mealTitle={mealDataItem.meal.title}  mealComment={mealDataItem.comment} imgPath={'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'} />
+                    <MealItemComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} foodImage={mealDataItem.meal.foods} parentCall={(e)=> this.setState({openDetails: e})} nutrition_info={mealDataItem.nutrition_info} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  mealComment={mealDataItem.comment} imgPath={'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'} />
                 }
                 {!openExceriseDetails?
                      '':
-                    <ExceriseItemComponent parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} />
+                    <ExceriseItemComponent parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} />
                 }
                 </>
         );

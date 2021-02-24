@@ -10,6 +10,7 @@ const base_url = 'https://testing.miranapp.com/api'
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': token ? `token ${token}` : null,
+                'App-Version' : '2.1.6'
 
             },
             body: JSON.stringify(body)
@@ -63,7 +64,7 @@ const put = async({ target, body }) => {
     }
 }
 
-const  _delete = async ({ target }) => {
+const  _delete = async ({ target,body }) => {
     try {
         const url = `${base_url}/${target}`;
         const token = localStorage.getItem('miran-token')
@@ -73,8 +74,9 @@ const  _delete = async ({ target }) => {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': token ? `token ${token}` : null,
-
+                'App-Version' : '2.1.6',
             },
+            body: JSON.stringify(body)
         })
         return await result.json()
     } catch (error) {
@@ -92,6 +94,7 @@ const Post_As_Form_Data = async({target , body}) => {
             method: "POST",
             headers: {
                 Accept: 'application/json',
+                'App-Version' : '2.1.6',
                 'Authorization': token ? `token ${token}` : null,
             },
             body

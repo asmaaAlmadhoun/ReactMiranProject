@@ -39,7 +39,7 @@ class SearchableListTemplateComponent extends Component {
                 <ul>
                     {
                         List.map((el) => {
-                            return <ListItem key={el.id} onClick={(e)=> this.props.exercise_muscleFunc(el.title)}
+                            return <ListItem key={el.id} onClick={(e)=> this.props.exercise_muscleFunc(el)}
                                              category={el.category}
                                              name={t('local')==='ar' ? el.title_ar : el.title}
                             />

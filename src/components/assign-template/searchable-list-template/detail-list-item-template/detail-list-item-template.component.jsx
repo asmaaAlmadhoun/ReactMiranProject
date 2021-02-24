@@ -3,6 +3,7 @@ import {withTranslation} from "react-i18next";
 import './detail-list-item-template.component.css';
 import {Input, Label} from "semantic-ui-react";
 import UserService from "../../../../services/user-service/user.service";
+import MealServices from "../../../../services/meal-services/meal.services";
 
 class DetailListItemTemplateComponent extends Component {
     constructor(props) {
@@ -10,7 +11,11 @@ class DetailListItemTemplateComponent extends Component {
         this.state = {
             displayedData: this.props.list,
             ratio : 1,
-            imgDefaultPath: ''
+            imgDefaultPath: '',
+            food_quantity: '',
+            template_day_meal_id: this.props.mealDataItem.template_day_meal_id,
+            food_id: this.props.MealForThisDay.id,
+
         }
     }
     onChangeGram = e => {
@@ -21,14 +26,34 @@ class DetailListItemTemplateComponent extends Component {
         let oldValue = this.props.quantity;
         if (value !== ''){
             this.prepareTotalDataSource(oldValue,value);
+            this.setState({food_quantity: value})
         }
         else{
             this.prepareTotalDataSource(oldValue,oldValue);
+            this.setState({food_quantity: oldValue})
         }
     }
     componentWillMount() {
         const userService = new UserService();
         this.setState({imgDefaultPath : userService.imageDefaultPath })
+    }
+    async addFood() {
+        const {food_quantity, template_day_meal_id, food_id} = this.state;
+        const mealServices = new MealServices();
+        const data = {
+            'template_day_meal_id': template_day_meal_id,
+            'food_id': food_id,
+            'food_quantity': food_quantity
+        }
+        mealServices.addFood(data).then(response => {
+            if (response.status) {
+                //      toast.done(t('shared.success.addedSuccess'));
+                // this.props.getTemplateForDay2();
+                // this.props.closeModal();
+            } else {
+                //  toast.done(t('shared.success.addedSuccess'));
+            }
+        })
     }
 
     prepareTotalDataSource(oldQty,newQty){
@@ -72,12 +97,12 @@ class DetailListItemTemplateComponent extends Component {
                     </div>
                     <div className="col-sm-12 text-center">
                         <div>
-                            <Input type="text" onChange={this.onChangeGram} placeholder={t('templatePage.numberOf')} />
+                            <Input type="text" onChange={this.onChangeGram} placeholder={t('templatePage.numberOf')} required/>
                             <span>{t('traineeModal.gram')}</span>
                         </div>
                     </div>
                     <div className='text-center w-100 mt-4'>
-                        <button className="btn btn-secondary w-50">
+                        <button className="btn btn-secondary w-50" onClick={(e)=> this.addFood()}>
                             {t('templatePage.addFood')}
                         </button>
                     </div>

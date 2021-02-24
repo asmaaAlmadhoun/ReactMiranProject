@@ -103,7 +103,7 @@ class MealItemComponent extends Component {
                 </div>
 
                 <ModalComponent  size='tiny' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
-                    <SearchableListWithImgTemplateComponent list={this.state.FoodList}/>
+                    <SearchableListWithImgTemplateComponent getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} list={this.state.FoodList}/>
                 </ModalComponent>
 
             </>

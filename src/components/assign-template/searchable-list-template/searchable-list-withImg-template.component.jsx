@@ -29,7 +29,7 @@ class ListItemWithImg extends Component{
         this.setState({__addModal__ : false});
     }
     render () {
-        const {t} = this.props;
+        const {t, activeDay, ExerciseId} = this.props;
         return (
             <>
                 <li>
@@ -43,10 +43,10 @@ class ListItemWithImg extends Component{
                 <ModalComponent size="tiny" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     {isNaN(this.props.data.exercise_id) ?
                         <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}   title={this.props.name}
-                                                         image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs}
+                                                         mealDataItem={this.props.mealDataItem}   getTemplateForDay2={(e)=>this.props.getTemplateForDay2}      image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs} MealForThisDay={this.props.data}
                         />
                         :
-                        <AddExerciseTemplateComponent exerciseMealForThisDay={this.props.data} />
+                        <AddExerciseTemplateComponent closeModal={(e)=>this.closeModalHandler} getTemplateForDay2={(e)=>this.props.getTemplateForDay2} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
                     }
 
                 </ModalComponent>
@@ -73,7 +73,7 @@ class SearchableListWithImgTemplateComponent extends Component {
         })
     }
     render () {
-        const {t} = this.props;
+        const {t, ExerciseId, activeDay} = this.props;
         let List = this.state.displayedData;
         return (
             <div className="SearchableListTemplateComponent-withImg">
@@ -82,10 +82,10 @@ class SearchableListWithImgTemplateComponent extends Component {
                     {
                         List.map((el) => {
                             return <ListItemWithImg key={el.id} onClick={(e)=> this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}
-                                                    data={el}
+                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId}
                                                     quantity={el.quantity} calories={el.calories} fat={el.fat}
-                                                    image={el.image}  protein={el.protein} carbs={el.carbs}
-                                             name={t('local')==='ar' ? el.title_ar : el.title}
+                                                    mealDataItem={this.props.mealDataItem} image={el.image}  protein={el.protein} carbs={el.carbs}
+                                                    getTemplateForDay2={this.props.getTemplateForDay2}        name={t('local')==='ar' ? el.title_ar : el.title}
                             />
                         })
                     }
