@@ -6,6 +6,7 @@ import ModalComponent from "../../common/modal/modal.component";
 import DetailListItemTemplateComponent from "./detail-list-item-template/detail-list-item-template.component";
 import UserService from "../../../services/user-service/user.service";
 import AddExerciseTemplateComponent from "../add-exercise-template/add-exercise-template.component";
+import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 
 class ListItemWithImg extends Component{
     constructor(props) {
@@ -43,10 +44,10 @@ class ListItemWithImg extends Component{
                 <ModalComponent size="tiny" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     {isNaN(this.props.data.exercise_id) ?
                         <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}   title={this.props.name}
-                                                         mealDataItem={this.props.mealDataItem}   getTemplateForDay2={(e)=>this.props.getTemplateForDay2}      image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs} MealForThisDay={this.props.data}
+                                                         closeModal={(e)=>this.setState({__addModal__ : false})}           mealDataItem={this.props.mealDataItem}   getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}      image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs} MealForThisDay={this.props.data}
                         />
                         :
-                        <AddExerciseTemplateComponent closeModal={(e)=>this.closeModalHandler} getTemplateForDay2={(e)=>this.props.getTemplateForDay2} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
+                        <AddExerciseTemplateComponent closeModal={(e)=>this.setState({__addModal__ : false})} getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
                     }
 
                 </ModalComponent>
@@ -73,7 +74,7 @@ class SearchableListWithImgTemplateComponent extends Component {
         })
     }
     render () {
-        const {t, ExerciseId, activeDay} = this.props;
+        const {t, ExerciseId, activeDay, parentCallExcersise} = this.props;
         let List = this.state.displayedData;
         return (
             <div className="SearchableListTemplateComponent-withImg">
@@ -85,7 +86,7 @@ class SearchableListWithImgTemplateComponent extends Component {
                                                     data={el} activeDay={activeDay} ExerciseId={ExerciseId}
                                                     quantity={el.quantity} calories={el.calories} fat={el.fat}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}  protein={el.protein} carbs={el.carbs}
-                                                    getTemplateForDay2={this.props.getTemplateForDay2}        name={t('local')==='ar' ? el.title_ar : el.title}
+                                                    getTemplateForDay2={(e) => {this.props.getTemplateForDay2(e)} }       name={t('local')==='ar' ? el.title_ar : el.title}
                             />
                         })
                     }

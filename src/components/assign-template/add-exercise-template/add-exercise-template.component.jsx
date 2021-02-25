@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import InputTextComponent from "../../InputTextComponent/input-text-no-label.component";
 import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
 import {TextArea} from "semantic-ui-react";
+import QierPlayer from "qier-player";
 
 class AddExerciseTemplateComponent extends  React.Component {
 
@@ -30,10 +31,8 @@ class AddExerciseTemplateComponent extends  React.Component {
         const value = e.target.value;
         this.setState({[e.target.name] : value});
     }
-    async addExerciseToTemplate() {
-
+    async addExerciseToTemplate(e) {
         const {weight, comment, sets, count, rest_period, ExerciseId, activeDay} = this.state;
-
         const templateServices = new TemplateServices();
         const data = {
             'exercise_id': ExerciseId,
@@ -47,7 +46,6 @@ class AddExerciseTemplateComponent extends  React.Component {
         templateServices.addExerciseToTemplate(data).then(response => {
             if (response.status) {
                 //      toast.done(t('shared.success.addedSuccess'));
-                console.log('asma');
                 this.props.getTemplateForDay2();
                 this.props.closeModal();
             } else {
@@ -61,10 +59,22 @@ class AddExerciseTemplateComponent extends  React.Component {
             <React.Fragment>
                 <div className="row">
                     <div className="col-sm-12 text-center">
-                        <img width='100%' src={this.state.imgDefaultPath+exerciseMealForThisDay.image} alt="image"/>
+                        <QierPlayer
+                            srcOrigin={this.state.imgDefaultPath+exerciseMealForThisDay.video}
+                            language="en"
+                            width='100%'
+                            height={230}
+                            showVideoQuality={true}
+                            src480p={this.state.imgDefaultPath+exerciseMealForThisDay.video}
+                            src1080p={''}
+                            src720p={null}
+                            src2k={''}
+                            src4k={''}
+                            themeColor="#00a4f8"
+                        />
                     </div>
                     <div className="col-sm-12 text-center">
-                        <h4 className='mb-2'>{t('local')==='ar' ? exerciseMealForThisDay.title_ar : exerciseMealForThisDay.title}</h4>
+                        <h4 className='my-2'>{t('local')==='ar' ? exerciseMealForThisDay.title_ar : exerciseMealForThisDay.title}</h4>
                     </div>
                     <div className="col-sm-4 text-center">
                         <div>
@@ -101,7 +111,7 @@ class AddExerciseTemplateComponent extends  React.Component {
                     </div>
                 </div>
                 <div className="meal-buttons text-center">
-                    <button className='ui btn w-50 m-auto btn-secondary' onClick={(e)=>this.addExerciseToTemplate()}> {t('shared.add')} </button>
+                    <button className='ui btn w-50 m-auto btn-secondary' onClick={(e)=>this.addExerciseToTemplate(e)}> {t('shared.add')} </button>
                 </div>
 
             </React.Fragment>

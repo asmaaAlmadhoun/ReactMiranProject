@@ -89,7 +89,7 @@ class AddMealTemplateComponent extends Component {
         templateServices.templateCopyMaelDay(data).then(response => {
             if (response) {
                 toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay2();
+                this.props.parentTriggerAdd();
             } else {
                 toast.done(t('shared.success.addedSuccess'));
             }

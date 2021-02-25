@@ -61,7 +61,7 @@ class ExerciseMealTemplateComponent extends Component {
 
                 {!openDetails?
                      '':
-                    <MealItemComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} foodImage={mealDataItem.meal.foods} parentCall={(e)=> this.setState({openDetails: e})} nutrition_info={mealDataItem.nutrition_info} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  mealComment={mealDataItem.comment} imgPath={'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'} />
+                    <MealItemComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} parentCall={(e)=> this.setState({openDetails: e})} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
                 }
                 {!openExceriseDetails?
                      '':

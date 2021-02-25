@@ -10,6 +10,8 @@ import ModalComponent from "../common/modal/modal.component";
 import ResourcesService from "../../services/trainee-service/resources.service";
 import MusclesService from "../../services/trainee-service/muscles.service";
 import {Label} from "semantic-ui-react";
+import QierPlayer from "qier-player";
+import UserService from "../../services/user-service/user.service";
 
 class ExceriseItemComponent extends Component {
     constructor(props) {
@@ -18,8 +20,13 @@ class ExceriseItemComponent extends Component {
             openDetails2: true,
             __addModal__: false,
             muscles: [],
-            openExceriseListDetails: false
+            openExceriseListDetails: false,
+            imgDefaultPath: ''
         }
+    }
+    componentWillMount() {
+        const userService = new UserService();
+        this.setState({imgDefaultPath : userService.imageDefaultPath })
     }
 
     render() {
@@ -32,9 +39,21 @@ class ExceriseItemComponent extends Component {
                         {t('local') === 'ar'?  <i><IoIosArrowForward/> </i>: <i><IoIosArrowBack/></i> }
                     </button>
                     <div className="row">
-                        <div className="col-sm-12 mb-3 img-thumbnail">
-                            <div className="images">
-                                <img className='w-100' src={'https://testing.miranapp.com/media/'+ExceriseDataItem.exercise.image} alt="image" />
+                        <div className="col-sm-12 mb-3">
+                            <div className="video">
+                                <QierPlayer
+                                    srcOrigin={this.state.imgDefaultPath+ExceriseDataItem.exercise.video}
+                                    language="en"
+                                    width='100%'
+                                    height={300}
+                                    showVideoQuality={true}
+                                    src480p={this.state.imgDefaultPath+ExceriseDataItem.exercise.video}
+                                    src1080p={''}
+                                    src720p={null}
+                                    src2k={''}
+                                    src4k={''}
+                                    themeColor="#00a4f8"
+                                />
                             </div>
                         </div>
                         <div className="col-sm-3 text-center">

@@ -48,8 +48,8 @@ class DetailListItemTemplateComponent extends Component {
         mealServices.addFood(data).then(response => {
             if (response.status) {
                 //      toast.done(t('shared.success.addedSuccess'));
-                // this.props.getTemplateForDay2();
-                // this.props.closeModal();
+                 this.props.getTemplateForDay2();
+                 this.props.closeModal();
             } else {
                 //  toast.done(t('shared.success.addedSuccess'));
             }

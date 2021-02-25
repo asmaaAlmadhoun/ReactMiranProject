@@ -183,7 +183,7 @@ class MealComponent extends Component {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                    </div>
                     <AddMealTemplateComponent parentTriggerAdd={(e)=> {this.props.getTemplateForDay2()}}  exerciseMealData={this.props.exerciseMealData} activeDay={activeDay} templateId={templateId}/>
                 </div>
 

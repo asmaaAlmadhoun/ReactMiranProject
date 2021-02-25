@@ -32,7 +32,8 @@ class MealItemComponent extends Component {
 
     }
     render() {
-        const {t, openDetails, nutrition_info,foodImage, mealTitle ,mealComment} = this.props;
+        const {t, openDetails, mealTitle } = this.props;
+        let {mealDataItem} = this.props;
         let { imgPath} = this.props;
         if(!imgPath)
             imgPath = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' ;
@@ -47,7 +48,7 @@ class MealItemComponent extends Component {
                         <div className="col-sm-12 mb-3 img-thumbnail">
                             <div className="images">
                                 {
-                                    (foodImage) ? foodImage.map(item =>
+                                    (mealDataItem.meal.foods) ? mealDataItem.meal.foods.map(item =>
                                         <span>
                                             <img className='w-25' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
                                         </span>
@@ -58,11 +59,11 @@ class MealItemComponent extends Component {
                         <div className="col-sm-4">
                             <div>
                                 <label className='primary'> {t('traineeModal.calories')} : </label>
-                                <span>{nutrition_info.calories}</span>
+                                <span>{mealDataItem.nutrition_info.calories}</span>
                             </div>
                             <div>
                                 <label className='primary'> {t('traineeModal.fat')} : </label>
-                                <span>{nutrition_info.fat}</span>
+                                <span>{mealDataItem.nutrition_info.fat}</span>
                             </div>
                         </div>
                         <div className="col-sm-4 text-center">
@@ -72,15 +73,15 @@ class MealItemComponent extends Component {
                         <div className="col-sm-4">
                             <div>
                                 <label className='primary'> {t('traineeModal.carbs')} : </label>
-                                <span>{nutrition_info.carbs}</span>
+                                <span>{mealDataItem.nutrition_info.carbs}</span>
                             </div>
                            <div>
                                <label className='primary'> {t('traineeModal.protein')} : </label>
-                               <span>{nutrition_info.protein}</span>
+                               <span>{mealDataItem.nutrition_info.protein}</span>
                            </div>
                         </div>
                         <div className="col-sm-12">
-                            <textarea value={mealComment} rows='4' className='bg-light w-100 my-4 form-control'/>
+                            <textarea value={mealDataItem.comment} rows='4' className='bg-light w-100 my-4 form-control'/>
                         </div>
                     </div>
                     <div className="meal-buttons text-left">

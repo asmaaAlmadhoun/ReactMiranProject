@@ -263,7 +263,7 @@ class ExerciseComponent extends Component {
                 </button>
                 {  muscleExercise !== null?
                     this.state.loader2 ? <Loader active={true} inline='centered'/> :
-                        <SearchableListWithImgTemplateComponent getTemplateForDay2={this.props.getTemplateForDay2()} activeDay={exerciseMealData.day.id} ExerciseId={ExerciseId} list={muscleExercise} openModalToAdd={(e)=> this.openModalToAdd(e)} />
+                        <SearchableListWithImgTemplateComponent  getTemplateForDay2={(e)=> {this.props.getTemplateForDay2(e)}} activeDay={exerciseMealData.day.id} ExerciseId={ExerciseId} list={muscleExercise} openModalToAdd={(e)=> this.openModalToAdd(e)} />
                    :''
                 }
             </div>
