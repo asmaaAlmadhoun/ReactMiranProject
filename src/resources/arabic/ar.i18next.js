@@ -119,6 +119,7 @@ ArabicTranslation = {
     Reps: 'عدد العضلات',
     rest: 'فترة الراحة',
     sets: 'مجموعات',
+    titleCopyMeal: 'كم عدد الأيام المقترحة'
   },
   profile: {
     fullName: 'الإسم بالكامل',
@@ -163,6 +164,12 @@ ArabicTranslation = {
     weight: 'الوزن',
     water: 'الماء',
     picture: 'الصور',
+    current: 'الحالي',
+    target: 'الهدف',
+    day: 'يوم',
+    value: 'قيمة',
+    change: 'التغيير',
+    weightChanges: 'تغيير الوزن'
   }
 
 };

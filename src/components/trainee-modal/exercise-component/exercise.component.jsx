@@ -18,6 +18,8 @@ import ExerciseService from "../../../services/trainee-service/exercise.service"
 import SearchableListWithImgTemplateComponent
     from "../../assign-template/searchable-list-template/searchable-list-withImg-template.component";
 import ModalComponent from "../../common/modal/modal.component";
+import AddDaysTemplateComponent from "../../assign-template/add-days-template/add-days-template.component";
+import EmptyComponent from "../../common/empty-page/empty.component";
 class ExerciseComponent extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +31,8 @@ class ExerciseComponent extends Component {
             loader2: true,
             muscleExercise: [],
             ExceriseMuscleItem: '',
-            ExerciseId: 1
+            ExerciseId: 1,
+            openCopyModel: false
         }
     }
     openDetailsFunc(item){
@@ -55,23 +58,28 @@ class ExerciseComponent extends Component {
     }
     copyExerciseTemplate(e,id){
         e.stopPropagation();
-        const {t,exerciseMealData} = this.props;
-        let day= exerciseMealData.day.day;
 
-        const templateServices = new TemplateServices();
-        const data = {
-            'template_day_exercise_id': id,
-            'days': day
-        }
-        console.log(id)
-        templateServices.templateCopyExercise(data).then(response => {
-            if (response) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay2();
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
-            }
-        })
+        this.setState({'openCopyModel' : true})
+        // const {t,exerciseMealData} = this.props;
+        // let day= exerciseMealData.day.day;
+        //
+        // const templateServices = new TemplateServices();
+        // const data = {
+        //     'template_day_exercise_id': id,
+        //     'days': day
+        // }
+        // console.log(id)
+        // templateServices.templateCopyExercise(data).then(response => {
+        //     if (response) {
+        //         toast.done(t('shared.success.addedSuccess'));
+        //         this.props.getTemplateForDay2();
+        //     } else {
+        //         toast.done(t('shared.success.addedSuccess'));
+        //     }
+        // })
+    }
+    closeCopyModel(){
+        this.setState({'openCopyModel' : false})
     }
     templateCopyExerciseDay(id){
         const {t, exerciseMealData} = this.props;
@@ -221,7 +229,7 @@ class ExerciseComponent extends Component {
                                     <hr/>
                                 </>
                             )
-                            : <h3> {t('shared.empty')}</h3>
+                            :   <EmptyComponent/>
                     }
                 </div>
                 <div className={"AddMealTemplateComponent row p-0 mt-4"}>
@@ -267,6 +275,10 @@ class ExerciseComponent extends Component {
                    :''
                 }
             </div>
+                <ModalComponent hideAction={true} isOpen={this.state.openCopyModel}  size='mini' handleClosed={(e)=> this.setState({'openCopyModel': false})}>
+                    <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
+
+                </ModalComponent>
 
             </>
         );

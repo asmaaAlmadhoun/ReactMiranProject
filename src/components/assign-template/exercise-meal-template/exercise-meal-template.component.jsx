@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tab} from "semantic-ui-react";
+import {Loader, Tab} from "semantic-ui-react";
 import ExerciseComponent from "../../trainee-modal/exercise-component/exercise.component";
 import MealComponent from "../../trainee-modal/meal-component/meal.component";
 import {withTranslation} from "react-i18next";
@@ -8,6 +8,7 @@ import ToasterComponent from "../../common/toaster/toaster.component";
 import AddDaysTemplateComponent from "../add-days-template/add-days-template.component";
 import MealItemComponent from "../../meal-excerise-itemComponent/meal-item.component";
 import ExceriseItemComponent from "../../meal-excerise-itemComponent/excerise-item.component";
+import ModalComponent from "../../common/modal/modal.component";
 
 class ExerciseMealTemplateComponent extends Component {
     constructor(props) {
@@ -18,15 +19,19 @@ class ExerciseMealTemplateComponent extends Component {
             mealDataItem: [],
             ExceriseDataItem: [],
             openDetails: false,
-            openExceriseDetails: false
+            openExceriseDetails: false,
+            loading: false
         }
     }
     async componentWillMount() {
        this.props.getTemplateForDay();
     }
     clickNumberHandler= (e) =>{
+        this.setState({loading: true})
         const {templateId} = this.props;
         this.props.getTemplateForDay(templateId, e);
+        this.setState({loading: false})
+
     }
 
     render() {
@@ -39,24 +44,39 @@ class ExerciseMealTemplateComponent extends Component {
                     <ToasterComponent />
 
                     <AddDaysTemplateComponent  daysNumber={daysNumber} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
+                    {
+                        this.state.loading ? <Loader active={true} inline='centered'/> :
 
-                    <div className="mt-4">
-                    <Tab menu={{ secondary: true }} panes={ [
-                        {
-                            menuItem:  t('traineeModal.exercises'),
-                            render: () =>
-                                <Tab.Pane attached={false}>
-                                    <ExerciseComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} openDetailsExceriseFunction={(e)=>this.setState({ExceriseDataItem: e, openExceriseDetails: true})} exerciseMealData={exerciseMealForThisDay} templateId={templateId} activeDay={activeDay}/>
-                                </Tab.Pane>,
-                        },
-                        {
-                            menuItem:  t('traineeModal.meals'),
-                            render: () => <Tab.Pane attached={false}>
-                                <MealComponent getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)}  openDetailsFunction={(e)=>this.setState({mealDataItem: e, openDetails: true})} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay} templateId={templateId} />
-                            </Tab.Pane>,
-                        },
-                    ]} />
-                    </div>
+                            <div className="mt-4">
+                                <Tab menu={{secondary: true}} panes={[
+                                    {
+                                        menuItem: t('traineeModal.exercises'),
+                                        render: () =>
+                                            <Tab.Pane attached={false}>
+                                                <ExerciseComponent
+                                                    getTemplateForDay2={(e) => this.props.getTemplateForDay(templateId, this.state.activeDay)}
+                                                    openDetailsExceriseFunction={(e) => this.setState({
+                                                        ExceriseDataItem: e,
+                                                        openExceriseDetails: true
+                                                    })} exerciseMealData={exerciseMealForThisDay}
+                                                    templateId={templateId} activeDay={activeDay}/>
+                                            </Tab.Pane>,
+                                    },
+                                    {
+                                        menuItem: t('traineeModal.meals'),
+                                        render: () => <Tab.Pane attached={false}>
+                                            <MealComponent
+                                                getTemplateForDay2={(e) => this.props.getTemplateForDay(templateId, this.state.activeDay)}
+                                                openDetailsFunction={(e) => this.setState({
+                                                    mealDataItem: e,
+                                                    openDetails: true
+                                                })} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay}
+                                                templateId={templateId}/>
+                                        </Tab.Pane>,
+                                    },
+                                ]}/>
+                            </div>
+                    }
                 </div>
 
                 {!openDetails?

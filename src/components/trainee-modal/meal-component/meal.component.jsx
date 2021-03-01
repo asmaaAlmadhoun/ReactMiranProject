@@ -12,6 +12,7 @@ import TemplateServices from "../../../services/template-service/template.servic
 import {toast} from "react-toastify";
 import ToasterComponent from "../../common/toaster/toaster.component";
 import {BiCopy} from "react-icons/bi";
+import EmptyComponent from "../../common/empty-page/empty.component";
 class MealComponent extends Component {
     constructor(props) {
         super(props);
@@ -71,7 +72,9 @@ class MealComponent extends Component {
                 <ToasterComponent />
 
                 {!exerciseMealData.day.break_day_meal ?
-                        exerciseMealData.day.meals !== [] ?
+                        exerciseMealData.day.meals === null ?
+                            <EmptyComponent/>
+                             :
                             exerciseMealData.day.meals.map(item =>
                             <>
                                 <div className="row">
@@ -131,7 +134,7 @@ class MealComponent extends Component {
                                 </div>
                                 <hr/>
                             </>)
-                        : <h3> {t('shared.empty')}</h3>
+
                     :
                         <BreakDayComponent/>
                 }

@@ -5,6 +5,13 @@
     outline: none;
     box-shadow: none !important;
 }
+.miran-primary-input textarea {
+    border-radius: 20px;
+    border:1px solid #8c99a5;
+    padding: 20px 10px;
+    outline: none;
+    box-shadow: none !important;
+}
 .miran-primary-input label {
     color: #8c99a5;
 

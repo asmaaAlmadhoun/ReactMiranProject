@@ -5,6 +5,8 @@ import './progress.component.css';
 import {RiRuler2Line} from "react-icons/ri";
 import {GiWaterBottle, GiWeightLiftingUp} from "react-icons/gi";
 import {FaWeight} from "react-icons/fa";
+import ProgressMeasure from "./progress-measure.component";
+import ProgressPicture from "./progress-picture.component";
 
 
 class progressComponent extends Component {
@@ -31,6 +33,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
+                                    <ProgressMeasure />
 
                                 </Tab.Pane>,
                         },
@@ -70,7 +73,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-
+                                    <ProgressPicture />
                                 </Tab.Pane>,
                         },
                     ]}/>

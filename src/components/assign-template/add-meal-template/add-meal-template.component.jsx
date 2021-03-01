@@ -137,16 +137,16 @@ class AddMealTemplateComponent extends Component {
 
 
                 <ModalComponent size='mini' isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
-                    <div className="text-center mini-shared-modal px-3">
+                    <div className="text-center mini-shared-modal px-3 miran-primary-input">
                         <h4 className='mb-4'>  {t('traineeModal.addMeal')} </h4>
                         <InputTextComponent
                             valueHandler={this.onChangeHandler} name='mealTitle'
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             isRequired={true} labelTitle={t('traineeModal.mealTitle')}  />
-                        <InputTextComponent
-                            valueHandler={this.onChangeHandler} name='mealComment'
-                            isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
-                            isRequired={true} labelTitle={t('templatePage.comments')}  />
+                        <textarea className='form-control mb-3' rows='3'
+                            onChange={this.onChangeHandler} name='mealComment' placeholder={t('templatePage.comments')}
+                             style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
+                            required />
                         <PrimaryButtonComponent switchLoading={this.state.isLoading}
                                                 isSecondaryBtn='true' className='btn w-50'
                                                 clickHandler={this.submitNewMeal}

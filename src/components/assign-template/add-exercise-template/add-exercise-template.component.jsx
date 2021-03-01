@@ -44,7 +44,7 @@ class AddExerciseTemplateComponent extends  React.Component {
             'rest_period': rest_period
         }
         templateServices.addExerciseToTemplate(data).then(response => {
-            if (response.status) {
+            if (response) {
                 //      toast.done(t('shared.success.addedSuccess'));
                 this.props.getTemplateForDay2();
                 this.props.closeModal();

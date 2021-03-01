@@ -116,6 +116,7 @@ const EnglishTranslation = {
         rest: 'Rest period',
         Reps: 'Reps',
         sets: 'Sets',
+        titleCopyMeal: 'How many days should be?'
     },
     profile : {
         fullName : 'Full Name',
@@ -160,6 +161,13 @@ const EnglishTranslation = {
         weight : 'Weight',
         water: 'Water',
         picture: 'Pictures',
+        current: 'Current',
+        target: 'Target',
+        day: 'Day',
+        value: 'Value',
+        change: 'Change',
+        weightChanges: 'Weight Changes'
+
     }
   };
 
