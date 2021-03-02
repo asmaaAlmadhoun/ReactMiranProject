@@ -11,29 +11,30 @@ class AddDaysTemplateComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            daysNumber :0,
+            daysNumber :this.props.exerciseMealData.days,
             activeNumber : 1
         }
         this.sliderRef = React.createRef();
     }
 
-    componentWillMount() {
-        const {daysNumber} = this.props;
-        if(daysNumber) {
-            this.setState({daysNumber})
+    componentDidMount() {
+        const {exerciseMealData} = this.props;
+        if(exerciseMealData.days) {
+            this.setState({daysNumber: exerciseMealData.days})
         }
     }
 
     renderDaysButtons = ()  => {
         let daysButton = [];
 
-        for (let i = 1; i <= this.state.daysNumber; i++) {
+        for (let i = 1; i <= this.state.daysNumber ; i++) {
             daysButton.push(
-               <span number={i} className={i === 1 ? 'active' : ''}>
+                <span number={i} className={i === 1 ? 'active' : ''}>
                     {i}
                </span>
             )
         }
+
 
         return daysButton;
     }
@@ -44,9 +45,11 @@ class AddDaysTemplateComponent extends Component {
             daysNumber++;
             this.setState({daysNumber});
             this.renderDaysButtons();
+            this.props.getTemplateForDay2();
             this.sliderRef.slickGoTo(daysNumber)
+            this.addTemplateDay();
         }
-        this.addTemplateDay()
+
     }
     removeTemplateDay = () =>{
         const {exerciseMealData}= this.props;
@@ -55,9 +58,7 @@ class AddDaysTemplateComponent extends Component {
             'template_day': exerciseMealData.day.id
         }
         templateServices.removeTemplateDay(data).then(response => {
-            if (response.message) {
 
-            }
         })
     }
     addTemplateDay = () =>{
@@ -67,9 +68,7 @@ class AddDaysTemplateComponent extends Component {
             'template': exerciseMealData.id
         }
         templateServices.addTemplateDay(data).then(response => {
-            if (response.message) {
 
-            }
         })
     }
 
@@ -79,9 +78,10 @@ class AddDaysTemplateComponent extends Component {
             daysNumber--;
             this.setState({daysNumber});
             this.renderDaysButtons();
+            this.props.getTemplateForDay2();
             this.sliderRef.slickGoTo(daysNumber)
+            this.removeTemplateDay()
         }
-         this.removeTemplateDay()
     }
 
     render() {

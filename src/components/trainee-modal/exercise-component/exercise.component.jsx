@@ -186,7 +186,9 @@ class ExerciseComponent extends Component {
                 <ToasterComponent />
 
                 <div>
-                    {exerciseMealData.day.break_day_exercise ?
+                    {!(exerciseMealData)?
+                        <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
+                        exerciseMealData.day.break_day_exercise ?
                         <BreakDayComponent/> :
                         !( exerciseMealData.day.exercises  &&  exerciseMealData.day.exercises.length) ?
                             <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
