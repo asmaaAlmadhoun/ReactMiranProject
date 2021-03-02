@@ -75,6 +75,7 @@ class TemplateCardComponent extends Component {
                    </div>
                </div>
                 <div className="delete-icon" onClick={e => {
+                    e.stopPropagation();
                     const {deleteFn , id} = this.props;
                     if(deleteFn) {
                         deleteFn(id);
