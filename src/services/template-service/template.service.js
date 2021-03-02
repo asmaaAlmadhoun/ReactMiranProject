@@ -79,6 +79,18 @@ class TemplateService extends BaseService{
         const url = this._endPoint+"/exercise/" ;
         return HTTP_REQUEST._delete({target:url, body : data});
     }
+    addTemplateDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/day/";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    removeTemplateDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/day/";
+        return  HTTP_REQUEST._delete({target:url , body : data});
+    }
 
 }
 

@@ -33,14 +33,25 @@ class MealComponent extends Component {
         const {t} = this.props;
         toast.done(t('shared.success.addedSuccess'));
     }
-    calculateTotals(){
-        const meal = this.props.exerciseMealData.day.meals;
-        let {caloriesTotal,carbsTotal,fatTotal,proteinTotal}=0;
-         caloriesTotal = meal.reduce((totalCal,item) => totalCal = totalCal + item.nutrition_info.calories, 0 );
-         fatTotal=meal.reduce((totalFat,item) => totalFat = totalFat + item.nutrition_info.fat, 0 );
-        carbsTotal=meal.reduce((carbsTotal,item) => carbsTotal = carbsTotal + item.nutrition_info.carbs, 0 );
-        proteinTotal=meal.reduce((proteinTotal,item) => proteinTotal = proteinTotal + item.nutrition_info.protein, 0 );
-        return [caloriesTotal,carbsTotal,fatTotal,proteinTotal]
+    calculateCaloriesTotal(){
+        let {caloriesTotal}=0;
+         caloriesTotal = this.props.exerciseMealData.day.meals.reduce((totalCal,item) => totalCal = totalCal + item.nutrition_info.calories, 0 );
+         return caloriesTotal
+    }
+    calculateFatTotal(){
+        let {fatTotal}=0;
+        fatTotal=this.props.exerciseMealData.day.meals.reduce((totalFat,item) => totalFat = totalFat + item.nutrition_info.fat, 0 );
+        return fatTotal
+    }
+    calculateCarbsTotal(){
+        let {carbsTotal}=0;
+        carbsTotal=this.props.exerciseMealData.day.meals.reduce((carbsTotal,item) => carbsTotal = carbsTotal + item.nutrition_info.carbs, 0 );
+        return carbsTotal
+    }
+    calculateProteinTotal(){
+        let {proteinTotal}=0;
+        proteinTotal=this.props.exerciseMealData.day.meals.reduce((proteinTotal,item) => proteinTotal = proteinTotal + item.nutrition_info.protein, 0 );
+        return proteinTotal
     }
 
     deleteMealTemplate(id){
@@ -205,19 +216,19 @@ class MealComponent extends Component {
                                     <div className="stripe grey">
                                         <div className="">
                                             <span className="key"> {t('traineeModal.calories')}: </span>
-                                            <span className="val"> {this.calculateTotals()[0]} </span>
+                                            <span className="val"> {this.calculateCaloriesTotal()} </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.carbs')}: </span>
-                                            <span className="val"> {this.calculateTotals()[1]} </span>
+                                            <span className="val"> {this.calculateCarbsTotal()} </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.fat')}: </span>
-                                            <span className="val"> {this.calculateTotals()[2]}  </span>
+                                            <span className="val"> {this.calculateFatTotal()}  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.protein')} : </span>
-                                            <span className="val"> {this.calculateTotals()[3]} </span>
+                                            <span className="val"> {this.calculateProteinTotal()} </span>
                                         </div>
                                     </div>
                                 </div>

@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css";
 import DateComponent from "../../trainee-modal/dates-components/date.component";
 import PropTypes from 'prop-types';
+import TemplateServices from "../../../services/template-service/template.service";
+import {toast} from "react-toastify";
 class AddDaysTemplateComponent extends Component {
     constructor(props) {
         super(props);
@@ -43,9 +45,32 @@ class AddDaysTemplateComponent extends Component {
             this.setState({daysNumber});
             this.renderDaysButtons();
             this.sliderRef.slickGoTo(daysNumber)
-
         }
+        this.addTemplateDay()
+    }
+    removeTemplateDay = () =>{
+        const {exerciseMealData}= this.props;
+        const templateServices = new TemplateServices();
+        const data = {
+            'template_day': exerciseMealData.day.id
+        }
+        templateServices.removeTemplateDay(data).then(response => {
+            if (response.message) {
 
+            }
+        })
+    }
+    addTemplateDay = () =>{
+        const {exerciseMealData}= this.props;
+        const templateServices = new TemplateServices();
+        const data = {
+            'template': exerciseMealData.id
+        }
+        templateServices.addTemplateDay(data).then(response => {
+            if (response.message) {
+
+            }
+        })
     }
 
     decrementDays = () => {
@@ -56,6 +81,7 @@ class AddDaysTemplateComponent extends Component {
             this.renderDaysButtons();
             this.sliderRef.slickGoTo(daysNumber)
         }
+         this.removeTemplateDay()
     }
 
     render() {

@@ -43,7 +43,7 @@ class ExerciseMealTemplateComponent extends Component {
                 <div className={openDetails || openExceriseDetails ? ' d-none':'' }>
                     <ToasterComponent />
 
-                    <AddDaysTemplateComponent  daysNumber={daysNumber} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
+                    <AddDaysTemplateComponent  daysNumber={daysNumber} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
                     {
                         this.state.loading ? <Loader active={true} inline='centered'/> :
 
