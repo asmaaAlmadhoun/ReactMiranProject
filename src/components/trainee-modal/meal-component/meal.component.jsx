@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import PropTypes from 'prop-types';
 import { FiX,FiMaximize,FiMove } from "react-icons/fi";
 import {withTranslation} from "react-i18next";
@@ -12,13 +12,18 @@ import TemplateServices from "../../../services/template-service/template.servic
 import {toast} from "react-toastify";
 import ToasterComponent from "../../common/toaster/toaster.component";
 import {BiCopy} from "react-icons/bi";
-import EmptyComponent from "../../common/empty-page/empty.component";
+import ModalComponent from "../../common/modal/modal.component";
+import EmptyDataComponent from "../../common/empty-page/emptyData.component";
 class MealComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             fullTemplateDataForThisDay : '',
-            openDetails: false
+            openDetails: false,
+            mealId_selected: 1,
+            copyDays: ['1'],
+            openCopyModel: false,
+            mealItemTemplateToggle: 0,
         }
     }
     openDetailsFunc(item){
@@ -26,9 +31,16 @@ class MealComponent extends Component {
     }
     componentDidMount() {
         const {t} = this.props;
-
         toast.done(t('shared.success.addedSuccess'));
-        toast.done(t('shared.success.addedSuccess'));
+    }
+    calculateTotals(){
+        const meal = this.props.exerciseMealData.day.meals;
+        let {caloriesTotal,carbsTotal,fatTotal,proteinTotal}=0;
+         caloriesTotal = meal.reduce((totalCal,item) => totalCal = totalCal + item.nutrition_info.calories, 0 );
+         fatTotal=meal.reduce((totalFat,item) => totalFat = totalFat + item.nutrition_info.fat, 0 );
+        carbsTotal=meal.reduce((carbsTotal,item) => carbsTotal = carbsTotal + item.nutrition_info.carbs, 0 );
+        proteinTotal=meal.reduce((proteinTotal,item) => proteinTotal = proteinTotal + item.nutrition_info.protein, 0 );
+        return [caloriesTotal,carbsTotal,fatTotal,proteinTotal]
     }
 
     deleteMealTemplate(id){
@@ -47,96 +59,142 @@ class MealComponent extends Component {
             }
         })
     }
-    templateCopyMeal(id){
+    openModalCopyMeal(e,id, mealItemTemplateToggle){
+        e.stopPropagation();
+        this.setState({'openCopyModel' : true, copyDays : ['1'], mealId_selected : id, mealItemTemplateToggle: mealItemTemplateToggle })
+    }
+    submitTemplateCopyMeal(id){
         const {t,exerciseMealData} = this.props;
-        const templateServices = new TemplateServices();
-        let day= exerciseMealData.day.day;
-
-        const data = {
-            'template_day_meal_id': id,
-            'days':day
+        let {copyDays, mealId_selected, mealItemTemplateToggle} = this.state;
+        if(mealItemTemplateToggle){
+            this.templateCopyMaelDay(copyDays);
         }
-        templateServices.templateCopyMeal(data).then(response => {
+        else{
+            const templateServices = new TemplateServices();
+            const data = {
+                'template_day_meal_id': mealId_selected,
+                'days': copyDays
+            }
+            templateServices.templateCopyMeal(data).then(response => {
+                if (response) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                    this.setState({'openCopyModel' : false})
+
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
+    }
+    templateCopyMaelDay(copyDays){
+        const {t, exerciseMealData} = this.props;
+        let Dayid= exerciseMealData.day.id;
+        const templateServices = new TemplateServices();
+        const data = {
+            'template_day_id': Dayid,
+            'days':copyDays
+        }
+        templateServices.templateCopyMaelDay(data).then(response => {
             if (response) {
                 toast.done(t('shared.success.addedSuccess'));
+                this.props.parentTriggerAdd();
                 this.props.getTemplateForDay2();
+                this.setState({'openCopyModel' : false})
             } else {
                 toast.done(t('shared.success.addedSuccess'));
             }
         })
     }
+    renderDaysButtons = ()  => {
+        let daysButton = [];
+        for (let i = 1; i <= this.props.daysNumber; i++) {
+            daysButton.push(
+                <span key={i} className={i === 1 ? 'active' : ''}>
+                    {i}
+               </span>
+            )
+        }
+        return daysButton;
+    }
+    addDays(pushObj){
+        let daysButton = this.state.copyDays;
+        if (!daysButton.includes((pushObj.key+1)+'')) {
+            daysButton.push((pushObj.key+1)+'');
+        }
+        this.setState({daysButton: daysButton});
+    }
     render() {
-        const {t, templateId, activeDay, exerciseMealData, getTemplateForDay} = this.props;
+        const {t, templateId, daysNumber,activeDay, exerciseMealData, getTemplateForDay} = this.props;
+        const buttons = this.renderDaysButtons();
+
         return (
             <div className="meal">
-                <ToasterComponent />
 
-                {!exerciseMealData.day.break_day_meal ?
-                        exerciseMealData.day.meals === null ?
-                            <EmptyComponent/>
-                             :
-                            exerciseMealData.day.meals.map(item =>
-                            <>
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
-                                        <div className="images">
-                                            {
-                                                (item.meal.foods) ? item.meal.foods.map(item =>
-                                                    <span>
-                                                    <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
-                                                    </span>
+                {exerciseMealData.day.break_day_meal ?
+                    <BreakDayComponent/> :
+                        !(exerciseMealData.day.meals  && exerciseMealData.day.meals.length) ?
+                            <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
+                              exerciseMealData.day.meals.map((item,i) =>
+                                    <>
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
+                                                <div className="images">
+                                                    {
+                                                        (item.meal.foods) ? item.meal.foods.map(item =>
+                                                                <span>
+                                                        <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
+                                                        </span>
 
-                                                ) : ''
-                                            }
+                                                        ) : ''
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-6 text-left">
+                                                <div className="icons d-flex flex-row-reverse">
+                                                <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.meal.id)}>
+                                                    <FiX />
+                                                </span>
+                                                    <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.meal.id,0)}>
+                                                    <BiCopy />
+                                                </span>
+                                                    <span className="icon move">
+                                                    <FiMove />
+                                                </span>
+                                                </div>
+                                                <button className="btn btn-secondary w-50 mt-3 p-1" onClick={(e) =>
+                                                {
+                                                    e.preventDefault();
+                                                    this.openDetailsFunc(item);
+                                                }}>
+                                                    {t('traineeModal.mealDetails')}
+                                                </button>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <div>
+                                                    <span className="key"> {t('traineeModal.calories')} : </span>
+                                                    <span className="val"> {item.nutrition_info.calories}  </span>
+                                                </div>
+                                                <div>
+                                                    <span className="key"> {t('traineeModal.fat')} : </span>
+                                                    <span className="val"> {item.nutrition_info.fat}  </span>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <div>
+                                                    <span className="key"> {t('traineeModal.carbs')} : </span>
+                                                    <span className="val"> {item.nutrition_info.carbs}  </span>
+                                                </div>
+                                                <div>
+                                                    <span className="key"> {t('traineeModal.protein')} : </span>
+                                                    <span className="val"> {item.nutrition_info.protein}  </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-sm-6 text-left">
-                                        <div className="icons d-flex flex-row-reverse">
-                                            <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.meal.id)}>
-                                                <FiX />
-                                            </span>
-                                            <span className="icon copy" onClick={(e)=> this.templateCopyMeal(item.meal.id)}>
-                                                <BiCopy />
-                                            </span>
-                                            <span className="icon move">
-                                                <FiMove />
-                                            </span>
-                                        </div>
-                                        <button className="btn btn-secondary w-50 mt-3 p-1" onClick={(e) =>
-                                        {
-                                            e.preventDefault();
-                                            this.openDetailsFunc(item);
-                                        }}>
-                                            {t('traineeModal.mealDetails')}
-                                        </button>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <div>
-                                            <span className="key"> {t('traineeModal.calories')} : </span>
-                                            <span className="val"> {item.nutrition_info.calories}  </span>
-                                        </div>
-                                        <div>
-                                            <span className="key"> {t('traineeModal.fat')} : </span>
-                                            <span className="val"> {item.nutrition_info.fat}  </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <div>
-                                            <span className="key"> {t('traineeModal.carbs')} : </span>
-                                            <span className="val"> {item.nutrition_info.carbs}  </span>
-                                        </div>
-                                        <div>
-                                            <span className="key"> {t('traineeModal.protein')} : </span>
-                                            <span className="val"> {item.nutrition_info.protein}  </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr/>
-                            </>)
+                                        <hr/>
+                                    </>)
 
-                    :
-                        <BreakDayComponent/>
                 }
                 <div className={t('local')==='ar' ? 'row text-right' : 'row'}>
                     <div className="col-sm-8 mt-4">
@@ -147,19 +205,19 @@ class MealComponent extends Component {
                                     <div className="stripe grey">
                                         <div className="">
                                             <span className="key"> {t('traineeModal.calories')}: </span>
-                                            <span className="val"> 128  </span>
+                                            <span className="val"> {this.calculateTotals()[0]} </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.carbs')}: </span>
-                                            <span className="val"> 16  </span>
+                                            <span className="val"> {this.calculateTotals()[1]} </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.fat')}: </span>
-                                            <span className="val"> 6  </span>
+                                            <span className="val"> {this.calculateTotals()[2]}  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.protein')} : </span>
-                                            <span className="val"> 3  </span>
+                                            <span className="val"> {this.calculateTotals()[3]} </span>
                                         </div>
                                     </div>
                                 </div>
@@ -170,25 +228,53 @@ class MealComponent extends Component {
                                     <div className="stripe primary-color">
                                         <div className="">
                                             <span className="key"> {t('traineeModal.calories')}: </span>
-                                            <span className="val"> 128  </span>
+                                            <span className="val"> 0  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.carbs')}: </span>
-                                            <span className="val"> 16  </span>
+                                            <span className="val"> 0  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.fat')}: </span>
-                                            <span className="val"> 6  </span>
+                                            <span className="val"> 0  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.protein')} : </span>
-                                            <span className="val"> 3  </span>
+                                            <span className="val"> 0  </span>
                                         </div>
                                     </div>
                                 </div>
                     </div>
-                    <AddMealTemplateComponent parentTriggerAdd={(e)=> {this.props.getTemplateForDay2()}}  exerciseMealData={this.props.exerciseMealData} activeDay={activeDay} templateId={templateId}/>
+                    <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
+                        <div className="meal-buttons justify-content-center">
+                            <AddMealTemplateComponent dayNumbers={daysNumber} parentTriggerAdd={(e)=> {this.props.getTemplateForDay2()}}  exerciseMealData={this.props.exerciseMealData} activeDay={activeDay} templateId={templateId}/>
+                            <button className="btn primary-color p-1"  onClick={(e)=> this.openModalCopyMeal(e,null, 1)}>
+                                <BiCopy />
+                                <div><small>{t('traineeModal.copyMeal')}</small></div>
+                            </button>
+                        </div></div>
                 </div>
+
+                <ModalComponent  Actions={
+                    <div className='text-center w-100'>
+                        <button className='btn-secondary w-75' onClick={(e)=>this.submitTemplateCopyMeal(e)}>
+                            {t('shared.add')}
+                        </button>
+                    </div>
+                } isOpen={this.state.openCopyModel}  size='mini' handleClosed={(e)=> this.setState({'openCopyModel': false})}>
+                    <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
+                    <div className="add-days-template row">
+                        {buttons && buttons.length > 0 && buttons.map( (item,key)  => {
+                            return (
+                                <div className='col-sm-2 p-0 my-2'>
+                                    <div key={key} className={['item-num  custom-item ', this.state.copyDays.includes((key+1)+'')  ? ' active':'']} onClick={(e)=>this.addDays({key})}>
+                                        {item}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </ModalComponent>
 
 
 

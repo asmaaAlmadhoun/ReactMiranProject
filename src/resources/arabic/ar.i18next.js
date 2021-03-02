@@ -119,7 +119,9 @@ ArabicTranslation = {
     Reps: 'عدد العضلات',
     rest: 'فترة الراحة',
     sets: 'مجموعات',
-    titleCopyMeal: 'كم عدد الأيام المقترحة'
+    titleCopyMeal: 'كم عدد الأيام المقترحة',
+    emptyDataExercise: 'هذا اليوم لا يحتوي على تمارين بعد',
+    emptyDataMeal: 'هذا اليوم لا يحتوي على وجبات بعد'
   },
   profile: {
     fullName: 'الإسم بالكامل',

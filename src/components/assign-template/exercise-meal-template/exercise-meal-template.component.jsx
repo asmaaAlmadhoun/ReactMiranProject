@@ -53,7 +53,7 @@ class ExerciseMealTemplateComponent extends Component {
                                         menuItem: t('traineeModal.exercises'),
                                         render: () =>
                                             <Tab.Pane attached={false}>
-                                                <ExerciseComponent
+                                                <ExerciseComponent daysNumber={daysNumber}
                                                     getTemplateForDay2={(e) => this.props.getTemplateForDay(templateId, this.state.activeDay)}
                                                     openDetailsExceriseFunction={(e) => this.setState({
                                                         ExceriseDataItem: e,
@@ -65,7 +65,7 @@ class ExerciseMealTemplateComponent extends Component {
                                     {
                                         menuItem: t('traineeModal.meals'),
                                         render: () => <Tab.Pane attached={false}>
-                                            <MealComponent
+                                            <MealComponent  daysNumber={daysNumber}
                                                 getTemplateForDay2={(e) => this.props.getTemplateForDay(templateId, this.state.activeDay)}
                                                 openDetailsFunction={(e) => this.setState({
                                                     mealDataItem: e,

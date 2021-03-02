@@ -116,7 +116,9 @@ const EnglishTranslation = {
         rest: 'Rest period',
         Reps: 'Reps',
         sets: 'Sets',
-        titleCopyMeal: 'How many days should be?'
+        titleCopyMeal: 'How many days should be?',
+        emptyDataExercise: 'This day has no exercises yet',
+        emptyDataMeal: 'This day has no Meals yet'
     },
     profile : {
         fullName : 'Full Name',

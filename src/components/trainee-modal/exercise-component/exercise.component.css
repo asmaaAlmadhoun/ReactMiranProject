@@ -29,3 +29,6 @@ ul.data li span {
     background-color: #e36661;
     color:#fff;
 }
+.custom-item{
+    border-radius: 50% !important;
+}

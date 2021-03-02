@@ -77,24 +77,6 @@ class AddMealTemplateComponent extends Component {
             }
         })
     }
-    templateCopyMaelDay(){
-        const {t, exerciseMealData} = this.props;
-        let Dayid= exerciseMealData.day.id;
-        let day= exerciseMealData.day.day;
-        const templateServices = new TemplateServices();
-        const data = {
-            'template_day_id': Dayid,
-            'days':day
-        }
-        templateServices.templateCopyMaelDay(data).then(response => {
-            if (response) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.props.parentTriggerAdd();
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
-            }
-        })
-    }
     showModalHandler =() => {
         this.setState({__addModal__ : true});
     }
@@ -111,8 +93,7 @@ class AddMealTemplateComponent extends Component {
                     </div>
                 </div> :
             <>
-                <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
-                    <div className="meal-buttons justify-content-center">
+
                         <button onClick={e => {
                             e.preventDefault();
                             this.showModalHandler();
@@ -127,13 +108,6 @@ class AddMealTemplateComponent extends Component {
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
-                        <button className="btn primary-color p-1"  onClick={(e)=> this.templateCopyMaelDay()}>
-                            <BiCopy />
-                            <div><small>{t('traineeModal.copyMeal')}</small></div>
-                        </button>
-                    </div>
-                </div>
-
 
 
                 <ModalComponent size='mini' isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
@@ -154,7 +128,6 @@ class AddMealTemplateComponent extends Component {
 
                     </div>
                 </ModalComponent>
-                <ToasterComponent />
 
             </>
         );
