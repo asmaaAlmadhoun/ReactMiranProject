@@ -12,6 +12,7 @@ const EnglishTranslation = {
         accept: 'Accept',
         update:'Update',
         empty: 'Empty Data',
+        breakday: 'Break Day',
         errors: {
             notFoundUser : 'User Not Found',
             globalError : 'Error has been happened! try again'

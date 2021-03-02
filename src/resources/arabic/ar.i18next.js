@@ -14,6 +14,7 @@ ArabicTranslation = {
     cancel: 'الغاء',
     update: 'تحديث',
     empty: 'لا يوجد بيانات',
+    breakday: 'يوم إستراحة',
     errors: {
       notFoundUser: 'مستخدم غير موجود',
       globalError: 'لقد حدث خطأ يرجى المحاولة ثانية'
