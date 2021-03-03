@@ -169,7 +169,8 @@ const EnglishTranslation = {
         day: 'Day',
         value: 'Value',
         change: 'Change',
-        weightChanges: 'Weight Changes'
+        weightChanges: 'Weight Changes',
+        changesWaist: 'Changes Waist'
 
     }
   };

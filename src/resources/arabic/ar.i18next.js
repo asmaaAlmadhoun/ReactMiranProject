@@ -169,10 +169,11 @@ ArabicTranslation = {
     picture: 'الصور',
     current: 'الحالي',
     target: 'الهدف',
-    day: 'يوم',
-    value: 'قيمة',
+    day: 'اليوم',
+    value: 'القيمة',
     change: 'التغيير',
-    weightChanges: 'تغيير الوزن'
+    weightChanges: 'تغيير الوزن',
+    changesWaist: 'تغييرات الخصر'
   }
 
 };

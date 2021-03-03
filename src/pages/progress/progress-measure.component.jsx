@@ -25,14 +25,18 @@ class progressMeasureComponent extends Component {
                        <span className='text-primary'>{t('progressPage.target')}</span>
                        <div className='f-2 mt-3'>3</div>
                    </button>
+
                </div>
                 <div className="header">
-                    {  (true) ?
-                        <Image src={waistIcon} className='icon' width={25} />
-                        :
-                        <h3>{t('progressPage.weightChanges')}</h3>
-                    }
-                    <div className="chart"></div>
+                    <div className='row'>
+                        <div className="col-sm-5">
+                            <img src={waistIcon} className='icon w-25' />
+                            <h3 className='d-inline-block'>{t('progressPage.changesWaist')}</h3>
+                        </div>
+                        <div className="col-sm-7">
+                            <h3>{t('progressPage.weightChanges')}</h3>
+                        </div>
+                    </div>
                 </div>
                 <div className="row mt-3 text-center">
                     <div className="col-sm-4">
