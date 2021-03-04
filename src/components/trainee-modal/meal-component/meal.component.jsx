@@ -21,7 +21,7 @@ class MealComponent extends Component {
             fullTemplateDataForThisDay : '',
             openDetails: false,
             mealId_selected: 1,
-            copyDays: ['1'],
+            copyDays: [],
             openCopyModel: false,
             mealItemTemplateToggle: 0,
         }
@@ -81,6 +81,8 @@ class MealComponent extends Component {
             this.templateCopyMaelDay(copyDays);
         }
         else{
+            copyDays =JSON.stringify(copyDays);
+            console.log(copyDays);
             const templateServices = new TemplateServices();
             const data = {
                 'template_day_meal_id': mealId_selected,
@@ -102,6 +104,7 @@ class MealComponent extends Component {
         const {t, exerciseMealData} = this.props;
         let Dayid= exerciseMealData.day.id;
         const templateServices = new TemplateServices();
+        copyDays =JSON.stringify(copyDays);
         const data = {
             'template_day_id': Dayid,
             'days':copyDays
@@ -109,7 +112,7 @@ class MealComponent extends Component {
         templateServices.templateCopyMaelDay(data).then(response => {
             if (response) {
                 toast.done(t('shared.success.addedSuccess'));
-                this.props.parentTriggerAdd();
+               // this.props.parentTriggerAdd();
                 this.props.getTemplateForDay2();
                 this.setState({'openCopyModel' : false})
             } else {
@@ -132,6 +135,10 @@ class MealComponent extends Component {
         let daysButton = this.state.copyDays;
         if (!daysButton.includes((pushObj.key+1)+'')) {
             daysButton.push((pushObj.key+1)+'');
+        }
+        else{
+            let objToDelete = (pushObj.key+1)+'';
+            daysButton.splice(daysButton.indexOf(objToDelete), 1);
         }
         this.setState({daysButton: daysButton});
     }
@@ -164,10 +171,10 @@ class MealComponent extends Component {
                                             </div>
                                             <div className="col-sm-6 text-left">
                                                 <div className="icons d-flex flex-row-reverse">
-                                                <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.meal.id)}>
+                                                <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.template_day_meal_id)}>
                                                     <FiX />
                                                 </span>
-                                                    <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.meal.id,0)}>
+                                                    <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.template_day_meal_id,0)}>
                                                     <BiCopy />
                                                 </span>
                                                     <span className="icon move">

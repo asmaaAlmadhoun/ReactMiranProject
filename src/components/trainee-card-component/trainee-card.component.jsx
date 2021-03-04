@@ -18,6 +18,7 @@ class TraineeCardComponent extends Component {
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
             <a className={"trainee-card " +(className ? className : '')} onClick={e => {
+                e.stopPropagation();
                 modalRequestProfile(traineesId)
             }}>
                 <div className="user-img">
@@ -32,16 +33,21 @@ class TraineeCardComponent extends Component {
                     </span>
                 </div>
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
-                    <div className="ico">
+                    <div className="ico" onClick={e => {
+                        e.stopPropagation();
+                        this.props.history.push('/chat');
+                    }}>
                         <img src={reportIco}  alt="icon" />
                     </div>
                     <div className="ico" onClick={e => {
+                        e.stopPropagation();
                         openModalFn(1);
                     }}>
                         <img src={tempIco}  alt="icon" />
                     </div>
                     <div className="ico" >
                         <Button className='p-0' basic color='blue' onClick={e => {
+                            e.stopPropagation();
                             this.props.history.push('/progress');
                         }}>
                             <GiChart/>
