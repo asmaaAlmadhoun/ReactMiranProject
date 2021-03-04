@@ -63,16 +63,27 @@ class SearchableListWithImgTemplateComponent extends Component {
             displayedData: this.props.list
         }
     }
-    searchHandler (event) {
-        let searchjQuery = event.target.value.toLowerCase(),
-            displayedData = this.props.list.filter((el) => {
-                let searchValue = el.name.toLowerCase();
-                return searchValue.indexOf(searchjQuery) !== -1;
+    searchHandler = (event) => {
+        const {t} = this.props;
+        let event2 = event.target.value;
+        let displayedData;
+        if(event2 !== ''){
+            t('local') === 'ar' ?
+                displayedData = this.props.list.filter(s => s.title_ar.includes(event2))
+                :
+                displayedData = this.props.list.filter(s => s.title.includes(event2))
+            this.setState({
+                displayedData: displayedData
             })
-        this.setState({
-            displayedData: displayedData
-        })
+        }
+        else {
+            this.setState({
+                displayedData: this.props.list
+            })
+        }
+
     }
+
     render () {
         const {t, ExerciseId, activeDay, parentCallExcersise} = this.props;
         let List = this.state.displayedData;
