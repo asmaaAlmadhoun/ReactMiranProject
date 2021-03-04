@@ -59,7 +59,7 @@ class HomeComponent extends Component {
         return (
             <>
                 <TraineeModalComponent isOpen={openModal} />
-                <ProfileModalComponent isOpen={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} traineesId={this.state.traineesId}/>
+                <ProfileModalComponent isOpenProfile={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} traineesId={this.state.traineesId}/>
                 <div className="container">
 
                  <div className="row" style={{marginLeft:0, marginRight:0}}>
@@ -85,7 +85,9 @@ class HomeComponent extends Component {
                                                      const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
-                                                             <TraineeCardComponent modalRequestProfile={this.openModalRequestProfile} traineesId={item.id}
+                                                             <TraineeCardComponent
+                                                                 modalRequestProfile={this.openModalRequestProfile}
+                                                                 traineesId={item.id}
                                                                  openModalFn={this.openModalHandler}
                                                                  isFemale={ _isFemale} imgPath={_imgPath} remainingDays={_remainingTime}  full_name={item.full_name} id={item.id}/>
                                                          </div>

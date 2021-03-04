@@ -15,15 +15,15 @@ class ProfileModalComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen : false,
+            isOpenProfile : false,
             notes: [],
             openModalNote: false
         }
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        const {isOpen} = nextProps;
-        this.setState({ isOpen});
+        const {isOpenProfile} = nextProps;
+        this.setState({ isOpenProfile});
     }
 
     submitRequest = (Status) => {
@@ -56,7 +56,7 @@ class ProfileModalComponent extends Component {
     }
 
     openModalHandlerNote = () => {
-        this.setState({openModalNote : true})
+        this.setState({openModalNote : true, isOpenProfile: false})
     }
     render() {
         const { t,profileData, traineesId, requestClass, noteClass } = this.props;
@@ -64,11 +64,12 @@ class ProfileModalComponent extends Component {
         return (
             <div>
                 <TraineeModalNoteComponent isOpen={this.state.openModalNote} handleClosed={e => {
-                    this.setState({openModalNote:false})
+                    e.stopPropagation();
+                    this.setState({openModalNote:false, isOpenProfile:false})
                 }}  traineesId={traineesId} />
 
-                <ModalComponent size="tiny" isOpen={this.state.isOpen}  handleClosed={e => {
-                    this.setState({isOpen:false})
+                <ModalComponent size="tiny" isOpen={this.state.isOpenProfile}  handleClosed={e => {
+                    this.setState({isOpenProfile:false, openModalNote:false})
                 }}>
                         {
                             profileData.length > 0 ?
@@ -164,7 +165,7 @@ class ProfileModalComponent extends Component {
 }
 
 ProfileModalComponent.propTypes = {
-    isOpen : PropTypes.bool,
+    isOpenProfile : PropTypes.bool,
     requestId : PropTypes.number,
     profileData : PropTypes.array,
 }
