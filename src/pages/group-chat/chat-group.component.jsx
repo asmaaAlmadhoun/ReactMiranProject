@@ -5,16 +5,18 @@ import config from "../../config";
 import ChatUsersComponent from "./chat-users/chat-users.component";
 import {ChatService} from "./service/chat.service";
 import TraineeService from "../../services/trainee-service/traniee.service";
+import {Loader, Tab} from "semantic-ui-react";
 
 class ChatGroupComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users : []
+            users : [],
+            loader: true
         }
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         // fetch user chat .
         const chatService = new ChatService();
         debugger;
@@ -32,7 +34,7 @@ class ChatGroupComponent extends Component {
                 const chatService = new ChatService();
                 const ids = response.result.map(r => r.id);
                 chatService.fetchSpecificUsers(ids).then(users => {
-                    this.setState({users})
+                    this.setState({users:users,loader:false})
                 })
             }
         })
@@ -43,7 +45,10 @@ class ChatGroupComponent extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-sm-4">
-                        <ChatUsersComponent users={this.state.users} />
+                        {
+                            this.state.loader ? <Loader active={true} inline='centered'/> :
+                                <ChatUsersComponent users={this.state.users}/>
+                        }
                     </div>
                 </div>
             </div>

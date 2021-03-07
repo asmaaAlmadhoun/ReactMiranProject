@@ -186,7 +186,7 @@ class MealComponent extends Component {
                                                         <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.template_day_meal_id,0)}>
                                                         <BiCopy />
                                                     </span>
-                                                        <span className="icon move">
+                                                    <span className="icon move">
                                                         <FiMove />
                                                     </span>
                                                     </div>
@@ -223,9 +223,7 @@ class MealComponent extends Component {
                                         </>
                                     }
                                 )
-
                            )
-
                 }
                 </div>
                 <DndProvider backend={HTML5Backend}>

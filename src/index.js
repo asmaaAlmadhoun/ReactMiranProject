@@ -47,6 +47,7 @@ ReactDOM.render(
                   <Route path="/faq"  component={FaqComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
                   <Route path="/chat" component={ChatGroupComponent} />
+                  <Route path="/chat2" component={LoginChatComponent} />
               </App>
               </Switch>
           </Router>

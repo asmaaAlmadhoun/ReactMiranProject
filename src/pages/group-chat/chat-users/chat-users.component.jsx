@@ -5,6 +5,7 @@ import ChatUserItemComponent from "../chat-user-item/chat-user-item.component";
 class ChatUsersComponent extends Component {
     render() {
         const {users} = this.props;
+        const chatUserList = [];
         if(!users) {
             return (
                 <div>
@@ -12,15 +13,18 @@ class ChatUsersComponent extends Component {
                 </div>
             );
         }
-        const chatUserList = [];
-        for (let i = 0; i < users.length; i++) {
-            chatUserList.push(<ChatUserItemComponent username={users[1].email}   />)
+        else{
+            for (let i = 0; i < users.length; i++) {
+                chatUserList.push(<ChatUserItemComponent username={users[1].email}   />)
+            }
+            return (
+                <div>
+                    User List
+                    {  chatUserList.map(item => item)}
+                </div>
+            );
         }
-        return (
-            <div>
-                {  chatUserList.map(item => item)}
-            </div>
-        );
+
     }
 }
 ChatUsersComponent.propTypes = {
