@@ -1,8 +1,9 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FiX,FiMaximize,FiMove } from "react-icons/fi";
 import {withTranslation} from "react-i18next";
 import  './meal.component.css';
+import Example from '../../../pages/template/example.jsx';
 import AddMealTemplateComponent from "../../assign-template/add-meal-template/add-meal-template.component";
 import MealItemComponent from "../../meal-excerise-itemComponent/meal-item.component";
 import ExerciseMealTemplateComponent
@@ -14,6 +15,9 @@ import ToasterComponent from "../../common/toaster/toaster.component";
 import {BiCopy} from "react-icons/bi";
 import ModalComponent from "../../common/modal/modal.component";
 import EmptyDataComponent from "../../common/empty-page/emptyData.component";
+import {DndProvider} from "react-dnd";
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 class MealComponent extends Component {
     constructor(props) {
         super(props);
@@ -145,75 +149,89 @@ class MealComponent extends Component {
     render() {
         const {t, templateId, daysNumber,activeDay, exerciseMealData, getTemplateForDay} = this.props;
         const buttons = this.renderDaysButtons();
+        let cards2=[];
 
         return (
             <div className="meal">
-
+                <div className='d-none'>
                 {exerciseMealData.day.break_day_meal ?
                     <BreakDayComponent/> :
-                        !(exerciseMealData.day.meals  && exerciseMealData.day.meals.length) ?
-                            <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
-                              exerciseMealData.day.meals.map((item,i) =>
-                                    <>
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
-                                                <div className="images">
-                                                    {
-                                                        (item.meal.foods) ? item.meal.foods.map(item =>
-                                                                <span>
-                                                        <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
-                                                        </span>
+                    !(exerciseMealData.day.meals  && exerciseMealData.day.meals.length) ?
+                        <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
+                            exerciseMealData.day.meals.map((item,i) =>
+                                cards2.push(
+                                    {
+                                        id: i,
+                                        text:
+                                            <>
+                                                <div className="row">
+                                                <div className="col-sm-6">
+                                                    <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
+                                                    <div className="images">
+                                                        {
+                                                            (item.meal.foods) ? item.meal.foods.map(item =>
+                                                                    <span>
+                                                            <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
+                                                            </span>
 
-                                                        ) : ''
-                                                    }
+                                                            ) : ''
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-6 text-left">
+                                                    <div className="icons d-flex flex-row-reverse">
+                                                    <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.template_day_meal_id)}>
+                                                        <FiX />
+                                                    </span>
+                                                        <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.template_day_meal_id,0)}>
+                                                        <BiCopy />
+                                                    </span>
+                                                        <span className="icon move">
+                                                        <FiMove />
+                                                    </span>
+                                                    </div>
+                                                    <button className="btn btn-secondary w-50 mt-3 p-1" onClick={(e) =>
+                                                    {
+                                                        e.preventDefault();
+                                                        this.openDetailsFunc(item);
+                                                    }}>
+                                                        {t('traineeModal.mealDetails')}
+                                                    </button>
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <div>
+                                                        <span className="key"> {t('traineeModal.calories')} : </span>
+                                                        <span className="val"> {item.nutrition_info.calories}  </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="key"> {t('traineeModal.fat')} : </span>
+                                                        <span className="val"> {item.nutrition_info.fat}  </span>
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <div>
+                                                        <span className="key"> {t('traineeModal.carbs')} : </span>
+                                                        <span className="val"> {item.nutrition_info.carbs}  </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="key"> {t('traineeModal.protein')} : </span>
+                                                        <span className="val"> {item.nutrition_info.protein}  </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="col-sm-6 text-left">
-                                                <div className="icons d-flex flex-row-reverse">
-                                                <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.template_day_meal_id)}>
-                                                    <FiX />
-                                                </span>
-                                                    <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.template_day_meal_id,0)}>
-                                                    <BiCopy />
-                                                </span>
-                                                    <span className="icon move">
-                                                    <FiMove />
-                                                </span>
-                                                </div>
-                                                <button className="btn btn-secondary w-50 mt-3 p-1" onClick={(e) =>
-                                                {
-                                                    e.preventDefault();
-                                                    this.openDetailsFunc(item);
-                                                }}>
-                                                    {t('traineeModal.mealDetails')}
-                                                </button>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div>
-                                                    <span className="key"> {t('traineeModal.calories')} : </span>
-                                                    <span className="val"> {item.nutrition_info.calories}  </span>
-                                                </div>
-                                                <div>
-                                                    <span className="key"> {t('traineeModal.fat')} : </span>
-                                                    <span className="val"> {item.nutrition_info.fat}  </span>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div>
-                                                    <span className="key"> {t('traineeModal.carbs')} : </span>
-                                                    <span className="val"> {item.nutrition_info.carbs}  </span>
-                                                </div>
-                                                <div>
-                                                    <span className="key"> {t('traineeModal.protein')} : </span>
-                                                    <span className="val"> {item.nutrition_info.protein}  </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                    </>)
+                                            <hr/>
+                                        </>
+                                    }
+                                )
+
+                           )
 
                 }
+                </div>
+                <DndProvider backend={HTML5Backend}>
+                     <Example cards={cards2} />
+                </DndProvider>
+
                 <div className={t('local')==='ar' ? 'row text-right' : 'row'}>
                     <div className="col-sm-8 mt-4">
                                 <div className="d-flex align-items-center">
