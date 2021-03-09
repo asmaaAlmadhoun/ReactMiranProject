@@ -41,10 +41,13 @@ class ListItemWithImg extends Component{
                             <span>{this.props.name}</span>
                     </a>
                 </li>
-                <ModalComponent size="tiny" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                <ModalComponent size="small" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     {isNaN(this.props.data.exercise_id) ?
-                        <DetailListItemTemplateComponent key={this.props.id} quantity={this.props.quantity} calories={this.props.calories} fat={this.props.fat}   title={this.props.name}
-                                                         closeModal={(e)=>this.setState({__addModal__ : false})}           mealDataItem={this.props.mealDataItem}   getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}      image={this.props.image}  protein={this.props.protein} carbs={this.props.carbs} MealForThisDay={this.props.data}
+                        <DetailListItemTemplateComponent key={this.props.id}
+                                                         closeModal={(e)=>this.setState({__addModal__ : false})}
+                                                         mealDataItem={this.props.mealDataItem}
+                                                         getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}
+                                                         MealForThisDay={this.props.data}
                         />
                         :
                         <AddExerciseTemplateComponent closeModal={(e)=>this.setState({__addModal__ : false})} getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
@@ -95,9 +98,9 @@ class SearchableListWithImgTemplateComponent extends Component {
                         List.map((el) => {
                             return <ListItemWithImg key={el.id} onClick={(e)=> this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}
                                                     data={el} activeDay={activeDay} ExerciseId={ExerciseId}
-                                                    quantity={el.quantity} calories={el.calories} fat={el.fat}
-                                                    mealDataItem={this.props.mealDataItem} image={el.image}  protein={el.protein} carbs={el.carbs}
-                                                    getTemplateForDay2={(e) => {this.props.getTemplateForDay2(e)} }       name={t('local')==='ar' ? el.title_ar : el.title}
+                                                    mealDataItem={this.props.mealDataItem} image={el.image}
+                                                    getTemplateForDay2={(e) => {this.props.getTemplateForDay2(e)} }
+                                                    name={t('local')==='ar' ? el.title_ar : el.title}
                             />
                         })
                     }

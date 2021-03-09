@@ -12,6 +12,10 @@ import EmptyComponent from "../../components/common/empty-page/empty.component";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
 import TemplateServices from "../../services/template-service/template.service";
 import {toast} from "react-toastify";
+import ExerciseComponent from "../../components/trainee-modal/exercise-component/exercise.component";
+import MealComponent from "../../components/trainee-modal/meal-component/meal.component";
+import MealItemComponent from "../../components/meal-excerise-itemComponent/meal-item.component";
+import ExceriseItemComponent from "../../components/meal-excerise-itemComponent/excerise-item.component";
 
 class TemplateDetailsComponent extends Component {
     constructor(props) {
@@ -23,10 +27,20 @@ class TemplateDetailsComponent extends Component {
             fullTemplateDataForThisDay: [],
             exerciseMealForThisDay: [],
             activeIndex: '',
-            loader: true
+            loader: true,
+            mealDataItem: [],
+            ExceriseDataItem: [],
+            openDetails: false,
+            openExceriseDetails: false,
+            loading: false
         }
     }
-
+    clickNumberHandler= (e) =>{
+        this.setState({loading: true})
+        const {templateId} = this.state;
+        this.getTemplateForDay(templateId, e);
+        this.setState({loading: false})
+    }
     getTemplateForDay = (Id,activeDay) =>{
         const {t} = this.props;
         if(activeDay === undefined){
@@ -41,7 +55,7 @@ class TemplateDetailsComponent extends Component {
     }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
-         this.setState({data: dataFromLocation.data, templateId: dataFromLocation.templateId});
+        this.setState({data: dataFromLocation.data, templateId: dataFromLocation.templateId});
     }
     componentDidMount() {
         const templateId = this.state.templateId;
@@ -50,6 +64,8 @@ class TemplateDetailsComponent extends Component {
 
     render() {
         const {t } = this.props;
+        let {activeDay, mealDataItem, templateId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem} = this.state;
+
         const panes = this.state.data.length > 0 ? this.state.data.map(item =>({
             menuItem:
                 <Menu.Item key={item.id}  onClick={(e)=>this.getTemplateForDay(item.id)}>
@@ -62,11 +78,66 @@ class TemplateDetailsComponent extends Component {
                 <Tab.Pane attached={false}>
                     {
                         this.state.loader ? <Loader active={true} inline='centered'/> :
-                            <ExerciseMealTemplateComponent exerciseMealForThisDay={this.state.exerciseMealForThisDay}
-                                                           parentCallback={(e) => this.setState({activeDay: e})}
-                                                           getTemplateForDay={this.getTemplateForDay}
-                                                           daysNumber={item.days} ref="child" templateId={item.id}
-                                                           activeDay={this.state.activeDay}/>
+
+                            // <ExerciseMealTemplateComponent exerciseMealForThisDay={this.state.exerciseMealForThisDay}
+                            //                                parentCallback={(e) => this.setState({activeDay: e})}
+                            //                                getTemplateForDay={this.getTemplateForDay}
+                            //                                daysNumber={item.days} ref="child" templateId={item.id}
+                            //                                activeDay={this.state.activeDay}/>
+
+                            <>
+                                <div className={openDetails || openExceriseDetails ? ' d-none':'' }>
+                                    <ToasterComponent />
+
+                                    <AddDaysTemplateComponent  daysNumber={item.days} getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
+                                    {
+                                        this.state.loading ? <Loader active={true} inline='centered'/> :
+
+                                            <div className="mt-4">
+                                                <Tab menu={{secondary: true}} panes={[
+                                                    {
+                                                        menuItem: t('traineeModal.exercises'),
+                                                        render: () =>
+                                                            <Tab.Pane attached={false}>
+                                                                <ExerciseComponent daysNumber={item.days}
+                                                                                   getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
+                                                                                   openDetailsExceriseFunction={(e) => this.setState({
+                                                                                       ExceriseDataItem: e,
+                                                                                       openExceriseDetails: true
+                                                                                   })} exerciseMealData={exerciseMealForThisDay}
+                                                                                   templateId={item.id} activeDay={activeDay}/>
+                                                            </Tab.Pane>,
+                                                    },
+                                                    {
+                                                        menuItem: t('traineeModal.meals'),
+                                                        render: () =>
+                                                            <Tab.Pane attached={false}>
+                                                                <MealComponent  daysNumber={item.days}
+                                                                            getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
+                                                                            openDetailsFunction={(e) => this.setState({
+                                                                                mealDataItem: e,
+                                                                                openDetails: true
+                                                                            })} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay}
+                                                                            templateId={item.id}/>
+                                                        </Tab.Pane>,
+                                                    },
+                                                ]}/>
+                                            </div>
+                                    }
+                                </div>
+
+                                {!openDetails?
+                                    '':
+                                    <MealItemComponent getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e)=> this.setState({openDetails: e})} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
+                                }
+                                {!openExceriseDetails?
+                                    '':
+                                    <ExceriseItemComponent parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} />
+                                }
+                            </>
+
+
+
                     }
                 </Tab.Pane>
         })): '';

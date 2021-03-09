@@ -153,79 +153,96 @@ class MealComponent extends Component {
 
         return (
             <div className="meal">
-                <div className='d-none'>
+
                 {exerciseMealData.day.break_day_meal ?
                     <BreakDayComponent/> :
                     !(exerciseMealData.day.meals  && exerciseMealData.day.meals.length) ?
                         <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
-                            exerciseMealData.day.meals.map((item,i) =>
+                        exerciseMealData.day.meals.map((item, i) =>
                                 cards2.push(
                                     {
                                         id: i,
                                         text:
                                             <>
-                                                <div className="row">
-                                                <div className="col-sm-6">
-                                                    <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
-                                                    <div className="images">
-                                                        {
-                                                            (item.meal.foods) ? item.meal.foods.map(item =>
-                                                                    <span>
-                                                            <img className='w-100' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
+                                                <div className="row" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    this.openDetailsFunc(item);
+                                                }}>
+                                                    <div className="col-sm-6">
+                                                        <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
+                                                        <div className="images">
+                                                            {
+                                                                (item.meal.foods) ? item.meal.foods.map(item =>
+                                                                        <span>
+                                                            <img className='w-100'
+                                                                 src={'https://testing.miranapp.com/media/' + item.image}
+                                                                 alt="image"/>
                                                             </span>
-
-                                                            ) : ''
-                                                        }
+                                                                ) : ''
+                                                            }
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="col-sm-6 text-left">
-                                                    <div className="icons d-flex flex-row-reverse">
-                                                    <span className="icon delete" onClick={(e)=> this.deleteMealTemplate(item.template_day_meal_id)}>
-                                                        <FiX />
+                                                    <div className="col-sm-6 text-left">
+                                                        <div className="icons d-flex flex-row-reverse">
+                                                    <span className="icon delete"
+                                                          onClick={(e) => {
+                                                              e.stopPropagation();
+                                                              this.deleteMealTemplate(item.template_day_meal_id)
+                                                          } }>
+                                                        <FiX/>
                                                     </span>
-                                                        <span className="icon copy" onClick={(e)=> this.openModalCopyMeal(e,item.template_day_meal_id,0)}>
-                                                        <BiCopy />
+                                                            <span className="icon copy"
+                                                                  onClick={(e) => {
+                                                                      e.stopPropagation();
+                                                                      this.openModalCopyMeal(e, item.template_day_meal_id, 0)
+                                                                  }}>
+                                                        <BiCopy/>
                                                     </span>
-                                                    <span className="icon move">
-                                                        <FiMove />
+                                                            <span className="icon move">
+                                                        <FiMove/>
                                                     </span>
+                                                        </div>
+                                                        <button className="btn btn-secondary w-50 mt-3 p-1"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    e.preventDefault();
+                                                                    this.openDetailsFunc(item);
+                                                                }}>
+                                                            {t('traineeModal.mealDetails')}
+                                                        </button>
                                                     </div>
-                                                    <button className="btn btn-secondary w-50 mt-3 p-1" onClick={(e) =>
-                                                    {
-                                                        e.preventDefault();
-                                                        this.openDetailsFunc(item);
-                                                    }}>
-                                                        {t('traineeModal.mealDetails')}
-                                                    </button>
+                                                    <div className="col-sm-6">
+                                                        <div>
+                                                            <span
+                                                                className="key"> {t('traineeModal.calories')} : </span>
+                                                            <span
+                                                                className="val"> {item.nutrition_info.calories}  </span>
+                                                        </div>
+                                                        <div>
+                                                            <span className="key"> {t('traineeModal.fat')} : </span>
+                                                            <span className="val"> {item.nutrition_info.fat}  </span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <div>
+                                                            <span className="key"> {t('traineeModal.carbs')} : </span>
+                                                            <span className="val"> {item.nutrition_info.carbs}  </span>
+                                                        </div>
+                                                        <div>
+                                                            <span className="key"> {t('traineeModal.protein')} : </span>
+                                                            <span
+                                                                className="val"> {item.nutrition_info.protein}  </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="col-sm-6">
-                                                    <div>
-                                                        <span className="key"> {t('traineeModal.calories')} : </span>
-                                                        <span className="val"> {item.nutrition_info.calories}  </span>
-                                                    </div>
-                                                    <div>
-                                                        <span className="key"> {t('traineeModal.fat')} : </span>
-                                                        <span className="val"> {item.nutrition_info.fat}  </span>
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <div>
-                                                        <span className="key"> {t('traineeModal.carbs')} : </span>
-                                                        <span className="val"> {item.nutrition_info.carbs}  </span>
-                                                    </div>
-                                                    <div>
-                                                        <span className="key"> {t('traineeModal.protein')} : </span>
-                                                        <span className="val"> {item.nutrition_info.protein}  </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr/>
-                                        </>
+                                                <hr/>
+                                            </>
                                     }
                                 )
-                           )
+                            )
+
                 }
-                </div>
+
                 <DndProvider backend={HTML5Backend}>
                      <Example cards={cards2} />
                 </DndProvider>

@@ -87,7 +87,7 @@ class ExerciseMealTemplateComponent extends Component {
                      '':
                     <ExceriseItemComponent parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.props.getTemplateForDay(templateId,this.state.activeDay)} />
                 }
-                </>
+            </>
         );
     }
 }

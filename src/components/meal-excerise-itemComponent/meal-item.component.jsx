@@ -8,6 +8,9 @@ import SearchableListWithImgTemplateComponent
     from "../assign-template/searchable-list-template/searchable-list-withImg-template.component";
 import ModalComponent from "../common/modal/modal.component";
 import ResourcesService from "../../services/trainee-service/resources.service";
+import UserService from "../../services/user-service/user.service";
+import DetailListItemTemplateComponent
+    from "../assign-template/searchable-list-template/detail-list-item-template/detail-list-item-template.component";
 
 class MealItemComponent extends Component {
     constructor(props) {
@@ -15,10 +18,15 @@ class MealItemComponent extends Component {
         this.state = {
             openDetails2: true,
             __addModal__: false,
-            FoodList: []
+            FoodList: [],
+            imgDefaultPath: '',
+            openEditModal: false,
+            itemToEdit: []
         }
     }
     async componentWillMount() {
+        const userService = new UserService();
+        this.setState({imgDefaultPath : userService.imageDefaultPath })
         const mealService  = new ResourcesService();
         this.setState({isLoading : true})
         mealService.food.then(data => {
@@ -42,21 +50,44 @@ class MealItemComponent extends Component {
                 <div className={["container" , openDetails ? '' : ' d-none']}>
                     <button className='ui button icon primary p-1 mb-3' onClick={(e)=> this.props.parentCall(false)}>
                         {t('local') === 'ar'?  <i><IoIosArrowForward/> </i>: <i><IoIosArrowBack/></i> }
-
                     </button>
+
                     <div className="row">
-                        <div className="col-sm-12 mb-3 img-thumbnail">
-                            <div className="images">
-                                {
-                                    (mealDataItem.meal.foods) ? mealDataItem.meal.foods.map(item =>
-                                        <span>
-                                            <img className='w-25' src={'https://testing.miranapp.com/media/'+item.image} alt="image" />
-                                        </span>
-                                    ) : ''
-                                }
-                            </div>
+                        <div className="col-sm-12 text-center">
+                            <h3>{mealTitle}</h3>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-sm-12 mb-3 mealItemsList">
+                            {
+                                (mealDataItem.meal.foods) ?
+                                    mealDataItem.meal.foods.map(item =>
+                                        <>
+                                            <div className='row mb-2'>
+                                                <div className="col-md-2 text-center">
+                                                    <img src={this.state.imgDefaultPath+item.image}  alt="img"/>
+                                                </div>
+                                                <div className="col-md-8">
+                                                    {t('local') === "ar" ?  item.title_ar : item.title}
+                                                </div>
+                                                <div className="col-sm-2">
+                                                    <button className="ui button icon py-1" onClick={(e)=> this.setState({openEditModal: true, itemToEdit: item})}>
+                                                        <BiEditAlt />
+                                                        <div className='f-1-half'>{t('shared.edit')}</div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                    : ''
+                            }
+                            <ModalComponent size="small" isOpen={this.state.openEditModal} hideAction={true} handleClosed={(e) => this.setState({openEditModal: false})} >
+                                <DetailListItemTemplateComponent EditMealItem='true'
+                                                                 closeModal={(e)=>this.setState({openEditModal : false})}
+                                                                 mealDataItem={mealDataItem}
+                                                                 getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}
+                                                                 MealForThisDay={this.state.itemToEdit}/>
+                            </ModalComponent>
+                        </div>
+                        <div className="col-sm-6 text-center">
                             <div>
                                 <label className='primary'> {t('traineeModal.calories')} : </label>
                                 <span>{mealDataItem.nutrition_info.calories}</span>
@@ -66,11 +97,7 @@ class MealItemComponent extends Component {
                                 <span>{mealDataItem.nutrition_info.fat}</span>
                             </div>
                         </div>
-                        <div className="col-sm-4 text-center">
-                            <h3>{mealTitle}</h3>
-                            <h3>{t('templatePage.comments')}</h3>
-                        </div>
-                        <div className="col-sm-4">
+                        <div className="col-sm-6 text-center">
                             <div>
                                 <label className='primary'> {t('traineeModal.carbs')} : </label>
                                 <span>{mealDataItem.nutrition_info.carbs}</span>
@@ -80,7 +107,8 @@ class MealItemComponent extends Component {
                                <span>{mealDataItem.nutrition_info.protein}</span>
                            </div>
                         </div>
-                        <div className="col-sm-12">
+                        <div className="col-sm-12 text-center">
+                            <h3>{t('templatePage.comments')}</h3>
                             <textarea value={mealDataItem.comment} rows='4' className='bg-light w-100 my-4 form-control'/>
                         </div>
                     </div>
@@ -92,18 +120,10 @@ class MealItemComponent extends Component {
                             <FiPlus />
                             <div className='f-1-half'>{t('templatePage.addFood')}</div>
                         </button>
-                        <button className="ui button icon py-1">
-                            <BiCopy />
-                            <div className='f-1-half'>{t('traineeModal.copyMeal')}</div>
-                        </button>
-                        <button className="ui button icon py-1">
-                            <BiEditAlt />
-                            <div className='f-1-half'>{t('shared.edit')}</div>
-                        </button>
                     </div>
                 </div>
 
-                <ModalComponent  size='tiny' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
+                <ModalComponent  size='small' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
                     <SearchableListWithImgTemplateComponent getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} list={this.state.FoodList}/>
                 </ModalComponent>
 

@@ -153,7 +153,8 @@ ArabicTranslation = {
     templateName: 'اسم القالب',
     chooseTrainee: 'اختر المدرب',
     date: 'التاريخ',
-    addFood: 'أضف طعام'
+    addFood: 'أضف طعام',
+    editFood: 'تعديل الطعام'
   },
   faqPage: {
     faq: 'أسئلة شائعة',

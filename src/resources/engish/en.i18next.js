@@ -150,7 +150,8 @@ const EnglishTranslation = {
         templateName: 'Template Name',
         chooseTrainee: 'Choose Trainee',
         date: 'Date',
-        addFood: 'Add Food'
+        addFood: 'Add Food',
+        editFood: 'Edit Food'
     },
     faqPage: {
         faq: 'FAQ',
