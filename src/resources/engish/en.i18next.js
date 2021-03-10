@@ -151,7 +151,8 @@ const EnglishTranslation = {
         chooseTrainee: 'Choose Trainee',
         date: 'Date',
         addFood: 'Add Food',
-        editFood: 'Edit Food'
+        editFood: 'Edit Food',
+        editExcer: 'Save Edits'
     },
     faqPage: {
         faq: 'FAQ',

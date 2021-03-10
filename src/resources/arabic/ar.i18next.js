@@ -154,7 +154,8 @@ ArabicTranslation = {
     chooseTrainee: 'اختر المدرب',
     date: 'التاريخ',
     addFood: 'أضف طعام',
-    editFood: 'تعديل الطعام'
+    editFood: 'تعديل الطعام',
+    editExcer: 'حفظ التعديل'
   },
   faqPage: {
     faq: 'أسئلة شائعة',

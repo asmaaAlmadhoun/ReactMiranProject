@@ -41,17 +41,18 @@ class TemplateDetailsComponent extends Component {
         this.getTemplateForDay(templateId, e);
         this.setState({loading: false})
     }
-    getTemplateForDay = (Id,activeDay) =>{
+    getTemplateForDay = (tempId,activeDay) =>{
         const {t} = this.props;
         if(activeDay === undefined){
             activeDay = this.state.activeDay;
         }
         const templateServices = new TemplateServices();
-        templateServices.getTemplateForDay(Id, activeDay).then(response => {
+        templateServices.getTemplateForDay(tempId, activeDay).then(response => {
             if (response) {
                 this.setState({exerciseMealForThisDay :response.result, loader : false  });
             }
         })
+        return this.state.exerciseMealForThisDay
     }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
@@ -132,7 +133,9 @@ class TemplateDetailsComponent extends Component {
                                 }
                                 {!openExceriseDetails?
                                     '':
-                                    <ExceriseItemComponent parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} />
+                                    <ExceriseItemComponent  parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)}
+                                                            templateId={item.id}
+                                                            activeDay={this.state.activeDay} />
                                 }
                             </>
 
