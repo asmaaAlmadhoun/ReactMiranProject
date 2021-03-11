@@ -12,7 +12,8 @@ class AddDaysTemplateComponent extends Component {
         super(props);
         this.state = {
             daysNumber :this.props.exerciseMealData.days,
-            activeNumber : 1
+            activeNumber : 1,
+            exerciseMealData: this.props.exerciseMealData
         }
         this.sliderRef = React.createRef();
     }
@@ -26,7 +27,6 @@ class AddDaysTemplateComponent extends Component {
 
     renderDaysButtons = ()  => {
         let daysButton = [];
-
         for (let i = 1; i <= this.state.daysNumber ; i++) {
             daysButton.push(
                 <span number={i} className={i === 1 ? 'active' : ''}>
@@ -34,22 +34,22 @@ class AddDaysTemplateComponent extends Component {
                </span>
             )
         }
-
-
         return daysButton;
     }
 
     incrementDays = () => {
-        let {daysNumber} = this.state;
+        let {daysNumber,activeNumber} = this.state;
         if(daysNumber < 30) {
+            this.addTemplateDay()
+            if(activeNumber === daysNumber){
+                activeNumber++;
+            }
             daysNumber++;
+            this.setState({daysNumber, activeNumber});
             this.setState({daysNumber});
             this.renderDaysButtons();
-            this.props.getTemplateForDay2();
             this.sliderRef.slickGoTo(daysNumber)
-            this.addTemplateDay();
         }
-
     }
     removeTemplateDay = () =>{
         const {exerciseMealData}= this.props;
@@ -62,25 +62,32 @@ class AddDaysTemplateComponent extends Component {
         })
     }
     addTemplateDay = () =>{
-        const {exerciseMealData}= this.props;
+        const {activeNumber} = this.state;
+        let {templateId, exerciseMealData} = this.props;
         const templateServices = new TemplateServices();
         const data = {
             'template': exerciseMealData.id
         }
         templateServices.addTemplateDay(data).then(response => {
-
+            let exerciseMealData= this.props.getTemplateForDay2(templateId,(activeNumber+1));
+            setTimeout(() => this.setState({exerciseMealData: exerciseMealData}),50)
         })
     }
 
     decrementDays = () => {
-        let {daysNumber} = this.state;
+        let {daysNumber,activeNumber} = this.state;
+        let {templateId} = this.props;
         if(daysNumber > 0){
+            if(activeNumber === daysNumber){
+                activeNumber--;
+            }
             daysNumber--;
-            this.setState({daysNumber});
+            this.setState({daysNumber, activeNumber});
             this.renderDaysButtons();
-            this.props.getTemplateForDay2();
+            let exerciseMealData= this.props.getTemplateForDay2(templateId,activeNumber);
+            this.setState({exerciseMealData: exerciseMealData})
             this.sliderRef.slickGoTo(daysNumber)
-            this.removeTemplateDay()
+            setTimeout(() => this.removeTemplateDay(),100)
         }
     }
 

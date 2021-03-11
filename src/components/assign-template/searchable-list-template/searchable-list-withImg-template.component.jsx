@@ -43,10 +43,10 @@ class ListItemWithImg extends Component{
                 </li>
                 <ModalComponent size="small" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     {isNaN(this.props.data.exercise_id) ?
-                        <DetailListItemTemplateComponent key={this.props.id}
+                        <DetailListItemTemplateComponent key={this.props.id} parentUpdatemealDataItem={(e)=>{this.props.parentUpdatemealDataItem(e)}}
                                                          closeModal={(e)=>this.setState({__addModal__ : false})}
                                                          mealDataItem={this.props.mealDataItem}
-                                                         getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}
+                                                         getTemplateForDay2={this.props.getTemplateForDay2}
                                                          MealForThisDay={this.props.data}
                         />
                         :
@@ -86,7 +86,6 @@ class SearchableListWithImgTemplateComponent extends Component {
         }
 
     }
-
     render () {
         const {t, ExerciseId, activeDay, parentCallExcersise} = this.props;
         let List = this.state.displayedData;
@@ -97,9 +96,9 @@ class SearchableListWithImgTemplateComponent extends Component {
                     {
                         List.map((el) => {
                             return <ListItemWithImg key={el.id} onClick={(e)=> this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}
-                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId}
+                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId} parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}
-                                                    getTemplateForDay2={(e) => {this.props.getTemplateForDay2(e)} }
+                                                    getTemplateForDay2={this.props.getTemplateForDay2}
                                                     name={t('local')==='ar' ? el.title_ar : el.title}
                             />
                         })

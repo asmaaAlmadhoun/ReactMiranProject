@@ -276,11 +276,6 @@ class ExerciseComponent extends Component {
                 </div>
                 <div className={"AddMealTemplateComponent row p-0 mt-4"}>
                     <div className="col-sm-7">
-                        <span className='text-primary f-2'>
-                            {t('traineeModal.Calories')} :
-                        </span>
-                        <span>
-                        </span>
                     </div>
                     <div className="meal-buttons col-sm-5 text-left">
                         <button onClick={(e)=> this.setState({openExceriseListDetails:true})} className="btn primary-color">

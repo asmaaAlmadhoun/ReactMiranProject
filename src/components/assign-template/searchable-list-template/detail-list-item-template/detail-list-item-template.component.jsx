@@ -72,7 +72,15 @@ class DetailListItemTemplateComponent extends Component {
         mealServices.addFood(data).then(response => {
             if (response.status) {
                 //      toast.done(t('shared.success.addedSuccess'));
-                 this.props.getTemplateForDay2();
+                 let DataNEW =this.props.getTemplateForDay2();
+                 setTimeout(()=>{
+                     let Data = {};
+                     DataNEW.day.meals.map(item =>{
+                         if(item.template_day_meal_id === this.props.mealDataItem.template_day_meal_id)
+                             Data= item
+                     });
+                     this.props.parentUpdatemealDataItem(Data)
+                 } ,200)
                  this.props.closeModal();
             } else {
                 //  toast.done(t('shared.success.addedSuccess'));

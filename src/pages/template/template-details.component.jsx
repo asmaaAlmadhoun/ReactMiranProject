@@ -3,15 +3,9 @@ import './template.component.css';
 import {withTranslation} from "react-i18next";
 import {Loader, Menu, Tab} from 'semantic-ui-react';
 import AddDaysTemplateComponent from "../../components/assign-template/add-days-template/add-days-template.component";
-import ExerciseMealTemplateComponent
-    from "../../components/assign-template/exercise-meal-template/exercise-meal-template.component";
 import {BsThreeDotsVertical} from "react-icons/bs";
-import TemplateService from "../../services/template-service/template.service";
-import TemplateCardComponent from "../../components/template-card/template-card.component";
-import EmptyComponent from "../../components/common/empty-page/empty.component";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
 import TemplateServices from "../../services/template-service/template.service";
-import {toast} from "react-toastify";
 import ExerciseComponent from "../../components/trainee-modal/exercise-component/exercise.component";
 import MealComponent from "../../components/trainee-modal/meal-component/meal.component";
 import MealItemComponent from "../../components/meal-excerise-itemComponent/meal-item.component";
@@ -49,7 +43,7 @@ class TemplateDetailsComponent extends Component {
         const templateServices = new TemplateServices();
         templateServices.getTemplateForDay(tempId, activeDay).then(response => {
             if (response) {
-                this.setState({exerciseMealForThisDay :response.result, loader : false  });
+                this.setState({exerciseMealForThisDay :response.result, loader : false, templateId: response.result.id });
             }
         })
         return this.state.exerciseMealForThisDay
@@ -69,28 +63,21 @@ class TemplateDetailsComponent extends Component {
 
         const panes = this.state.data.length > 0 ? this.state.data.map(item =>({
             menuItem:
-                <Menu.Item key={item.id}  onClick={(e)=>this.getTemplateForDay(item.id)}>
+                <Menu.Item key={item.id} activeIndex={item.id} className={this.state.templateId === item.id? ' active ':''}  onClick={()=>this.getTemplateForDay(item.id)}>
                     <a className='row'>
                         <div className="col-8"> {item.name}</div>
                         <div className="col-4 text-left"><BsThreeDotsVertical/></div>
                     </a>
                 </Menu.Item>,
             render: () =>
-                <Tab.Pane attached={false}>
+                <Tab.Pane attached={false} key={this.state.templateId}>
                     {
                         this.state.loader ? <Loader active={true} inline='centered'/> :
-
-                            // <ExerciseMealTemplateComponent exerciseMealForThisDay={this.state.exerciseMealForThisDay}
-                            //                                parentCallback={(e) => this.setState({activeDay: e})}
-                            //                                getTemplateForDay={this.getTemplateForDay}
-                            //                                daysNumber={item.days} ref="child" templateId={item.id}
-                            //                                activeDay={this.state.activeDay}/>
-
                             <>
                                 <div className={openDetails || openExceriseDetails ? ' d-none':'' }>
                                     <ToasterComponent />
 
-                                    <AddDaysTemplateComponent  daysNumber={item.days} getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>this.setState({activeDay: e})} clickNumberHandler={this.clickNumberHandler} />
+                                    <AddDaysTemplateComponent templateId={item.id}  daysNumber={item.days} getTemplateForDay2={(e,z) => this.getTemplateForDay(e,z)} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>{this.setState({activeDay: e, loading: true}); setTimeout( () => this.setState({ loading: false}),500)} } clickNumberHandler={this.clickNumberHandler} />
                                     {
                                         this.state.loading ? <Loader active={true} inline='centered'/> :
 

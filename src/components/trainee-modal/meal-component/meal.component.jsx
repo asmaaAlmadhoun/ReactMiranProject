@@ -6,8 +6,6 @@ import  './meal.component.css';
 import Example from '../../../pages/template/example.jsx';
 import AddMealTemplateComponent from "../../assign-template/add-meal-template/add-meal-template.component";
 import MealItemComponent from "../../meal-excerise-itemComponent/meal-item.component";
-import ExerciseMealTemplateComponent
-    from "../../assign-template/exercise-meal-template/exercise-meal-template.component";
 import BreakDayComponent from "../../common/empty-page/breakDay.component";
 import TemplateServices from "../../../services/template-service/template.service";
 import {toast} from "react-toastify";
@@ -298,7 +296,7 @@ class MealComponent extends Component {
                     </div>
                     <div className={"AddMealTemplateComponent col-sm-4 p-0 mt-4"}>
                         <div className="meal-buttons justify-content-center">
-                            <AddMealTemplateComponent dayNumbers={daysNumber} parentTriggerAdd={(e)=> {this.props.getTemplateForDay2()}}  exerciseMealData={this.props.exerciseMealData} activeDay={activeDay} templateId={templateId}/>
+                            <AddMealTemplateComponent dayNumbers={daysNumber} parentTriggerAdd={(e)=> { let NewData = this.props.getTemplateForDay2(); setTimeout(()=>this.setState({exerciseMealData:NewData}),100)}}  exerciseMealData={this.props.exerciseMealData} activeDay={activeDay} templateId={templateId}/>
                             <button className="btn primary-color p-1"  onClick={(e)=> this.openModalCopyMeal(e,null, 1)}>
                                 <BiCopy />
                                 <div><small>{t('traineeModal.copyMeal')}</small></div>

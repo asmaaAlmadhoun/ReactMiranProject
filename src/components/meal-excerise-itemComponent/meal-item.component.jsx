@@ -21,7 +21,8 @@ class MealItemComponent extends Component {
             FoodList: [],
             imgDefaultPath: '',
             openEditModal: false,
-            itemToEdit: []
+            itemToEdit: [],
+            mealDataItem: this.props.mealDataItem
         }
     }
     async componentWillMount() {
@@ -41,7 +42,7 @@ class MealItemComponent extends Component {
     }
     render() {
         const {t, openDetails, mealTitle } = this.props;
-        let {mealDataItem} = this.props;
+        let {mealDataItem} = this.state;
         let { imgPath} = this.props;
         if(!imgPath)
             imgPath = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' ;
@@ -58,7 +59,7 @@ class MealItemComponent extends Component {
                         </div>
                         <div className="col-sm-12 mb-3 mealItemsList">
                             {
-                                (mealDataItem.meal.foods) ?
+                                (mealDataItem.meal.foods && mealDataItem.meal.foods.length) ?
                                     mealDataItem.meal.foods.map(item =>
                                         <>
                                             <div className='row mb-2'>
@@ -77,7 +78,7 @@ class MealItemComponent extends Component {
                                             </div>
                                         </>
                                     )
-                                    : ''
+                                    : t('traineeModal.emptyDataMeal')
                             }
                             <ModalComponent size="small" isOpen={this.state.openEditModal} hideAction={true} handleClosed={(e) => this.setState({openEditModal: false})} >
                                 <DetailListItemTemplateComponent EditMealItem='true'
@@ -124,7 +125,7 @@ class MealItemComponent extends Component {
                 </div>
 
                 <ModalComponent  size='small' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
-                    <SearchableListWithImgTemplateComponent getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} list={this.state.FoodList}/>
+                    <SearchableListWithImgTemplateComponent getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} parentUpdatemealDataItem={(e) =>{ this.setState({mealDataItem:e})}} list={this.state.FoodList}/>
                 </ModalComponent>
 
             </>
