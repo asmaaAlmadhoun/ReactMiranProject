@@ -79,7 +79,7 @@ class ProfileModalComponent extends Component {
                                             <div className="card-header text-right">
                                                 <div className="row">
                                                     <div className="col-4">
-                                                        <img src={'https://testing.miranapp.com/media/' + item.profile.avatar} className='w-100' alt="img_avatar"/>
+                                                        <img src={'https://miranapp.com/media/' + item.profile.avatar} className='w-100' alt="img_avatar"/>
                                                     </div>
                                                     <div className="col-8">
                                                         <h3 className='pb-3'>{t('traineeModal.notes')}</h3>

@@ -6,7 +6,7 @@ class UserService extends BaseService {
         super('user');
     }
     get imageDefaultPath () {
-        return "https://testing.miranapp.com/media/";
+        return "https://miranapp.com/media/";
     }
     get profile () {
         const url = this._endPoint + "/trainer-profile";

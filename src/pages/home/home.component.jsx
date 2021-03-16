@@ -82,12 +82,12 @@ class HomeComponent extends Component {
                                                  this.state.trainees.map( (item,i) => {
                                                      const _isFemale = item.profile && item.profile.gender && item.profile.gender.name === "female";
                                                      const _remainingTime = item.profile && item.profile.subscription  ? item.profile.subscription.remaining_days : null;
-                                                     const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                                     const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
                                                              <TraineeCardComponent
                                                                  modalRequestProfile={this.openModalRequestProfile}
-                                                                 traineesId={item.id}
+                                                                 traineesId={item.id}  subscription={item.profile.subscription}
                                                                  openModalFn={this.openModalHandler}
                                                                  isFemale={ _isFemale} imgPath={_imgPath} remainingDays={_remainingTime}  full_name={item.full_name} id={item.id}/>
                                                          </div>
@@ -113,7 +113,7 @@ class HomeComponent extends Component {
                                          {
                                              this.state.requests.length >0 ?
                                                  this.state.requests.map( (item,i) => {
-                                                     const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                                     const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
                                                              <Card
@@ -140,7 +140,7 @@ class HomeComponent extends Component {
                                              {
                                                  this.state.requests.length >0 ?
                                                      this.state.requests.map( (item,i) => {
-                                                         const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                                         const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                          return (
                                                              <div className="col-md-3 mt-4" key={i}>
                                                                  <Card

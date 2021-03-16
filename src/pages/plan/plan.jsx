@@ -29,7 +29,8 @@ class Plan extends Component {
             ExceriseDataItem: [],
             openDetails: false,
             openExceriseDetails: false,
-            loading: false
+            loading: false,
+            subscription: []
         }
     }
     clickNumberHandler= (e) =>{
@@ -53,7 +54,7 @@ class Plan extends Component {
     }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
-        this.setState({planId: dataFromLocation.planId});
+        this.setState({planId: dataFromLocation.planId, subscription: dataFromLocation.subscription});
     }
     componentDidMount() {
         const planId = this.state.planId;
@@ -80,6 +81,15 @@ class Plan extends Component {
                 onClick={onClick}
             />
         );
+    }
+    setCalendar= () =>{
+        let DateComponent = [];
+        for (let i = 0; i < this.state.subscription.total_days; i++) {
+            DateComponent.push(
+                <DateComponent dateNumber={i} isActive={true} dateName={'sun'} />
+            )
+        }
+        return DateComponent
     }
 
     render() {
@@ -126,31 +136,8 @@ class Plan extends Component {
                                             </div>
                                             <div className="dates">
                                                 <Slider {...settings}>
-
-                                                    <DateComponent dateNumber={10} dateName={'sun'} />
-                                                    <DateComponent dateNumber={11} dateName={'sun'} />
-                                                    <DateComponent dateNumber={12} dateName={'sun'} />
+                                                    {/*{this.setCalendar().map(item => item)}*/}
                                                     <DateComponent dateNumber={13} isActive={true} dateName={'sun'} />
-                                                    <DateComponent dateNumber={14} dateName={'sun'} />
-                                                    <DateComponent dateNumber={15} dateName={'sun'}  />
-                                                    <DateComponent dateNumber={16} dateName={'sun'} />
-                                                    <DateComponent dateNumber={17} dateName={'sun'} />
-                                                    <DateComponent dateNumber={18} dateName={'sun'} />
-                                                    <DateComponent dateNumber={19} dateName={'sun'} />
-                                                    <DateComponent dateNumber={20} dateName={'sun'} />
-                                                    <DateComponent dateNumber={21} dateName={'sun'} />
-                                                    <DateComponent dateNumber={22} dateName={'sun'} />
-                                                    <DateComponent dateNumber={23} dateName={'sun'} />
-                                                    <DateComponent dateNumber={24} dateName={'sun'} />
-                                                    <DateComponent dateNumber={25} dateName={'sun'} />
-                                                    <DateComponent dateNumber={26} dateName={'sun'} />
-                                                    <DateComponent dateNumber={27} dateName={'sun'}  />
-                                                    <DateComponent dateNumber={28} dateName={'sun'} />
-                                                    <DateComponent dateNumber={29} dateName={'sun'} />
-                                                    <DateComponent dateNumber={30} dateName={'sun'} />
-                                                    <DateComponent dateNumber={31} dateName={'sun'} />
-                                                    <DateComponent dateNumber={32} dateName={'sun'} />
-                                                    <DateComponent dateNumber={33} dateName={'sun'} />
                                                 </Slider>
                                             </div>
 

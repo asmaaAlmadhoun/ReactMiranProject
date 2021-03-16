@@ -205,7 +205,7 @@ class MealComponent extends Component {
                             (item.meal.foods) ? item.meal.foods.map(item =>
                                 <span>
                                                         <img className='w-100'
-                                                             src={'https://testing.miranapp.com/media/' + item.image}
+                                                             src={'https://miranapp.com/media/' + item.image}
                                                              alt="image"/>
                                                         </span>
                             ) : ''
@@ -289,7 +289,7 @@ class MealComponent extends Component {
                                             (item.meal.foods) ? item.meal.foods.map(item =>
                                                 <span>
                                                             <img className='w-100'
-                                                                 src={'https://testing.miranapp.com/media/' + item.image}
+                                                                 src={'https://miranapp.com/media/' + item.image}
                                                                  alt="image"/>
                                                             </span>
                                             ) : ''

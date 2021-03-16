@@ -103,7 +103,7 @@ class TemplateCardComponent extends Component {
                     {
                         this.state.loading ?  <Loader active={true} inline='centered' /> :
                             this.state.traineeList && this.state.traineeList.length > 0 ?  this.state.traineeList.map( (item , i) => {
-                                const _imgPath = item.profile && item.profile.avatar ? 'https://testing.miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                 return (
                                         <TraineeCardComponent key={i} full_name={item.full_name} imgPath={_imgPath}
                                                               className='card-custom' classNameAction='d-none' />

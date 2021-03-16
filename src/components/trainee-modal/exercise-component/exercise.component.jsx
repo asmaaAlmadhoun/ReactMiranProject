@@ -194,12 +194,12 @@ class ExerciseComponent extends Component {
             <div className="col-sm-4">
                 <div className="video">
                     <QierPlayer
-                        srcOrigin={'https://testing.miranapp.com/media/'+item.exercise.video}
+                        srcOrigin={'https://miranapp.com/media/'+item.exercise.video}
                         language="en"
                         width={200}
                         height={100}
                         showVideoQuality={true}
-                        src480p={'https://testing.miranapp.com/media/'+item.exercise.video}
+                        src480p={'https://miranapp.com/media/'+item.exercise.video}
                         src1080p={''}
                         src720p={null}
                         src2k={''}
