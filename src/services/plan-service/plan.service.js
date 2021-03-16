@@ -16,7 +16,7 @@ class PlanService extends BaseService {
     AddMealTrainee= async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "meal/";
+        const url =   this._endPoint + "meal";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
     UpdateMealTrainee= async (data) => {
@@ -34,7 +34,7 @@ class PlanService extends BaseService {
     addFoodTrainee= async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "meal/";
+        const url =   this._endPoint + "meal";
         return  HTTP_REQUEST.put({target:url , body : data});
     }
     removeFoodTrainee= async (data) => {

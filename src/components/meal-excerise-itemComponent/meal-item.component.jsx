@@ -112,7 +112,7 @@ class MealItemComponent extends Component {
                                     : t('traineeModal.emptyDataMeal')
                             }
                             <ModalComponent size="small" isOpen={this.state.openEditModal} hideAction={true} handleClosed={(e) => this.setState({openEditModal: false})} >
-                                <DetailListItemTemplateComponent EditMealItem='true'
+                                <DetailListItemTemplateComponent EditMealItem='true' planMode={this.props.planMode}
                                                                  closeModal={(e)=>this.setState({openEditModal : false})}
                                                                  mealDataItem={mealDataItem}
                                                                  getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}
@@ -156,7 +156,7 @@ class MealItemComponent extends Component {
                 </div>
 
                 <ModalComponent  size='small' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
-                    <SearchableListWithImgTemplateComponent getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} parentUpdatemealDataItem={(e) =>{ this.setState({mealDataItem:e})}} list={this.state.FoodList}/>
+                    <SearchableListWithImgTemplateComponent planMode={this.props.planMode} getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} parentUpdatemealDataItem={(e) =>{ this.setState({mealDataItem:e})}} list={this.state.FoodList}/>
                 </ModalComponent>
 
             </>

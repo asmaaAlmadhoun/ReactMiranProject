@@ -14,6 +14,7 @@ import {toast} from "react-toastify";
 import ToasterComponent from "../../common/toaster/toaster.component";
 import PropTypes from "prop-types";
 import {Loader} from "semantic-ui-react";
+import PlanService from "../../../services/plan-service/plan.service";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -35,27 +36,51 @@ class AddMealTemplateComponent extends Component {
         this.setState({[e.target.name] : value});
     }
     submitNewMeal = async () => {
-        const {t, exerciseMealData} = this.props;
+        const {t, exerciseMealData, planMode, traineesId} = this.props;
         const {mealTitle, mealComment} = this.state;
-        let id= exerciseMealData.day.id;
-        const dataMeal = {
-           'template_day': id,
-           'title': mealTitle,
-           'comment': mealComment
-        }
-        const mealServices = new MealServices();
-        mealServices.addMealToTemplateDay(dataMeal).then(response => {
-            this.setState({isLoading: true})
-            if (response.status) {
-                this.closeModalHandler();
-                this.props.parentTriggerAdd();
-                toast.done(t('shared.success.addedSuccess'));
-                this.setState({isLoading: false})
-
-            } else {
-                toast.error(t('shared.errors.globalError'))
+        if(planMode){
+            const dataMeal = {
+                'user_id': traineesId,
+                'title': mealTitle,
+                'comment': mealComment,
+                'day' : exerciseMealData[0].day
             }
-        })
+            const planService = new PlanService();
+            planService.AddMealTrainee(dataMeal).then(response => {
+                this.setState({isLoading: true})
+                if (response.status) {
+                    this.closeModalHandler();
+                    this.props.parentTriggerAdd();
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.setState({isLoading: false})
+
+                } else {
+                    toast.error(t('shared.errors.globalError'))
+                }
+            })
+        }
+        else {
+            let id= exerciseMealData.day.id;
+            const dataMeal = {
+                'template_day': id,
+                'title': mealTitle,
+                'comment': mealComment
+            }
+            const mealServices = new MealServices();
+            mealServices.addMealToTemplateDay(dataMeal).then(response => {
+                this.setState({isLoading: true})
+                if (response.status) {
+                    this.closeModalHandler();
+                    this.props.parentTriggerAdd();
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.setState({isLoading: false})
+
+                } else {
+                    toast.error(t('shared.errors.globalError'))
+                }
+            })
+        }
+
     }
     addTemplateBreakDay = () => {
         const {t, exerciseMealData} = this.props;

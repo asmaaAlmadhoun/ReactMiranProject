@@ -463,7 +463,7 @@ class MealComponent extends Component {
                         </div>
                         <div className={"AddMealTemplateComponent col-sm-4 p-0"}>
                             <div className="meal-buttons justify-content-center">
-                                <AddMealTemplateComponent dayNumbers={daysNumber} parentTriggerAdd={(e) => {
+                                <AddMealTemplateComponent traineesId={this.props.traineesId} planMode={this.props.planMode} dayNumbers={daysNumber} parentTriggerAdd={(e) => {
                                     let NewData = this.props.getTemplateForDay2();
                                     setTimeout(() => this.setState({exerciseMealData: NewData}), 100)
                                 }} exerciseMealData={this.props.exerciseMealData} activeDay={activeDay}

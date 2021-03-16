@@ -5,6 +5,7 @@ import {Input, Label} from "semantic-ui-react";
 import UserService from "../../../../services/user-service/user.service";
 import MealServices from "../../../../services/meal-services/meal.services";
 import TemplateService from "../../../../services/template-service/template.service";
+import PlanService from "../../../../services/plan-service/plan.service";
 
 class DetailListItemTemplateComponent extends Component {
     constructor(props) {
@@ -17,7 +18,6 @@ class DetailListItemTemplateComponent extends Component {
             quantity: this.props.MealForThisDay.quantity,
             template_day_meal_id: this.props.mealDataItem.template_day_meal_id,
             food_id: this.props.MealForThisDay.id,
-
         }
     }
     onChangeGram = e => {
@@ -51,41 +51,77 @@ class DetailListItemTemplateComponent extends Component {
     }
     async addFood() {
         const {food_quantity, template_day_meal_id, food_id} = this.state;
+        const {mealDataItem} = this.props;
         const mealServices = new MealServices();
         const templateService = new TemplateService();
-        const data = {
-            'template_day_meal_id': template_day_meal_id,
-            'food_id': food_id,
-            'food_quantity': food_quantity
-        }
+        const planService = new PlanService();
+        if (this.props.planMode){
+            const data2 = {
+                "meal_id": mealDataItem.meal.id,
+                "schedule_meal_id": mealDataItem.schedule_meal_id,
+                'food_id': food_id,
+                'food_quantity': food_quantity
+            }
         this.props.EditMealItem ?
-            templateService.editFood(data).then(response => {
+            planService.addFoodTrainee(data2).then(response => {
                 if (response.status) {
-                    //      toast.done(t('shared.success.addedSuccess'));
                     this.props.getTemplateForDay2();
+                    this.props.closeModal();
+                }
+            })
+            :
+            planService.addFoodTrainee(data2).then(response => {
+                if (response.status) {
+                    let DataNEW = this.props.getTemplateForDay2();
+                    setTimeout(() => {
+                        let Data = {};
+                        DataNEW.meals.map(item => {
+                            if (item.id === this.props.mealDataItem.meal.id)
+                                Data = item
+                        });
+                        this.props.parentUpdatemealDataItem(Data)
+                    }, 200)
                     this.props.closeModal();
                 } else {
                     //  toast.done(t('shared.success.addedSuccess'));
                 }
             })
-            :
-        mealServices.addFood(data).then(response => {
-            if (response.status) {
-                //      toast.done(t('shared.success.addedSuccess'));
-                 let DataNEW =this.props.getTemplateForDay2();
-                 setTimeout(()=>{
-                     let Data = {};
-                     DataNEW.day.meals.map(item =>{
-                         if(item.template_day_meal_id === this.props.mealDataItem.template_day_meal_id)
-                             Data= item
-                     });
-                     this.props.parentUpdatemealDataItem(Data)
-                 } ,200)
-                 this.props.closeModal();
-            } else {
-                //  toast.done(t('shared.success.addedSuccess'));
-            }
-        })
+         }
+         else{
+                const data = {
+                    'template_day_meal_id': template_day_meal_id,
+                    'food_id': food_id,
+                    'food_quantity': food_quantity
+                }
+                this.props.EditMealItem ?
+                    templateService.editFood(data).then(response => {
+                        if (response.status) {
+                            //      toast.done(t('shared.success.addedSuccess'));
+                            this.props.getTemplateForDay2();
+                            this.props.closeModal();
+                        } else {
+                            //  toast.done(t('shared.success.addedSuccess'));
+                        }
+                    })
+                    :
+                mealServices.addFood(data).then(response => {
+                    if (response.status) {
+                        //      toast.done(t('shared.success.addedSuccess'));
+                         let DataNEW =this.props.getTemplateForDay2();
+                         setTimeout(()=>{
+                             let Data = {};
+                             DataNEW.day.meals.map(item =>{
+                                 if(item.template_day_meal_id === this.props.mealDataItem.template_day_meal_id)
+                                     Data= item
+                             });
+                             this.props.parentUpdatemealDataItem(Data)
+                         } ,200)
+                         this.props.closeModal();
+                    } else {
+                        //  toast.done(t('shared.success.addedSuccess'));
+                    }
+                })
+        }
     }
 
     prepareTotalDataSource(oldQty,newQty){

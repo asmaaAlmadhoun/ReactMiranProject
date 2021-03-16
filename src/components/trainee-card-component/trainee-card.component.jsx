@@ -43,7 +43,7 @@ class TraineeCardComponent extends Component {
                         e.stopPropagation();
                         this.props.history.push({
                             pathname: '/plan',
-                            state: { planId: traineesId, subscription : subscription },
+                            state: { planId: traineesId, subscription : subscription, traineesId: traineesId },
                         });
                     }}>
                         <img src={tempIco}  alt="icon" />

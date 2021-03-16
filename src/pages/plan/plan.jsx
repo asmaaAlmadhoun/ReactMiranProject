@@ -30,7 +30,8 @@ class Plan extends Component {
             openDetails: false,
             openExceriseDetails: false,
             loading: false,
-            subscription: []
+            subscription: [],
+            traineesId: ''
         }
     }
     clickNumberHandler= (e) =>{
@@ -44,6 +45,9 @@ class Plan extends Component {
         if(activeDay === undefined){
             activeDay = this.state.activeDay;
         }
+        if(tempId === undefined){
+            tempId = this.state.planId;
+        }
         const planServices = new PlanServices();
         planServices.getPlanSchedule(tempId, activeDay).then(response => {
             if (response) {
@@ -54,7 +58,7 @@ class Plan extends Component {
     }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
-        this.setState({planId: dataFromLocation.planId, subscription: dataFromLocation.subscription});
+        this.setState({planId: dataFromLocation.planId, traineesId: dataFromLocation.traineesId, subscription: dataFromLocation.subscription});
     }
     componentDidMount() {
         const planId = this.state.planId;
@@ -94,7 +98,7 @@ class Plan extends Component {
 
     render() {
         const {t } = this.props;
-        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem} = this.state;
+        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem, traineesId} = this.state;
         const settings = {
             dots: false,
             infinite: false,
@@ -170,7 +174,7 @@ class Plan extends Component {
                                                                                 openDetailsFunction={(e) => this.setState({
                                                                                     mealDataItem: e,
                                                                                     openDetails: true
-                                                                                })} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay}
+                                                                                })} traineesId={traineesId} activeDay={activeDay} exerciseMealData={exerciseMealForThisDay}
                                                                                planMode={true}  planId={item.id}/>
                                                             </Tab.Pane>,
                                                     },
@@ -181,11 +185,11 @@ class Plan extends Component {
 
                                 {!openDetails?
                                     '':
-                                    <MealItemComponent getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e)=> this.setState({openDetails: e})} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
+                                    <MealItemComponent planMode={true} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e)=> this.setState({openDetails: e})} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
                                 }
                                 {!openExceriseDetails?
                                     '':
-                                    <ExceriseItemComponent  parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)}
+                                    <ExceriseItemComponent planMode={true}  parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)}
                                                             planId={item.id}
                                                             activeDay={this.state.activeDay} />
                                 }

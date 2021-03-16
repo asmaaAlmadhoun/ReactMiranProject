@@ -47,10 +47,10 @@ class ListItemWithImg extends Component{
                                                          closeModal={(e)=>this.setState({__addModal__ : false})}
                                                          mealDataItem={this.props.mealDataItem}
                                                          getTemplateForDay2={this.props.getTemplateForDay2}
-                                                         MealForThisDay={this.props.data}
+                                                         MealForThisDay={this.props.data} planMode={this.props.planMode}
                         />
                         :
-                        <AddExerciseTemplateComponent closeModal={(e)=>this.setState({__addModal__ : false})} getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
+                        <AddExerciseTemplateComponent closeModal={(e)=>this.setState({__addModal__ : false})} planMode={this.props.planMode} getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
                     }
 
                 </ModalComponent>
@@ -99,7 +99,7 @@ class SearchableListWithImgTemplateComponent extends Component {
                                                     data={el} activeDay={activeDay} ExerciseId={ExerciseId} parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}
                                                     getTemplateForDay2={this.props.getTemplateForDay2}
-                                                    name={t('local')==='ar' ? el.title_ar : el.title}
+                                                    name={t('local')==='ar' ? el.title_ar : el.title} planMode={this.props.planMode}
                             />
                         })
                     }
