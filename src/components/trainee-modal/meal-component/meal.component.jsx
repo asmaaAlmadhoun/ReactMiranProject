@@ -189,7 +189,7 @@ class MealComponent extends Component {
         setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2})); console.log('asma')},1000)
     });
     componentDidUpdate(prevProps) {
-        this.Update(prevProps.exerciseMealData);
+        // this.Update(prevProps.exerciseMealData);
     }
     generateMealList=(item)=>{
         const {t}= this.props;
