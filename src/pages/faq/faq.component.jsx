@@ -3,11 +3,11 @@ import { withTranslation } from "react-i18next";
 import './faq.component.css';
 import { toast } from 'react-toastify';
 import ModalComponent from "../../components/common/modal/modal.component";
+import TextariaComponent from "../../components/TextAriaComponent/textaria.component";
 import InputTextComponent from "../../components/InputTextComponent/input-text-no-label.component";
 import {FiPlus} from "react-icons/fi/index";
 import UserService from "../../services/user-service/user.service";
 import EmptyComponent from "../../components/common/empty-page/empty.component";
-import AccountService from "../../services/account-service/account.service";
 import PrimaryButtonComponent from "../../components/ButtonComponent/primary-button.component";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
 
@@ -38,26 +38,28 @@ class FaqComponent extends Component {
     }
 
     onSubmit = async () => {
-        const {question , answer} = this.state;
-        const data = {
+        let {question , answer} = this.state;
+        let data = {
             question,answer
         }
         const userService  = new UserService();
-        this.setState({isLoading:true})
-        const {t} = this.props;
-        userService.addFaq(data).then(response => {
-            this.setState({isLoading : false})
-            if(response && response.message) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.fetchData();
-                this.onClose();
-            }else {
-                toast.error(t('shared.errors.globalError'))
-            }
-        }).catch(error => {
-            // todo: handling error.
-            toast.error("Error")
-        });
+            this.setState({isLoading:true})
+            const {t} = this.props;
+            userService.addFaq(data).then(response => {
+                this.setState({isLoading : false})
+                if(response && response.message) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.fetchData();
+                    this.onClose();
+                }else {
+                    toast.error(t('shared.errors.globalError'))
+                }
+            }).catch(error => {
+                // todo: handling error.
+                toast.error("Error")
+            });
+
+
     }
 
     showModalHandler =() => {
@@ -107,7 +109,7 @@ class FaqComponent extends Component {
                 }}><FiPlus className='f-5-half'/></button>
                 </div>
                 <ToasterComponent />
-                <ModalComponent size='mini' isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                <ModalComponent size='mini' modalCenter={true} isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <div className="text-center mini-shared-modal px-3">
                         <h4 className='mb-4'>  {t('faqPage.addQuestion')} </h4>
                         <InputTextComponent
@@ -115,12 +117,10 @@ class FaqComponent extends Component {
                             name='question'
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             isRequired={true} labelTitle={t('faqPage.question')}  />
-                        <InputTextComponent
-                            valueHandler={this.onChangeHandler}
-                            name='answer'
+                        <TextariaComponent
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
-                            isRequired={true} labelTitle={t('faqPage.answer')}  />
-
+                            isRequired={true} labelTitle={t('faqPage.answer')}
+                            name='answer'/>
                         <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit} title={t('shared.add')}> </PrimaryButtonComponent>
                     </div>
                 </ModalComponent>

@@ -23,7 +23,7 @@ ArabicTranslation = {
       accountCreated: 'تم إنشاء الحساب بنجاح',
       deletedSuccess: 'تم الحذف بنجاح',
       addedSuccess: 'تم الإضافة بنجاح',
-
+      processSuccess: 'تمت العملية بنجاح',
     },
     warnings: {
       emailExistBefore: 'البريد الألكترونى مستخدم من قبل'

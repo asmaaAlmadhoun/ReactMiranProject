@@ -113,7 +113,7 @@ class TraineeModalNoteComponent extends Component {
 
                 </ModalComponent>
 
-                <ModalComponent size='mini' isOpen={this.state.__addNoteModal__}  hideAction={true} handleClosed={e => {
+                <ModalComponent size='mini' modalCenter={true} isOpen={this.state.__addNoteModal__}  hideAction={true} handleClosed={e => {
                     this.setState({__addNoteModal__:false})
                 }} >
                     <div className="text-center mini-shared-modal px-3">

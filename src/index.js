@@ -23,9 +23,7 @@ import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.
 import ChatGroupComponent from "./pages/group-chat/chat-group.component";
 import LoginChatComponent from "./pages/group-chat/login-chat/login-chat.component";
 import FaqComponent from "./pages/faq/faq.component";
-
-
-
+import PlanComponent from "./pages/plan/plan";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -44,6 +42,7 @@ ReactDOM.render(
                   <Route path="/template"  component={TemplateComponent} />
                   <Route path="/template-details"  component={TemplateDetailsComponent} />
                   <Route path="/progress"  component={ProgressComponent} />
+                  <Route path="/plan"  component={PlanComponent} />
                   <Route path="/faq"  component={FaqComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
                   <Route path="/chat" component={ChatGroupComponent} />

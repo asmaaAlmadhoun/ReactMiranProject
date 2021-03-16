@@ -47,7 +47,7 @@ class TraineeModalComponent extends Component {
         };
         return (
             <div>
-                <ModalComponent size="tiny" isOpen={this.state.isOpen} Actions={
+                <ModalComponent size="small" isOpen={this.state.isOpen} Actions={
                     <div className="card-foot" >
                       <div style={{float:t('local') === 'ar' ? 'right' : 'left' }}>
                          <div className="d-flex">
@@ -68,7 +68,6 @@ class TraineeModalComponent extends Component {
                             </div>
                              <div>
                                  <button className="btn btn-secondary-small-rounded" onClick={(e) =>  {
-                                    
                                      this.setState({isOpen: false})
                                  }}>
                                      <FiX />
@@ -119,7 +118,6 @@ class TraineeModalComponent extends Component {
                                        <DateComponent dateNumber={32} dateName={'sun'} />
                                        <DateComponent dateNumber={33} dateName={'sun'} />
                                    </Slider>
-
                                </div>
 
                            </div>
@@ -133,12 +131,12 @@ class TraineeModalComponent extends Component {
                                            render: () =>
                                                <Tab.Pane attached={false}>
                                                    <ExerciseComponent />
-                                                   <ExerciseComponent />
                                                </Tab.Pane>,
                                        },
                                        {
                                            menuItem:  t('traineeModal.meals'),
-                                           render: () => <Tab.Pane attached={false}>
+                                           render: () =>
+                                           <Tab.Pane attached={false}>
                                                <MealComponent calories={128} carbs={16} fat={6} protein={3} meadId={1} mealTitle={"Snack"} images={['https://homepages.cae.wisc.edu/~ece533/images/airplane.png','https://homepages.cae.wisc.edu/~ece533/images/cat.png']} />
                                            </Tab.Pane>,
                                        },

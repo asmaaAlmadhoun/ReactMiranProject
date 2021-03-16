@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
 import './meal-excerise-item.component.css'
-import {FiPlus} from "react-icons/fi";
+import {FiPlus, FiX} from "react-icons/fi";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 import {BiCopy, BiEditAlt} from "react-icons/bi";
 import SearchableListWithImgTemplateComponent
@@ -9,8 +9,10 @@ import SearchableListWithImgTemplateComponent
 import ModalComponent from "../common/modal/modal.component";
 import ResourcesService from "../../services/trainee-service/resources.service";
 import UserService from "../../services/user-service/user.service";
+import TemplateServices from "../../services/template-service/template.service";
 import DetailListItemTemplateComponent
     from "../assign-template/searchable-list-template/detail-list-item-template/detail-list-item-template.component";
+import MessageComponent from "../common/message/message.component";
 
 class MealItemComponent extends Component {
     constructor(props) {
@@ -22,7 +24,8 @@ class MealItemComponent extends Component {
             imgDefaultPath: '',
             openEditModal: false,
             itemToEdit: [],
-            mealDataItem: this.props.mealDataItem
+            successState: false,
+            mealDataItem: this.props.mealDataItem,
         }
     }
     async componentWillMount() {
@@ -31,14 +34,30 @@ class MealItemComponent extends Component {
         const mealService  = new ResourcesService();
         this.setState({isLoading : true})
         mealService.food.then(data => {
-            this.setState({isLoading : false})
             if(data && data.status) {
+                this.props.getTemplateForDay2();
                 this.setState({FoodList : data.result})
             }
         }).catch(error => {
             this.setState({isLoading : false})
         });
 
+    }
+    deleteFood=(item)=>{
+        const templateServices  = new TemplateServices();
+        const data = {
+            'template_day_meal_id': this.props.mealDataItem.template_day_meal_id,
+            'food_id': item.id
+        }
+        templateServices.deleteFood(data).then(data => {
+            if(data && data.status) {
+                console.log('asma');
+                this.props.getTemplateForDay2();
+                this.setState({FoodList : data.result.meal.foods,successState: true })
+            }
+        }).catch(error => {
+            this.setState({isLoading : false})
+        });
     }
     render() {
         const {t, openDetails, mealTitle } = this.props;
@@ -48,6 +67,16 @@ class MealItemComponent extends Component {
             imgPath = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' ;
         return (
             <>
+                {this.state.successState ?
+                    <>
+                        <MessageComponent status='true' onClick={(e)=> this.setState({successState: false})} content={t('shared.success.processSuccess')}/>
+                        <div className='d-none'> { setTimeout(function(){
+                            this.setState({successState:false});
+                        }.bind(this),80000)}
+                        </div>
+                    </>
+                    : ''
+                }
                 <div className={["container" , openDetails ? '' : ' d-none']}>
                     <button className='ui button icon primary p-1 mb-3' onClick={(e)=> this.props.parentCall(false)}>
                         {t('local') === 'ar'?  <i><IoIosArrowForward/> </i>: <i><IoIosArrowBack/></i> }
@@ -70,9 +99,11 @@ class MealItemComponent extends Component {
                                                     {t('local') === "ar" ?  item.title_ar : item.title}
                                                 </div>
                                                 <div className="col-sm-2">
-                                                    <button className="ui button icon py-1" onClick={(e)=> this.setState({openEditModal: true, itemToEdit: item})}>
+                                                    <button className="ui button icon p-2 blue" onClick={(e)=> this.setState({openEditModal: true, itemToEdit: item})}>
                                                         <BiEditAlt />
-                                                        <div className='f-1-half'>{t('shared.edit')}</div>
+                                                    </button>
+                                                    <button className="ui button icon p-2 red" onClick={(e)=> this.deleteFood(item)}>
+                                                        <FiX/>
                                                     </button>
                                                 </div>
                                             </div>

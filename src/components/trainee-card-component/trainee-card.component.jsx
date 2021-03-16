@@ -41,7 +41,10 @@ class TraineeCardComponent extends Component {
                     </div>
                     <div className="ico" onClick={e => {
                         e.stopPropagation();
-                        openModalFn(1);
+                        this.props.history.push({
+                            pathname: '/plan',
+                            state: { planId: traineesId },
+                        });
                     }}>
                         <img src={tempIco}  alt="icon" />
                     </div>

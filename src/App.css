@@ -170,3 +170,14 @@ ul {
 .w-1{
   width: 2.9rem;
 }
+.modal-center{
+   height:auto !important;
+  position:absolute !important;
+  top:50% !important;
+  left:50% !important;
+  transform:translate(-50%,-50%)!important;
+  overflow: hidden !important;
+}
+.modal{
+  overflow: auto !important;
+}

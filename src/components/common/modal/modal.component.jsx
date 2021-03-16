@@ -29,11 +29,9 @@ class ModalComponent extends Component {
                     }
                 }}
                 size={size}
-                open={ isOpen}
-                style={{height:'auto' , position:'absolute' , top:'50%' , left:'50%' , transform:'translate(-50%,-50%)'}}
-                
+                open={ isOpen} className={this.props.modalCenter?' modal-center ':' mb-2 '}
             >
-                <Modal.Content scrolling>
+                <Modal.Content scrolling={this.props.modalScrolling}>
                     {this.props.children}
                 </Modal.Content>
                 {
@@ -49,6 +47,8 @@ class ModalComponent extends Component {
 }
 ModalComponent.propTypes = {
     isOpen : PropTypes.bool.isRequired,
+    modalCenter : PropTypes.bool,
+    modalScrolling : PropTypes.bool,
     size : PropTypes.string,
     Actions: PropTypes.element,
     hideAction:PropTypes.bool,

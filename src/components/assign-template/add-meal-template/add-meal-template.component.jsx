@@ -110,7 +110,7 @@ class AddMealTemplateComponent extends Component {
                         </button>
 
 
-                <ModalComponent size='mini' isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
+                <ModalComponent size='mini' modalCenter={true} isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     <div className="text-center mini-shared-modal px-3 miran-primary-input">
                         <h4 className='mb-4'>  {t('traineeModal.addMeal')} </h4>
                         <InputTextComponent

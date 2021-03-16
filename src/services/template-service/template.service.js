@@ -103,6 +103,12 @@ class TemplateService extends BaseService{
         const url =   this._endPoint + "/food/update";
         return  HTTP_REQUEST.put({target:url , body : data});
     }
+    deleteFood = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/food/delete";
+        return  HTTP_REQUEST.put({target:url , body : data});
+    }
     editExerciseTemplate = async (data) => {
         if(!data)
             return ;

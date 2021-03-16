@@ -183,8 +183,81 @@ class ExerciseComponent extends Component {
         }
         return daysButton;
     }
+    data = (item) => {
+        const {t}  = this.props;
+        return( <>
+        <div className="row" key={item.exercise.exercise_id} onClick={(e) =>
+        {
+            e.preventDefault();
+            this.openDetailsFunc(item);
+        }}>
+            <div className="col-sm-4">
+                <div className="video">
+                    <QierPlayer
+                        srcOrigin={'https://testing.miranapp.com/media/'+item.exercise.video}
+                        language="en"
+                        width={200}
+                        height={100}
+                        showVideoQuality={true}
+                        src480p={'https://testing.miranapp.com/media/'+item.exercise.video}
+                        src1080p={''}
+                        src720p={null}
+                        src2k={''}
+                        src4k={''}
+                        themeColor="#00a4f8"
+                    />
+                </div>
+            </div>
+            <div className="col-md-4">
+                <ul className={t('local') === 'ar' ? ' data text-right' : 'data'} >
+                    <li>
+                        <h5> {t('local') === 'ar' ? item.exercise.title_ar : item.exercise.title}</h5>
+                    </li>
+                    <li>
+                                                    <span className="key">
+                                                       {t('progressPage.weight')} ({t('traineeModal.kGram')}) :
+                                                    </span>
+                        <span className="val">
+                                                       {item.weight}
+                                                    </span>
+                    </li>
+                    <li>
+                                                    <span className="key">
+                                                        {t('traineeModal.Reps')}  :
+                                                    </span>
+                        <span className="val">
+                                                       {item.count}
+                                                    </span>
+                    </li>
+                    <li>
+                                                    <span className="key">
+                                                       {t('traineeModal.rest')} :
+                                                    </span>
+                        <span className="val">
+                                                         {item.rest_period}
+                                                     </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div className="col-sm-4">
+                <div className="icons d-flex flex-row-reverse">
+                                                <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(e,item.template_day_exercises_id)}>
+                                                     <FiX/>
+                                                </span>
+                    <span className="icon copy" onClick={(e)=> this.copyExerciseTemplate(e,item.template_day_exercises_id,0)}>
+                                                    <BiCopy />
+                                                </span>
+                    <span className="icon move">
+                                                    <FiMove />
+                                                </span>
+                </div>
+            </div>
+        </div>
+        <hr/>
+    </>)};
     render() {
-        const {t, exerciseMealData, daysNumber}  = this.props;
+        const {t, exerciseMealData, daysNumber,planMode, planId}  = this.props;
         const {openExceriseListDetails, ExerciseId,ExceriseMuscleItem, muscles, muscleExercise, openMuscleExerciseList}  = this.state;
         const buttons = this.renderDaysButtons();
         return (
@@ -193,85 +266,21 @@ class ExerciseComponent extends Component {
                 <ToasterComponent />
 
                 <div>
-                    {!(exerciseMealData)?
+                    {(planMode)?
+                        exerciseMealData[0].exercises.map(item =>
+                            this.data(item)
+                        )
+                        :
+                        !(exerciseMealData)?
                         <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
                         exerciseMealData.day.break_day_exercise ?
                         <BreakDayComponent/> :
                         !( exerciseMealData.day.exercises  &&  exerciseMealData.day.exercises.length) ?
                             <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
                             exerciseMealData.day.exercises.map(item =>
-                                <>
-                                    <div className="row" key={item.exercise.exercise_id} onClick={(e) =>
-                                    {
-                                        e.preventDefault();
-                                        this.openDetailsFunc(item);
-                                    }}>
-                                        <div className="col-sm-4">
-                                            <div className="video">
-                                                <QierPlayer
-                                                    srcOrigin={'https://testing.miranapp.com/media/'+item.exercise.video}
-                                                    language="en"
-                                                    width={200}
-                                                    height={100}
-                                                    showVideoQuality={true}
-                                                    src480p={'https://testing.miranapp.com/media/'+item.exercise.video}
-                                                    src1080p={''}
-                                                    src720p={null}
-                                                    src2k={''}
-                                                    src4k={''}
-                                                    themeColor="#00a4f8"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <ul className={t('local') === 'ar' ? ' data text-right' : 'data'} >
-                                                <li>
-                                                    <h5> {t('local') === 'ar' ? item.exercise.title_ar : item.exercise.title}</h5>
-                                                </li>
-                                                <li>
-                                                    <span className="key">
-                                                       {t('progressPage.weight')} ({t('traineeModal.kGram')}) :
-                                                    </span>
-                                                    <span className="val">
-                                                       {item.weight}
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <span className="key">
-                                                        {t('traineeModal.Reps')}  :
-                                                    </span>
-                                                    <span className="val">
-                                                       {item.count}
-                                                    </span>
-                                                </li>
-                                                <li>
-                                                    <span className="key">
-                                                       {t('traineeModal.rest')} :
-                                                    </span>
-                                                    <span className="val">
-                                                         {item.rest_period}
-                                                     </span>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="col-sm-4">
-                                            <div className="icons d-flex flex-row-reverse">
-                                                <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(e,item.template_day_exercises_id)}>
-                                                     <FiX/>
-                                                </span>
-                                                                    <span className="icon copy" onClick={(e)=> this.copyExerciseTemplate(e,item.template_day_exercises_id,0)}>
-                                                    <BiCopy />
-                                                </span>
-                                                                    <span className="icon move">
-                                                    <FiMove />
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                </>
+                                this.data(item)
                             )
+
                     }
                 </div>
                 <div className={"AddMealTemplateComponent row p-0 mt-4"}>
@@ -319,7 +328,7 @@ class ExerciseComponent extends Component {
                         </button>
                     </div>
 
-                } isOpen={this.state.openCopyModel}  size='mini' handleClosed={(e)=> this.setState({'openCopyModel': false})}>
+                } isOpen={this.state.openCopyModel}  size='mini' modalCenter={true} handleClosed={(e)=> this.setState({'openCopyModel': false})}>
                     <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
                     <div className="add-days-template row">
                         {buttons && buttons.length > 0 && buttons.map( (item,key)  => {
