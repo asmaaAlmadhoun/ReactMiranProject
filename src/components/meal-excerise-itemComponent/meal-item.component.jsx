@@ -13,6 +13,7 @@ import TemplateServices from "../../services/template-service/template.service";
 import DetailListItemTemplateComponent
     from "../assign-template/searchable-list-template/detail-list-item-template/detail-list-item-template.component";
 import MessageComponent from "../common/message/message.component";
+import PlanService from "../../services/plan-service/plan.service";
 
 class MealItemComponent extends Component {
     constructor(props) {
@@ -44,20 +45,45 @@ class MealItemComponent extends Component {
 
     }
     deleteFood=(item)=>{
-        const templateServices  = new TemplateServices();
-        const data = {
-            'template_day_meal_id': this.props.mealDataItem.template_day_meal_id,
-            'food_id': item.id
-        }
-        templateServices.deleteFood(data).then(data => {
-            if(data && data.status) {
-                console.log('asma');
-                this.props.getTemplateForDay2();
-                this.setState({FoodList : data.result.meal.foods,successState: true })
+        if(this.props.planMode){
+            const planService  = new PlanService();
+            // ["food_id": "422", "meal_id": "1034372", "schedule_meal_id": "309303"]
+            const data = {
+                'meal_id': this.props.mealDataItem.meal.id,
+                'food_id': item.id,
+                'schedule_meal_id': this.props.mealDataItem.schedule_meal_id
             }
-        }).catch(error => {
-            this.setState({isLoading : false})
-        });
+            planService.removeFoodTrainee(data).then(data => {
+                if(data && data.status) {
+                    let DataNEW = this.props.getTemplateForDay2();
+                    let Data = {};
+                    DataNEW[0].meals.map(item => {
+                        if (item.meal.id === this.props.mealDataItem.meal.id)
+                            Data = item
+                    });
+                    setTimeout(() => {
+                        this.setState({FoodList : Data.meal.foods,successState: true })
+                    }, 600)
+                }
+            }).catch(error => {
+                this.setState({isLoading : false})
+            });
+        }
+        else{
+            const templateServices  = new TemplateServices();
+            const data = {
+                'template_day_meal_id': this.props.mealDataItem.template_day_meal_id,
+                'food_id': item.id
+            }
+            templateServices.deleteFood(data).then(data => {
+                if(data && data.status) {
+                    this.props.getTemplateForDay2();
+                    this.setState({FoodList : data.result.meal.foods,successState: true })
+                }
+            }).catch(error => {
+                this.setState({isLoading : false})
+            });
+        }
     }
     render() {
         const {t, openDetails, mealTitle } = this.props;
@@ -156,7 +182,10 @@ class MealItemComponent extends Component {
                 </div>
 
                 <ModalComponent  size='small' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
-                    <SearchableListWithImgTemplateComponent planMode={this.props.planMode} getTemplateForDay2={this.props.getTemplateForDay2} mealDataItem={this.props.mealDataItem} parentUpdatemealDataItem={(e) =>{ this.setState({mealDataItem:e})}} list={this.state.FoodList}/>
+                    <SearchableListWithImgTemplateComponent planMode={this.props.planMode} getTemplateForDay2={this.props.getTemplateForDay2}
+                                                            mealDataItem={this.props.mealDataItem}
+                                                            parentUpdatemealDataItem={(e) =>{ this.setState({mealDataItem:e})}}
+                                                            list={this.state.FoodList}/>
                 </ModalComponent>
 
             </>

@@ -6,6 +6,7 @@ import UserService from "../../../../services/user-service/user.service";
 import MealServices from "../../../../services/meal-services/meal.services";
 import TemplateService from "../../../../services/template-service/template.service";
 import PlanService from "../../../../services/plan-service/plan.service";
+import PlanServices from "../../../../services/plan-service/plan.service";
 
 class DetailListItemTemplateComponent extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ class DetailListItemTemplateComponent extends Component {
             quantity: this.props.mealDataItem.quantity,
         })
     }
+
     async addFood() {
         const {food_quantity, template_day_meal_id, food_id} = this.state;
         const {mealDataItem} = this.props;
@@ -73,14 +75,14 @@ class DetailListItemTemplateComponent extends Component {
             planService.addFoodTrainee(data2).then(response => {
                 if (response.status) {
                     let DataNEW = this.props.getTemplateForDay2();
+                    let Data = {};
+                    DataNEW[0].meals.map(item => {
+                        if (item.meal.id === this.props.mealDataItem.meal.id)
+                            Data = item
+                    });
                     setTimeout(() => {
-                        let Data = {};
-                        DataNEW.meals.map(item => {
-                            if (item.id === this.props.mealDataItem.meal.id)
-                                Data = item
-                        });
                         this.props.parentUpdatemealDataItem(Data)
-                    }, 200)
+                    }, 600)
                     this.props.closeModal();
                 } else {
                     //  toast.done(t('shared.success.addedSuccess'));

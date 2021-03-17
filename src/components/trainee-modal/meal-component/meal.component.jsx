@@ -18,6 +18,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import MessageComponent from "../../common/message/message.component";
 import {Card} from "../../../pages/template/Card";
 import update from "immutability-helper";
+import PlanService from "../../../services/plan-service/plan.service";
 
 class MealComponent extends Component {
     constructor(props) {
@@ -78,19 +79,34 @@ class MealComponent extends Component {
 
     deleteMealTemplate(id) {
         // deleteMealTemplate
-        const {t} = this.props;
-        const templateServices = new TemplateServices();
-        const data = {
-            'template_day_meal_id': id,
-        }
-        templateServices.deleteMealTemplate(data).then(response => {
-            if (response) {
-                this.setState({successState: true})
-                this.props.getTemplateForDay2();
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
+        const {t, planMode,  mealDataItem} = this.props;
+        if(planMode){
+            const planService = new PlanService();
+            const data = {
+                'schedule_meal_id':  id,
             }
-        })
+            planService.RemoveMealTrainee(data).then(response => {
+                if (response) {
+                    this.setState({successState: true})
+                    this.props.getTemplateForDay2();
+                } else {
+                }
+            })
+        }
+        else{
+            const templateServices = new TemplateServices();
+            const data = {
+                'template_day_meal_id': id,
+            }
+            templateServices.deleteMealTemplate(data).then(response => {
+                if (response) {
+                    this.setState({successState: true})
+                    this.props.getTemplateForDay2();
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
     }
 
     openModalCopyMeal(e, id, mealItemTemplateToggle) {
@@ -192,7 +208,7 @@ class MealComponent extends Component {
         // this.Update(prevProps.exerciseMealData);
     }
     generateMealList=(item)=>{
-        const {t}= this.props;
+        const {t, planMode}= this.props;
         return <>
             <div className="row" onClick={(e) => {
                 e.preventDefault();
@@ -214,13 +230,13 @@ class MealComponent extends Component {
                 </div>
                 <div className="col-sm-6 text-left">
                     <div className="icons d-flex flex-row-reverse">
-                                <span className="icon delete"
-                                      onClick={(e) => {
-                                          e.stopPropagation();
-                                          this.deleteMealTemplate(item.template_day_meal_id)
-                                      }}>
-                                    <FiX/>
-                                </span>
+                        <span className="icon delete"
+                              onClick={(e) => {
+                                  e.stopPropagation();
+                                  this.deleteMealTemplate(!planMode?item.template_day_meal_id:item.schedule_meal_id)
+                              }}>
+                            <FiX/>
+                        </span>
                         <span className="icon copy"
                               onClick={(e) => {
                                   e.stopPropagation();
@@ -243,8 +259,8 @@ class MealComponent extends Component {
                 </div>
                 <div className="col-sm-6">
                     <div>
-                                                        <span
-                                                            className="key"> {t('traineeModal.calories')} : </span>
+                        <span
+                            className="key"> {t('traineeModal.calories')} : </span>
                         <span
                             className="val"> {item.nutrition_info.calories}  </span>
                     </div>
@@ -371,7 +387,7 @@ class MealComponent extends Component {
             <>
                 {this.state.successState ?
                     <>
-                        <MessageComponent status='true' onClick={(e)=> this.setState({successState: false})} content={t('shared.success.addedSuccess')}/>
+                        <MessageComponent status='true' onClick={(e)=> this.setState({successState: false})} content={t('shared.success.processSuccess')}/>
                        <div className='d-none'> { setTimeout(function(){
                             this.setState({successState:false});
                         }.bind(this),8000)}
