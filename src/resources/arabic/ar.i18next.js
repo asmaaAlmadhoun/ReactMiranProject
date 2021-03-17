@@ -93,7 +93,7 @@ ArabicTranslation = {
     invitationsTrainees: 'دعوات متدربين'
   },
   traineeModal: {
-    title: 'خطة',
+    title: 'الخطة',
     Calories: 'السعرات الحرارية',
     exercises: 'التمرين',
     meals: 'الوجبات',

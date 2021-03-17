@@ -31,7 +31,8 @@ class Plan extends Component {
             openExceriseDetails: false,
             loading: false,
             subscription: [],
-            traineesId: ''
+            traineesId: '',
+
         }
     }
     clickNumberHandler= (e) =>{
@@ -86,14 +87,37 @@ class Plan extends Component {
             />
         );
     }
+    getDaysInMonth= (month, year, day) => {
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let d = new Date(year, (month - 1), day);
+        return days[d.getDay()];
+    }
+    daysInMonth= (month, year, day) =>{
+        return new Date(year, month, 0).getDate();
+    }
     setCalendar= () =>{
-        let DateComponent = [];
-        for (let i = 0; i < this.state.subscription.total_days; i++) {
-            DateComponent.push(
-                <DateComponent dateNumber={i} isActive={true} dateName={'sun'} />
+        let Component = [];
+        let startDateDay = this.state.subscription.start_date.substring(8,11);
+        let month= this.state.subscription.start_date.substring(5, 7);
+        let year= this.state.subscription.start_date.substring(0, 4);
+        let endDateDay = this.state.subscription.end_date.substring(8, 11);
+        let daysInMonth = this.daysInMonth(month,year);
+        let dayName = this.getDaysInMonth(month,year,startDateDay);
+        let total_days = this.state.subscription.total_days;
+
+        for (let i = startDateDay; i <= total_days; i++) {
+            Component.push(
+                <DateComponent dateNumber={i} dateName={'sun'} />
             )
+            if(i === daysInMonth){
+                for (let j = 1; j <= endDateDay; j++) {
+                    Component.push(
+                        <DateComponent dateNumber={j} dateName={dayName} />
+                    )
+                }
+            }
         }
-        return DateComponent
+        return Component
     }
 
     render() {
@@ -128,11 +152,9 @@ class Plan extends Component {
                                     <ToasterComponent />
 
                                     <div className="heading row">
-                                        <div className="col-sm-1 d-flex">
-                                            <img src={Report} alt="icon" width="30px" />
-                                        </div>
-                                        <div className="col-sm-11 ">
+                                        <div className="col-sm-12">
                                             <div className="headings d-flex align-items-center">
+                                                <img src={Report} alt="icon" className='mx-2' width="20px" />
                                                 <h3 className="text-right flex-grow-1"> {t('traineeModal.title')} </h3>
                                                 <Link to={""}>
                                                     {t('traineeModal.Calories')}
@@ -140,8 +162,7 @@ class Plan extends Component {
                                             </div>
                                             <div className="dates">
                                                 <Slider {...settings}>
-                                                    {/*{this.setCalendar().map(item => item)}*/}
-                                                    <DateComponent dateNumber={13} isActive={true} dateName={'sun'} />
+                                                    {this.setCalendar().map(item => item)}
                                                 </Slider>
                                             </div>
 
