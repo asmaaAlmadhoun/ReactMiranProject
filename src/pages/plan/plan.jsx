@@ -90,11 +90,12 @@ class Plan extends Component {
     getDaysInMonth= (month, year, day) => {
         let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         let d = new Date(year, (month - 1), day);
-        return days[d.getDay()];
+        return d.getDay();
     }
     daysInMonth= (month, year, day) =>{
         return new Date(year, month, 0).getDate();
     }
+
     setCalendar= () =>{
         let Component = [];
         let startDateDay = this.state.subscription.start_date.substring(8,11);
@@ -103,16 +104,17 @@ class Plan extends Component {
         let endDateDay = this.state.subscription.end_date.substring(8, 11);
         let daysInMonth = this.daysInMonth(month,year);
         let dayName = this.getDaysInMonth(month,year,startDateDay);
+        let week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         let total_days = this.state.subscription.total_days;
 
-        for (let i = startDateDay; i <= total_days; i++) {
+        for (let i = startDateDay, k=0; i <= total_days , k <= (total_days-startDateDay); i++, k++) {
             Component.push(
-                <DateComponent dateNumber={i} dateName={'sun'} />
+                <DateComponent dateNumber={i} dateName={week[(dayName  + k) % 7]} />
             )
             if(i === daysInMonth){
-                for (let j = 1; j <= endDateDay; j++) {
+                for (let j = 1, k = ((total_days-startDateDay) +1); j <= endDateDay, k<= total_days; j++, k++) {
                     Component.push(
-                        <DateComponent dateNumber={j} dateName={dayName} />
+                        <DateComponent dateNumber={j} dateName={week[(dayName  + k) % 7]} />
                     )
                 }
             }
