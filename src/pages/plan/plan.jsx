@@ -32,6 +32,8 @@ class Plan extends Component {
             loading: false,
             subscription: [],
             traineesId: '',
+            planList: '',
+            fullData: []
 
         }
     }
@@ -52,14 +54,25 @@ class Plan extends Component {
         const planServices = new PlanServices();
         planServices.getPlanSchedule(tempId, activeDay).then(response => {
             if (response) {
-                this.setState({exerciseMealForThisDay :response.result, loader : false });
+                let fullData= response.result;
+                fullData.length > 0? fullData.map(item => {
+                    if (this.state.subscription.id === item.subscribtion){
+                        console.log('asma');
+
+                        this.setState({exerciseMealForThisDay :item, loader : false });
+                    }
+                })
+                    :
+                    this.setState({exerciseMealForThisDay :[], loader : false });
+
+                this.setState({planList :response.result});
             }
         })
         return this.state.exerciseMealForThisDay
     }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
-        this.setState({planId: dataFromLocation.planId, traineesId: dataFromLocation.traineesId, subscription: dataFromLocation.subscription});
+        this.setState({planId: dataFromLocation.planId, traineesId: dataFromLocation.traineesId, fullData: dataFromLocation.fullData, subscription: dataFromLocation.subscription});
     }
     componentDidMount() {
         const planId = this.state.planId;
@@ -137,11 +150,11 @@ class Plan extends Component {
             nextArrow: <this.SampleNextArrow />,
             prevArrow: <this.SamplePrevArrow />
         };
-        const panes = this.state.exerciseMealForThisDay.length > 0 ? this.state.exerciseMealForThisDay.map(item =>({
+        const panes = this.state.fullData.length > 0 ? this.state.fullData.map(item =>({
             menuItem:
                 <Menu.Item key={item.id} activeIndex={item.id} className={this.state.planId === item.id? ' active ':''}  onClick={()=>this.getTemplateForDay(item.id)}>
                     <a className='row'>
-                        <div className="col-8"> {item.title}</div>
+                        <div className="col-8"> {item.profile.full_name}</div>
                         <div className="col-4 text-left"><BsThreeDotsVertical/></div>
                     </a>
                 </Menu.Item>,
@@ -184,7 +197,7 @@ class Plan extends Component {
                                                                                    openDetailsExceriseFunction={(e) => this.setState({
                                                                                        ExceriseDataItem: e,
                                                                                        openExceriseDetails: true
-                                                                                   })} exerciseMealData={exerciseMealForThisDay}
+                                                                                   })} exerciseMealData={exerciseMealForThisDay} traineesId={traineesId}
                                                                                    planMode={true} planId={item.id} activeDay={activeDay}/>
                                                             </Tab.Pane>,
                                                     },

@@ -36,14 +36,14 @@ class AddMealTemplateComponent extends Component {
         this.setState({[e.target.name] : value});
     }
     submitNewMeal = async () => {
-        const {t, exerciseMealData, planMode, traineesId} = this.props;
+        const {t, exerciseMealData, planMode, traineesId, activeDay} = this.props;
         const {mealTitle, mealComment} = this.state;
         if(planMode){
             const dataMeal = {
                 'user_id': traineesId,
                 'title': mealTitle,
                 'comment': mealComment,
-                'day' : exerciseMealData[0].day
+                'day' : activeDay
             }
             const planService = new PlanService();
             planService.AddMealTrainee(dataMeal).then(response => {
@@ -53,9 +53,10 @@ class AddMealTemplateComponent extends Component {
                     this.props.parentTriggerAdd();
                     toast.done(t('shared.success.addedSuccess'));
                     this.setState({isLoading: false})
-
                 } else {
                     toast.error(t('shared.errors.globalError'))
+                    this.setState({isLoading: false})
+                    this.closeModalHandler();
                 }
             })
         }

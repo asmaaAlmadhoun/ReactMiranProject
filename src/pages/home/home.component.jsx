@@ -85,7 +85,7 @@ class HomeComponent extends Component {
                                                      const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
-                                                             <TraineeCardComponent
+                                                             <TraineeCardComponent fullData={ this.state.trainees}
                                                                  modalRequestProfile={this.openModalRequestProfile}
                                                                  traineesId={item.id}  subscription={item.profile.subscription}
                                                                  openModalFn={this.openModalHandler}

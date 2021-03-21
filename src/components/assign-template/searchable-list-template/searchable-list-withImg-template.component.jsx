@@ -45,12 +45,14 @@ class ListItemWithImg extends Component{
                     {isNaN(this.props.data.exercise_id) ?
                         <DetailListItemTemplateComponent key={this.props.id} parentUpdatemealDataItem={(e)=>{this.props.parentUpdatemealDataItem(e)}}
                                                          closeModal={(e)=>this.setState({__addModal__ : false})}
-                                                         mealDataItem={this.props.mealDataItem}
+                                                         mealDataItem={this.props.mealDataItem} activeDay={activeDay}
                                                          getTemplateForDay2={this.props.getTemplateForDay2}
                                                          MealForThisDay={this.props.data} planMode={this.props.planMode}
                         />
                         :
-                        <AddExerciseTemplateComponent closeModal={(e)=>this.setState({__addModal__ : false})} planMode={this.props.planMode} getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}} activeDay2={activeDay} ExerciseId2={ExerciseId} exerciseMealForThisDay={this.props.data} />
+                        <AddExerciseTemplateComponent  closeModal={(e)=>this.setState({__addModal__ : false})} traineesId={this.props.traineesId} planMode={this.props.planMode} getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}
+                                                       activeDay={activeDay}
+                                                       ExerciseId2={ExerciseId}  exerciseMealForThisDay={this.props.data} />
                     }
 
                 </ModalComponent>
@@ -99,7 +101,7 @@ class SearchableListWithImgTemplateComponent extends Component {
                                                     data={el} activeDay={activeDay} ExerciseId={ExerciseId} parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}
                                                     getTemplateForDay2={this.props.getTemplateForDay2}
-                                                    name={t('local')==='ar' ? el.title_ar : el.title} planMode={this.props.planMode}
+                                                    name={t('local')==='ar' ? el.title_ar : el.title} planMode={this.props.planMode} traineesId={this.props.traineesId}
                             />
                         })
                     }

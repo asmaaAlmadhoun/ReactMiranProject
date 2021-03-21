@@ -8,6 +8,9 @@ import InputTextComponent from "../../InputTextComponent/input-text-no-label.com
 import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
 import {TextArea} from "semantic-ui-react";
 import QierPlayer from "qier-player";
+import DetailListItemTemplateComponent
+    from "../searchable-list-template/detail-list-item-template/detail-list-item-template.component";
+import PlanService from "../../../services/plan-service/plan.service";
 
 class AddExerciseTemplateComponent extends  React.Component {
 
@@ -18,7 +21,7 @@ class AddExerciseTemplateComponent extends  React.Component {
             openExceriseListDetails: false,
             weight:'', comment:'', count:'', rest_period:'', sets: '',
             ExerciseId :  this.props.exerciseMealForThisDay.exercise_id || {},
-            activeDay :  this.props.activeDay2 || {}
+            activeDay :  this.props.activeDay
         }
     }
     componentWillMount() {
@@ -33,25 +36,47 @@ class AddExerciseTemplateComponent extends  React.Component {
     }
     async addExerciseToTemplate(e) {
         const {weight, comment, sets, count, rest_period, ExerciseId, activeDay} = this.state;
-        const templateServices = new TemplateServices();
-        const data = {
-            'exercise_id': ExerciseId,
-            'template_day': activeDay,
-            'weight': weight,
-            'comment': comment,
-            'count': count,
-            'sets': sets,
-            'rest_period': rest_period
-        }
-        templateServices.addExerciseToTemplate(data).then(response => {
-            if (response) {
-                //      toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay2();
-                this.props.closeModal();
-            } else {
-                //  toast.done(t('shared.success.addedSuccess'));
+        const {planMode, traineesId} = this.props;
+        if(planMode){
+            const planService= new PlanService();
+            const data = {
+                'exercise_id': ExerciseId,
+                'day': activeDay,
+                'user_id': traineesId,
+                'weight': weight,
+                'comment': comment,
+                'count': count,
+                'sets': sets,
+                'rest_period': rest_period
             }
-        })
+            planService.AddExerciseTrainee(data).then(response => {
+                if (response) {
+                    this.props.getTemplateForDay2();
+                    this.props.closeModal();
+                }
+            })
+        }
+        else{
+            const templateServices = new TemplateServices();
+            const data = {
+                'exercise_id': ExerciseId,
+                'template_day': activeDay,
+                'weight': weight,
+                'comment': comment,
+                'count': count,
+                'sets': sets,
+                'rest_period': rest_period
+            }
+            templateServices.addExerciseToTemplate(data).then(response => {
+                if (response) {
+                    //      toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                    this.props.closeModal();
+                } else {
+                    //  toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
     }
     render() {
         const {t, exerciseMealForThisDay} = this.props;

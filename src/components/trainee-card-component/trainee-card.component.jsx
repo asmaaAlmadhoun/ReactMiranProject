@@ -13,7 +13,7 @@ class TraineeCardComponent extends Component {
 
     render() {
         const {t} = this.props;
-        let {imgPath ,full_name , remainingDays, subscription , traineesId,isFemale ,openModalFn, modalRequestProfile, className, classNameAction} = this.props;
+        let {imgPath ,full_name, fullData , remainingDays, subscription , traineesId,isFemale ,openModalFn, modalRequestProfile, className, classNameAction} = this.props;
         if(!imgPath)
             imgPath = isFemale ?userProfileFemale  :userProfileMale ;
         return (
@@ -43,7 +43,7 @@ class TraineeCardComponent extends Component {
                         e.stopPropagation();
                         this.props.history.push({
                             pathname: '/plan',
-                            state: { planId: traineesId, subscription : subscription, traineesId: traineesId },
+                            state: { planId: traineesId, fullData: fullData,subscription : subscription, traineesId: traineesId },
                         });
                     }}>
                         <img src={tempIco}  alt="icon" />

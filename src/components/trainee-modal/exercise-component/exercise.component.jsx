@@ -23,6 +23,8 @@ import EmptyComponent from "../../common/empty-page/empty.component";
 import PrimaryButtonComponent from "../../ButtonComponent/primary-button.component";
 import PropTypes from "prop-types";
 import EmptyDataComponent from "../../common/empty-page/emptyData.component";
+import DetailListItemTemplateComponent
+    from "../../assign-template/searchable-list-template/detail-list-item-template/detail-list-item-template.component";
 class ExerciseComponent extends Component {
     constructor(props) {
         super(props);
@@ -257,7 +259,7 @@ class ExerciseComponent extends Component {
         <hr/>
     </>)};
     render() {
-        const {t, exerciseMealData, daysNumber,planMode, planId}  = this.props;
+        const {t, exerciseMealData, daysNumber,planMode, planId, activeDay}  = this.props;
         const {openExceriseListDetails, ExerciseId,ExceriseMuscleItem, muscles, muscleExercise, openMuscleExerciseList}  = this.state;
         const buttons = this.renderDaysButtons();
         return (
@@ -267,9 +269,11 @@ class ExerciseComponent extends Component {
 
                 <div>
                     {(planMode)?
-                        exerciseMealData[0].exercises.map(item =>
-                            this.data(item)
-                        )
+                            ( exerciseMealData.exercises  &&  exerciseMealData.exercises.length) ?
+                                exerciseMealData.exercises.map(item =>
+                                this.data(item)
+                            )
+                            : <BreakDayComponent/>
                         :
                         !(exerciseMealData)?
                         <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
@@ -317,7 +321,7 @@ class ExerciseComponent extends Component {
                 </button>
                 {  muscleExercise !== null?
                     this.state.loader2 ? <Loader active={true} inline='centered'/> :
-                        <SearchableListWithImgTemplateComponent  getTemplateForDay2={(e)=> {this.props.getTemplateForDay2(e)}} activeDay={exerciseMealData.day.id} ExerciseId={ExerciseId} list={muscleExercise} openModalToAdd={(e)=> this.openModalToAdd(e)} />
+                        <SearchableListWithImgTemplateComponent  getTemplateForDay2={(e)=> {this.props.getTemplateForDay2(e)}} activeDay={exerciseMealData&&exerciseMealData.length? !planMode ?exerciseMealData.day.id : exerciseMealData.day: activeDay} traineesId={this.props.traineesId} ExerciseId={ExerciseId} list={muscleExercise}  planMode={this.props.planMode} openModalToAdd={(e)=> this.openModalToAdd(e)} />
                    :''
                 }
             </div>

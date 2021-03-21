@@ -48,32 +48,52 @@ class MealComponent extends Component {
     calculateCaloriesTotal() {
         let {caloriesTotal} = 0;
         let {planMode,exerciseMealData}=this.props;
-        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData[0].meals;
-        caloriesTotal = meal.reduce((totalCal, item) => totalCal = totalCal + item.nutrition_info.calories, 0);
+        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData.meals;
+        if (meal && meal.length){
+            caloriesTotal = meal.reduce((totalCal, item) => totalCal = totalCal + item.nutrition_info.calories, 0);
+        }
+        else {
+            caloriesTotal=0;
+        }
         return caloriesTotal
     }
 
     calculateFatTotal() {
         let {fatTotal} = 0;
         let {planMode,exerciseMealData}=this.props;
-        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData[0].meals;
-        fatTotal = meal.reduce((totalFat, item) => totalFat = totalFat + item.nutrition_info.fat, 0);
+        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData.meals;
+        if (meal && meal.length){
+            fatTotal = meal.reduce((totalFat, item) => totalFat = totalFat + item.nutrition_info.fat, 0);
+        }
+        else {
+            fatTotal=0;
+        }
         return fatTotal
     }
 
     calculateCarbsTotal() {
         let {carbsTotal} = 0;
         let {planMode,exerciseMealData}=this.props;
-        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData[0].meals;
-        carbsTotal = meal.reduce((carbsTotal, item) => carbsTotal = carbsTotal + item.nutrition_info.carbs, 0);
+        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData.meals;
+        if (meal && meal.length){
+            carbsTotal = meal.reduce((carbsTotal, item) => carbsTotal = carbsTotal + item.nutrition_info.carbs, 0);
+        }
+        else {
+            carbsTotal=0;
+        }
         return carbsTotal
     }
 
     calculateProteinTotal() {
         let {proteinTotal} = 0;
         let {planMode,exerciseMealData}=this.props;
-        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData[0].meals;
-        proteinTotal = meal.reduce((proteinTotal, item) => proteinTotal = proteinTotal + item.nutrition_info.protein, 0);
+        let meal = (!planMode)?exerciseMealData.day.meals : exerciseMealData.meals;
+        if (meal && meal.length){
+            proteinTotal = meal.reduce((proteinTotal, item) => proteinTotal = proteinTotal + item.nutrition_info.protein, 0);
+        }
+        else {
+            proteinTotal=0;
+        }
         return proteinTotal
     }
 
@@ -399,21 +419,22 @@ class MealComponent extends Component {
 
                     {
                         (planMode)?
-                            exerciseMealData[0].meals.map(item =>
+                            (exerciseMealData.meals && exerciseMealData.meals.length) ?
+                                exerciseMealData.meals.map(item =>
                                 this.generateMealList(item)
                             )
-                            :
-
+                            :  <BreakDayComponent/>
+                        :
                         exerciseMealData.day.break_day_meal ?
-                        <BreakDayComponent/> :
-                        !(exerciseMealData.day.meals && exerciseMealData.day.meals.length) ?
-                            <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
-                            <div className=''>
-                                {/*{ this.Update(exerciseMealData) }*/}
-                                { exerciseMealData.day.meals.map((item, i) =>
-                                    this.generateMealList(item)
-                                )}
-                            </div>
+                            <BreakDayComponent/> :
+                            !(exerciseMealData.day.meals && exerciseMealData.day.meals.length) ?
+                                <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
+                                <div className=''>
+                                    {/*{ this.Update(exerciseMealData) }*/}
+                                    { exerciseMealData.day.meals.map((item, i) =>
+                                        this.generateMealList(item)
+                                    )}
+                                </div>
 
                     }
 
@@ -479,7 +500,7 @@ class MealComponent extends Component {
                         </div>
                         <div className={"AddMealTemplateComponent col-sm-4 p-0"}>
                             <div className="meal-buttons justify-content-center">
-                                <AddMealTemplateComponent traineesId={this.props.traineesId} planMode={this.props.planMode} dayNumbers={daysNumber} parentTriggerAdd={(e) => {
+                                <AddMealTemplateComponent traineesId={this.props.traineesId} planMode={this.props.planMode}  dayNumbers={daysNumber} parentTriggerAdd={(e) => {
                                     let NewData = this.props.getTemplateForDay2();
                                     setTimeout(() => this.setState({exerciseMealData: NewData}), 100)
                                 }} exerciseMealData={this.props.exerciseMealData} activeDay={activeDay}
