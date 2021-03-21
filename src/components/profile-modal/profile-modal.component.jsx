@@ -72,7 +72,7 @@ class ProfileModalComponent extends Component {
                     this.setState({isOpenProfile:false, openModalNote:false})
                 }}>
                         {
-                            profileData.length > 0 ?
+                            (profileData && profileData.length) ?
                                 profileData.map( (item) =>
                                     item.id === traineesId ?
                                         <div className='card'>

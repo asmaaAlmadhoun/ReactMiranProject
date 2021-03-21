@@ -25,6 +25,7 @@ import PropTypes from "prop-types";
 import EmptyDataComponent from "../../common/empty-page/emptyData.component";
 import DetailListItemTemplateComponent
     from "../../assign-template/searchable-list-template/detail-list-item-template/detail-list-item-template.component";
+import PlanService from "../../../services/plan-service/plan.service";
 class ExerciseComponent extends Component {
     constructor(props) {
         super(props);
@@ -47,23 +48,40 @@ class ExerciseComponent extends Component {
     openDetailsFunc(item){
         this.props.openDetailsExceriseFunction(item);
     }
-    deleteExerciseTemplate(e,id){
+    deleteExerciseTemplate(e,item){
         e.stopPropagation();
         // deleteExerciseTemplate
-        const {t} = this.props;
-        const templateServices = new TemplateServices();
-        const data = {
-            'template_day_exercises_id': id,
-        }
-        console.log(id)
-        templateServices.deleteExerciseTemplate(data).then(response => {
-            if (response) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay2();
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
+        const {t, planMode, exerciseMealData} = this.props;
+        if(planMode){
+            const planService = new PlanService();
+            const data = {
+                'exercise': item.schedule_exercises_id,
+                'schedule' : exerciseMealData.schedule_id
             }
-        })
+            planService.DeleteExerciseTrainee(data).then(response => {
+                if (response) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
+        else {
+            const templateServices = new TemplateServices();
+            const data = {
+                'template_day_exercises_id': item.template_day_exercises_id,
+            }
+            templateServices.deleteExerciseTemplate(data).then(response => {
+                if (response) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
+
     }
     addDays(pushObj){
         let daysButton = this.state.copyDays;
@@ -244,7 +262,7 @@ class ExerciseComponent extends Component {
 
             <div className="col-sm-4">
                 <div className="icons d-flex flex-row-reverse">
-                                                <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(e,item.template_day_exercises_id)}>
+                                                <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(e,item)}>
                                                      <FiX/>
                                                 </span>
                     <span className="icon copy" onClick={(e)=> this.copyExerciseTemplate(e,item.template_day_exercises_id,0)}>

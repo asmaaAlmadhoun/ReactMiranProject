@@ -21,3 +21,6 @@
 .ui.card.card-custom>.extra, .ui.cards>.card.card-custom>.extra{
     padding: 0.5em 0.6em;
 }
+.ui.card, .ui.cards>.card{
+    height: auto;
+}

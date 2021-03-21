@@ -41,8 +41,11 @@ class ExceriseItemComponent extends Component {
     }
     async editExcerise(){
         const templateService = new TemplateService();
-        const {t, ExceriseDataItem}= this.props;
+        const {t, ExceriseDataItem, planMode}= this.props;
         const {weight,comment,count,rest_period}=this.state;
+        if(planMode){
+
+        }
         const data = {
             'template_day_exercise_id': ExceriseDataItem.template_day_exercises_id,
             "weight":weight,
@@ -56,8 +59,6 @@ class ExceriseItemComponent extends Component {
                 this.updateExcerise(ExceriseDataItem.template_day_exercises_id);
 
                 this.setState({EditExceriseItem :false})
-            } else {
-                //  toast.done(t('shared.success.addedSuccess'));
             }
         })
 

@@ -20,7 +20,7 @@ class Plan extends Component {
         this.state = {
             planId : null,
             data: [],
-            activeDay: '2021-03-15',
+            activeDay: '2021-03-20',
             fullTemplateDataForThisDay: [],
             exerciseMealForThisDay: [],
             activeIndex: '',
@@ -54,18 +54,21 @@ class Plan extends Component {
         const planServices = new PlanServices();
         planServices.getPlanSchedule(tempId, activeDay).then(response => {
             if (response) {
-                let fullData= response.result;
-                fullData.length > 0? fullData.map(item => {
-                    if (this.state.subscription.id === item.subscribtion){
-                        console.log('asma');
-
-                        this.setState({exerciseMealForThisDay :item, loader : false });
-                    }
-                })
-                    :
-                    this.setState({exerciseMealForThisDay :[], loader : false });
-
-                this.setState({planList :response.result});
+                if(response.result && response.result.length){
+                    this.setState({exerciseMealForThisDay :response.result[0], loader : false });
+                }
+                else {
+                    this.setState({exerciseMealForThisDay: [], loader: false})
+                }
+                let fullData= this.state.fullData;
+                if(fullData){
+                    fullData.map(item => {
+                        if (response.result[0].subscribtion === item.profile.subscription.id){
+                            this.setState({loader : false, subscription: item.profile.subscription, traineesId: item.id });
+                            console.log(item.profile.subscription);
+                        }
+                    })
+                }
             }
         })
         return this.state.exerciseMealForThisDay
@@ -113,6 +116,7 @@ class Plan extends Component {
         let Component = [];
         let startDateDay = this.state.subscription.start_date.substring(8,11);
         let month= this.state.subscription.start_date.substring(5, 7);
+        let secondMonth= parseFloat(month) +1 ;
         let year= this.state.subscription.start_date.substring(0, 4);
         let endDateDay = this.state.subscription.end_date.substring(8, 11);
         let daysInMonth = this.daysInMonth(month,year);
@@ -122,12 +126,12 @@ class Plan extends Component {
 
         for (let i = startDateDay, k=0; i <= total_days , k <= (total_days-startDateDay); i++, k++) {
             Component.push(
-                <DateComponent dateNumber={i} dateName={week[(dayName  + k) % 7]} />
+                <DateComponent dateNumber={i} dateName={week[(dayName  + k) % 7]} dateMonth={month} />
             )
             if(i === daysInMonth){
                 for (let j = 1, k = ((total_days-startDateDay) +1); j <= endDateDay, k<= total_days; j++, k++) {
                     Component.push(
-                        <DateComponent dateNumber={j} dateName={week[(dayName  + k) % 7]} />
+                        <DateComponent dateNumber={j} dateName={week[(dayName  + k) % 7]}  dateMonth={secondMonth}/>
                     )
                 }
             }
