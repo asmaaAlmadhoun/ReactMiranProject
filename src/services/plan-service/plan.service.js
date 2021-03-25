@@ -37,6 +37,12 @@ class PlanService extends BaseService {
         const url =   this._endPoint + "copy/meal";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
+    copyMealTraineeDay= async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "copy/day";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
     copyExerciseManyDays = async (data) => {
         if(!data)
             return ;

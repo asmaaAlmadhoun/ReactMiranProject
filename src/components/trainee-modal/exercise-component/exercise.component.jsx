@@ -84,17 +84,33 @@ class ExerciseComponent extends Component {
 
     }
     addDays(pushObj){
+        let {planMode}= this.props
         let daysButton = this.state.copyDays;
-        if (!daysButton.includes((pushObj.key+1)+'')) {
-            daysButton.push((pushObj.key+1)+'');
+        if(planMode){
+            if (!daysButton.includes(pushObj.item.key)) {
+                daysButton.push(pushObj.item.key);
+                console.log(pushObj.item.key);
+                console.log(daysButton);
+
+            } else {
+                let objToDelete = (pushObj.item.key);
+                daysButton.splice(daysButton.indexOf(objToDelete), 1);
+            }
         }
         else{
-            let objToDelete = (pushObj.key+1)+'';
-            daysButton.splice(daysButton.indexOf(objToDelete), 1);
+            if (!daysButton.includes((pushObj.key+1)+'')) {
+                daysButton.push((pushObj.key+1)+'');
+            }
+            else{
+                let objToDelete = (pushObj.key+1)+'';
+                daysButton.splice(daysButton.indexOf(objToDelete), 1);
+            }
         }
+
         this.setState({daysButton: daysButton});
     }
     copyExerciseTemplate(e,id,exercise_template){
+        let {planMode, activeDay}=this.props;
         e.stopPropagation();
         if(!exercise_template){
             this.setState({exerciseId_selected : id})
@@ -102,51 +118,97 @@ class ExerciseComponent extends Component {
         else {
             this.setState({exerciseIdTemplate_selected : id})
         }
-        this.setState({'openCopyModel' : true, copyDays : ['1'], exercise_template: exercise_template})
+        this.setState({
+            'openCopyModel' : true,
+            copyDays : (planMode)?[activeDay]: ['1'],
+            exercise_template: exercise_template})
 
     }
     submitCopyExerciseTemplate(e){
-        const {t,exerciseMealData} = this.props;
+        const {t,exerciseMealData, planMode, traineesId} = this.props;
         let {copyDays, exerciseId_selected, exerciseIdTemplate_selected, exercise_template} = this.state;
         if(exercise_template){
             this.templateCopyExerciseDay(copyDays,exerciseIdTemplate_selected)
         }
         else {
             copyDays =JSON.stringify(copyDays);
-            const templateServices = new TemplateServices();
+            if(planMode){
+                console.log(copyDays);
+                const planService = new PlanService();
+                const data = {
+                    "schedule_exercise_id": exerciseId_selected,
+                    "user_id": traineesId,
+                    'days': copyDays
+                }
+                planService.copyExerciseManyDays(data).then(response => {
+                    if (response) {
+                        toast.done(t('shared.success.addedSuccess'));
+                        this.props.getTemplateForDay2();
+                        this.setState({'openCopyModel': false,successState: true})
+
+                    } else {
+                        toast.done(t('shared.success.addedSuccess'));
+                    }
+                })
+            }
+            else {
+                const templateServices = new TemplateServices();
+                const data = {
+                    'template_day_exercise_id': exerciseId_selected,
+                    'days': copyDays
+                }
+                templateServices.templateCopyExercise(data).then(response => {
+                    if (response) {
+                        toast.done(t('shared.success.addedSuccess'));
+                        this.props.getTemplateForDay2();
+                        this.setState({'openCopyModel' : false})
+                    } else {
+                        toast.done(t('shared.success.addedSuccess'));
+                    }
+                })
+            }
+
+        }
+
+    }
+    templateCopyExerciseDay(copyDays, id){
+        const {t, exerciseMealData, planMode, traineesId} = this.props;
+        if(planMode){
+            const planService = new PlanService();
             const data = {
-                'template_day_exercise_id': exerciseId_selected,
+                "schedule_id": exerciseMealData.schedule_id,
+                "user_id": traineesId,
                 'days': copyDays
             }
-            templateServices.templateCopyExercise(data).then(response => {
+            planService.copyExerciseDay(data).then(response => {
                 if (response) {
                     toast.done(t('shared.success.addedSuccess'));
                     this.props.getTemplateForDay2();
+                    this.setState({'openCopyModel': false,successState: true})
+
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
+        else {
+            const templateServices = new TemplateServices();
+            copyDays =JSON.stringify(copyDays);
+            const data = {
+                'template_day_id': id,
+                'days': copyDays
+            }
+            templateServices.templateCopyExerciseDay(data).then(response => {
+                if (response) {
+                    toast.done(t('shared.success.addedSuccess'));
                     this.setState({'openCopyModel' : false})
+                    this.props.getTemplateForDay2();
                 } else {
                     toast.done(t('shared.success.addedSuccess'));
                 }
             })
         }
 
-    }
-    templateCopyExerciseDay(copyDays, id){
-        const {t, exerciseMealData} = this.props;
-        const templateServices = new TemplateServices();
-        copyDays =JSON.stringify(copyDays);
-        const data = {
-            'template_day_id': id,
-            'days': copyDays
-        }
-        templateServices.templateCopyExerciseDay(data).then(response => {
-            if (response) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.setState({'openCopyModel' : false})
-                this.props.getTemplateForDay2();
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
-            }
-        })
     }
     addTemplateBreakDay = (id) => {
         const {t} = this.props;
@@ -194,17 +256,28 @@ class ExerciseComponent extends Component {
     }
     renderDaysButtons = ()  => {
         let daysButton = [];
-        for (let i = 1; i <= this.props.daysNumber; i++) {
-            daysButton.push(
-                <span key={i} className={i === 1 ? 'active' : ''}>
+        if(this.props.planMode){
+            for (let i = 1; i <= this.props.daysNumber; i++) {
+                daysButton.push(
+                    <span key={this.props.calendarDays[i]} className={i === 1 ? 'active' : ''}>
+                    {this.props.calendarDays[i]}
+               </span>
+                )
+            }
+        }
+        else {
+            for (let i = 1; i <= this.props.daysNumber; i++) {
+                daysButton.push(
+                    <span key={i} className={i === 1 ? 'active' : ''}>
                     {i}
                </span>
-            )
+                )
+            }
         }
         return daysButton;
     }
     data = (item) => {
-        const {t}  = this.props;
+        const {t,planMode}  = this.props;
         return( <>
         <div className="row" key={item.exercise.exercise_id} onClick={(e) =>
         {
@@ -265,7 +338,7 @@ class ExerciseComponent extends Component {
                                                 <span className="icon delete" onClick={(e)=> this.deleteExerciseTemplate(e,item)}>
                                                      <FiX/>
                                                 </span>
-                    <span className="icon copy" onClick={(e)=> this.copyExerciseTemplate(e,item.template_day_exercises_id,0)}>
+                    <span className="icon copy" onClick={(e)=> this.copyExerciseTemplate(e,!planMode?item.template_day_exercises_id:item.schedule_meal_id,0)}>
                                                     <BiCopy />
                                                 </span>
                     <span className="icon move">
@@ -350,18 +423,36 @@ class ExerciseComponent extends Component {
                         </button>
                     </div>
 
-                } isOpen={this.state.openCopyModel}  size='mini' modalCenter={true} handleClosed={(e)=> this.setState({'openCopyModel': false})}>
+                } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter={!planMode} handleClosed={(e)=> this.setState({'openCopyModel': false})}>
                     <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
                     <div className="add-days-template row">
-                        {buttons && buttons.length > 0 && buttons.map( (item,key)  => {
-                            return (
-                                <div className='col-sm-2 p-0 my-2'>
-                                    <div key={key} className={['item-num  custom-item ', this.state.copyDays.includes((key+1)+'')  ? ' active':'']} onClick={(e)=>this.addDays({key})}>
-                                        {item}
+                        {(planMode) ?
+                            <div className="row">
+                                {buttons && buttons.length > 0 && buttons.map((item, key) => {
+                                    return (
+                                        <div className='col-sm-2 p-0 my-2 text-center'>
+                                            <div key={item}
+                                                 className={['item-num item-num-custom custom-item', this.state.copyDays.includes(item.key) ? ' active' : '']}
+                                                 onClick={(e) => this.addDays({item})}>
+                                                {item}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            :
+                            buttons && buttons.length > 0 && buttons.map((item, key) => {
+                                return (
+                                    <div className='col-sm-2 p-0 my-2'>
+                                        <div key={key}
+                                             className={['item-num  custom-item ', this.state.copyDays.includes((key + 1) + '') ? ' active' : '']}
+                                             onClick={(e) => this.addDays({key})}>
+                                            {item}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        }
                     </div>
 
                 </ModalComponent>

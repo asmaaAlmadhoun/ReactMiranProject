@@ -85,6 +85,8 @@ class Plan extends Component {
     componentDidMount() {
         const planId = this.state.planId;
         this.getTemplateForDay(planId);
+        let calendarReturned =  this.setCalendar();
+        this.setState({calendarReturned: calendarReturned})
     }
 
     SampleNextArrow(props) {
@@ -118,6 +120,7 @@ class Plan extends Component {
     }
 
     setCalendar= () =>{
+        console.log('asma )) ')
         let Component = [];
         let startDateDay = this.state.subscription.start_date.substring(8,11);
         let month= this.state.subscription.start_date.substring(5, 7);
@@ -179,7 +182,6 @@ class Plan extends Component {
                             <>
                                 <div className={openDetails || openExceriseDetails ? ' d-none':'' }>
                                     <ToasterComponent />
-
                                     <div className="heading row">
                                         <div className="col-sm-12">
                                             <div className="headings d-flex align-items-center">
@@ -191,12 +193,15 @@ class Plan extends Component {
                                             </div>
                                             <div className="dates">
                                                 <Slider {...settings}>
-                                                    {this.setCalendar().map(item => item)}
+                                                    {
+                                                       this.state.calendarReturned.map(item => item)
+                                                    } 
                                                 </Slider>
                                             </div>
 
                                         </div>
                                     </div>
+
                                     {
                                         this.state.loading ? <Loader active={true} inline='centered'/> :
 
@@ -206,6 +211,7 @@ class Plan extends Component {
                                                         menuItem: t('traineeModal.exercises'),
                                                         render: () =>
                                                             <Tab.Pane attached={false}>
+                                                                {console.log('asma 1') }
                                                                 <ExerciseComponent daysNumber={item.profile.subscription.total_days}  calendarDays={calendarDays}
                                                                                    getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
                                                                                    openDetailsExceriseFunction={(e) => this.setState({
@@ -219,6 +225,7 @@ class Plan extends Component {
                                                         menuItem: t('traineeModal.meals'),
                                                         render: () =>
                                                             <Tab.Pane attached={false}>
+                                                                {console.log('asma 2') }
                                                                 <MealComponent  daysNumber={item.profile.subscription.total_days} calendarDays={calendarDays}
                                                                                 getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
                                                                                 openDetailsFunction={(e) => this.setState({
@@ -253,6 +260,7 @@ class Plan extends Component {
 
         return (
             <>
+
                 <div className="container">
                     <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={panes}
                          activeTab={this.state.planId}  onTabChange={this.handleTabChange}

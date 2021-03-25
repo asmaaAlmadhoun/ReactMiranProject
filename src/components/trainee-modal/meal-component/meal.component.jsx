@@ -99,7 +99,7 @@ class MealComponent extends Component {
 
     deleteMealTemplate(id) {
         // deleteMealTemplate
-        const {t, planMode,  mealDataItem} = this.props;
+        const {t, planMode,  mealDataItem,planId, activeDay} = this.props;
         if(planMode){
             const planService = new PlanService();
             const data = {
@@ -108,7 +108,7 @@ class MealComponent extends Component {
             planService.RemoveMealTrainee(data).then(response => {
                 if (response) {
                     this.setState({successState: true})
-                    this.props.getTemplateForDay2();
+                    this.props.getTemplateForDay2(planId, activeDay);
                 } else {
                 }
             })
@@ -130,29 +130,79 @@ class MealComponent extends Component {
     }
 
     openModalCopyMeal(e, id, mealItemTemplateToggle) {
+        let {planMode, activeDay}=this.props;
         e.stopPropagation();
+
         this.setState({
-            'openCopyModel': true,
-            copyDays: ['1'],
+            openCopyModel: true,
+            copyDays:(planMode)?[activeDay]: ['1'],
             mealId_selected: id,
             mealItemTemplateToggle: mealItemTemplateToggle
         })
     }
 
     submitTemplateCopyMeal(id) {
-        const {t, exerciseMealData} = this.props;
+        const {t, exerciseMealData, planMode, traineesId} = this.props;
         let {copyDays, mealId_selected, mealItemTemplateToggle} = this.state;
         if (mealItemTemplateToggle) {
             this.templateCopyMaelDay(copyDays);
         } else {
             copyDays = JSON.stringify(copyDays);
-            console.log(copyDays);
-            const templateServices = new TemplateServices();
+            if(planMode){
+                console.log(copyDays);
+                const planService = new PlanService();
+                const data = {
+                    // "schedule_id": exerciseMealData.schedule_id,
+                    "schedule_meal_id": mealId_selected,
+                    "user_id": traineesId,
+                    'days': copyDays
+                }
+                planService.copyMealTrainee(data).then(response => {
+                    if (response) {
+                        toast.done(t('shared.success.addedSuccess'));
+                        this.props.getTemplateForDay2();
+                        this.setState({'openCopyModel': false,successState: true})
+
+                    } else {
+                        toast.done(t('shared.success.addedSuccess'));
+                    }
+                })
+            }
+            else {
+                const templateServices = new TemplateServices();
+                const data = {
+                    'template_day_meal_id': mealId_selected,
+                    'days': copyDays
+                }
+                templateServices.templateCopyMeal(data).then(response => {
+                    if (response) {
+                        toast.done(t('shared.success.addedSuccess'));
+                        this.props.getTemplateForDay2();
+                        this.setState({'openCopyModel': false,successState: true})
+
+                    } else {
+                        toast.done(t('shared.success.addedSuccess'));
+                    }
+                })
+            }
+
+        }
+    }
+
+    parentCallback = (e) => {
+        console.log(e)
+    }
+    templateCopyMaelDay(copyDays) {
+        const {t, exerciseMealData, planMode, traineesId} = this.props;
+        const {mealId_selected} = this.state;
+        if(planMode){
+            const planService = new PlanService();
             const data = {
-                'template_day_meal_id': mealId_selected,
+                "schedule_id": exerciseMealData.schedule_id,
+                "user_id": traineesId,
                 'days': copyDays
             }
-            templateServices.templateCopyMeal(data).then(response => {
+            planService.copyMealTraineeDay(data).then(response => {
                 if (response) {
                     toast.done(t('shared.success.addedSuccess'));
                     this.props.getTemplateForDay2();
@@ -163,52 +213,71 @@ class MealComponent extends Component {
                 }
             })
         }
-    }
-
-    parentCallback = (e) => {
-        console.log(e)
-
-    }
-
-    templateCopyMaelDay(copyDays) {
-        const {t, exerciseMealData} = this.props;
-        let Dayid = exerciseMealData.day.id;
-        const templateServices = new TemplateServices();
-        copyDays = JSON.stringify(copyDays);
-        const data = {
-            'template_day_id': Dayid,
-            'days': copyDays
-        }
-        templateServices.templateCopyMaelDay(data).then(response => {
-            if (response) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay2();
-                this.setState({'openCopyModel': false, successState: true})
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
+        else {
+            let Dayid = exerciseMealData.day.id;
+            const templateServices = new TemplateServices();
+            copyDays = JSON.stringify(copyDays);
+            const data = {
+                'template_day_id': Dayid,
+                'days': copyDays
             }
-        })
+            templateServices.templateCopyMaelDay(data).then(response => {
+                if (response) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                    this.setState({'openCopyModel': false, successState: true})
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
     }
 
     renderDaysButtons = () => {
         let daysButton = [];
-        for (let i = 1; i <= this.props.daysNumber; i++) {
-            daysButton.push(
-                <span key={i} className={i === 1 ? 'active' : ''}>
+        if(this.props.planMode){
+            for (let i = 1; i <= this.props.daysNumber; i++) {
+                daysButton.push(
+                    <span key={this.props.calendarDays[i]} className={i === 1 ? 'active' : ''}>
+                    {this.props.calendarDays[i]}
+               </span>
+                )
+            }
+        }
+        else {
+            for (let i = 1; i <= this.props.daysNumber; i++) {
+                daysButton.push(
+                    <span key={i} className={i === 1 ? 'active' : ''}>
                     {i}
                </span>
-            )
+                )
+            }
         }
+
         return daysButton;
     }
-
     addDays(pushObj) {
+        let {planMode}= this.props
         let daysButton = this.state.copyDays;
-        if (!daysButton.includes((pushObj.key + 1) + '')) {
-            daysButton.push((pushObj.key + 1) + '');
-        } else {
-            let objToDelete = (pushObj.key + 1) + '';
-            daysButton.splice(daysButton.indexOf(objToDelete), 1);
+
+        if(planMode){
+            if (!daysButton.includes(pushObj.item.key)) {
+                daysButton.push(pushObj.item.key);
+                console.log(pushObj.item.key);
+                console.log(daysButton);
+
+            } else {
+                let objToDelete = (pushObj.item.key);
+                daysButton.splice(daysButton.indexOf(objToDelete), 1);
+            }
+        }
+        else{
+            if (!daysButton.includes((pushObj.key + 1) + '')) {
+                daysButton.push((pushObj.key + 1) + '');
+            } else {
+                let objToDelete = (pushObj.key + 1) + '';
+                daysButton.splice(daysButton.indexOf(objToDelete), 1);
+            }
         }
         this.setState({daysButton: daysButton});
     }
@@ -217,11 +286,11 @@ class MealComponent extends Component {
         fullCards2 = [...fullCards];
         const dragCard = fullCards[dragIndex];
         this.setState( prevState => ({...prevState,fullCards2: {
-            $splice: [
-                [dragIndex, 1],
-                [hoverIndex, 0, dragCard],
-            ],
-        }}));
+                $splice: [
+                    [dragIndex, 1],
+                    [hoverIndex, 0, dragCard],
+                ],
+            }}));
         setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2})); console.log('asma')},1000)
     });
     componentDidUpdate(prevProps) {
@@ -260,7 +329,7 @@ class MealComponent extends Component {
                         <span className="icon copy"
                               onClick={(e) => {
                                   e.stopPropagation();
-                                  this.openModalCopyMeal(e, item.template_day_meal_id, 0)
+                                  this.openModalCopyMeal(e, !planMode?item.template_day_meal_id:item.schedule_meal_id, 0)
                               }}>
                                                     <BiCopy/>
                                                 </span>
@@ -305,7 +374,7 @@ class MealComponent extends Component {
         </>
     }
     Update(exerciseMealData2){
-        const {t,exerciseMealData}=this.props;
+        const {t,exerciseMealData, planMode}=this.props;
         let MealLength =exerciseMealData.day.meals.length
         let cards3 = [];
         {exerciseMealData2.day.meals.map((item, i) =>
@@ -344,7 +413,7 @@ class MealComponent extends Component {
                                         <span className="icon copy"
                                               onClick={(e) => {
                                                   e.stopPropagation();
-                                                  this.openModalCopyMeal(e, item.template_day_meal_id, 0)
+                                                  this.openModalCopyMeal(e,!planMode?item.template_day_meal_id:item.schedule_meal_id, 0)
                                               }}>
                                                         <BiCopy/>
                                                     </span>
@@ -408,10 +477,10 @@ class MealComponent extends Component {
                 {this.state.successState ?
                     <>
                         <MessageComponent status='true' onClick={(e)=> this.setState({successState: false})} content={t('shared.success.processSuccess')}/>
-                       <div className='d-none'> { setTimeout(function(){
+                        <div className='d-none'> { setTimeout(function(){
                             this.setState({successState:false});
                         }.bind(this),8000)}
-                       </div>
+                        </div>
                     </>
                     : ''
                 }
@@ -421,34 +490,34 @@ class MealComponent extends Component {
                         (planMode)?
                             (exerciseMealData.meals && exerciseMealData.meals.length) ?
                                 exerciseMealData.meals.map(item =>
-                                this.generateMealList(item)
-                            )
-                            :  <BreakDayComponent/>
-                        :
-                        exerciseMealData.day.break_day_meal ?
-                            <BreakDayComponent/> :
-                            !(exerciseMealData.day.meals && exerciseMealData.day.meals.length) ?
-                                <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
-                                <div className=''>
-                                    {/*{ this.Update(exerciseMealData) }*/}
-                                    { exerciseMealData.day.meals.map((item, i) =>
-                                        this.generateMealList(item)
-                                    )}
-                                </div>
+                                    this.generateMealList(item)
+                                )
+                                :  <BreakDayComponent/>
+                            :
+                            exerciseMealData.day.break_day_meal ?
+                                <BreakDayComponent/> :
+                                !(exerciseMealData.day.meals && exerciseMealData.day.meals.length) ?
+                                    <EmptyDataComponent title={t('traineeModal.emptyDataMeal')}/> :
+                                    <div className=''>
+                                        {/*{ this.Update(exerciseMealData) }*/}
+                                        { exerciseMealData.day.meals.map((item, i) =>
+                                            this.generateMealList(item)
+                                        )}
+                                    </div>
 
                     }
 
                     {/*<DndProvider backend={HTML5Backend}>*/}
-                        {/*<DragContainer parentCallback={(e) => this.parentCallback(e)} cards={this.state.fullCards}/>*/}
-                        {/*/!*{this.setState({fullCards: cards2})}*!/*/}
-                        {/*{this.state.fullCards.map((card, i) =>*/}
-                        {/*    <Card key={card.id} index={i} id={card.id} text={card.text} moveCard={this.moveCard.bind(this)}/>*/}
-                        {/*)}*/}
+                    {/*<DragContainer parentCallback={(e) => this.parentCallback(e)} cards={this.state.fullCards}/>*/}
+                    {/*/!*{this.setState({fullCards: cards2})}*!/*/}
+                    {/*{this.state.fullCards.map((card, i) =>*/}
+                    {/*    <Card key={card.id} index={i} id={card.id} text={card.text} moveCard={this.moveCard.bind(this)}/>*/}
+                    {/*)}*/}
                     {/*</DndProvider>*/}
 
                     <div className={t('local') === 'ar' ? 'row text-right' : 'row'}>
-                        <div className="col-sm-8">
-                            <div className={["d-flex align-items-center", (planMode)? '': ' mt-3']}>
+                        <div className="col-sm-8 p-0">
+                            <div className={["d-flex align-items-center ", (planMode)? '': ' mt-3']}>
                                     <span className="strip-title">
                                         {t('traineeModal.totalDayIntakes')}
                                     </span>
@@ -520,21 +589,39 @@ class MealComponent extends Component {
                                 {t('shared.add')}
                             </button>
                         </div>
-                    } isOpen={this.state.openCopyModel} size='mini' modalCenter={true}
+                    } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter={!planMode}
                                     handleClosed={(e) => this.setState({'openCopyModel': false})}>
                         <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
-                        <div className="add-days-template row">
-                            {buttons && buttons.length > 0 && buttons.map((item, key) => {
-                                return (
-                                    <div className='col-sm-2 p-0 my-2'>
-                                        <div key={key}
-                                             className={['item-num  custom-item ', this.state.copyDays.includes((key + 1) + '') ? ' active' : '']}
-                                             onClick={(e) => this.addDays({key})}>
-                                            {item}
-                                        </div>
+                        <div className="add-days-template ">
+                            { (planMode) ?
+                                    <div className="row">
+                                        {buttons && buttons.length > 0 && buttons.map((item, key) => {
+                                            return (
+                                                <div className='col-sm-2 p-0 my-2 text-center'>
+                                                    <div key={item}
+                                                         className={['item-num item-num-custom custom-item', this.state.copyDays.includes(item.key) ? ' active' : '']}
+                                                         onClick={(e) => this.addDays({item})}>
+                                                        {item}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                );
-                            })}
+                            :
+                                <div className='row'>
+                                    {buttons && buttons.length > 0 && buttons.map((item, key) => {
+                                        return (
+                                                <div className='col-sm-2 p-0 my-2'>
+                                                    <div key={key}
+                                                         className={['item-num  custom-item ', this.state.copyDays.includes((key + 1) + '') ? ' active' : '']}
+                                                         onClick={(e) => this.addDays({key})}>
+                                                        {item}
+                                                    </div>
+                                                </div>
+                                        );
+                                    })}
+                                </div>
+                            }
                         </div>
                     </ModalComponent>
 

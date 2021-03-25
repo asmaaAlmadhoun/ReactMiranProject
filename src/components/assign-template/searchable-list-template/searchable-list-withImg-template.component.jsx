@@ -23,7 +23,9 @@ class ListItemWithImg extends Component{
         this.setState({imgDefaultPath : userService.imageDefaultPath })
     }
 
-    showModalHandler =() => {
+    showModalHandler =(e) => {
+        e.stopPropagation();
+        e.preventDefault();
         this.setState({__addModal__ : true});
     }
     closeModalHandler = () =>  {
@@ -34,7 +36,7 @@ class ListItemWithImg extends Component{
         return (
             <>
                 <li>
-                    <a href="#" className='item' onClick= {() => this.showModalHandler()}>
+                    <a href="#" className='item' onClick= {(e) => this.showModalHandler(e)}>
                         <span>
                             <img src={this.state.imgDefaultPath+this.props.image} alt="img"/>
                         </span>
@@ -97,11 +99,13 @@ class SearchableListWithImgTemplateComponent extends Component {
                 <ul>
                     {
                         List.map((el) => {
-                            return <ListItemWithImg key={el.id} onClick={(e)=> this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}
-                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId} parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
+                            return   <ListItemWithImg key={el.id} onClick={(e)=> {console.log('asma 2333344');this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}}
+                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId}
+                                                    parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}
                                                     getTemplateForDay2={this.props.getTemplateForDay2}
-                                                    name={t('local')==='ar' ? el.title_ar : el.title} planMode={this.props.planMode} traineesId={this.props.traineesId}
+                                                    name={t('local')==='ar' ? el.title_ar : el.title}
+                                                    planMode={this.props.planMode} traineesId={this.props.traineesId}
                             />
                         })
                     }
