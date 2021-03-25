@@ -85,6 +85,12 @@ class PlanService extends BaseService {
         const url =   this._endPoint + "delete/exercise";
         return  HTTP_REQUEST.put({target:url , body : data});
     }
+    addMealExcerisebreakDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "add/break-day";
+        return  HTTP_REQUEST.put({target:url , body : data});
+    }
 
 }
 

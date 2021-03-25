@@ -142,7 +142,7 @@ class MealComponent extends Component {
     }
 
     submitTemplateCopyMeal(id) {
-        const {t, exerciseMealData, planMode, traineesId} = this.props;
+        const {t, exerciseMealData, planMode, traineesId, activeDay} = this.props;
         let {copyDays, mealId_selected, mealItemTemplateToggle} = this.state;
         if (mealItemTemplateToggle) {
             this.templateCopyMaelDay(copyDays);
@@ -152,7 +152,6 @@ class MealComponent extends Component {
                 console.log(copyDays);
                 const planService = new PlanService();
                 const data = {
-                    // "schedule_id": exerciseMealData.schedule_id,
                     "schedule_meal_id": mealId_selected,
                     "user_id": traineesId,
                     'days': copyDays
@@ -160,7 +159,7 @@ class MealComponent extends Component {
                 planService.copyMealTrainee(data).then(response => {
                     if (response) {
                         toast.done(t('shared.success.addedSuccess'));
-                        this.props.getTemplateForDay2();
+                        this.props.getTemplateForDay2(traineesId,activeDay);
                         this.setState({'openCopyModel': false,successState: true})
 
                     } else {
@@ -195,6 +194,7 @@ class MealComponent extends Component {
     templateCopyMaelDay(copyDays) {
         const {t, exerciseMealData, planMode, traineesId} = this.props;
         const {mealId_selected} = this.state;
+        copyDays = JSON.stringify(copyDays);
         if(planMode){
             const planService = new PlanService();
             const data = {
@@ -216,7 +216,6 @@ class MealComponent extends Component {
         else {
             let Dayid = exerciseMealData.day.id;
             const templateServices = new TemplateServices();
-            copyDays = JSON.stringify(copyDays);
             const data = {
                 'template_day_id': Dayid,
                 'days': copyDays
@@ -470,7 +469,7 @@ class MealComponent extends Component {
 
     }
     render() {
-        const {t, templateId, daysNumber, activeDay, exerciseMealData, getTemplateForDay, planMode} = this.props;
+        const {t, templateId, daysNumber, activeDay, exerciseMealData, getTemplateForDay, planMode, traineesId} = this.props;
         const buttons = this.renderDaysButtons();
         return (
             <>
@@ -569,10 +568,10 @@ class MealComponent extends Component {
                         </div>
                         <div className={"AddMealTemplateComponent col-sm-4 p-0"}>
                             <div className="meal-buttons justify-content-center">
-                                <AddMealTemplateComponent traineesId={this.props.traineesId} planMode={this.props.planMode}  dayNumbers={daysNumber} parentTriggerAdd={(e) => {
+                                <AddMealTemplateComponent traineesId={traineesId} planMode={this.props.planMode}  dayNumbers={daysNumber} parentTriggerAdd={(e) => {
                                     let NewData = this.props.getTemplateForDay2();
                                     setTimeout(() => this.setState({exerciseMealData: NewData}), 100)
-                                }} exerciseMealData={this.props.exerciseMealData} activeDay={activeDay}
+                                }} getTemplateForDay2={(e) => this.props.getTemplateForDay2(traineesId, activeDay)} exerciseMealData={this.props.exerciseMealData} activeDay={activeDay}
                                                           templateId={templateId}/>
                                 <button className="btn primary-color p-1"
                                         onClick={(e) => this.openModalCopyMeal(e, null, 1)}>

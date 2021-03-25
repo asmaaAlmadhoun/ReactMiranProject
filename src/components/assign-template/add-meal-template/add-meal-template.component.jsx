@@ -84,24 +84,42 @@ class AddMealTemplateComponent extends Component {
 
     }
     addTemplateBreakDay = () => {
-        const {t, exerciseMealData} = this.props;
-        let id= exerciseMealData.day.id;
-
-        const templateServices = new TemplateServices();
-        const dataBreak = {
-            'template_day_id': id,
-            'type': 'meal',
-        }
-        templateServices.addTemplateBreakDay(dataBreak).then(response => {
-            this.setState({isLoading: true})
-            if (response.status) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.props.parentTriggerAdd();
-                this.setState({isLoading: false})
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
+        const {t, exerciseMealData, planMode, activeDay} = this.props;
+        let id= planMode?exerciseMealData.subscribtion:exerciseMealData.day.id;
+        if(planMode){
+            const planService = new PlanService();
+            const dataBreak = {
+                'subscribtion': id,
+                "day": activeDay,
+                'type': 'meal',
             }
-        })
+            planService.addMealExcerisebreakDay(dataBreak).then(response => {
+                if (response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
+        else{
+            const templateServices = new TemplateServices();
+            const dataBreak = {
+                'template_day_id': id,
+                'type': 'meal',
+            }
+            templateServices.addTemplateBreakDay(dataBreak).then(response => {
+                this.setState({isLoading: true})
+                if (response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.parentTriggerAdd();
+                    this.setState({isLoading: false})
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+
+        }
     }
     showModalHandler =() => {
         this.setState({__addModal__ : true});

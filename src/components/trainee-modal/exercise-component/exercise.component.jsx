@@ -136,7 +136,7 @@ class ExerciseComponent extends Component {
                 console.log(copyDays);
                 const planService = new PlanService();
                 const data = {
-                    "schedule_exercise_id": exerciseId_selected,
+                    "schedule_exercise_id": exerciseMealData.schedule_id,
                     "user_id": traineesId,
                     'days': copyDays
                 }
@@ -173,6 +173,7 @@ class ExerciseComponent extends Component {
     }
     templateCopyExerciseDay(copyDays, id){
         const {t, exerciseMealData, planMode, traineesId} = this.props;
+        copyDays =JSON.stringify(copyDays);
         if(planMode){
             const planService = new PlanService();
             const data = {
@@ -193,7 +194,6 @@ class ExerciseComponent extends Component {
         }
         else {
             const templateServices = new TemplateServices();
-            copyDays =JSON.stringify(copyDays);
             const data = {
                 'template_day_id': id,
                 'days': copyDays
@@ -211,20 +211,38 @@ class ExerciseComponent extends Component {
 
     }
     addTemplateBreakDay = (id) => {
-        const {t} = this.props;
-        const templateServices = new TemplateServices();
-        const dataBreak = {
-            'template_day_id': id,
-            'type': 'exercise',
-        }
-        templateServices.addTemplateBreakDay(dataBreak).then(response => {
-            if (response.status) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.props.getTemplateForDay2();
-            } else {
-                toast.done(t('shared.success.addedSuccess'));
+        const {t, planMode, activeDay} = this.props;
+        if(planMode){
+            const planService = new PlanService();
+            const dataBreak = {
+                'subscribtion': id,
+                "day": activeDay,
+                'type': 'exercise',
             }
-        })
+            planService.addMealExcerisebreakDay(dataBreak).then(response => {
+                if (response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
+        else{
+            const templateServices = new TemplateServices();
+            const dataBreak = {
+                'template_day_id': id,
+                'type': 'exercise',
+            }
+            templateServices.addTemplateBreakDay(dataBreak).then(response => {
+                if (response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.props.getTemplateForDay2();
+                } else {
+                    toast.done(t('shared.success.addedSuccess'));
+                }
+            })
+        }
     }
     async componentWillMount() {
         const musclesService  = new MusclesService();
@@ -386,7 +404,7 @@ class ExerciseComponent extends Component {
                             <FiPlus />
                             <div><small>{t('traineeModal.addExercise')}</small></div>
                         </button>
-                        <button className="btn danger-color" onClick={(e)=>this.addTemplateBreakDay(exerciseMealData.day.id)}>
+                        <button className="btn danger-color" onClick={(e)=>this.addTemplateBreakDay(!planMode ?exerciseMealData.day.id : exerciseMealData.subscribtion)}>
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>
@@ -452,7 +470,7 @@ class ExerciseComponent extends Component {
                                     </div>
                                 );
                             })}
-                        }
+
                     </div>
 
                 </ModalComponent>
