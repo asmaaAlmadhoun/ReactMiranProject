@@ -34,7 +34,19 @@ class PlanService extends BaseService {
     copyMealTrainee= async (data) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "copy/meal/";
+        const url =   this._endPoint + "copy/meal";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    copyExerciseManyDays = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "copy/exercise";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    copyExerciseDay = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "copy/exercise-day";
         return  HTTP_REQUEST.post({target:url , body : data});
     }
     addFoodTrainee= async (data) => {
@@ -54,6 +66,12 @@ class PlanService extends BaseService {
             return ;
         const url =   this._endPoint + "add-exercise";
         return  HTTP_REQUEST.post({target:url , body : data});
+    }
+    EditExerciseTrainee= async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "update-exercise";
+        return  HTTP_REQUEST.put({target:url , body : data});
     }
     DeleteExerciseTrainee= async (data) => {
         if(!data)

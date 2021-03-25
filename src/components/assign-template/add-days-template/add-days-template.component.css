@@ -24,6 +24,12 @@
     border-radius: 8px;
     padding: 0 10px;
     cursor: pointer;
+    margin: auto;
+}
+.add-days-template .item-num-custom{
+    width: 80px;
+    height: 50px;
+    font-size: 13px;
 }
 .add-days-template .item-num.active {
     background-color: #00a4f8;

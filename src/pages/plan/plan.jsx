@@ -33,14 +33,14 @@ class Plan extends Component {
             subscription: [],
             traineesId: '',
             planList: '',
-            fullData: []
-
+            fullData: [],
+            calendarDays:[]
         }
     }
-    clickNumberHandler= (e) =>{
-        this.setState({loading: true})
+    clickNumberHandler= (i,month,year) =>{
+        this.setState({loading: true, activeDay: year+'-'+month+'-'+i})
         const {planId} = this.state;
-        this.getTemplateForDay(planId, e);
+        this.getTemplateForDay(planId, year+'-'+month+'-'+i);
         this.setState({loading: false})
     }
     getTemplateForDay = (tempId,activeDay) =>{
@@ -50,6 +50,9 @@ class Plan extends Component {
         }
         if(tempId === undefined){
             tempId = this.state.planId;
+        }
+        else {
+            this.setState({planId: tempId})
         }
         const planServices = new PlanServices();
         planServices.getPlanSchedule(tempId, activeDay).then(response => {
@@ -61,11 +64,13 @@ class Plan extends Component {
                     this.setState({exerciseMealForThisDay: [], loader: false})
                 }
                 let fullData= this.state.fullData;
-                if(fullData){
+                if(fullData && fullData.length){
                     fullData.map(item => {
-                        if (response.result[0].subscribtion === item.profile.subscription.id){
-                            this.setState({loader : false, subscription: item.profile.subscription, traineesId: item.id });
-                            console.log(item.profile.subscription);
+                        if(response.result[0] && response.result[0].length){
+                            if (response.result[0].subscribtion === item.profile.subscription.id){
+                                this.setState({loader : false, subscription: item.profile.subscription, traineesId: item.id });
+                                console.log(item.profile.subscription);
+                            }
                         }
                     })
                 }
@@ -118,30 +123,35 @@ class Plan extends Component {
         let month= this.state.subscription.start_date.substring(5, 7);
         let secondMonth= parseFloat(month) +1 ;
         let year= this.state.subscription.start_date.substring(0, 4);
+        let year2= this.state.subscription.end_date.substring(0, 4);
         let endDateDay = this.state.subscription.end_date.substring(8, 11);
         let daysInMonth = this.daysInMonth(month,year);
         let dayName = this.getDaysInMonth(month,year,startDateDay);
         let week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         let total_days = this.state.subscription.total_days;
+        let calendarDays = this.state.calendarDays;
 
         for (let i = startDateDay, k=0; i <= total_days , k <= (total_days-startDateDay); i++, k++) {
+            calendarDays.push(year+'-'+month+'-'+i);
             Component.push(
-                <DateComponent dateNumber={i} dateName={week[(dayName  + k) % 7]} dateMonth={month} />
+                <DateComponent isActive={(this.state.activeDay === year+'-'+month+'-'+i)} onClick={(e)=> this.clickNumberHandler(i,month,year)} dateNumber={i} dateName={week[(dayName  + k) % 7]} dateMonth={month} />
             )
             if(i === daysInMonth){
                 for (let j = 1, k = ((total_days-startDateDay) +1); j <= endDateDay, k<= total_days; j++, k++) {
+                    calendarDays.push(year2+'-'+month+'-'+j);
                     Component.push(
-                        <DateComponent dateNumber={j} dateName={week[(dayName  + k) % 7]}  dateMonth={secondMonth}/>
+                        <DateComponent isActive={(this.state.activeDay === year2+'-'+month+'-'+j)} onClick={(e)=> this.clickNumberHandler(j,month,year2)} dateNumber={j} dateName={week[(dayName  + k) % 7]}  dateMonth={secondMonth}/>
                     )
                 }
             }
         }
+        setTimeout( ()=>{this.setState({calendarDays: calendarDays})},100)
         return Component
     }
 
     render() {
         const {t } = this.props;
-        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem, traineesId} = this.state;
+        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem, traineesId, calendarDays} = this.state;
         const settings = {
             dots: false,
             infinite: false,
@@ -196,7 +206,7 @@ class Plan extends Component {
                                                         menuItem: t('traineeModal.exercises'),
                                                         render: () =>
                                                             <Tab.Pane attached={false}>
-                                                                <ExerciseComponent daysNumber={item.days}
+                                                                <ExerciseComponent daysNumber={item.profile.subscription.total_days}  calendarDays={calendarDays}
                                                                                    getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
                                                                                    openDetailsExceriseFunction={(e) => this.setState({
                                                                                        ExceriseDataItem: e,
@@ -209,7 +219,7 @@ class Plan extends Component {
                                                         menuItem: t('traineeModal.meals'),
                                                         render: () =>
                                                             <Tab.Pane attached={false}>
-                                                                <MealComponent  daysNumber={item.days}
+                                                                <MealComponent  daysNumber={item.profile.subscription.total_days} calendarDays={calendarDays}
                                                                                 getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
                                                                                 openDetailsFunction={(e) => this.setState({
                                                                                     mealDataItem: e,
@@ -230,7 +240,7 @@ class Plan extends Component {
                                 {!openExceriseDetails?
                                     '':
                                     <ExceriseItemComponent planMode={true}  parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)}
-                                                            planId={item.id}
+                                                            planId={item.id} traineesId={traineesId}
                                                             activeDay={this.state.activeDay} />
                                 }
                             </>

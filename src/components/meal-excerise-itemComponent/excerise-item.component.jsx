@@ -16,6 +16,7 @@ import TemplateService from "../../services/template-service/template.service";
 import InputTextComponent from "../InputTextComponent/input-text-no-label.component";
 import {toast} from "react-toastify";
 import ToasterComponent from "../common/toaster/toaster.component";
+import PlanService from "../../services/plan-service/plan.service";
 
 class ExceriseItemComponent extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class ExceriseItemComponent extends Component {
             comment:this.props.ExceriseDataItem.comment,
             count:this.props.ExceriseDataItem.count,
             rest_period:this.props.ExceriseDataItem.rest_period,
+            sets: this.props.ExceriseDataItem.sets,
             ExceriseDataItem : this.props.ExceriseDataItem,
             loader: false
         }
@@ -40,41 +42,73 @@ class ExceriseItemComponent extends Component {
         this.setState({imgDefaultPath : userService.imageDefaultPath })
     }
     async editExcerise(){
-        const templateService = new TemplateService();
-        const {t, ExceriseDataItem, planMode}= this.props;
-        const {weight,comment,count,rest_period}=this.state;
+        const {t, ExceriseDataItem, planMode, traineesId, activeDay}= this.props;
+        const {weight,comment,count,rest_period, sets}=this.state;
         if(planMode){
-
-        }
-        const data = {
-            'template_day_exercise_id': ExceriseDataItem.template_day_exercises_id,
-            "weight":weight,
-            "comment":comment,
-            "count":count,
-            "rest_period":rest_period
-        }
-        templateService.editExerciseTemplate(data).then(response => {
-            if (response.status) {
-                toast.done(t('shared.success.addedSuccess'));
-                this.updateExcerise(ExceriseDataItem.template_day_exercises_id);
-
-                this.setState({EditExceriseItem :false})
+            const planService = new PlanService();
+            const data = {
+                "schedule_exercise_id": ExceriseDataItem.schedule_exercises_id,
+                "weight":weight,
+                "comment":comment,
+                "count":count,
+                "rest_period":rest_period,
+                "sets" : sets
             }
-        })
+            planService.EditExerciseTrainee(data).then(response => {
+                if (response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                     this.updateExcerise(ExceriseDataItem.schedule_exercises_id);
+                    this.setState({EditExceriseItem :false})
+                }
+            })
+        }
+        else {
+            const templateService = new TemplateService();
+            const data = {
+                'template_day_exercise_id': ExceriseDataItem.template_day_exercises_id,
+                "weight":weight,
+                "comment":comment,
+                "count":count,
+                "sets":sets,
+                "rest_period":rest_period
+            }
+            templateService.editExerciseTemplate(data).then(response => {
+                if (response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.updateExcerise(ExceriseDataItem.template_day_exercises_id);
+
+                    this.setState({EditExceriseItem :false})
+                }
+            })
+        }
 
     }
     async updateExcerise(template_day_exercises_id){
-        const {t, templateId, activeDay,ExceriseDataItem}= this.props;
-         let data = await this.props.getTemplateForDay2(templateId, activeDay);
+        const {t, templateId, planId, activeDay,ExceriseDataItem, planMode}= this.props;
+         let data = await this.props.getTemplateForDay2(planMode?planId:templateId, activeDay);
+        console.log('planId '+planId)
+
         setTimeout(() => {
-            data.day.exercises.map(item => {
-                if (item.template_day_exercises_id === template_day_exercises_id) {
-                    this.setState({
-                        ...this.state,
-                        ExceriseDataItem: item
-                    })
-                }
-            })
+            if(planMode){
+                data.exercises.map(item => {
+                    if (item.schedule_exercises_id === template_day_exercises_id) {
+                        this.setState({
+                            ...this.state,
+                            ExceriseDataItem: item
+                        })
+                    }
+                })
+            }
+            else {
+                data.day.exercises.map(item => {
+                    if (item.template_day_exercises_id === template_day_exercises_id) {
+                        this.setState({
+                            ...this.state,
+                            ExceriseDataItem: item
+                        })
+                    }
+                })
+            }
         }, 500)
     }
     onChangeHandler = (e) => {
