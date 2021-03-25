@@ -157,7 +157,7 @@ class Plan extends Component {
 
     render() {
         const {t } = this.props;
-        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem, traineesId, calendarDays} = this.state;
+        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem, traineesId, calendarDays, subscription} = this.state;
         const settings = {
             dots: false,
             infinite: false,
@@ -229,6 +229,7 @@ class Plan extends Component {
                                                             <Tab.Pane attached={false}>
                                                                 <MealComponent  daysNumber={item.profile.subscription.total_days} calendarDays={calendarDays}
                                                                                 getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
+                                                                                subscription={subscription}
                                                                                 openDetailsFunction={(e) => this.setState({
                                                                                     mealDataItem: e,
                                                                                     openDetails: true

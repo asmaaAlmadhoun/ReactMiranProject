@@ -55,7 +55,7 @@ class ExerciseComponent extends Component {
         if(planMode){
             const planService = new PlanService();
             const data = {
-                'exercise': item.schedule_exercises_id,
+                'exercise': item.exercise.exercise_id,
                 'schedule' : exerciseMealData.schedule_id
             }
             planService.DeleteExerciseTrainee(data).then(response => {

@@ -32,7 +32,8 @@ class MealComponent extends Component {
             mealItemTemplateToggle: 0,
             successState: false,
             fullCards: [],
-            fullCards2: []
+            fullCards2: [],
+            subscriptionData: []
         }
     }
 
@@ -43,6 +44,7 @@ class MealComponent extends Component {
     componentDidMount() {
         const {t} = this.props;
         toast.done(t('shared.success.addedSuccess'));
+        this.getSubscriptionData();
     }
 
     calculateCaloriesTotal() {
@@ -292,8 +294,15 @@ class MealComponent extends Component {
             }}));
         setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2})); console.log('asma')},1000)
     });
-    componentDidUpdate(prevProps) {
-        // this.Update(prevProps.exerciseMealData);
+    getSubscriptionData = () =>{
+        let {subscription} =this.props;
+        const planService = new PlanService();
+        planService.getSubscriptionData(subscription.subscription_goal_id).then(response => {
+            if (response) {
+                this.setState({subscriptionData: response.result})
+            }
+        })
+
     }
     generateMealList=(item)=>{
         const {t, planMode}= this.props;
@@ -470,6 +479,7 @@ class MealComponent extends Component {
     }
     render() {
         const {t, templateId, daysNumber, activeDay, exerciseMealData, getTemplateForDay, planMode, traineesId} = this.props;
+        let {subscriptionData}= this.state;
         const buttons = this.renderDaysButtons();
         return (
             <>
@@ -540,6 +550,7 @@ class MealComponent extends Component {
                                 </div>
                             </div>
                             {(planMode)?
+                                subscriptionData !== null?
                                 <div className="d-flex align-items-center mt-2">
                                     <span className="strip-title">
                                         {t('traineeModal.totalTargetIntakes')}
@@ -547,22 +558,23 @@ class MealComponent extends Component {
                                     <div className="stripe primary-color">
                                         <div className="">
                                             <span className="key"> {t('traineeModal.calories')}: </span>
-                                            <span className="val"> 0  </span>
+                                            <span className="val"> {subscriptionData.calories}  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.carbs')}: </span>
-                                            <span className="val"> 0  </span>
+                                            <span className="val"> {subscriptionData.carbs}  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.fat')}: </span>
-                                            <span className="val"> 0  </span>
+                                            <span className="val"> {subscriptionData.fat}  </span>
                                         </div>
                                         <div className="">
                                             <span className="key"> {t('traineeModal.protein')} : </span>
-                                            <span className="val"> 0  </span>
+                                            <span className="val"> {subscriptionData.protein}  </span>
                                         </div>
                                     </div>
                                 </div>
+                                : ''
                                 :''
                             }
                         </div>

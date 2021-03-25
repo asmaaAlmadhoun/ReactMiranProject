@@ -13,6 +13,10 @@ class PlanService extends BaseService {
         const url = this._endPoint + "assign-calories-macros-trainee/"+id+"/";
         return HTTP_REQUEST.get({target:url});
     }
+    getSubscriptionData(id) {
+        const url = this._endPoint + "assign-calories-macros-trainee/"+id+"/";
+        return HTTP_REQUEST.get({target:url});
+    }
     AddMealTrainee= async (data) => {
         if(!data)
             return ;

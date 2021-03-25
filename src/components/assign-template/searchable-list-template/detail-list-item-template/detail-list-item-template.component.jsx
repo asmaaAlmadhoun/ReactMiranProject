@@ -76,7 +76,7 @@ class DetailListItemTemplateComponent extends Component {
                 if (response.status) {
                     let DataNEW = this.props.getTemplateForDay2();
                     let Data = {};
-                    DataNEW[0].meals.map(item => {
+                    DataNEW.meals.map(item => {
                         if (item.meal.id === this.props.mealDataItem.meal.id)
                             Data = item
                     });
