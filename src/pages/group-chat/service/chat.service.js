@@ -1,7 +1,10 @@
 import { CometChat } from "@cometchat-pro/chat";
 import config from "../../../config";
 export  class  ChatService  {
-    constructor(listenId = null) {
+    constructor(listenId ) {
+        if(listenId === undefined){
+            listenId = localStorage.getItem('ChatServiceID');
+        }
         this.listenToLogin(listenId)
     }
     static LISTENER_KEY_MESSAGE = "msgListener";
@@ -30,6 +33,9 @@ export  class  ChatService  {
     }
 
     login = async (authToken) => {
+        if(authToken === undefined){
+            authToken = localStorage.getItem('ChatServiceAuthToken')
+        }
         return await  CometChat.login(authToken);
     }
 
@@ -51,12 +57,15 @@ export  class  ChatService  {
     fetchAllUsers =  async (limit , ids) => {
         let usersRequest = new CometChat.UsersRequestBuilder()
             .setLimit(50)
-            .setStatus(CometChat.USER_STATUS.OFFLINE)
+            .setStatus(CometChat.USER_STATUS.ONLINE)
             .friendsOnly(false)
             .setRole('trainee')
             .hideBlockedUsers(true)
             .build();
        const userList = await  usersRequest.fetchNext();
+       console.log('users');
+       console.log(userList);
+
     }
 
     fetchSpecificUsers = async (userIds) => {
@@ -64,6 +73,7 @@ export  class  ChatService  {
         if(userIds && userIds.length > 0) {
             const users  = [];
             userIds.forEach(id => {
+
                 CometChat.getUser(id + "_t").then(user => {
                     users.push(user);
                 });
@@ -80,6 +90,7 @@ export  class  ChatService  {
     }
     listenToLogin = (listenerId) => {
         CometChat.addLoginListener(listenerId , {loginSuccess : () => {
+         console.log('listenerId '+listenerId);
           //  alert("Login success")
             } , loginFailure: () => {
           //  alert('login failed')

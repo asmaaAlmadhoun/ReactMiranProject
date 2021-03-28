@@ -12,7 +12,7 @@ class ChatUserItemComponent extends Component {
         }
         const isArabic = t('local') === 'ar';
         return (
-            <div className="chat-user-item-card my-2">
+            <div className="chat-user-item-card p-2 my-2">
                 <div className="user-avatar">
                     <img src={avatarImg} alt="user-img" />
                 </div>

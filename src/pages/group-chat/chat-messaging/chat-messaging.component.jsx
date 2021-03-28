@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withTranslation} from "react-i18next";
 import ChatUserItemComponent from "../chat-user-item/chat-user-item.component";
-class ChatUsersComponent extends Component {
+class ChatMessagingComponent extends Component {
     render() {
         const {users} = this.props;
         const chatUserList = [];
@@ -26,7 +26,7 @@ class ChatUsersComponent extends Component {
 
     }
 }
-ChatUsersComponent.propTypes = {
+ChatMessagingComponent.propTypes = {
     users : PropTypes.array.isRequired
 }
-export default withTranslation('translation') (ChatUsersComponent);
+export default withTranslation('translation') (ChatMessagingComponent);

@@ -60,11 +60,14 @@ class App extends  React.Component {
            return ;
         //  Generate UID
         const chatService  = new ChatService(userData.id+"listen");
+        localStorage.setItem('ChatServiceID', userData.id+"listen");
         try {
             debugger;
             // the user may be have an account in cometchat or not.
        const loginStatus =      await  chatService.getAuthToken(userData.id.toString() + "_t" )
-       if(loginStatus) {
+        localStorage.setItem('ChatServiceAuthToken', loginStatus);
+
+        if(loginStatus) {
            chatService.login('').then(logging => {
                if(logging.status === "online") {
                    alert("Logged into chat")

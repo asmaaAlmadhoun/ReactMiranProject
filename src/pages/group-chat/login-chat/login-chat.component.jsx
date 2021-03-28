@@ -9,9 +9,13 @@ class LoginChatComponent extends Component {
              username : null
          }
      }
+     componentDidMount() {
+
+         this.chatLoginHandler();
+     }
 
 
-     chatLoginHandler = () => {
+    chatLoginHandler = () => {
          const {username} = this.state;
          //  Generate UID
          const uid = Math.random().toString(36).substr(2, 9);

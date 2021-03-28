@@ -35,7 +35,10 @@ class TraineeCardComponent extends Component {
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
                     <div className="ico" onClick={e => {
                         e.stopPropagation();
-                        this.props.history.push('/chat');
+                        this.props.history.push({
+                            pathname: '/chat',
+                            state: { fullData: fullData, traineesId: traineesId },
+                        });
                     }}>
                         <img src={reportIco}  alt="icon" />
                     </div>
