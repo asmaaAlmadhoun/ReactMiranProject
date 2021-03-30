@@ -58,7 +58,7 @@ class ChatGroupComponent extends Component {
                     <div className="col-sm-8">
                         {
                             this.state.loader && (this.state.users === null) ? <Loader active={true} inline='centered'/> :
-                                <ChatMessagingComponent users={this.state.users}/>
+                               '' // <ChatMessagingComponent users={this.state.users}/>
                         }
                     </div>
                 </div>

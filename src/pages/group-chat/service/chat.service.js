@@ -1,5 +1,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 import config from "../../../config";
+import Translator
+    from "../chat-component/cometchat-pro-react-ui-kit/CometChatWorkspace/src/resources/localization/translator";
 export  class  ChatService  {
     constructor(listenId ) {
         if(listenId === undefined){
@@ -23,6 +25,7 @@ export  class  ChatService  {
 
         await ChatService.init()
         const user = new CometChat.User({uid:userId, name:userName , role, avatar , metadata});
+
         return await CometChat.createUser(user,ChatService.apiKey);
     }
 
@@ -91,7 +94,7 @@ export  class  ChatService  {
     listenToLogin = (listenerId) => {
         CometChat.addLoginListener(listenerId , {loginSuccess : () => {
          console.log('listenerId '+listenerId);
-          //  alert("Login success")
+           alert("Login success")
             } , loginFailure: () => {
           //  alert('login failed')
             }})

@@ -11,10 +11,11 @@ import {ToastContainer} from "react-toastify";
 import AccountService from "./services/account-service/account.service";
 import {ChatService} from "./pages/group-chat/service/chat.service";
 import TraineeService from "./services/trainee-service/traniee.service";
+import {CometChat} from "@cometchat-pro/chat";
 
 
 
-class App extends  React.Component {
+class App1 extends  React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,6 +61,7 @@ class App extends  React.Component {
            return ;
         //  Generate UID
         const chatService  = new ChatService(userData.id+"listen");
+        localStorage.setItem('chat_uid', userData.id+'_t');
         localStorage.setItem('ChatServiceID', userData.id+"listen");
         try {
             debugger;
@@ -83,6 +85,7 @@ class App extends  React.Component {
                })
            })
        }
+
 
 
         }catch(error) {
@@ -118,4 +121,4 @@ class App extends  React.Component {
         );
     }
 }
-export default App;
+export default App1;

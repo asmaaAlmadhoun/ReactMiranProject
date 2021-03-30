@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App1 from './App1';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {I18nextProvider} from "react-i18next";
@@ -19,11 +19,17 @@ import ConfirmAlertComponent from "./pages/confirm-alert/confirm-alert.component
 import TemplateDetailsComponent from "./pages/template/template-details.component";
 import ProgressComponent from "./pages/progress/progress.component";
 import SendInvitationComponent from "./pages/send-invitation/send-invitation.component";
-import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.component";
-import ChatGroupComponent from "./pages/group-chat/chat-group.component";
+import Index from "./pages/group-chat/chat-component/index";
 import LoginChatComponent from "./pages/group-chat/login-chat/login-chat.component";
 import FaqComponent from "./pages/faq/faq.component";
 import PlanComponent from "./pages/plan/plan";
+import DisplayTraineesComponent from "./pages/display-trainees/display-trainees.component";
+import PrivateRoute from "./pages/group-chat/chat-component/PrivateRoute";
+import {
+    CometChatUI,
+    CometChatUserList,
+    CometChatUserListWithMessages
+} from "./pages/group-chat/chat-component/cometchat-pro-react-ui-kit/CometChatWorkspace/src";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -35,7 +41,7 @@ ReactDOM.render(
                   <Route path="/register" component={() => <RegisterComponent className="register-Component" />} />
                   <Route path="/forget-pw" component={() => <ForgetPasswordComponent className="forgetPw-Component" />} />
                   <Route  path="/confirm-alert" component={() => <ConfirmAlertComponent />} />
-              <App >
+              <App1 >
                   <Route path="/" exact component={HomeComponent} />
                   <Route path="/profile"  component={ProfileComponent} />
                   <Route path="/setting"  component={SettingComponent} />
@@ -45,9 +51,10 @@ ReactDOM.render(
                   <Route path="/plan"  component={PlanComponent} />
                   <Route path="/faq"  component={FaqComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
-                  <Route path="/chat" component={ChatGroupComponent} />
+                  <Route path="/chat" component={CometChatUI} />
+                  <Route path="/chat-app" component={CometChatUI} />
                   <Route path="/chat2" component={LoginChatComponent} />
-              </App>
+              </App1>
               </Switch>
           </Router>
       </I18nextProvider>

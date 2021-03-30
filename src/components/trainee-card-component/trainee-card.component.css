@@ -6,7 +6,9 @@
     margin: auto;
     display: block;
 }
-
+.trainee-card a, .trainee-card span{
+    color: #4183c4 !important;
+}
 .trainee-card .user-img {
     margin: auto;
     margin-top: 8px;

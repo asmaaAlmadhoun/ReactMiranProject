@@ -42,9 +42,11 @@ class MealComponent extends Component {
     }
 
     componentDidMount() {
-        const {t} = this.props;
+        const {t, planMode} = this.props;
         toast.done(t('shared.success.addedSuccess'));
-        this.getSubscriptionData();
+        if(planMode){
+            this.getSubscriptionData();
+        }
     }
 
     calculateCaloriesTotal() {

@@ -4,12 +4,17 @@
   "private": true,
   "dependencies": {
     "@cometchat-pro/chat": "^2.1.4",
+    "@emotion/core": "^10.0.35",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "aes-js": "^3.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "dateformat": "^4.0.0",
+    "emoji-mart": "^3.0.0",
+    "extract-zip": "^2.0.1",
+    "fs-extra": "^9.0.1",
     "history": "^5.0.0",
     "i18next": "^19.8.2",
     "immutability-helper": "^3.1.1",
@@ -21,20 +26,26 @@
     "react-dnd": "^13.1.1",
     "react-dnd-html5-backend": "^12.1.1",
     "react-dom": "^17.0.1",
+    "react-html-parser": "^2.0.2",
     "react-i18next": "^11.7.3",
     "react-icons": "^3.11.0",
     "react-images-upload": "^1.2.8",
     "react-lottie": "^1.2.3",
     "react-phone-number-input": "^3.1.4",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-select": "^3.1.0",
     "react-slick": "^0.27.12",
     "react-toastify": "^6.0.9",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "rimraf": "^3.0.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
     "slick-carousel": "^1.8.1",
     "sodium-plus": "^0.9.0",
+    "twemoji": "^13.0.1",
     "web-vitals": "^0.2.4"
   },
   "homepage": ".",
@@ -61,5 +72,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.12.1"
   }
 }
