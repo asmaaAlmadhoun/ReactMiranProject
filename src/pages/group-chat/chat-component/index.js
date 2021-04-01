@@ -35,7 +35,7 @@ export default class Index extends React.Component{
     componentDidMount() {
         let AppReturned=<></>
         CometChat.init(appID, appSetting).then(() => {
-                console.log('asma')
+                // console.log('asma')
 
                 if(CometChat.setSource) {
                     CometChat.setSource("ui-kit", "web", "reactjs");

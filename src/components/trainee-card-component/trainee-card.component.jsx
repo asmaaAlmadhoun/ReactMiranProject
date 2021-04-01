@@ -36,7 +36,7 @@ class TraineeCardComponent extends Component {
                     <div className="ico" onClick={e => {
                         e.stopPropagation();
                         this.props.history.push({
-                            pathname: '/chat',
+                            pathname: '/chat-app',
                             state: { fullData: fullData, traineesId: traineesId },
                         });
                     }}>

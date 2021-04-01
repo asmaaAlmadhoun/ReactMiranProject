@@ -99,7 +99,7 @@ class TraineeModalNoteComponent extends Component {
                 }>
                     <h3 className="btn-primary text-center w-75 mx-auto mb-5">{t('traineeModal.notes')}</h3>
                     {
-                        this.state.notes.length > 0 ?
+                        this.state.notes && this.state.notes.length ?
                             this.state.notes.map( (item,i) => {
                                 return (
                                     <div className='my-3' key={item.id}>

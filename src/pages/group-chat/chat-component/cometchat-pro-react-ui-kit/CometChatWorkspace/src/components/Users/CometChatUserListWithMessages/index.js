@@ -18,6 +18,11 @@ import {
   userScreenMainStyle,
   userScreenSecondaryStyle
 } from "./style"
+import {COMETCHAT_CONSTANTS} from "../../../../../../consts";
+var appID = COMETCHAT_CONSTANTS.APP_ID;
+var region = COMETCHAT_CONSTANTS.REGION;
+
+var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
 
 class CometChatUserListWithMessages extends React.Component {
 
@@ -48,15 +53,39 @@ class CometChatUserListWithMessages extends React.Component {
     this.messageScreenRef = React.createRef();
     this.loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     this.setState({loggedInUser: this.loggedInUser})
-    console.log(this.loggedInUser)
-
+    console.log(this.loggedInUser + 'Asmaa Chat')
+    this.init();
     // CometChat.getLoggedinUser().then((user) => {
     //   this.loggedInUser = user;
     // }).catch((error) => {
     //   console.log("[CometChatUnified] getLoggedinUser error", error);
     // });
   }
-  
+  init = () =>{
+    CometChat.init(appID, appSetting).then(() => {
+          console.log('jjjj')
+
+          if(CometChat.setSource) {
+            CometChat.setSource("ui-kit", "web", "reactjs");
+          }
+          console.log("Initialization completed successfully");
+        },
+        error => {
+          console.log("Initialization failed with error:", error);
+          // Check the reason for error and take appropriate action.
+        }
+    )
+    CometChat.getLoggedinUser().then((user) => {
+      // console.log('asma 111')
+
+      this.loggedInUser = user;
+      console.log(this.loggedInUser)
+
+    }).catch((error) => {
+      console.log("[CometChatUnified] getLoggedinUser error", error);
+    });
+  }
+
   componentDidMount() {
 
     if(!Object.keys(this.state.item).length) {

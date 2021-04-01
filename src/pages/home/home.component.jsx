@@ -34,6 +34,7 @@ class HomeComponent extends Component {
             this.setState({isLoading : false})
             if(data && data.status) {
                 this.setState({trainees : data.result})
+                localStorage.setItem('trainees', JSON.stringify(data.result));
             }
         }).catch(error => {
             this.setState({isLoading : false})
@@ -113,12 +114,12 @@ class HomeComponent extends Component {
                                          {
                                              this.state.requests.length >0 ?
                                                  this.state.requests.map( (item,i) => {
-                                                     const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                                     const _imgPath = item.trainee_avatar  ? 'https://miranapp.com/media/' +  item.trainee_avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                      return (
                                                          <div className="col-md-3 mt-4" key={i}>
                                                              <Card
                                                                  image={_imgPath}
-                                                                 header='Elliot Baker'
+                                                                 header={item.trainee_name} onClick={(e)=>this.setState({'openModalRequest':true})}
                                                                  className='text-center card-custom'
                                                                  extra={
                                                                      <button className='btn-secondary w-75 m-auto' >
@@ -126,7 +127,8 @@ class HomeComponent extends Component {
                                                                      </button>
                                                                  }
                                                              />
-                                                             <ProfileModalComponent isOpen={openModalRequest} requestClass={true} requestId={item.id}/>
+                                                             {console.log(item.profile)}
+                                                             <ProfileModalComponent isOpenProfile={openModalRequest} profileData={this.state.trainees} requestClass={true} traineesId={item.trainee} requestId={item.id}/>
                                                          </div>
                                                      );
                                                  }): ''
@@ -140,12 +142,12 @@ class HomeComponent extends Component {
                                              {
                                                  this.state.requests.length >0 ?
                                                      this.state.requests.map( (item,i) => {
-                                                         const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
+                                                         const _imgPath = item.trainee_avatar ? 'https://miranapp.com/media/' +  item.trainee_avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                          return (
                                                              <div className="col-md-3 mt-4" key={i}>
                                                                  <Card
                                                                      image={_imgPath}
-                                                                     header='Elliot Baker'
+                                                                     header={item.trainee_name}
                                                                      className='text-center card-custom'
                                                                      extra={
                                                                          <button className='btn-secondary w-75 m-auto' onClick={(e) => {

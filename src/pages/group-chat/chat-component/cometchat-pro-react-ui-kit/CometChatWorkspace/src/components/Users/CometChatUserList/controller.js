@@ -11,6 +11,7 @@ export class UserListManager {
             this.usersRequest = new CometChat.UsersRequestBuilder().setLimit(30).friendsOnly(friendsOnly).setSearchKeyword(searchKey).build();
         } else {
             this.usersRequest = new CometChat.UsersRequestBuilder().setLimit(30).friendsOnly(friendsOnly).build();
+
         }
     }
 

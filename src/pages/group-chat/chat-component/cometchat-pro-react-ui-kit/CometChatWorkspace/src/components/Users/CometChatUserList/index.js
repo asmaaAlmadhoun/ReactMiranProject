@@ -27,6 +27,7 @@ import {
 
 import searchIcon from "./resources/search-grey-icon.png";
 import navigateIcon from "./resources/navigate.png";
+import {Loader} from "semantic-ui-react";
 
 class CometChatUserList extends React.PureComponent {
   timeout;
@@ -39,7 +40,8 @@ class CometChatUserList extends React.PureComponent {
     this.state = {
       userlist: props.userlist,
       selectedUser: null,
-      lang: props.lang
+      lang: props.lang,
+      loading: false
     }
     
     this.decoratorMessage = Translator.translate("LOADING", props.lang);
@@ -69,6 +71,8 @@ class CometChatUserList extends React.PureComponent {
     this.UserListManager = new UserListManager(this.friendsOnly);
     this.getUsers();
     this.UserListManager.attachListeners(this.userUpdated);
+
+
   }
 
   componentDidUpdate(prevProps) {
@@ -190,24 +194,43 @@ class CometChatUserList extends React.PureComponent {
   getUsers = () => {
     // this.setState({ userlist:  localStorage.getItem('userlist') });
     // this.decoratorMessage = Translator.translate("NO_USERS_FOUND", this.state.lang);
-    CometChat.getLoggedinUser().then((user) => {
-      this.UserListManager.fetchNextUsers().then((userList) => {
-        if(userList.length === 0) {
-          this.decoratorMessage = Translator.translate("NO_USERS_FOUND", this.state.lang);
-        }
+    let trainees = JSON.parse(localStorage.getItem('trainees'));
+    let userListTrainees = [];
 
-        this.setState({ userlist: [...this.state.userlist, ...userList] });
-
-      }).catch((error) => {
-
-        this.decoratorMessage = Translator.translate("ERROR", this.state.lang);
-        console.error("[CometChatUserList] getUsers fetchNext error", error);
+    for (let i=0 ; i< trainees.length; i++){
+      CometChat.getUser(trainees[i].id + "_t").then(user => {
+         user.setUid(trainees[i].id );
+         userListTrainees.push(user);
       });
+    }
+    this.setState({ loading: true})
 
-    }).catch((error) => {
-      this.decoratorMessage = Translator.translate("ERROR", this.state.lang);
-      console.log("[CometChatUserList] getUsers getLoggedinUser error", error);
-    });
+
+    setTimeout(()=>{
+      console.log(userListTrainees)
+      this.setState({ userlist: [...this.state.userlist, ...userListTrainees],  loading: false })
+    },1500)
+
+    // CometChat.getLoggedinUser().then((user) => {
+    //   this.UserListManager.fetchNextUsers().then((userList) => {
+    //     if(userList.length === 0) {
+    //       this.decoratorMessage = Translator.translate("NO_USERS_FOUND", this.state.lang);
+    //     }
+    //
+    //     this.setState({ userlist: [...this.state.userlist, ...userList] });
+    //
+    //
+    //   }).catch((error) => {
+    //
+    //     this.decoratorMessage = Translator.translate("ERROR", this.state.lang);
+    //     console.error("[CometChatUserList] getUsers fetchNext error", error);
+    //   });
+    //
+    // }).catch((error) => {
+    //   this.decoratorMessage = Translator.translate("ERROR", this.state.lang);
+    //   console.log("[CometChatUserList] getUsers getLoggedinUser error", error);
+    // });
+
   }
 
   render() {
@@ -255,7 +278,14 @@ class CometChatUserList extends React.PureComponent {
     }
 
     return (
-      <div style={contactWrapperStyle()} className="contacts">
+        this.state.loading ?
+            <div className="row">
+              <div className="col-sm-12">
+                <Loader active={this.state.loading} inline='centered' />
+              </div>
+            </div> :
+            <div style={contactWrapperStyle()} className="contacts">
+
         {/*<div style={contactHeaderStyle(this.props.theme)} className="contacts__header">*/}
         {/*  {closeBtn}*/}
         {/*  <h4 style={contactHeaderTitleStyle(this.props)} className="header__title" dir={Translator.getDirection(this.state.lang)}>{Translator.translate("USERS", this.state.lang)}</h4>*/}

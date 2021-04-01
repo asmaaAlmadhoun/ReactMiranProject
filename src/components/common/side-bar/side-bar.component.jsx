@@ -80,7 +80,7 @@ class SideBarComponent extends Component {
                             <Menu.Item as='a'
                                        className={this.state.active === 'chats' ? 'active' : {}}
                                        onClick={e => {
-                                           this.props.history.push('/chat');
+                                           this.props.history.push('/users');
                                            this.setState({ active: 'chats' });
                                        }}>
                                   <Image src={chatIcon} className='icon' width={25} />

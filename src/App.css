@@ -187,6 +187,18 @@ ul {
 .unified__main{
   width: 70%;
 }
+.ui.menu, .form-control, .ui.modal>.content{
+  font-size: 1.4rem !important;
+}
 .chat__composer div:first-child{
   overflow: hidden;
+}
+.message__img__wrapper{
+  overflow: hidden;
+}
+.message__img__wrapper img{
+  height: 100%;
+}
+a, a:active, a:hover, a:visited{
+
 }

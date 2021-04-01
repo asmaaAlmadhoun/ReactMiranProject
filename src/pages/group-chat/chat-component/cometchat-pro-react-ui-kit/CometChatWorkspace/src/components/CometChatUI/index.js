@@ -73,16 +73,11 @@ class CometChatUI extends React.Component {
     this.navBarRef = React.createRef();
     this.incomingMessageRef = React.createRef();
     this.loggedInUser = localStorage.getItem('loggedInUser')
-    // CometChat.getLoggedinUser().then((user) => {
-    //   this.loggedInUser = user;
-    //
-    // }).catch((error) => {
-    //   console.log("[CometChatUnified] getLoggedinUser error", error);
-    // });
+    this.init();
   }
-  componentWillMount() {
+  init = () =>{
     CometChat.init(appID, appSetting).then(() => {
-          console.log('asma 8888888')
+          // console.log('asma 8888888')
 
           if(CometChat.setSource) {
             CometChat.setSource("ui-kit", "web", "reactjs");
@@ -94,18 +89,12 @@ class CometChatUI extends React.Component {
           // Check the reason for error and take appropriate action.
         }
     )
-    CometChat.getLoggedinUser().then((user) => {
-      console.log('asma 77777')
+   setTimeout(()=>{
 
-      this.loggedInUser = user;
-      console.log(this.loggedInUser)
 
-      }).catch((error) => {
-        console.log("[CometChatUnified] getLoggedinUser error", error);
-      });
-
+   },1000)
   }
-  
+
   componentDidMount() {
     console.log('done 4 ');
 

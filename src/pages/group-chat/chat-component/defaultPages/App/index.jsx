@@ -30,7 +30,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.props.getLoggedinUser();
-        console.log('asma 2 ');
+        // console.log('asma 2 ');
 
     }
 
