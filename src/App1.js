@@ -40,6 +40,50 @@ class App1 extends  React.Component {
       await this.chatLoginHandler();
 
     }
+    chatLoginHandler = async () => {
+        const accountService = new AccountService();
+        const userData = JSON.parse( accountService.userData);
+        if (!userData)
+            return ;
+        //  Generate UID
+        const chatService  = new ChatService(userData.id+"listen");
+        localStorage.setItem('chat_uid', userData.id+'_t');
+        localStorage.setItem('ChatServiceID', userData.id+"listen");
+        chatService.login(chatService.getAuthToken(userData.id.toString() + "_t" )).then(logging => {
+            if(logging.status === "online") {
+                alert("Logged into chat")
+            }
+        })
+        debugger;
+        try {
+            debugger;
+            // the user may be have an account in cometchat or not.
+            const loginStatus =      await  chatService.getAuthToken(userData.id.toString() + "_t" )
+            localStorage.setItem('ChatServiceAuthToken', loginStatus);
+
+            if(loginStatus) {
+                chatService.login('').then(logging => {
+                    if(logging.status === "online") {
+                        alert("Logged into chat")
+                    }
+                })
+            }else {
+                chatService.createUser({userId: userData.id.toString() + "_t" , userName : userData.email , metadata:accountService.userData }).then(user => {
+                    chatService.getAuthToken(user.uid).then(token => {
+                        chatService.login(token.authToken).then(logging => {
+                            if(logging.status === "online") {
+                            }
+                        })
+                    })
+                })
+            }
+
+
+
+        }catch(error) {
+            console.log(error)
+        }
+    }
 
 
     displayScrollbar  = () => {
@@ -52,46 +96,6 @@ class App1 extends  React.Component {
 
     }
 
-
-
-    chatLoginHandler = async () => {
-       const accountService = new AccountService();
-       const userData = JSON.parse( accountService.userData);
-       if (!userData)
-           return ;
-        //  Generate UID
-        const chatService  = new ChatService(userData.id+"listen");
-        localStorage.setItem('chat_uid', userData.id+'_t');
-        localStorage.setItem('ChatServiceID', userData.id+"listen");
-        try {
-            debugger;
-            // the user may be have an account in cometchat or not.
-       const loginStatus =      await  chatService.getAuthToken(userData.id.toString() + "_t" )
-        localStorage.setItem('ChatServiceAuthToken', loginStatus);
-
-        if(loginStatus) {
-           chatService.login('').then(logging => {
-               if(logging.status === "online") {
-                   alert("Logged into chat")
-               }
-           })
-       }else {
-           chatService.createUser({userId: userData.id.toString() + "_t" , userName : userData.email , metadata:accountService.userData }).then(user => {
-               chatService.getAuthToken(user.uid).then(token => {
-                   chatService.login(token.authToken).then(logging => {
-                       if(logging.status === "online") {
-                       }
-                   })
-               })
-           })
-       }
-
-
-
-        }catch(error) {
-           console.log(error)
-        }
-    }
 
     render() {
         if(!this.state.isAuthorize) {

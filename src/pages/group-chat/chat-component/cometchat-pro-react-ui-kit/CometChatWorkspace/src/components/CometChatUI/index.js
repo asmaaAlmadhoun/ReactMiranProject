@@ -25,9 +25,13 @@ import {COMETCHAT_CONSTANTS} from "../../../../../consts";
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
 import App from "../../../../../defaultPages/App";
+import AccountService from "../../../../../../../../services/account-service/account.service";
+import {ChatService} from "../../../../../../service/chat.service";
+import {Loader} from "semantic-ui-react";
 
 var appID = COMETCHAT_CONSTANTS.APP_ID;
 var region = COMETCHAT_CONSTANTS.REGION;
+var auth = COMETCHAT_CONSTANTS.AUTH_KEY;
 
 var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
 
@@ -66,7 +70,8 @@ class CometChatUI extends React.Component {
       lastmessage: {},
       lang: props.lang,
       unreadMessages: [],
-      ongoingDirectCall: false
+      ongoingDirectCall: false,
+      loading: true
     }
 
     this.messageScreenRef = React.createRef();
@@ -74,11 +79,12 @@ class CometChatUI extends React.Component {
     this.incomingMessageRef = React.createRef();
     this.loggedInUser = localStorage.getItem('loggedInUser')
     this.init();
+    this.chatLoginHandler();
   }
   init = () =>{
     CometChat.init(appID, appSetting).then(() => {
-          // console.log('asma 8888888')
-
+           console.log('asma 8888888' + CometChat.getLoggedinUser())
+          this.loggedInUser = CometChat.getLoggedinUser()
           if(CometChat.setSource) {
             CometChat.setSource("ui-kit", "web", "reactjs");
           }
@@ -89,14 +95,54 @@ class CometChatUI extends React.Component {
           // Check the reason for error and take appropriate action.
         }
     )
-   setTimeout(()=>{
-
-
-   },1000)
+   // setTimeout(()=>{
+   //
+   //
+   // },2000)
+  }
+  chatLoginHandler = async () => {
+    console.log('login auth');
+    const accountService = new AccountService();
+    const userData = JSON.parse( accountService.userData);
+    if (!userData)
+      return ;
+    //  Generate UID
+    const chatService  = new ChatService(userData.id+"listen");
+    localStorage.setItem('chat_uid', userData.id+'_t');
+    localStorage.setItem('ChatServiceID', userData.id+"listen");
+    try {
+      debugger;
+      // the user may be have an account in cometchat or not.
+      const loginStatus =      await  chatService.getAuthToken(userData.id.toString() + "_t" )
+      localStorage.setItem('ChatServiceAuthToken', loginStatus);
+      if(loginStatus) {
+        chatService.login('').then(logging => {
+          if(logging.status === "online") {
+            alert("Logged into chat")
+          }
+        })
+      }else {
+        chatService.createUser({userId: userData.id.toString() + "_t" , userName : userData.email , metadata:accountService.userData }).then(user => {
+          chatService.getAuthToken(user.uid).then(token => {
+            chatService.login(token.authToken).then(logging => {
+              if(logging.status === "online") {
+              }
+            })
+          })
+        })
+      }
+    }catch(error) {
+      console.log(error)
+    }
   }
 
   componentDidMount() {
     console.log('done 4 ');
+    console.log('done LoggedInUser '+ this.loggedInUser);
+    setTimeout(()=>{
+      this.setState({loading:false});
+    },1000)
+
 
     if(!Object.keys(this.state.item).length) {
       this.toggleSideBar();
@@ -565,7 +611,8 @@ class CometChatUI extends React.Component {
     }
 
     return (
-      <div style={unifiedStyle(this.props.theme)} className="cometchat cometchat--unified" dir={Translator.getDirection(this.state.lang)}>
+        this.state.loading? <Loader active={true} inline='centered' /> :
+          <div style={unifiedStyle(this.props.theme)} className="cometchat cometchat--unified" dir={Translator.getDirection(this.state.lang)}>
         <div style={unifiedSidebarStyle(this.state, this.props)} className="unified__sidebar">
           <CometChatNavBar 
           ref={el => this.navBarRef = el}
@@ -588,6 +635,7 @@ class CometChatUI extends React.Component {
         <CometChatIncomingCall theme={this.props.theme} lang={this.state.lang} actionGenerated={this.actionHandler} />
         {incomingMessageView}
       </div>
+
     );
   }
 }

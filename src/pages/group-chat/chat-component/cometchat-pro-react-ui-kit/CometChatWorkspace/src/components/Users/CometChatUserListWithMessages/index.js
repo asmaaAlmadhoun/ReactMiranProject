@@ -19,6 +19,7 @@ import {
   userScreenSecondaryStyle
 } from "./style"
 import {COMETCHAT_CONSTANTS} from "../../../../../../consts";
+import {ChatService} from "../../../../../../../service/chat.service";
 var appID = COMETCHAT_CONSTANTS.APP_ID;
 var region = COMETCHAT_CONSTANTS.REGION;
 
@@ -63,7 +64,10 @@ class CometChatUserListWithMessages extends React.Component {
   }
   init = () =>{
     CometChat.init(appID, appSetting).then(() => {
-          console.log('jjjj')
+          console.log('jjjj');
+          let chatService= new ChatService();
+          this.loggedInUser= chatService.getCurrentUser();
+          console.log('jjjj'+ chatService.getCurrentUser());
 
           if(CometChat.setSource) {
             CometChat.setSource("ui-kit", "web", "reactjs");
@@ -75,15 +79,15 @@ class CometChatUserListWithMessages extends React.Component {
           // Check the reason for error and take appropriate action.
         }
     )
-    CometChat.getLoggedinUser().then((user) => {
-      // console.log('asma 111')
-
-      this.loggedInUser = user;
-      console.log(this.loggedInUser)
-
-    }).catch((error) => {
-      console.log("[CometChatUnified] getLoggedinUser error", error);
-    });
+    // CometChat.getLoggedinUser().then((user) => {
+    //   // console.log('asma 111')
+    //
+    //   this.loggedInUser = user;
+    //   console.log(this.loggedInUser)
+    //
+    // }).catch((error) => {
+    //   console.log("[CometChatUnified] getLoggedinUser error", error);
+    // });
   }
 
   componentDidMount() {

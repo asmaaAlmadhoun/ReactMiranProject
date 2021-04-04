@@ -194,7 +194,7 @@ class CometChatConversationListItem extends React.Component {
   getMessage = (lastMessage) => {
 
     let message = null;
-    const sender = (this.props.loggedInUser.uid !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
+    const sender = (localStorage.getItem('chat_uid') !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
 
     switch (lastMessage.type) {
 

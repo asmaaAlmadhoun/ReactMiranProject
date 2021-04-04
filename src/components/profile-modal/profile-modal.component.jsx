@@ -75,6 +75,7 @@ class ProfileModalComponent extends Component {
                             (profileData && profileData.length) ?
                                 profileData.map( (item) =>
                                     item.id === traineesId ?
+                                        item.profile !== null?
                                         <div className='card'>
                                             <div className="card-header text-right">
                                                 <div className="row">
@@ -114,8 +115,10 @@ class ProfileModalComponent extends Component {
                                                 </div>
                                                 <div className='my-2'>
                                                     <label className='text-primary'>{t('profile.nationality')}</label>
-                                                    <p>{t('local')==='ar' ? item.profile.nationality.name_ar : item.profile.nationality.name }</p>
-                                                    <hr/>
+                                                    {item.profile.nationality?
+                                                        <p>{t('local')==='ar' ? item.profile.nationality.name_ar : item.profile.nationality.name }</p>
+                                                        :''}
+                                                   <hr/>
                                                 </div>
                                                 <div className='my-2'>
                                                     <label className='text-primary'>{t('profile.height')}</label>
@@ -151,7 +154,7 @@ class ProfileModalComponent extends Component {
 
                                             </div>
                                         </div>
-                                    : ''
+                                    :  <EmptyComponent /> :''
                                 )
                                 :
                                 <EmptyComponent />

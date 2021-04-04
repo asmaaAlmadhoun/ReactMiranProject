@@ -15,6 +15,8 @@ import { COMETCHAT_CONSTANTS } from './consts';
 import reducer from './store/reducer';
 
 import './index.scss';
+import AccountService from "../../../services/account-service/account.service";
+import {ChatService} from "../service/chat.service";
 
 const store = createStore(reducer, compose(
   applyMiddleware(thunk)
@@ -55,6 +57,7 @@ export default class Index extends React.Component{
             }
         )
     }
+
 
     render() {
         return(this.state.AppReturned);

@@ -32,7 +32,7 @@ export  class  ChatService  {
     getAuthToken = async (uid) => {
         const apiKEY =  ChatService.apiKey;
         debugger;
-        return await CometChat.login(uid ,apiKEY);
+        return await CometChat.login(uid ,apiKEY)
     }
 
     login = async (authToken) => {
