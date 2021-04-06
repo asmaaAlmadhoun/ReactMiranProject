@@ -131,7 +131,7 @@ class ProfileComponent extends Component {
                                                    <div >
                                                        <Select style={{textAlign:t('local')==='ar' ? 'right' : 'left'}}
                                                                fluid placeholder={t('profile.genderSelect')}
-                                                                value={this.state.data && this.state.data.profile.gender.name}
+                                                               value={this.state.data && this.state.data.profile.gender.name}
                                                                onChange={ (e , v)=> {
                                                                    console.log(v);
                                                                    const _data = this.state.data;

@@ -9,7 +9,7 @@ class EmptyDataComponent extends Component {
     render() {
         return (
             <div className="text-center mt-4" style={{width:'100%'}}>
-                <img src={EmptyPage} alt="empty" className='w-25' />
+                <img src={EmptyPage} alt="empty" className='w-25 m-auto' />
                 <h5 className='my-3'>{this.props.title}</h5>
             </div>
         );

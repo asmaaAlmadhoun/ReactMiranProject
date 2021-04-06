@@ -164,6 +164,9 @@ ul {
 .f-2{
   font-size: 2rem;
 }
+.f-1{
+  font-size: 1rem;
+}
 .f-5-half{
   font-size: 2.5rem;
 }
@@ -202,7 +205,7 @@ ul {
 .react-confirm-alert-button-group{
   justify-content: flex-end;
 }
-.ui.segment, .ui.segments .segment{
+.ui.segment, .ui.segments .segment, .ui.button, .ui.buttons .button, .ui.buttons .or{
   font-size: 1.4rem !important;
 }
 .option__audiocall-user,.option__videocall-user, .button__reactions{
@@ -213,4 +216,13 @@ ul {
 }
 .footer__navbar .navbar__item:nth-child(4), .footer__navbar .navbar__item:nth-child(3){
   display: none !important;
+}
+.react-confirm-alert-body{
+  text-align: center !important;
+}
+.react-confirm-alert-button-group {
+  justify-content: center !important;
+}
+.ui.label, .ui.labels .label{
+  font-size: 1.2rem !important;
 }

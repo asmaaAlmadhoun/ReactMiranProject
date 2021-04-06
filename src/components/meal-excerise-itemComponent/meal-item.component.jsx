@@ -187,13 +187,13 @@ class MealItemComponent extends Component {
                             <textarea value={mealDataItem.comment} rows='4' className='bg-light w-100 my-4 form-control'/>
                         </div>
                     </div>
-                    <div className="meal-buttons text-left">
+                    <div className="meal-buttons d-flex flex-row-reverse">
                         <button onClick={e => {
                             e.preventDefault();
                             this.setState({__addModal__: true});
-                        }} className="ui button icon primary p-1">
-                            <FiPlus />
-                            <div className='f-1-half'>{t('templatePage.addFood')}</div>
+                        }} className="ui button icon primary py-2 px-1">
+                            <FiPlus className='f-2'/>
+                            <div className='f-1'>{t('templatePage.addFood')}</div>
                         </button>
                     </div>
                 </div>

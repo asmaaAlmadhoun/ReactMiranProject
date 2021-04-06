@@ -142,7 +142,7 @@ class DetailListItemTemplateComponent extends Component {
             <div className={t('local')==='ar' ? 'text-right' : ''}>
                 <div className="row detail-list">
                     <div className="col-sm-12 text-center">
-                        <img className='w-50' src={this.state.imgDefaultPath+this.props.MealForThisDay.image} alt="image"/>
+                        <img className='w-50 m-auto' src={this.state.imgDefaultPath+this.props.MealForThisDay.image} alt="image"/>
                         <h3 className='my-4'>{t('local')==='ar' ? this.props.MealForThisDay.title_ar : this.props.MealForThisDay.title}</h3>
                     </div>
                     <div className="col-sm-6 text-center">
@@ -172,7 +172,7 @@ class DetailListItemTemplateComponent extends Component {
                         </div>
                     </div>
                     <div className='text-center w-100 mt-4'>
-                        <button className="btn btn-secondary w-50" onClick={(e)=> this.addFood()}>
+                        <button className="btn btn-secondary w-50 m-auto" onClick={(e)=> this.addFood()}>
                             {
                                 this.props.EditMealItem ?
                                     t('templatePage.editFood')

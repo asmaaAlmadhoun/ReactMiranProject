@@ -64,10 +64,10 @@ class CometChatUserListWithMessages extends React.Component {
   }
   init = () =>{
     CometChat.init(appID, appSetting).then(() => {
-          console.log('jjjj');
+          // console.log('jjjj');
           let chatService= new ChatService();
           this.loggedInUser= chatService.getCurrentUser();
-          console.log('jjjj'+ chatService.getCurrentUser());
+          // console.log('jjjj'+ chatService.getCurrentUser());
 
           if(CometChat.setSource) {
             CometChat.setSource("ui-kit", "web", "reactjs");

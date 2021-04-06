@@ -351,7 +351,7 @@ class MealComponent extends Component {
                         }
                     </div>
                 </div>
-                <div className="col-sm-6 text-left">
+                <div className="col-sm-6">
                     <div className="icons d-flex flex-row-reverse">
                         <span className="icon delete"
                               onClick={(e) => {
@@ -371,14 +371,17 @@ class MealComponent extends Component {
                                     <FiMove/>
                                 </span>
                     </div>
-                    <button className="btn btn-secondary w-50 mt-3 p-1"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                this.openDetailsFunc(item);
-                            }}>
-                        {t('traineeModal.mealDetails')}
-                    </button>
+                    <div className='d-flex flex-row-reverse'>
+                        <button className="btn btn-secondary w-50 mt-3 p-1"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    this.openDetailsFunc(item);
+                                }}>
+                            {t('traineeModal.mealDetails')}
+                        </button>
+                    </div>
+
                 </div>
                 <div className="col-sm-6">
                     <div>
