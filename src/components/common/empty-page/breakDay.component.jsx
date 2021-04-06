@@ -10,10 +10,10 @@ class BreakDayComponent extends Component {
         const {t}= this.props;
         return (
             <div className="text-center mt-4" style={{width:'100%'}}>
-                <img src={EmptyPage} alt="empty" className='w-50'/>
+                <img src={EmptyPage} alt="empty" className='w-50 m-auto'/>
                 <i className='centerIcon'>
                     <FaGlassMartiniAlt/>
-                    <span className='text-white'>{t('shared.breakday')}</span>
+                    <div className='text-white'>{t('shared.breakday')}</div>
                 </i>
             </div>
         );

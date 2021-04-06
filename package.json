@@ -23,6 +23,7 @@
     "prop-types": "^15.7.2",
     "qier-player": "^1.2.10",
     "react": "^17.0.1",
+    "react-confirm-alert": "^2.7.0",
     "react-dnd": "^13.1.1",
     "react-dnd-html5-backend": "^12.1.1",
     "react-dom": "^17.0.1",

@@ -9,7 +9,7 @@ a {
   text-decoration: none !important;
 }
 a, a:visited, a:active, a:hover {
-  color: #4183c4;
+  color: #4183c4 !important;
 }
 .btn-primary {
   background-color: #122027 !important;
@@ -199,6 +199,18 @@ ul {
 .message__img__wrapper img{
   height: 100%;
 }
-a, a:active, a:hover, a:visited{
-
+.react-confirm-alert-button-group{
+  justify-content: flex-end;
+}
+.ui.segment, .ui.segments .segment{
+  font-size: 1.4rem !important;
+}
+.option__audiocall-user,.option__videocall-user, .button__reactions{
+  display: none !important;
+}
+.chat__details{
+  width: calc(100% - 36px);
+}
+.footer__navbar .navbar__item:nth-child(4), .footer__navbar .navbar__item:nth-child(3){
+  display: none !important;
 }

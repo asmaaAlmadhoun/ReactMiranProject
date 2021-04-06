@@ -24,7 +24,11 @@ const EnglishTranslation = {
         },
         warnings : {
             emailExistBefore : 'email address already exists'
-        }
+        },
+        confirmMessage: 'Are you sure to delete this.',
+        confirmTitle: 'Confirm to submit',
+        yes: 'Yes',
+        no: 'No',
     },
     breadcrumb :  {
         overview : 'Overview',
@@ -63,6 +67,7 @@ const EnglishTranslation = {
         addDoc:'Add Documents',
         next : 'Next',
         previous:'Previous',
+        genderSelect:'Select your Gender'
     },
     forgetPwPage : {
         success : "A reset link has been sent to your email",

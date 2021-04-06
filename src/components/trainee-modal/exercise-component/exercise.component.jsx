@@ -26,6 +26,9 @@ import EmptyDataComponent from "../../common/empty-page/emptyData.component";
 import DetailListItemTemplateComponent
     from "../../assign-template/searchable-list-template/detail-list-item-template/detail-list-item-template.component";
 import PlanService from "../../../services/plan-service/plan.service";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 class ExerciseComponent extends Component {
     constructor(props) {
         super(props);
@@ -50,37 +53,50 @@ class ExerciseComponent extends Component {
     }
     deleteExerciseTemplate(e,item){
         e.stopPropagation();
-        // deleteExerciseTemplate
         const {t, planMode, exerciseMealData} = this.props;
-        if(planMode){
-            const planService = new PlanService();
-            const data = {
-                'exercise': item.exercise.exercise_id,
-                'schedule' : exerciseMealData.schedule_id
-            }
-            planService.DeleteExerciseTrainee(data).then(response => {
-                if (response) {
-                    toast.done(t('shared.success.addedSuccess'));
-                    this.props.getTemplateForDay2();
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
+        confirmAlert({
+            title: t('shared.confirmTitle'),
+            message: t('shared.confirmMessage'),
+            buttons: [
+                {
+                    label: t('shared.yes'),
+                    onClick: () => {
+                        if(planMode){
+                            const planService = new PlanService();
+                            const data = {
+                                'exercise': item.exercise.exercise_id,
+                                'schedule' : exerciseMealData.schedule_id
+                            }
+                            planService.DeleteExerciseTrainee(data).then(response => {
+                                if (response) {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                    this.props.getTemplateForDay2();
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
+                        }
+                        else {
+                            const templateServices = new TemplateServices();
+                            const data = {
+                                'template_day_exercises_id': item.template_day_exercises_id,
+                            }
+                            templateServices.deleteExerciseTemplate(data).then(response => {
+                                if (response) {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                    this.props.getTemplateForDay2();
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
+                        }
+                    }
+                },
+                {
+                    label: t('shared.no'),
                 }
-            })
-        }
-        else {
-            const templateServices = new TemplateServices();
-            const data = {
-                'template_day_exercises_id': item.template_day_exercises_id,
-            }
-            templateServices.deleteExerciseTemplate(data).then(response => {
-                if (response) {
-                    toast.done(t('shared.success.addedSuccess'));
-                    this.props.getTemplateForDay2();
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
-                }
-            })
-        }
+            ]
+        });
 
     }
     addDays(pushObj){
@@ -89,9 +105,6 @@ class ExerciseComponent extends Component {
         if(planMode){
             if (!daysButton.includes(pushObj.item.key)) {
                 daysButton.push(pushObj.item.key);
-                console.log(pushObj.item.key);
-                console.log(daysButton);
-
             } else {
                 let objToDelete = (pushObj.item.key);
                 daysButton.splice(daysButton.indexOf(objToDelete), 1);
@@ -443,7 +456,7 @@ class ExerciseComponent extends Component {
 
                 } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter={!planMode} handleClosed={(e)=> this.setState({'openCopyModel': false})}>
                     <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
-                    <div className="add-days-template row">
+                    <div className="add-days-template row px-4">
                         {(planMode) ?
                             <div className="row">
                                 {buttons && buttons.length > 0 && buttons.map((item, key) => {

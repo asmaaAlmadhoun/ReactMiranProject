@@ -27,7 +27,11 @@ ArabicTranslation = {
     },
     warnings: {
       emailExistBefore: 'البريد الألكترونى مستخدم من قبل'
-    }
+    },
+    confirmMessage: 'هل تريد بالفعل حذف هذا العنصر',
+    confirmTitle: 'تأكيد',
+    yes: 'نعم',
+    no: 'لا',
   },
   breadcrumb: {
     overview: 'عام',
@@ -128,7 +132,7 @@ ArabicTranslation = {
     fullName: 'الإسم بالكامل',
     email: 'البريد الإلكترونى',
     tele: 'الجوال',
-    gender: 'النوع',
+    gender: 'الجنس',
     country: 'الدولة',
     aboutMe: 'نبذة عني',
     BirthDate: 'تاريخ الميلاد',
@@ -137,7 +141,8 @@ ArabicTranslation = {
     levelOfActivity: 'مرحلة النشاط',
     warning: 'التحذير',
     Allergies: 'الحساسية',
-    myGoal: 'أهدافي'
+    myGoal: 'أهدافي',
+    genderSelect: 'اختر الجنس'
   },
   settingPage: {
     language: 'اللغة',

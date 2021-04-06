@@ -130,7 +130,7 @@ class ProfileComponent extends Component {
                                                    </label>
                                                    <div >
                                                        <Select style={{textAlign:t('local')==='ar' ? 'right' : 'left'}}
-                                                               fluid placeholder='Select your Gender'
+                                                               fluid placeholder={t('profile.genderSelect')}
                                                                 value={this.state.data && this.state.data.profile.gender.name}
                                                                onChange={ (e , v)=> {
                                                                    console.log(v);
@@ -166,7 +166,7 @@ class ProfileComponent extends Component {
                                                    <label >
                                                        {t('profile.aboutMe')}
                                                    </label>
-                                                   <textarea  className="form-control" rows={5} value={this.state.data && this.state.data.profile.bio}/>
+                                                   <textarea  className="form-control" rows={8} value={this.state.data && this.state.data.profile.bio}/>
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >

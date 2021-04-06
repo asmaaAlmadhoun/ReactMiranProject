@@ -19,6 +19,7 @@ import MessageComponent from "../../common/message/message.component";
 import {Card} from "../../../pages/template/Card";
 import update from "immutability-helper";
 import PlanService from "../../../services/plan-service/plan.service";
+import {confirmAlert} from "react-confirm-alert";
 
 class MealComponent extends Component {
     constructor(props) {
@@ -44,6 +45,12 @@ class MealComponent extends Component {
     componentDidMount() {
         const {t, planMode} = this.props;
         toast.done(t('shared.success.addedSuccess'));
+        if(planMode){
+            this.getSubscriptionData();
+        }
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {t, planMode} = this.props;
         if(planMode){
             this.getSubscriptionData();
         }
@@ -104,33 +111,47 @@ class MealComponent extends Component {
     deleteMealTemplate(id) {
         // deleteMealTemplate
         const {t, planMode,  mealDataItem,planId, activeDay} = this.props;
-        if(planMode){
-            const planService = new PlanService();
-            const data = {
-                'schedule_meal_id':  id,
-            }
-            planService.RemoveMealTrainee(data).then(response => {
-                if (response) {
-                    this.setState({successState: true})
-                    this.props.getTemplateForDay2(planId, activeDay);
-                } else {
+        confirmAlert({
+            title: t('shared.confirmTitle'),
+            message: t('shared.confirmMessage'),
+            buttons: [
+                {
+                    label: t('shared.yes'),
+                    onClick: () => {
+                        if(planMode){
+                            const planService = new PlanService();
+                            const data = {
+                                'schedule_meal_id':  id,
+                            }
+                            planService.RemoveMealTrainee(data).then(response => {
+                                if (response) {
+                                    this.setState({successState: true})
+                                    this.props.getTemplateForDay2(planId, activeDay);
+                                } else {
+                                }
+                            })
+                        }
+                        else{
+                            const templateServices = new TemplateServices();
+                            const data = {
+                                'template_day_meal_id': id,
+                            }
+                            templateServices.deleteMealTemplate(data).then(response => {
+                                if (response) {
+                                    this.setState({successState: true})
+                                    this.props.getTemplateForDay2();
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
+                        }
+                    }
+                },
+                {
+                    label: t('shared.no'),
                 }
-            })
-        }
-        else{
-            const templateServices = new TemplateServices();
-            const data = {
-                'template_day_meal_id': id,
-            }
-            templateServices.deleteMealTemplate(data).then(response => {
-                if (response) {
-                    this.setState({successState: true})
-                    this.props.getTemplateForDay2();
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
-                }
-            })
-        }
+            ]
+        });
     }
 
     openModalCopyMeal(e, id, mealItemTemplateToggle) {
@@ -297,11 +318,14 @@ class MealComponent extends Component {
         setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2})); console.log('asma')},1000)
     });
     getSubscriptionData = () =>{
-        let {subscription} =this.props;
+        let {subscription, exerciseMealData} =this.props;
         const planService = new PlanService();
         planService.getSubscriptionData(subscription.subscription_goal_id).then(response => {
-            if (response) {
+            if (response && exerciseMealData.meals && exerciseMealData.meals.length) {
                 this.setState({subscriptionData: response.result})
+            }
+            else {
+                this.setState({subscriptionData: {subscription: 1885, id: 336, calories: 0, fat: 0, carbs: 0, protein: 0}})
             }
         })
 
@@ -577,11 +601,11 @@ class MealComponent extends Component {
                                     </div>
                                 </div>
                                 : ''
-                                :''
+                            :''
                             }
                         </div>
                         <div className={"AddMealTemplateComponent col-sm-4 p-0"}>
-                            <div className="meal-buttons justify-content-center">
+                            <div className="meal-buttons justify-content-center text-left">
                                 <AddMealTemplateComponent traineesId={traineesId} planMode={this.props.planMode}  dayNumbers={daysNumber} parentTriggerAdd={(e) => {
                                     let NewData = this.props.getTemplateForDay2();
                                     setTimeout(() => this.setState({exerciseMealData: NewData}), 100)

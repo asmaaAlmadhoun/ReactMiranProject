@@ -10,6 +10,7 @@
     flex-direction : row !important;
     align-items: center;
     border: none !important;
+    color: white!important;
 }
 
 .ui.labeled.icon.menu .item  .icon , .ui.labeled.icon.menu .item>.icon:not(.dropdown) {

@@ -104,7 +104,7 @@ class TemplateComponent extends Component {
                             <AddTemplateComponent t={t} afterAdded={this.onAddTemplate} />
                         </div>
                     </div>
-                    <div className="row mt-4">
+                    <div className="row mt-4 template-container">
                         {
                             this.state.loading ?  <Loader active={true} inline='centered' /> :
                                 this.state.data && this.state.data.length > 0 ?  this.state.data.map( (item , i) => {
@@ -115,7 +115,6 @@ class TemplateComponent extends Component {
                                     );
                                 } ) : <EmptyComponent />
                         }
-
                     </div>
                 </div>
             </>

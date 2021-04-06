@@ -34,7 +34,7 @@ class Plan extends Component {
             traineesId: '',
             planList: '',
             fullData: [],
-            calendarDays:[]
+            calendarDays:[],
         }
     }
     clickNumberHandler= (i,month,year) =>{
@@ -138,13 +138,13 @@ class Plan extends Component {
         let calendarDays = this.state.calendarDays;
 
         for (let i = startDateDay, k=0; i <= total_days , k <= (total_days-startDateDay); i++, k++) {
-            calendarDays.push(year+'-'+month+'-'+i);
+            calendarDays.push(year+'-'+month+'-'+i+' \n '+week[(dayName  + k) % 7]);
             Component.push(
                 <DateComponent isActive={(this.state.activeDay === year+'-'+month+'-'+i)} onClick={(e)=> this.clickNumberHandler(i,month,year)} dateNumber={i} dateName={week[(dayName  + k) % 7]} dateMonth={month} />
             )
             if(i === daysInMonth){
                 for (let j = 1, k = ((total_days-startDateDay) +1); j <= endDateDay, k<= total_days; j++, k++) {
-                    calendarDays.push(year2+'-'+month+'-'+j);
+                    calendarDays.push(year2+'-'+month+'-'+j +' \n '+week[(dayName  + k) % 7]);
                     Component.push(
                         <DateComponent isActive={(this.state.activeDay === year2+'-'+month+'-'+j)} onClick={(e)=> this.clickNumberHandler(j,month,year2)} dateNumber={j} dateName={week[(dayName  + k) % 7]}  dateMonth={secondMonth}/>
                     )
@@ -189,7 +189,7 @@ class Plan extends Component {
                                         <div className="col-sm-12">
                                             <div className="headings d-flex align-items-center">
                                                 <img src={Report} alt="icon" className='mx-2' width="20px" />
-                                                <h3 className="text-right flex-grow-1"> {t('traineeModal.title')} </h3>
+                                                <h3 className="flex-grow-1"> {t('traineeModal.title')} </h3>
                                                 <Link to={""}>
                                                     {t('traineeModal.Calories')}
                                                 </Link>
