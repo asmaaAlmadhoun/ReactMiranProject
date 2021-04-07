@@ -34,7 +34,7 @@ class MealComponent extends Component {
             successState: false,
             fullCards: [],
             fullCards2: [],
-            subscriptionData: []
+            subscriptionData: {calories: 0, fat: 0, carbs: 0, protein: 0}
         }
     }
 
@@ -43,17 +43,19 @@ class MealComponent extends Component {
     }
 
     componentDidMount() {
-        const {t, planMode} = this.props;
+        const {t, exerciseMealData} = this.props;
         toast.done(t('shared.success.addedSuccess'));
-        if(planMode){
-            this.getSubscriptionData();
+        if(exerciseMealData.meals && exerciseMealData.meals.length) {
+            this.setState({subscriptionData: { calories: 0, fat: 0, carbs: 0, protein: 0}})
         }
+
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {t, planMode} = this.props;
-        if(planMode){
-            this.getSubscriptionData();
+        const {t, planMode, exerciseMealData} = this.props;
+        if(planMode && exerciseMealData.meals && exerciseMealData.meals.length ){
+                this.getSubscriptionData();
         }
+
     }
 
     calculateCaloriesTotal() {
@@ -321,7 +323,7 @@ class MealComponent extends Component {
         let {subscription, exerciseMealData} =this.props;
         const planService = new PlanService();
         planService.getSubscriptionData(subscription.subscription_goal_id).then(response => {
-            if (response && exerciseMealData.meals && exerciseMealData.meals.length) {
+            if (response) {
                 this.setState({subscriptionData: response.result})
             }
             else {

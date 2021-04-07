@@ -3,7 +3,7 @@ import { withTranslation } from "react-i18next";
 import './faq.component.css';
 import { toast } from 'react-toastify';
 import ModalComponent from "../../components/common/modal/modal.component";
-import TextariaComponent from "../../components/TextAriaComponent/textaria.component";
+import TextAriaComponent from "../../components/textaria-component/textaria.component";
 import InputTextComponent from "../../components/InputTextComponent/input-text-no-label.component";
 import {FiPlus} from "react-icons/fi/index";
 import UserService from "../../services/user-service/user.service";
@@ -117,10 +117,10 @@ class FaqComponent extends Component {
                             name='question'
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             isRequired={true} labelTitle={t('faqPage.question')}  />
-                        <TextariaComponent
+                        <TextAriaComponent
                             isArabic={t('local') === 'ar'} style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             isRequired={true} labelTitle={t('faqPage.answer')}
-                            name='answer'/>
+                            name='answer' valueHandler={this.onChangeHandler} />
                         <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit} title={t('shared.add')}> </PrimaryButtonComponent>
                     </div>
                 </ModalComponent>

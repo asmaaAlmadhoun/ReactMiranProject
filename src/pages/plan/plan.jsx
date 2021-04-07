@@ -20,7 +20,7 @@ class Plan extends Component {
         this.state = {
             planId : null,
             data: [],
-            activeDay: '2021-03-20',
+            activeDay: '',
             fullTemplateDataForThisDay: [],
             exerciseMealForThisDay: [],
             activeIndex: '',
@@ -81,7 +81,7 @@ class Plan extends Component {
     }
     componentWillMount() {
         const dataFromLocation = this.props.location.state;
-        this.setState({planId: dataFromLocation.planId, traineesId: dataFromLocation.traineesId, fullData: dataFromLocation.fullData, subscription: dataFromLocation.subscription});
+        this.setState({planId: dataFromLocation.planId, traineesId: dataFromLocation.traineesId, fullData: dataFromLocation.fullData, subscription: dataFromLocation.subscription, activeDay: dataFromLocation.subscription.start_date});
     }
     componentDidMount() {
         const planId = this.state.planId;

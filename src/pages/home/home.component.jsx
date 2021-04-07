@@ -23,7 +23,8 @@ class HomeComponent extends Component {
             openModal : false,
             openModalRequest : false,
             modalRequestProfile: false,
-            traineesId: 1
+            traineesId: 1,
+            subscriptionID: ''
         }
     }
 
@@ -51,8 +52,8 @@ class HomeComponent extends Component {
     openModalHandler = (traineeId) => {
         this.setState({openModal : true})
     }
-    openModalRequestProfile = (id) => {
-        this.setState({modalRequestProfile : true, traineesId: id})
+    openModalRequestProfile = (id,subscriptionID) => {
+        this.setState({modalRequestProfile : true, traineesId: id, subscriptionID: subscriptionID})
     }
     render() {
         const {openModal, openModalRequest, modalRequestProfile} = this.state;
@@ -60,7 +61,7 @@ class HomeComponent extends Component {
         return (
             <>
                 <TraineeModalComponent isOpen={openModal} />
-                <ProfileModalComponent isOpenProfile={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} traineesId={this.state.traineesId}/>
+                <ProfileModalComponent isOpenProfile={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} subscriptionID={this.state.subscriptionID} traineesId={this.state.traineesId}/>
                 <div className="container">
 
                  <div className="row" style={{marginLeft:0, marginRight:0}}>

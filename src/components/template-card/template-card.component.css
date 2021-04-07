@@ -73,8 +73,11 @@
     height: 140px;
     overflow: hidden;
 }
-.card-custom:hover{
+.card-custom:hover, .card-custom.active{
     background-color: #BBECFF;
     color: black;
+}
+.card-custom{
+    cursor: pointer;
 }
 

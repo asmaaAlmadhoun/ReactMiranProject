@@ -19,7 +19,7 @@ class TraineeCardComponent extends Component {
         return (
             <a className={"trainee-card " +(className ? className : '')} onClick={e => {
                 e.stopPropagation();
-               modalRequestProfile(traineesId)
+               modalRequestProfile(traineesId,subscription.id)
             }}>
                 <div className="user-img">
                     <img src={imgPath} width="56px"  alt={"user image"}   />

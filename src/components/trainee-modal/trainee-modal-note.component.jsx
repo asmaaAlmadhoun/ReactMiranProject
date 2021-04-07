@@ -27,6 +27,7 @@ class TraineeModalNoteComponent extends Component {
     componentWillReceiveProps(nextProps, nextContext) {
         const {isOpen} = nextProps;
         this.setState({ isOpen});
+        this.fetchData();
     }
     componentWillMount() {
         this.fetchData();
@@ -47,17 +48,18 @@ class TraineeModalNoteComponent extends Component {
 
     onSubmit = async () => {
         const { newNote } = this.state;
-        const { traineesId } = this.props
+        const { traineesId, subscriptionID } = this.props
         const data = {
            note: newNote,
-           trainee_id:traineesId
+           trainee_id:traineesId,
+           subscription: subscriptionID,
         }
         const userService  = new UserService();
         this.setState({isLoading:true})
         const {t} = this.props;
         userService.addNote(data).then(response => {
             this.setState({isLoading : false})
-            if(response && response.message) {
+            if(response.status) {
                 toast.done(t('shared.success.addedSuccess'));
                 this.fetchData();
                 this.onClose();
@@ -71,27 +73,26 @@ class TraineeModalNoteComponent extends Component {
             e.preventDefault();
         }
         this.setState({__addNoteModal__:false , newNote : null, note: null});
-        this.props.traineesId = null
     }
     render() {
         const {t  } = this.props;
         return (
             <div>
-                <ModalComponent size="tiny" isOpen={this.state.isOpen}  handleClosed={e => {
+                <ModalComponent size="tiny" modalCenter={true} isOpen={this.state.isOpen}  handleClosed={e => {
                     this.setState({isOpen:false})
                 }} Actions={
                     <div>
-                        <button className="ui button icon primary py-2 px-0 w-1" onClick={e => {
+                        <button className="ui button icon primary p-2" onClick={e => {
                             this.setState({__addNoteModal__:true})
                         }}>
                             <FiPlus />
                             <div><small>{t('traineeModal.note')}</small></div>
                         </button>
-                        <button className="ui button icon red py-2 px-0 w-1">
+                        <button className="ui button icon red p-2">
                             <AiOutlineClose />
                             <div><small>{t('shared.remove')}</small></div>
                         </button>
-                        <button className="ui button icon primary py-2 px-0 w-1">
+                        <button className="ui button icon primary p-2">
                             <BiEditAlt />
                             <div><small>{t('shared.edit')}</small></div>
                         </button>

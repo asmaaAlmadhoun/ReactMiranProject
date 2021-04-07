@@ -115,6 +115,12 @@ class TemplateService extends BaseService{
         const url =   this._endPoint + "/exercise/";
         return  HTTP_REQUEST.put({target:url , body : data});
     }
+    assignTrainer = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/assign/";
+        return  HTTP_REQUEST.post({target:url , body : data});
+    }
 
 }
 

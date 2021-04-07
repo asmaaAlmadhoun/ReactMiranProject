@@ -226,3 +226,22 @@ ul {
 .ui.label, .ui.labels .label{
   font-size: 1.2rem !important;
 }
+input{
+  border: none;
+}
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+  width: 2.45rem !important;
+  line-height: 2.45rem !important;
+}
+.react-datepicker, .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header{
+  font-size: 1.2rem !important;
+}
+.react-datepicker__navigation{
+  border: 0.45rem solid transparent !important;
+}
+.react-datepicker__navigation--previous{
+  border-right-color: #ccc !important;
+}
+.react-datepicker__navigation--next{
+  border-left-color: #ccc !important;
+}

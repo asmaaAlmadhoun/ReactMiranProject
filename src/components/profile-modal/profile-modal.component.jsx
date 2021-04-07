@@ -59,14 +59,14 @@ class ProfileModalComponent extends Component {
         this.setState({openModalNote : true, isOpenProfile: false})
     }
     render() {
-        const { t,profileData, traineesId, requestClass, noteClass } = this.props;
+        const { t,profileData, traineesId, requestClass, noteClass, subscriptionID } = this.props;
 
         return (
             <div>
                 <TraineeModalNoteComponent isOpen={this.state.openModalNote} handleClosed={e => {
                     e.stopPropagation();
                     this.setState({openModalNote:false, isOpenProfile:false})
-                }}  traineesId={traineesId} />
+                }}  subscriptionID={subscriptionID} traineesId={traineesId} />
 
                 <ModalComponent size="tiny" isOpen={this.state.isOpenProfile}  handleClosed={e => {
                     this.setState({isOpenProfile:false, openModalNote:false})
