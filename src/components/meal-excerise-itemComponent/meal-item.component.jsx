@@ -154,7 +154,7 @@ class MealItemComponent extends Component {
                                     )
                                     : t('traineeModal.emptyDataMeal')
                             }
-                            <ModalComponent size="small" isOpen={this.state.openEditModal} hideAction={true} handleClosed={(e) => this.setState({openEditModal: false})} >
+                            <ModalComponent size="small" modalCenter={true} isOpen={this.state.openEditModal} hideAction={true} handleClosed={(e) => this.setState({openEditModal: false})} >
                                 <DetailListItemTemplateComponent EditMealItem='true' planMode={this.props.planMode}
                                                                  closeModal={(e)=>this.setState({openEditModal : false})}
                                                                  mealDataItem={mealDataItem}

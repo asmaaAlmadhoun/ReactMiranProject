@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import ModalComponent from "../common/modal/modal.component";
 import {withTranslation} from "react-i18next";
-import {FiPlus } from "react-icons/fi";
+import {FiPlus, FiX} from "react-icons/fi";
 import {AiOutlineClose} from "react-icons/ai";
 import {BiEditAlt} from "react-icons/bi";
 import EmptyComponent from "../common/empty-page/empty.component";
@@ -20,7 +20,8 @@ class TraineeModalNoteComponent extends Component {
             isOpen : false,
             notes: [],
             newNote: '',
-            __addNoteModal__: false
+            __addNoteModal__: false,
+            itemToEdit: ''
         }
     }
 
@@ -46,23 +47,57 @@ class TraineeModalNoteComponent extends Component {
         })
     }
 
-    onSubmit = async () => {
+    onSubmit = async (e) => {
         const { newNote } = this.state;
-        const { traineesId, subscriptionID } = this.props
-        const data = {
-           note: newNote,
-           trainee_id:traineesId,
-           subscription: subscriptionID,
-        }
-        const userService  = new UserService();
         this.setState({isLoading:true})
+        const { traineesId, subscriptionID,t } = this.props;
+        const userService  = new UserService();
+        if(e !== ''){
+            const data = {
+                note: newNote,
+                noteId: e.id,
+                trainee_id:traineesId,
+                subscription: subscriptionID,
+            }
+            userService.editNote(data,e.id).then(response => {
+                this.setState({isLoading : false})
+                if(response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.fetchData();
+                    this.onClose();
+                }else {
+                    toast.error(t('shared.errors.globalError'))
+                }
+            })
+        }
+        else {
+            const data = {
+                note: newNote,
+                trainee_id:traineesId,
+                subscription: subscriptionID,
+            }
+            this.setState({isLoading:true})
+            const {t} = this.props;
+            userService.addNote(data).then(response => {
+                this.setState({isLoading : false})
+                if(response.status) {
+                    toast.done(t('shared.success.addedSuccess'));
+                    this.fetchData();
+                    this.onClose();
+                }else {
+                    toast.error(t('shared.errors.globalError'))
+                }
+            })
+        }
+
+    }
+    deleteNote = async (item) => {
+        const userService  = new UserService();
         const {t} = this.props;
-        userService.addNote(data).then(response => {
-            this.setState({isLoading : false})
+        userService.deleteNote(item.id).then(response => {
             if(response.status) {
-                toast.done(t('shared.success.addedSuccess'));
+                toast.done(t('shared.success.deletedSuccess'));
                 this.fetchData();
-                this.onClose();
             }else {
                 toast.error(t('shared.errors.globalError'))
             }
@@ -104,7 +139,22 @@ class TraineeModalNoteComponent extends Component {
                             this.state.notes.map( (item,i) => {
                                 return (
                                     <div className='my-3' key={item.id}>
-                                        <Message className='custom-message' content={item.note} />
+                                        <Message className='custom-message' content={
+                                           <div className="row">
+                                               <div className='col-sm-9'>
+                                                   {item.note}
+                                               </div>
+                                               <div className="col-sm-3">
+                                                   <button className="ui button icon p-2 blue" onClick={(e)=> this.setState({itemToEdit: item,__addNoteModal__: true})}>
+                                                       <BiEditAlt />
+                                                   </button>
+                                                   <button className="ui button icon p-2 red" onClick={(e)=> this.deleteNote(item)}>
+                                                       <FiX/>
+                                                   </button>
+                                               </div>
+                                           </div>
+                                            } />
+
                                     </div>
                                 );
                             })
@@ -119,11 +169,12 @@ class TraineeModalNoteComponent extends Component {
                 }} >
                     <div className="text-center mini-shared-modal px-3">
                         <h4 className='mb-4'>  {t('traineeModal.addNote')} </h4>
+                        {this.state.itemToEdit? <span>this.state.itemToEdit.note</span> :''}
                         <TextArea rows={2}  className='form-control mb-4' onChange={e => {
                             this.setState({newNote: e.target.value})
                         }} value={this.state.newNote} />
 
-                        <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit} title={t('shared.add')}> </PrimaryButtonComponent>
+                        <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit(this.state.itemToEdit)} title={t('shared.add')}> </PrimaryButtonComponent>
                     </div>
                 </ModalComponent>
 

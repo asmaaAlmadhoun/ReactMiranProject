@@ -114,7 +114,7 @@ class ProfileComponent extends Component {
                                            </div>
                                        </div>
                                        <div className="col-md-10 col-sm-12">
-                                           <div className="row">
+                                           <div className="row overflow-auto">
                                                <div className="col-sm-12">
                                                    <InputTextComponent value={this.state.data && this.state.data.profile.full_name}  isRequired={false}  labelTitle={t('profile.fullName')} />
                                                </div>
@@ -166,7 +166,7 @@ class ProfileComponent extends Component {
                                                    <label >
                                                        {t('profile.aboutMe')}
                                                    </label>
-                                                   <textarea  className="form-control" rows={8} value={this.state.data && this.state.data.profile.bio}/>
+                                                   <textarea  className="form-control" rows={10} value={this.state.data && this.state.data.profile.bio}/>
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >

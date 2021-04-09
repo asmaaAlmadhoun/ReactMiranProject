@@ -125,9 +125,19 @@ class DetailListItemTemplateComponent extends Component {
                 })
         }
     }
-
+    parseArabic(str) {
+        // if( typeof(str) === "string"){
+            return Number( str.replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
+                return d.charCodeAt(0) - 1632; // Convert Arabic numbers
+            }).replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
+                return d.charCodeAt(0) - 1776; // Convert Persian numbers
+            }) );
+        // }
+    }
     prepareTotalDataSource(oldQty,newQty){
+        newQty=this.parseArabic(newQty+'')
         let NewRatio = parseFloat(newQty) / parseFloat(oldQty)
+        console.log( ' newQty  '+ parseFloat(newQty) + '  '+newQty);
         if(NewRatio.isNaN) {
             return
         }

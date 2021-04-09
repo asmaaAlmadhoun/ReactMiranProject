@@ -121,9 +121,9 @@ ArabicTranslation = {
     note: 'ملاحظة',
     addNote: 'أضف ملاحظة',
     notes: 'ملاحظات',
-    Reps: 'عدد العضلات',
+    Reps: 'عدد التكرارات',
     rest: 'فترة الراحة',
-    sets: 'مجموعات',
+    sets: 'الجولات',
     titleCopyMeal: 'كم عدد الأيام المقترحة',
     emptyDataExercise: 'هذا اليوم لا يحتوي على تمارين بعد',
     emptyDataMeal: 'هذا اليوم لا يحتوي على وجبات بعد'
