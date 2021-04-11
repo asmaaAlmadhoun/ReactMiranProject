@@ -12,6 +12,9 @@ import AddTemplateComponent from "../../components/add-template/add-template.com
 import EmptyPage from '../../assets/icons/empty.svg';
 import EmptyComponent from "../../components/common/empty-page/empty.component";
 import AssignTemplateComponent from "../../components/assign-template/assign-template.component";
+import {confirmAlert} from "react-confirm-alert";
+import PlanService from "../../services/plan-service/plan.service";
+import TemplateServices from "../../services/template-service/template.service";
 class TemplateComponent extends Component {
     constructor(props) {
         super(props);
@@ -49,26 +52,40 @@ class TemplateComponent extends Component {
         })
     }
     deleteTemplateHandler = async (id) => {
+        const {t} = this.props;
 
-        if(id) {
-            const templateService = new TemplateService();
-            const {t} = this.props;
-            this.setState({loading:true})
-            templateService.deleteTemplate(id).then(result => {
-                this.setState({loading:false})
-                if(result) {
-                    toast.success(t('shared.success.deletedSuccess'));
-                    this.setState({data:result.result})
+        confirmAlert({
+            title: t('shared.confirmTitle'),
+            message: t('shared.confirmMessage'),
+            buttons: [
+                {
+                    label: t('shared.yes'),
+                    onClick: () => {
+                        if(id) {
+                            const templateService = new TemplateService();
+                            this.setState({loading:true})
+                            templateService.deleteTemplate(id).then(result => {
+                                this.setState({loading:false})
+                                if(result) {
+                                    toast.success(t('shared.success.deletedSuccess'));
+                                    this.setState({data:result.result})
 
-                }else {
-                    toast.error(t('shared.errors.globalError'));
+                                }else {
+                                    toast.error(t('shared.errors.globalError'));
+                                }
+
+                            }).catch(error => {
+                                this.setState({loading:false})
+                                toast.error(t('shared.errors.globalError'));
+                            })
+                        }
+                    }
+                },
+                {
+                    label: t('shared.no'),
                 }
-
-            }).catch(error => {
-                this.setState({loading:false})
-                toast.error(t('shared.errors.globalError'));
-            })
-        }
+            ]
+        });
     }
 
     onAddTemplate = (isAdded) => {

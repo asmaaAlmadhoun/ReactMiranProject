@@ -7,6 +7,7 @@ import {GiWaterBottle, GiWeightLiftingUp} from "react-icons/gi";
 import {FaWeight} from "react-icons/fa";
 import ProgressMeasure from "./progress-measure.component";
 import ProgressPicture from "./progress-picture.component";
+import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 
 
 class progressComponent extends Component {
@@ -19,6 +20,9 @@ class progressComponent extends Component {
         const {t} = this.props;
         return (
             <>
+                <button className='ui button icon primary p-1 mb-3' onClick={(e)=>   this.props.history.push({pathname: '/'})}>
+                    {t('local') === 'ar'?  <i><IoIosArrowForward/> </i>: <i><IoIosArrowBack/></i> }
+                </button>
                 <div className="container progressComponent py-5">
                     <h3  className={['btn-primary w-75 text-center mb-4 ' , t('local') === "ar" ? ' mr-auto' : ' ml-auto']}>  {t('progressPage.progress')} </h3>
 

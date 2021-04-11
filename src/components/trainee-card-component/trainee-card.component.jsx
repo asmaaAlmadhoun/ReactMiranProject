@@ -3,7 +3,7 @@ import './trainee-card.component.css';
 import PropTypes from "prop-types";
 import  userProfileMale from '../../assets/icons/user-profile.jpg';
 import  userProfileFemale from '../../assets/images/femaleImage.jpg';
-import  reportIco from '../../assets/icons/report-01.svg'
+import { HiChatAlt } from 'react-icons/hi'
 import tempIco from '../../assets/icons/temp.svg'
 import {withTranslation} from "react-i18next";
 import {GiChart} from "react-icons/gi";
@@ -33,15 +33,15 @@ class TraineeCardComponent extends Component {
                     </span>
                 </div>
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
-                    <div className="ico" onClick={e => {
+                    <Button className='p-0' basic color='blue'onClick={e => {
                         e.stopPropagation();
                         this.props.history.push({
                             pathname: '/chat-app',
                             state: { fullData: fullData, traineesId: traineesId },
                         });
                     }}>
-                        <img src={reportIco}  alt="icon" />
-                    </div>
+                        <HiChatAlt />
+                    </Button>
                     <div className="ico" onClick={e => {
                         e.stopPropagation();
                         this.props.history.push({
