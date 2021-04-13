@@ -21,7 +21,8 @@ class TraineeModalNoteComponent extends Component {
             notes: [],
             newNote: '',
             __addNoteModal__: false,
-            itemToEdit: ''
+            itemToEdit: '',
+            editStatus: ''
         }
     }
 
@@ -47,21 +48,21 @@ class TraineeModalNoteComponent extends Component {
         })
     }
 
-    onSubmit = async (e) => {
-        const { newNote } = this.state;
+    onSubmit =  () => {
+        const { newNote, editStatus, itemToEdit } = this.state;
         this.setState({isLoading:true})
         const { traineesId, subscriptionID,t } = this.props;
         const userService  = new UserService();
-        if(e !== ''){
+        if(editStatus){
             const data = {
                 note: newNote,
-                noteId: e.id,
+                noteId: itemToEdit.id,
                 trainee_id:traineesId,
                 subscription: subscriptionID,
             }
-            userService.editNote(data,e.id).then(response => {
+            userService.editNote(data,itemToEdit.id).then(response => {
                 this.setState({isLoading : false})
-                if(response.status) {
+                if(response) {
                     toast.done(t('shared.success.addedSuccess'));
                     this.fetchData();
                     this.onClose();
@@ -80,7 +81,7 @@ class TraineeModalNoteComponent extends Component {
             const {t} = this.props;
             userService.addNote(data).then(response => {
                 this.setState({isLoading : false})
-                if(response.status) {
+                if(response) {
                     toast.done(t('shared.success.addedSuccess'));
                     this.fetchData();
                     this.onClose();
@@ -103,6 +104,11 @@ class TraineeModalNoteComponent extends Component {
             }
         })
     }
+    handleChange = (e) =>{
+        console.log('   dd '+ e)
+        this.setState({'newNote':e.target.value})
+        return e
+    }
     onClose = (e) => {
         if(e) {
             e.preventDefault();
@@ -118,7 +124,7 @@ class TraineeModalNoteComponent extends Component {
                 }} Actions={
                     <div>
                         <button className="ui button icon primary p-2" onClick={e => {
-                            this.setState({__addNoteModal__:true})
+                            this.setState({__addNoteModal__:true, editStatus: false})
                         }}>
                             <FiPlus />
                             <div><small>{t('traineeModal.note')}</small></div>
@@ -145,7 +151,7 @@ class TraineeModalNoteComponent extends Component {
                                                    {item.note}
                                                </div>
                                                <div className="col-sm-3">
-                                                   <button className="ui button icon p-2 blue" onClick={(e)=> this.setState({itemToEdit: item,__addNoteModal__: true})}>
+                                                   <button className="ui button icon p-2 blue" onClick={(e)=> this.setState({itemToEdit: item,__addNoteModal__: true, editStatus: true})}>
                                                        <BiEditAlt />
                                                    </button>
                                                    <button className="ui button icon p-2 red" onClick={(e)=> this.deleteNote(item)}>
@@ -169,12 +175,8 @@ class TraineeModalNoteComponent extends Component {
                 }} >
                     <div className="text-center mini-shared-modal px-3">
                         <h4 className='mb-4'>  {t('traineeModal.addNote')} </h4>
-                        {this.state.itemToEdit? <span>this.state.itemToEdit.note</span> :''}
-                        <TextArea rows={2}  className='form-control mb-4' onChange={e => {
-                            this.setState({newNote: e.target.value})
-                        }} value={this.state.newNote} />
-
-                        <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit(this.state.itemToEdit)} title={t('shared.add')}> </PrimaryButtonComponent>
+                        <TextArea rows={5}  className='form-control mb-4' onChange={(e)=>this.handleChange(e)} defaultValue={this.state.itemToEdit? this.state.itemToEdit.note :  this.state.newNote} />
+                        <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit} title={t('shared.add')}> </PrimaryButtonComponent>
                     </div>
                 </ModalComponent>
 

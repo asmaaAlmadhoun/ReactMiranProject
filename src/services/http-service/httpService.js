@@ -1,4 +1,4 @@
-const base_url = 'https://miranapp.com/api'
+const base_url = 'https://testing.miranapp.com/api'
 
  const post = async ({ target, body  }) => {
     const token = localStorage.getItem('miran-token')

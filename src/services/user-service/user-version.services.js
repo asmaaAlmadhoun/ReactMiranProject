@@ -20,7 +20,7 @@ class UserVersionServices extends BaseService {
         if(!data)
             return ;
         const url =   this._endPoint + "/trainer-notes/" + id;
-        return  HTTP_REQUEST.post({target:url , body : data});
+        return  HTTP_REQUEST.get({target:url , body : data});
     }
     deleteNote = async (id) => {
         if(!id)

@@ -64,7 +64,7 @@ class HomeComponent extends Component {
                 <ProfileModalComponent isOpenProfile={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} subscriptionID={this.state.subscriptionID} traineesId={this.state.traineesId}/>
                 <div className="container">
 
-                 <div className="row" style={{marginLeft:0, marginRight:0}}>
+                   <div className="row" style={{marginLeft:0, marginRight:0}}>
                      <div className="col-sm-12">
                          <BreadcrumbComponent title={t('breadcrumb.overview')} />
                          <Tab className='mt-4 tab-custom' menu={{ secondary: true, className: 'w-75 m-auto' }} panes={ [
