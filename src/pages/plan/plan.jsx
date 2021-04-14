@@ -13,6 +13,7 @@ import Report from "../../assets/icons/report-01.svg";
 import {Link} from "react-router-dom";
 import Slider from "react-slick";
 import DateComponent from "../../components/trainee-modal/dates-components/date.component";
+import PlanService from "../../services/plan-service/plan.service";
 
 class Plan extends Component {
     constructor(props) {
@@ -35,6 +36,7 @@ class Plan extends Component {
             planList: '',
             fullData: [],
             calendarDays:[],
+            subscriptionData: []
         }
     }
     clickNumberHandler= (i,month,year) =>{
@@ -87,6 +89,20 @@ class Plan extends Component {
         const planId = this.state.planId;
         this.getTemplateForDay(planId);
         this.setCalendarPlan();
+        this.getSubscriptionData();
+    }
+    getSubscriptionData = () =>{
+        let {subscription} =this.state;
+        const planService = new PlanService();
+        planService.getSubscriptionData(subscription.subscription_goal_id).then(response => {
+            if (response) {
+                this.setState({subscriptionData: response.result})
+            }
+            else {
+                this.setState({subscriptionData: {subscription: 1885, id: 336, calories: 0, fat: 0, carbs: 0, protein: 0}})
+            }
+        })
+
     }
     setCalendarPlan(){
         let calendarReturned =  this.setCalendar();
@@ -157,7 +173,7 @@ class Plan extends Component {
 
     render() {
         const {t } = this.props;
-        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, openDetails, openExceriseDetails, ExceriseDataItem, traineesId, calendarDays, subscription} = this.state;
+        let {activeDay, mealDataItem, planId, exerciseMealForThisDay, subscriptionData,openDetails, openExceriseDetails, ExceriseDataItem, traineesId, calendarDays, subscription} = this.state;
         const settings = {
             dots: false,
             infinite: false,
@@ -229,7 +245,7 @@ class Plan extends Component {
                                                             <Tab.Pane attached={false}>
                                                                 <MealComponent  daysNumber={item.profile.subscription.total_days} calendarDays={calendarDays}
                                                                                 getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
-                                                                                subscription={subscription}
+                                                                                subscriptionData={subscriptionData}
                                                                                 openDetailsFunction={(e) => this.setState({
                                                                                     mealDataItem: e,
                                                                                     openDetails: true

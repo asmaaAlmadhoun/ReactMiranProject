@@ -76,7 +76,7 @@ class ProfileModalComponent extends Component {
                                 profileData.map( (item) =>
                                     item.id === traineesId ?
                                         item.profile !== null?
-                                        <div className='card'>
+                                        <div className='card' key={item.id}>
                                             <div className="card-header text-right">
                                                 <div className="row">
                                                     <div className="col-4">

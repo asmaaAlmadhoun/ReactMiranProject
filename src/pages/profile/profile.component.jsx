@@ -166,7 +166,7 @@ class ProfileComponent extends Component {
                                                    <label >
                                                        {t('profile.aboutMe')}
                                                    </label>
-                                                   <textarea  className="form-control" rows={10} value={this.state.data && this.state.data.profile.bio}/>
+                                                   <textarea  className="form-control" rows={14} defaultValue={this.state.data && this.state.data.profile.bio}/>
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >

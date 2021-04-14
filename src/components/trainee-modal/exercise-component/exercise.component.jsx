@@ -225,37 +225,52 @@ class ExerciseComponent extends Component {
     }
     addTemplateBreakDay = (id) => {
         const {t, planMode, activeDay} = this.props;
-        if(planMode){
-            const planService = new PlanService();
-            const dataBreak = {
-                'subscribtion': id,
-                "day": activeDay,
-                'type': 'exercise',
-            }
-            planService.addMealExcerisebreakDay(dataBreak).then(response => {
-                if (response.status) {
-                    toast.done(t('shared.success.addedSuccess'));
-                    this.props.getTemplateForDay2();
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
+        confirmAlert({
+            title: t('shared.confirmTitle'),
+            message: t('shared.confirmMessageBreak'),
+            buttons: [
+                {
+                    label: t('shared.yes'),
+                    onClick: () => {
+                        if(planMode){
+                            const planService = new PlanService();
+                            const dataBreak = {
+                                'subscribtion': id,
+                                "day": activeDay,
+                                'type': 'exercise',
+                            }
+                            planService.addMealExcerisebreakDay(dataBreak).then(response => {
+                                if (response.status) {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                    this.props.getTemplateForDay2();
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
+                        }
+                        else{
+                            const templateServices = new TemplateServices();
+                            const dataBreak = {
+                                'template_day_id': id,
+                                'type': 'exercise',
+                            }
+                            templateServices.addTemplateBreakDay(dataBreak).then(response => {
+                                if (response.status) {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                    this.props.getTemplateForDay2();
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
+                        }
+                    }
+                },
+                {
+                    label: t('shared.no'),
                 }
-            })
-        }
-        else{
-            const templateServices = new TemplateServices();
-            const dataBreak = {
-                'template_day_id': id,
-                'type': 'exercise',
-            }
-            templateServices.addTemplateBreakDay(dataBreak).then(response => {
-                if (response.status) {
-                    toast.done(t('shared.success.addedSuccess'));
-                    this.props.getTemplateForDay2();
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
-                }
-            })
-        }
+            ]
+        });
+
     }
     async componentWillMount() {
         const musclesService  = new MusclesService();

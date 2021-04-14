@@ -20,7 +20,6 @@ import {Card} from "../../../pages/template/Card";
 import update from "immutability-helper";
 import PlanService from "../../../services/plan-service/plan.service";
 import {confirmAlert} from "react-confirm-alert";
-
 class MealComponent extends Component {
     constructor(props) {
         super(props);
@@ -43,19 +42,8 @@ class MealComponent extends Component {
     }
 
     componentDidMount() {
-        const {t, exerciseMealData} = this.props;
+        const {t, exerciseMealData, planMode} = this.props;
         toast.done(t('shared.success.addedSuccess'));
-        if(exerciseMealData.meals && exerciseMealData.meals.length) {
-            this.setState({subscriptionData: { calories: 0, fat: 0, carbs: 0, protein: 0}})
-        }
-
-    }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const {t, planMode, exerciseMealData} = this.props;
-        if(planMode && exerciseMealData.meals && exerciseMealData.meals.length ){
-                this.getSubscriptionData();
-        }
-
     }
 
     calculateCaloriesTotal() {
@@ -109,7 +97,6 @@ class MealComponent extends Component {
         }
         return proteinTotal
     }
-
     deleteMealTemplate(id) {
         // deleteMealTemplate
         const {t, planMode,  mealDataItem,planId, activeDay} = this.props;
@@ -319,19 +306,7 @@ class MealComponent extends Component {
             }}));
         setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2})); console.log('asma')},1000)
     });
-    getSubscriptionData = () =>{
-        let {subscription, exerciseMealData} =this.props;
-        const planService = new PlanService();
-        planService.getSubscriptionData(subscription.subscription_goal_id).then(response => {
-            if (response) {
-                this.setState({subscriptionData: response.result})
-            }
-            else {
-                this.setState({subscriptionData: {subscription: 1885, id: 336, calories: 0, fat: 0, carbs: 0, protein: 0}})
-            }
-        })
 
-    }
     generateMealList=(item)=>{
         const {t, planMode}= this.props;
         return <>
@@ -509,8 +484,7 @@ class MealComponent extends Component {
 
     }
     render() {
-        const {t, templateId, daysNumber, activeDay, exerciseMealData, getTemplateForDay, planMode, traineesId} = this.props;
-        let {subscriptionData}= this.state;
+        const {t, templateId, daysNumber, activeDay, exerciseMealData, getTemplateForDay, subscriptionData,planMode, traineesId} = this.props;
         const buttons = this.renderDaysButtons();
         return (
             <>

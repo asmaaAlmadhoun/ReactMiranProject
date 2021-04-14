@@ -29,6 +29,7 @@ ArabicTranslation = {
       emailExistBefore: 'البريد الألكترونى مستخدم من قبل'
     },
     confirmMessage: 'هل تريد بالفعل حذف هذا العنصر',
+    confirmMessageBreak: 'هل تريد بالفعل انشاء يوم عطلة',
     confirmTitle: 'تأكيد',
     yes: 'نعم',
     no: 'لا',

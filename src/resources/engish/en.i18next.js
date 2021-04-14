@@ -26,6 +26,7 @@ const EnglishTranslation = {
             emailExistBefore : 'email address already exists'
         },
         confirmMessage: 'Are you sure to delete this.',
+        confirmMessageBreak: 'Are you sure to add break day',
         confirmTitle: 'Confirm to submit',
         yes: 'Yes',
         no: 'No',

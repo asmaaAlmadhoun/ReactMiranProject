@@ -19,14 +19,14 @@ class UserVersionServices extends BaseService {
     editNote = async (data,id) => {
         if(!data)
             return ;
-        const url =   this._endPoint + "/trainer-notes/" + id;
-        return  HTTP_REQUEST.get({target:url , body : data});
+        const url =   this._endPoint + "/trainer-notes/" + id +'/';
+        return  HTTP_REQUEST.patch({target:url , body : data});
     }
     deleteNote = async (id) => {
         if(!id)
             return ;
         const url =   this._endPoint + "/trainer-notes/" + id;
-        return  HTTP_REQUEST.post({target:url });
+        return  HTTP_REQUEST._delete({target:url });
     }
 }
 

@@ -8,9 +8,10 @@ import {BiEditAlt} from "react-icons/bi";
 import EmptyComponent from "../common/empty-page/empty.component";
 import UserService from "../../services/user-service/user-version.services";
 import {Message, TextArea} from 'semantic-ui-react'
-import InputTextComponent from "../InputTextComponent/input-text-no-label.component";
 import {toast} from "react-toastify";
 import PrimaryButtonComponent from "../ButtonComponent/primary-button.component";
+import {confirmAlert} from "react-confirm-alert";
+import './trainee-modal.css'
 
 class TraineeModalNoteComponent extends Component {
 
@@ -49,6 +50,7 @@ class TraineeModalNoteComponent extends Component {
     }
 
     onSubmit =  () => {
+        console.log('click');
         const { newNote, editStatus, itemToEdit } = this.state;
         this.setState({isLoading:true})
         const { traineesId, subscriptionID,t } = this.props;
@@ -56,9 +58,7 @@ class TraineeModalNoteComponent extends Component {
         if(editStatus){
             const data = {
                 note: newNote,
-                noteId: itemToEdit.id,
-                trainee_id:traineesId,
-                subscription: subscriptionID,
+                noteId: itemToEdit.id
             }
             userService.editNote(data,itemToEdit.id).then(response => {
                 this.setState({isLoading : false})
@@ -95,14 +95,28 @@ class TraineeModalNoteComponent extends Component {
     deleteNote = async (item) => {
         const userService  = new UserService();
         const {t} = this.props;
-        userService.deleteNote(item.id).then(response => {
-            if(response.status) {
-                toast.done(t('shared.success.deletedSuccess'));
-                this.fetchData();
-            }else {
-                toast.error(t('shared.errors.globalError'))
-            }
-        })
+        confirmAlert({
+            title: t('shared.confirmTitle'),
+            message: t('shared.confirmMessage'),
+            buttons: [
+                {
+                    label: t('shared.yes'),
+                    onClick: () => {
+                        userService.deleteNote(item.id).then(response => {
+                            if(response.status) {
+                                toast.done(t('shared.success.deletedSuccess'));
+                                this.fetchData();
+                            }else {
+                                toast.error(t('shared.errors.globalError'))
+                            }
+                        })
+                    }
+                },
+                {
+                    label: t('shared.no'),
+                }
+            ]
+        });
     }
     handleChange = (e) =>{
         console.log('   dd '+ e)
@@ -139,43 +153,46 @@ class TraineeModalNoteComponent extends Component {
                         </button>
                     </div>
                 }>
-                    <h3 className="btn-primary text-center w-75 mx-auto mb-5">{t('traineeModal.notes')}</h3>
-                    {
-                        this.state.notes && this.state.notes.length ?
-                            this.state.notes.map( (item,i) => {
-                                return (
-                                    <div className='my-3' key={item.id}>
-                                        <Message className='custom-message' content={
-                                           <div className="row">
-                                               <div className='col-sm-9'>
-                                                   {item.note}
-                                               </div>
-                                               <div className="col-sm-3">
-                                                   <button className="ui button icon p-2 blue" onClick={(e)=> this.setState({itemToEdit: item,__addNoteModal__: true, editStatus: true})}>
-                                                       <BiEditAlt />
-                                                   </button>
-                                                   <button className="ui button icon p-2 red" onClick={(e)=> this.deleteNote(item)}>
-                                                       <FiX/>
-                                                   </button>
-                                               </div>
-                                           </div>
+                        <h3 className="btn-primary text-center w-75 mx-auto mb-5">{t('traineeModal.notes')}</h3>
+                        <div className="container-note-list">
+                         {
+                            this.state.notes && this.state.notes.length ?
+                                this.state.notes.map( (item,i) => {
+                                    return (
+                                        <div className='my-3' key={item.id}>
+                                            <Message className='custom-message' content={
+                                                <div className="row">
+                                                    <div className='col-sm-9'>
+                                                        {item.note}
+                                                    </div>
+                                                    <div className="col-sm-3">
+                                                        <button className="ui button icon p-2 blue" onClick={(e)=> this.setState({itemToEdit: item,__addNoteModal__: true, editStatus: true})}>
+                                                            <BiEditAlt />
+                                                        </button>
+                                                        <button className="ui button icon p-2 red" onClick={(e)=> this.deleteNote(item)}>
+                                                            <FiX/>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             } />
 
-                                    </div>
-                                );
-                            })
-                            :
-                            <EmptyComponent />
-                    }
+                                        </div>
+                                    );
+                                })
+                                :
+                                <EmptyComponent />
+                        }
+                        </div>
+
 
                 </ModalComponent>
 
-                <ModalComponent size='mini' modalCenter={true} isOpen={this.state.__addNoteModal__}  hideAction={true} handleClosed={e => {
+                <ModalComponent size='tiny' modalCenter={true} isOpen={this.state.__addNoteModal__}  hideAction={true} handleClosed={e => {
                     this.setState({__addNoteModal__:false})
                 }} >
                     <div className="text-center mini-shared-modal px-3">
                         <h4 className='mb-4'>  {t('traineeModal.addNote')} </h4>
-                        <TextArea rows={5}  className='form-control mb-4' onChange={(e)=>this.handleChange(e)} defaultValue={this.state.itemToEdit? this.state.itemToEdit.note :  this.state.newNote} />
+                        <TextArea rows={7}  className='form-control mb-4' onChange={(e)=>this.handleChange(e)} defaultValue={this.state.itemToEdit? this.state.itemToEdit.note :  this.state.newNote} />
                         <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit} title={t('shared.add')}> </PrimaryButtonComponent>
                     </div>
                 </ModalComponent>

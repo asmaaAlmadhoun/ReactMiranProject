@@ -122,3 +122,10 @@
     border-radius: 1rem;
     box-shadow: 0 0 0 0 rgb(34 36 38 / 22%) inset, 0 0 0 0 transparent;
 }
+.container-note-list{
+    max-height: 70vh;
+    overflow-y: scroll;
+}
+.react-confirm-alert-overlay{
+    z-index: 9999;
+}

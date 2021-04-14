@@ -15,6 +15,7 @@ import ToasterComponent from "../../common/toaster/toaster.component";
 import PropTypes from "prop-types";
 import {Loader} from "semantic-ui-react";
 import PlanService from "../../../services/plan-service/plan.service";
+import {confirmAlert} from "react-confirm-alert";
 
 class AddMealTemplateComponent extends Component {
     constructor(props) {
@@ -86,40 +87,55 @@ class AddMealTemplateComponent extends Component {
     addTemplateBreakDay = () => {
         const {t, exerciseMealData, planMode, activeDay} = this.props;
         let id= planMode?exerciseMealData.subscribtion:exerciseMealData.day.id;
-        if(planMode){
-            const planService = new PlanService();
-            const dataBreak = {
-                'subscribtion': id,
-                "day": activeDay,
-                'type': 'meal',
-            }
-            planService.addMealExcerisebreakDay(dataBreak).then(response => {
-                if (response.status) {
-                    toast.done(t('shared.success.addedSuccess'));
-                    this.props.getTemplateForDay2();
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
-                }
-            })
-        }
-        else{
-            const templateServices = new TemplateServices();
-            const dataBreak = {
-                'template_day_id': id,
-                'type': 'meal',
-            }
-            templateServices.addTemplateBreakDay(dataBreak).then(response => {
-                this.setState({isLoading: true})
-                if (response.status) {
-                    toast.done(t('shared.success.addedSuccess'));
-                    this.props.parentTriggerAdd();
-                    this.setState({isLoading: false})
-                } else {
-                    toast.done(t('shared.success.addedSuccess'));
-                }
-            })
+        confirmAlert({
+            title: t('shared.confirmTitle'),
+            message: t('shared.confirmMessageBreak'),
+            buttons: [
+                {
+                    label: t('shared.yes'),
+                    onClick: () => {
+                        if(planMode){
+                            const planService = new PlanService();
+                            const dataBreak = {
+                                'subscribtion': id,
+                                "day": activeDay,
+                                'type': 'meal',
+                            }
+                            planService.addMealExcerisebreakDay(dataBreak).then(response => {
+                                if (response.status) {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                    this.props.getTemplateForDay2();
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
+                        }
+                        else{
+                            const templateServices = new TemplateServices();
+                            const dataBreak = {
+                                'template_day_id': id,
+                                'type': 'meal',
+                            }
+                            templateServices.addTemplateBreakDay(dataBreak).then(response => {
+                                this.setState({isLoading: true})
+                                if (response.status) {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                    this.props.parentTriggerAdd();
+                                    this.setState({isLoading: false})
+                                } else {
+                                    toast.done(t('shared.success.addedSuccess'));
+                                }
+                            })
 
-        }
+                        }
+                    }
+                },
+                {
+                    label: t('shared.no'),
+                }
+            ]
+        });
+
     }
     showModalHandler =() => {
         this.setState({__addModal__ : true});

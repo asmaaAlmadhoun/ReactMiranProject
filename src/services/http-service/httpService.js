@@ -22,6 +22,28 @@ const base_url = 'https://testing.miranapp.com/api'
     }
 
 }
+const patch = async ({ target, body  }) => {
+    const token = localStorage.getItem('miran-token')
+    try {
+        const url = `${base_url}/${target}`;
+        const result = await fetch(url, {
+            method: "PATCH",
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': token ? `token ${token}` : null,
+                'App-Version' : '2.1.6',
+                'Access-Control-Allow-Methods': 'GET, PUT, PATCH, POST, DELETE, HEAD, OPTIONS'
+            },
+            body: JSON.stringify(body)
+        })
+        return await result.json()
+
+    } catch (error) {
+        console.log('error', error)
+    }
+
+}
 
 const get = async ({target}) => {
     const token = localStorage.getItem('miran-token')
@@ -108,6 +130,7 @@ const Post_As_Form_Data = async({target , body}) => {
 
 export  const HTTP_REQUEST = {
     post,
+    patch,
     get,
     put,
     _delete,
