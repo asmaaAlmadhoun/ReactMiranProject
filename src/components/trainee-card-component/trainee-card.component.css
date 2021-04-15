@@ -4,6 +4,7 @@
     border-radius: 1.5rem;
     max-width: 90%;
     margin: auto;
+    min-height: 180px;
     display: block;
 }
 .trainee-card a, .trainee-card span{
@@ -27,10 +28,14 @@
 
 .trainee-card .user-name , .trainee-card .remaining-days {
     text-align: center;
+    min-height: 17px;
 }
 .trainee-card .user-name {
     padding:  0;
     margin-top: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
 }
 .trainee-card .user-name  span {
     font-weight: 600;
@@ -55,5 +60,5 @@
     box-shadow: none !important;
 }
 .ico .ui.basic.blue.button svg{
-    font-size: 2rem;
+    font-size: 2.7rem;
 }

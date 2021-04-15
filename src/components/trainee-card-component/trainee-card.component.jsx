@@ -33,7 +33,7 @@ class TraineeCardComponent extends Component {
                     </span>
                 </div>
                 <div className={"action-icons d-flex justify-content-center "+(classNameAction ? classNameAction : '')} >
-                    <Button className='p-0 boxShadow-none chat-icon' basic color='blue'onClick={e => {
+                    <Button className='p-0 boxShadow-none ml-2 mr-2 chat-icon' basic color='blue'onClick={e => {
                         e.stopPropagation();
                         this.props.history.push({
                             pathname: '/chat-app',

@@ -143,14 +143,6 @@ class TraineeModalNoteComponent extends Component {
                             <FiPlus />
                             <div><small>{t('traineeModal.note')}</small></div>
                         </button>
-                        <button className="ui button icon red p-2">
-                            <AiOutlineClose />
-                            <div><small>{t('shared.remove')}</small></div>
-                        </button>
-                        <button className="ui button icon primary p-2">
-                            <BiEditAlt />
-                            <div><small>{t('shared.edit')}</small></div>
-                        </button>
                     </div>
                 }>
                         <h3 className="btn-primary text-center w-75 mx-auto mb-5">{t('traineeModal.notes')}</h3>

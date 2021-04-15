@@ -322,9 +322,9 @@ class ExerciseComponent extends Component {
         }
         return daysButton;
     }
-    data = (item) => {
+    data = (item,i) => {
         const {t,planMode}  = this.props;
-        return( <>
+        return( <div key={i}>
         <div className="row" key={item.exercise.exercise_id} onClick={(e) =>
         {
             e.preventDefault();
@@ -394,7 +394,7 @@ class ExerciseComponent extends Component {
             </div>
         </div>
         <hr/>
-    </>)};
+    </div>)};
     render() {
         const {t, exerciseMealData, daysNumber,planMode, planId, activeDay}  = this.props;
         const {openExceriseListDetails, ExerciseId,ExceriseMuscleItem, muscles, muscleExercise, openMuscleExerciseList}  = this.state;
@@ -407,20 +407,22 @@ class ExerciseComponent extends Component {
                 <div>
                     {(planMode)?
                             ( exerciseMealData.exercises  &&  exerciseMealData.exercises.length) ?
-                                exerciseMealData.exercises.map(item =>
-                                this.data(item)
+                                exerciseMealData.exercises.map((item,i) =>
+                                this.data(item,i)
                             )
                             : <BreakDayComponent/>
                         :
                         !(exerciseMealData)?
                         <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
-                        exerciseMealData.day.break_day_exercise ?
+                        exerciseMealData ?
+                            exerciseMealData.day.break_day_exercise ?
                         <BreakDayComponent/> :
                         !( exerciseMealData.day.exercises  &&  exerciseMealData.day.exercises.length) ?
                             <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/> :
                             exerciseMealData.day.exercises.map(item =>
                                 this.data(item)
                             )
+                            : <EmptyDataComponent title={t('traineeModal.emptyDataExercise')}/>
 
                     }
                 </div>
@@ -458,7 +460,7 @@ class ExerciseComponent extends Component {
                 </button>
                 {  muscleExercise !== null?
                     this.state.loader2 ? <Loader active={true} inline='centered'/> :
-                        <SearchableListWithImgTemplateComponent  getTemplateForDay2={(e)=> {this.props.getTemplateForDay2(e)}} activeDay={exerciseMealData&&exerciseMealData.length? !planMode ?exerciseMealData.day.id : exerciseMealData.day: activeDay} traineesId={this.props.traineesId} ExerciseId={ExerciseId} list={muscleExercise}  planMode={this.props.planMode} openModalToAdd={(e)=> this.openModalToAdd(e)} />
+                        <SearchableListWithImgTemplateComponent  getTemplateForDay2={(e)=> {this.props.getTemplateForDay2(e)}} activeDay={planMode ?exerciseMealData.day: exerciseMealData.day.id } traineesId={this.props.traineesId} ExerciseId={ExerciseId} list={muscleExercise}  planMode={this.props.planMode} openModalToAdd={(e)=> this.openModalToAdd(e)} />
                    :''
                 }
             </div>

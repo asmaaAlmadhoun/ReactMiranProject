@@ -36,7 +36,7 @@ class AddExerciseTemplateComponent extends  React.Component {
     }
     async addExerciseToTemplate(e) {
         const {weight, comment, sets, count, rest_period, ExerciseId, activeDay} = this.state;
-        const {planMode, traineesId} = this.props;
+        const {planMode, traineesId,exerciseMealData} = this.props;
         if(planMode){
             const planService= new PlanService();
             const data = {

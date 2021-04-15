@@ -35,6 +35,9 @@
     text-align: center;
     font-size: 15px;
     color: black;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: pre;
 }
 .template-card .content .action button {
     background-color: #00a4f8 !important;

@@ -125,9 +125,6 @@ class TemplateDetailsComponent extends Component {
                                                             activeDay={this.state.activeDay} />
                                 }
                             </>
-
-
-
                     }
                 </Tab.Pane>
         })): '';

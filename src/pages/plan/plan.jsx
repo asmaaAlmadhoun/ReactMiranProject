@@ -49,14 +49,18 @@ class Plan extends Component {
     getTemplateForDay = (tempId,activeDay) =>{
         const {t} = this.props;
         if(activeDay === undefined){
+            console.log(' long3 ' + tempId)
+
             activeDay = this.state.activeDay;
         }
         if(tempId === undefined){
+            console.log(' long2 ' + tempId)
             tempId = this.state.planId;
         }
-        else {
-            this.setState({planId: tempId, traineesId: tempId})
-        }
+        // else {
+        //     console.log(' long ' + tempId)
+        //     this.setState({planId: tempId, traineesId: tempId})
+        // }
         const planServices = new PlanServices();
         planServices.getPlanSchedule(tempId, activeDay).then(response => {
             if (response) {
@@ -244,7 +248,7 @@ class Plan extends Component {
                                                         render: () =>
                                                             <Tab.Pane attached={false}>
                                                                 <MealComponent  daysNumber={item.profile.subscription.total_days} calendarDays={calendarDays}
-                                                                                getTemplateForDay2={(e) => this.getTemplateForDay(item.id, this.state.activeDay)}
+                                                                                getTemplateForDay2={(e) => this.getTemplateForDay()}
                                                                                 subscriptionData={subscriptionData}
                                                                                 openDetailsFunction={(e) => this.setState({
                                                                                     mealDataItem: e,
@@ -269,9 +273,6 @@ class Plan extends Component {
                                                             activeDay={this.state.activeDay} />
                                 }
                             </>
-
-
-
                     }
                 </Tab.Pane>
         })): '';
@@ -281,7 +282,6 @@ class Plan extends Component {
 
                 <div className="container">
                     <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={panes}
-                         activeTab={this.state.planId}  onTabChange={this.handleTabChange}
                     />
                 </div>
                 <ToasterComponent />

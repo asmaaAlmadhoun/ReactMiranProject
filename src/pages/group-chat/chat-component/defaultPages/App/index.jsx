@@ -40,8 +40,8 @@ class App extends React.Component {
                 <Router history={history}>
                     <Switch>
                         <Route path="/chat-app" component={CometChatUI} />
-                        <Route path="/users"  component={CometChatUserListWithMessages} />
-                        <Route path="/users2"  component={CometChatConversationListWithMessages} />
+                        {/*<Route path="/users"  component={CometChatUserListWithMessages} />*/}
+                        {/*<Route path="/users2"  component={CometChatConversationListWithMessages} />*/}
                         <PrivateRoute path="/conversation-list" component={CometChatConversationList} />
                         <PrivateRoute exact path="/" component={HomePage} />
                         <Route path="/login1" component={KitchenSinkApp} />

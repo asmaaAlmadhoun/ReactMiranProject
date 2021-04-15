@@ -99,7 +99,7 @@ class SearchableListWithImgTemplateComponent extends Component {
                 <ul>
                     {
                         List.map((el) => {
-                            return   <ListItemWithImg key={el.id} onClick={(e)=> {console.log('asma 2333344');this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}}
+                            return   <ListItemWithImg key={el.id} onClick={(e)=> {this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}}
                                                     data={el} activeDay={activeDay} ExerciseId={ExerciseId}
                                                     parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}

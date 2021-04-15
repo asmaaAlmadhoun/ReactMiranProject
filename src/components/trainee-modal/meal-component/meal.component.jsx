@@ -318,8 +318,8 @@ class MealComponent extends Component {
                     <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
                     <div className="images">
                         {
-                            (item.meal.foods) ? item.meal.foods.map(item =>
-                                <span>
+                            (item.meal.foods) ? item.meal.foods.map((item,i) =>
+                                <span key={i}>
                                                         <img className='w-100'
                                                              src={'https://miranapp.com/media/' + item.image}
                                                              alt="image"/>
@@ -396,7 +396,7 @@ class MealComponent extends Component {
                 {
                     id: i,
                     text:
-                        <>
+                        <div key={i}>
                             <div className="row" onClick={(e) => {
                                 e.preventDefault();
                                 this.openDetailsFunc(item);
@@ -405,8 +405,8 @@ class MealComponent extends Component {
                                     <h5 className={t('local') === 'ar' ? 'text-right' : 'text-left'}> {item.meal.title} </h5>
                                     <div className="images">
                                         {
-                                            (item.meal.foods) ? item.meal.foods.map(item =>
-                                                <span>
+                                            (item.meal.foods) ? item.meal.foods.map((item,i) =>
+                                                <span  key={i}>
                                                             <img className='w-100'
                                                                  src={'https://miranapp.com/media/' + item.image}
                                                                  alt="image"/>
@@ -469,7 +469,7 @@ class MealComponent extends Component {
                                 </div>
                             </div>
                             <hr/>
-                        </>
+                        </div>
                 }
             )
         )}
@@ -588,7 +588,7 @@ class MealComponent extends Component {
                                 <AddMealTemplateComponent traineesId={traineesId} planMode={this.props.planMode}  dayNumbers={daysNumber} parentTriggerAdd={(e) => {
                                     let NewData = this.props.getTemplateForDay2();
                                     setTimeout(() => this.setState({exerciseMealData: NewData}), 100)
-                                }} getTemplateForDay2={(e) => this.props.getTemplateForDay2(traineesId, activeDay)} exerciseMealData={this.props.exerciseMealData} activeDay={activeDay}
+                                }} getTemplateForDay2={this.props.getTemplateForDay2} exerciseMealData={this.props.exerciseMealData} activeDay={activeDay}
                                                           templateId={templateId}/>
                                 <button className="btn primary-color p-1"
                                         onClick={(e) => this.openModalCopyMeal(e, null, 1)}>
