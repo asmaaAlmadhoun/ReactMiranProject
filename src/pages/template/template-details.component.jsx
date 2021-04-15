@@ -10,6 +10,7 @@ import ExerciseComponent from "../../components/trainee-modal/exercise-component
 import MealComponent from "../../components/trainee-modal/meal-component/meal.component";
 import MealItemComponent from "../../components/meal-excerise-itemComponent/meal-item.component";
 import ExceriseItemComponent from "../../components/meal-excerise-itemComponent/excerise-item.component";
+import {toast} from "react-toastify";
 
 class TemplateDetailsComponent extends Component {
     constructor(props) {
@@ -116,7 +117,7 @@ class TemplateDetailsComponent extends Component {
 
                                 {!openDetails?
                                     '':
-                                    <MealItemComponent getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e)=> this.setState({openDetails: e})} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
+                                    <MealItemComponent getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e,status)=> {this.setState({openDetails: e}); toast.done(t('shared.success.addedSuccess'))}} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
                                 }
                                 {!openExceriseDetails?
                                     '':

@@ -46,7 +46,7 @@ class ListItemWithImg extends Component{
                 <ModalComponent size="small" isOpen={this.state.__addModal__} hideAction={true} handleClosed={this.closeModalHandler} >
                     {isNaN(this.props.data.exercise_id) ?
                         <DetailListItemTemplateComponent key={this.props.id} parentUpdatemealDataItem={(e)=>{this.props.parentUpdatemealDataItem(e)}}
-                                                         closeModal={(e)=>this.setState({__addModal__ : false})}
+                                                         closeModal={(e)=>{this.setState({__addModal__ : false});this.props.parentCall(false,true)}}
                                                          mealDataItem={this.props.mealDataItem} activeDay={activeDay}
                                                          getTemplateForDay2={this.props.getTemplateForDay2}
                                                          MealForThisDay={this.props.data} planMode={this.props.planMode}
@@ -100,7 +100,7 @@ class SearchableListWithImgTemplateComponent extends Component {
                     {
                         List.map((el) => {
                             return   <ListItemWithImg key={el.id} onClick={(e)=> {this.props.openModalToAdd(t('local')==='ar' ? el.title_ar : el.title)}}
-                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId}
+                                                    data={el} activeDay={activeDay} ExerciseId={ExerciseId}  parentCall={(e)=>this.props.parentCall(false,true)}
                                                     parentUpdatemealDataItem={(e)=> this.props.parentUpdatemealDataItem(e)}
                                                     mealDataItem={this.props.mealDataItem} image={el.image}
                                                     getTemplateForDay2={this.props.getTemplateForDay2}

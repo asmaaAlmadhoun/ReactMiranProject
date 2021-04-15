@@ -14,6 +14,7 @@ import {Link} from "react-router-dom";
 import Slider from "react-slick";
 import DateComponent from "../../components/trainee-modal/dates-components/date.component";
 import PlanService from "../../services/plan-service/plan.service";
+import {toast} from "react-toastify";
 
 class Plan extends Component {
     constructor(props) {
@@ -264,11 +265,11 @@ class Plan extends Component {
 
                                 {!openDetails?
                                     '':
-                                    <MealItemComponent planMode={true} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e)=> this.setState({openDetails: e})} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
+                                    <MealItemComponent planMode={true} getTemplateForDay2={(e)=> this.getTemplateForDay()} parentCall={(e)=> {this.setState({openDetails: e}); toast.done(t('shared.success.addedSuccess'))}} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
                                 }
                                 {!openExceriseDetails?
                                     '':
-                                    <ExceriseItemComponent planMode={true}  parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)}
+                                    <ExceriseItemComponent planMode={true}  parentCallExcersise={(e)=> this.setState({openExceriseDetails: e})} ExceriseDataItem={ExceriseDataItem} openExceriseDetails={openExceriseDetails} getTemplateForDay2={(e)=> this.getTemplateForDay()}
                                                             planId={item.id} traineesId={traineesId}
                                                             activeDay={this.state.activeDay} />
                                 }

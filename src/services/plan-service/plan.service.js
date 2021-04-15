@@ -69,7 +69,7 @@ class PlanService extends BaseService {
         if(!data)
             return ;
         const url =   this._endPoint + "delete/food";
-        return  HTTP_REQUEST._delete({target:url , body : data});
+        return  HTTP_REQUEST.put({target:url , body : data});
     }
     AddExerciseTrainee= async (data) => {
         if(!data)

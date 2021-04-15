@@ -69,20 +69,13 @@ class DetailListItemTemplateComponent extends Component {
                 if (response.status) {
                     this.props.getTemplateForDay2();
                     this.props.closeModal();
+                    this.props.parentCall(false);
                 }
             })
             :
             planService.addFoodTrainee(data2).then(response => {
                 if (response.status) {
-                    let DataNEW = this.props.getTemplateForDay2();
-                    let Data = {};
-                    DataNEW.meals.map(item => {
-                        if (item.meal.id === this.props.mealDataItem.meal.id)
-                            Data = item
-                    });
-                    setTimeout(() => {
-                        this.props.parentUpdatemealDataItem(Data)
-                    }, 600)
+                    this.props.getTemplateForDay2();
                     this.props.closeModal();
                 } else {
                     //  toast.done(t('shared.success.addedSuccess'));
@@ -101,6 +94,7 @@ class DetailListItemTemplateComponent extends Component {
                             //      toast.done(t('shared.success.addedSuccess'));
                             this.props.getTemplateForDay2();
                             this.props.closeModal();
+                            this.props.parentCall(false)
                         } else {
                             //  toast.done(t('shared.success.addedSuccess'));
                         }
@@ -119,6 +113,7 @@ class DetailListItemTemplateComponent extends Component {
                              this.props.parentUpdatemealDataItem(Data)
                          } ,200)
                          this.props.closeModal();
+
                     } else {
                         //  toast.done(t('shared.success.addedSuccess'));
                     }

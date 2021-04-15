@@ -66,13 +66,14 @@ class MealItemComponent extends Component {
                                 if(data && data.status) {
                                     let DataNEW = this.props.getTemplateForDay2();
                                     let Data = {};
-                                    DataNEW[0].meals.map(item => {
+                                    DataNEW.meals.map(item => {
                                         if (item.meal.id === this.props.mealDataItem.meal.id)
                                             Data = item
                                     });
                                     setTimeout(() => {
                                         this.setState({FoodList : Data.meal.foods,successState: true })
                                     }, 600)
+                                    this.props.parentCall(false)
                                 }
                             }).catch(error => {
                                 this.setState({isLoading : false})
@@ -88,6 +89,7 @@ class MealItemComponent extends Component {
                                 if(data && data.status) {
                                     this.props.getTemplateForDay2();
                                     this.setState({FoodList : data.result.meal.foods,successState: true })
+                                    this.props.parentCall(false,true)
                                 }
                             }).catch(error => {
                                 this.setState({isLoading : false})
@@ -155,7 +157,7 @@ class MealItemComponent extends Component {
                                     : t('traineeModal.emptyDataMeal')
                             }
                             <ModalComponent size="small" modalCenter={true} isOpen={this.state.openEditModal} hideAction={true} handleClosed={(e) => this.setState({openEditModal: false})} >
-                                <DetailListItemTemplateComponent EditMealItem='true' planMode={this.props.planMode}
+                                <DetailListItemTemplateComponent EditMealItem='true' planMode={this.props.planMode} parentCall={(e)=>this.props.parentCall(false)}
                                                                  closeModal={(e)=>this.setState({openEditModal : false})}
                                                                  mealDataItem={mealDataItem}
                                                                  getTemplateForDay2={(e)=>{this.props.getTemplateForDay2(e)}}
@@ -200,7 +202,7 @@ class MealItemComponent extends Component {
 
                 <ModalComponent  size='small' isOpen={this.state.__addModal__}  hideAction={true} handleClosed={(e)=>this.setState({__addModal__: false})} >
                     <SearchableListWithImgTemplateComponent planMode={this.props.planMode} getTemplateForDay2={this.props.getTemplateForDay2}
-                                                            mealDataItem={this.props.mealDataItem}
+                                                            mealDataItem={this.props.mealDataItem} parentCall={(e)=>this.props.parentCall(false,true)}
                                                             parentUpdatemealDataItem={(e) =>{ this.setState({mealDataItem:e})}}
                                                             list={this.state.FoodList}/>
                 </ModalComponent>
