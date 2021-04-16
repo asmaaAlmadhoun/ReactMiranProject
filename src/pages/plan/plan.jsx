@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
-import {Loader, Menu, Tab} from 'semantic-ui-react';
+import {Image, Loader, Menu, Tab} from 'semantic-ui-react';
 import AddDaysTemplateComponent from "../../components/assign-template/add-days-template/add-days-template.component";
 import {BsThreeDotsVertical} from "react-icons/bs";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
@@ -15,6 +15,7 @@ import Slider from "react-slick";
 import DateComponent from "../../components/trainee-modal/dates-components/date.component";
 import PlanService from "../../services/plan-service/plan.service";
 import {toast} from "react-toastify";
+import tempIco from "../../assets/icons/temp.svg";
 
 class Plan extends Component {
     constructor(props) {
@@ -206,9 +207,13 @@ class Plan extends Component {
                             <>
                                 <div className={openDetails || openExceriseDetails ? ' d-none':'' }>
                                     <ToasterComponent />
+                                    <h1 className='mb-3 bg-light text-center p-3'>
+                                        <Image src={tempIco} className='icon d-inline mx-3' width={25} />
+                                        {item.profile.full_name}
+                                    </h1>
                                     <div className="heading row">
                                         <div className="col-sm-12">
-                                            <div className="headings d-flex align-items-center">
+                                            <div className="headings d-flex align-items-center mb-3">
                                                 <img src={Report} alt="icon" className='mx-2' width="20px" />
                                                 <h3 className="flex-grow-1"> {t('traineeModal.title')} </h3>
                                                 <Link to={""}>

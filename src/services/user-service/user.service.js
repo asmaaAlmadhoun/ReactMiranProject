@@ -12,6 +12,13 @@ class UserService extends BaseService {
         const url = this._endPoint + "/trainer-profile";
         return HTTP_REQUEST.get({target:url});
     }
+    updateProfile = async (data) => {
+        if(!data)
+            return ;
+        const url =   this._endPoint + "/trainer-profile";
+        return  HTTP_REQUEST.put({target:url , body : data});
+    }
+
     get faq () {
         const url = this._endPoint + "/faq";
         return HTTP_REQUEST.get({target:url});

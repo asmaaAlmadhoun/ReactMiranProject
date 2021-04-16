@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './template.component.css';
 import {withTranslation} from "react-i18next";
-import {Loader, Menu, Tab} from 'semantic-ui-react';
+import {Image, Loader, Menu, Tab} from 'semantic-ui-react';
 import AddDaysTemplateComponent from "../../components/assign-template/add-days-template/add-days-template.component";
 import {BsThreeDotsVertical} from "react-icons/bs";
 import ToasterComponent from "../../components/common/toaster/toaster.component";
@@ -11,6 +11,7 @@ import MealComponent from "../../components/trainee-modal/meal-component/meal.co
 import MealItemComponent from "../../components/meal-excerise-itemComponent/meal-item.component";
 import ExceriseItemComponent from "../../components/meal-excerise-itemComponent/excerise-item.component";
 import {toast} from "react-toastify";
+import templateIcon from "../../assets/icons/template.svg";
 
 class TemplateDetailsComponent extends Component {
     constructor(props) {
@@ -77,6 +78,10 @@ class TemplateDetailsComponent extends Component {
                             <>
                                 <div className={openDetails || openExceriseDetails ? ' d-none':'' }>
                                     <ToasterComponent />
+                                    <h1 className='mb-3 bg-light text-center p-3'>
+                                        <Image src={templateIcon} className='icon d-inline mx-3' width={25} />
+                                        {item.name}
+                                    </h1>
 
                                     <AddDaysTemplateComponent templateId={item.id}  daysNumber={item.days} getTemplateForDay2={(e,z) => this.getTemplateForDay(e,z)} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>{this.setState({activeDay: e, loading: true}); setTimeout( () => this.setState({ loading: false}),500)} } clickNumberHandler={this.clickNumberHandler} />
                                     {

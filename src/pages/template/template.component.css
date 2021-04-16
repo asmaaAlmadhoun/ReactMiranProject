@@ -49,3 +49,7 @@
     max-height: 500px;
     overflow-y: auto;
 }
+.ui.menu.fluid, .ui.vertical.menu.fluid {
+    height: 90vh;
+    overflow-y: auto;
+}

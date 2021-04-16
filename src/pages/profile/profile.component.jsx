@@ -43,6 +43,24 @@ class ProfileComponent extends Component {
             console.log(error);
         })
     }
+    submitUpdate = () =>{
+        const userService = new UserService();
+        const data = {
+
+        }
+        this.setState({loading:true ,imgDefaultPath : userService.imageDefaultPath })
+        userService.updateProfile(data).then(data => {
+            // Todo Handle the data before log it.
+            this.setState({loading:false })
+            if(data.status) {
+                this.setState({data : data.result})
+                toast.done(t('shared.success.addedSuccess'));
+            }
+        }).catch(error => {
+            this.setState({loading:false})
+            console.log(error);
+        })
+    }
 
 
     previewImage = (file) => {
