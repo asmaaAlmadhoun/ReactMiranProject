@@ -55,18 +55,33 @@ class ProfileComponent extends Component {
         })
     }
     submitUpdate = () =>{
+        console.log('asma')
         const {t} = this.props;
-        const {full_name, bio, email,tele,nationality} = this.state;
+        const {full_name, bio, email,tele,nationality, data} = this.state;
         const userService = new UserService();
-        const data = {
+        let Nationality2 = [];
+        t('local') === 'ar' ?
+        Nationality2 = {
+            'name_ar':  nationality,
+            'id' : data.profile.nationality.id,
+            'name': data.profile.nationality.name
+        }
+        :
+        Nationality2 = {
+            'name':  nationality,
+            'id' : data.profile.nationality.id,
+            'name_ar': data.profile.nationality.name_ar
+        }
+
+        const data2 = {
             full_name:  full_name,
             bio: bio,
             email: email,
             mobile: tele,
-            nationality: nationality
+            // nationality: Nationality2
         }
         this.setState({loading:true ,imgDefaultPath : userService.imageDefaultPath })
-        userService.updateProfile(data).then(data => {
+        userService.updateProfile(data2).then(data => {
             // Todo Handle the data before log it.
             this.setState({loading:false })
             if(data.status) {
@@ -209,7 +224,7 @@ class ProfileComponent extends Component {
                                                    <label >
                                                        {t('profile.aboutMe')}
                                                    </label>
-                                                   <textarea  className="form-control" rows={14} name='bio'  defaultValue={this.state.data && this.state.data.profile.bio}/>
+                                                   <textarea  className="form-control" rows={14} name='bio' onChange={this.onChangeHandler}  defaultValue={this.state.data && this.state.data.profile.bio}/>
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >
@@ -224,7 +239,7 @@ class ProfileComponent extends Component {
                                                    </button>
                                                </div>
                                                <div className="col-sm-12 mt-4 ">
-                                                   <PrimaryButtonComponent title={t('shared.update')} onClick={(e)=>this.submitUpdate}  />
+                                                   <PrimaryButtonComponent title={t('shared.update')} clickHandler={this.submitUpdate}  />
                                                </div>
                                            </div>
                                        </div>
