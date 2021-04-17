@@ -48,7 +48,7 @@ class InputTextComponent extends Component {
                 <input className={this.state.hasError ? 'error-input form-control' : 'form-control'}
                        onBlur={this.changeHandler}  onChange={this.changeHandler} required={this.props.isRequired}
                        name={this.props.name}
-                       value={this.props.value}
+                       defaultValue={this.props.defaultValue}
                        type={isPassword ? 'password' : this.props.isNumber ? 'number': 'text'} />
                 {
                     this.state.hasError ?

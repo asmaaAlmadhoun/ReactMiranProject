@@ -24,19 +24,30 @@ class ProfileComponent extends Component {
             loading:false,
             imgDefaultPath : null,
             previewImage : null,
-            imageProfile: null
+            imageProfile: null,
+            full_name: '',
+            bio: '',
+            email: '',
+            tele: '',
+            nationality: ''
         }
     }
 
     componentWillMount() {
         // Fetch user profile.
+        const {t} = this.props;
         const userService = new UserService();
         this.setState({loading:true ,imgDefaultPath : userService.imageDefaultPath })
         userService.profile.then(data => {
             // Todo Handle the data before log it.
             this.setState({loading:false })
             if(data.status) {
-                this.setState({data : data.result})
+                this.setState({data : data.result,
+                    full_name:  data.result.profile.full_name,
+                    bio: data.result.profile.bio,
+                    email: data.result.profile.email,
+                    tele: data.result.profile.mobile,
+                    nationality: t('local') === 'ar' ? data.result.profile.nationality.name_ar : data.result.profile.nationality.name})
             }
         }).catch(error => {
             this.setState({loading:false})
@@ -44,16 +55,24 @@ class ProfileComponent extends Component {
         })
     }
     submitUpdate = () =>{
+        const {t} = this.props;
+        const {full_name, bio, email,tele,nationality} = this.state;
         const userService = new UserService();
         const data = {
-
+            full_name:  full_name,
+            bio: bio,
+            email: email,
+            mobile: tele,
+            nationality: nationality
         }
         this.setState({loading:true ,imgDefaultPath : userService.imageDefaultPath })
         userService.updateProfile(data).then(data => {
             // Todo Handle the data before log it.
             this.setState({loading:false })
             if(data.status) {
-                this.setState({data : data.result})
+                this.setState({
+                    data : data.result
+                })
                 toast.done(t('shared.success.addedSuccess'));
             }
         }).catch(error => {
@@ -83,6 +102,12 @@ class ProfileComponent extends Component {
             }
             reader.readAsDataURL(file);
         }
+    }
+    onChangeHandler = (e) => {
+        if(!e)
+            return ;
+        const value = e.target.value;
+        this.setState({[e.target.name] : value});
     }
 
     render() {
@@ -134,13 +159,13 @@ class ProfileComponent extends Component {
                                        <div className="col-md-10 col-sm-12">
                                            <div className="row overflow-auto">
                                                <div className="col-sm-12">
-                                                   <InputTextComponent value={this.state.data && this.state.data.profile.full_name}  isRequired={false}  labelTitle={t('profile.fullName')} />
+                                                   <InputTextComponent defaultValue={this.state.data && this.state.data.profile.full_name} name='full_name'  isRequired={false}  labelTitle={t('profile.fullName')} />
                                                </div>
                                                <div className="col-sm-12 mt-2">
-                                                   <EmailInputComponent isRequired={false} value={this.state.data && this.state.data.profile.email} isArabic={t('local') === 'ar'} />
+                                                   <EmailInputComponent isRequired={false} defaultValue={this.state.data && this.state.data.profile.email} name='email'  isArabic={t('local') === 'ar'} />
                                                </div>
                                                <div className="col-sm-12 mt-2">
-                                                   <InputTextComponent isRequired={false} labelTitle={t('profile.tele')} value={this.state.data && this.state.data.profile.mobile.replace(/\s+/g, '').replace('+','')} />
+                                                   <InputTextComponent isRequired={false} labelTitle={t('profile.tele')} defaultValue={this.state.data && this.state.data.profile.mobile.replace(/\s+/g, '').replace('+','')} name='mobile' />
                                                </div>
                                                <div className="col-sm-6 mt-2">
                                                    <label >
@@ -161,10 +186,10 @@ class ProfileComponent extends Component {
                                                </div>
                                                <div className="col-sm-6 mt-2">
                                                    <InputTextComponent
-                                                        value={this.state.data && this.state.data.profile && this.state.data.profile.nationality ?
+                                                       defaultValue={this.state.data && this.state.data.profile && this.state.data.profile.nationality ?
                                                      t('local') === 'ar' ? this.state.data.profile.nationality.name_ar : this.state.data.profile.nationality.name  : null
                                                         }
-                                                        isRequired={false} labelTitle={t('profile.country')} />
+                                                        isRequired={false}  name='nationality'  labelTitle={t('profile.country')} />
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >
@@ -184,7 +209,7 @@ class ProfileComponent extends Component {
                                                    <label >
                                                        {t('profile.aboutMe')}
                                                    </label>
-                                                   <textarea  className="form-control" rows={14} defaultValue={this.state.data && this.state.data.profile.bio}/>
+                                                   <textarea  className="form-control" rows={14} name='bio'  defaultValue={this.state.data && this.state.data.profile.bio}/>
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <label >
@@ -199,7 +224,7 @@ class ProfileComponent extends Component {
                                                    </button>
                                                </div>
                                                <div className="col-sm-12 mt-4 ">
-                                                   <PrimaryButtonComponent title={t('shared.update')} />
+                                                   <PrimaryButtonComponent title={t('shared.update')} onClick={(e)=>this.submitUpdate}  />
                                                </div>
                                            </div>
                                        </div>
