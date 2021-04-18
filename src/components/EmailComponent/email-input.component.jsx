@@ -52,7 +52,7 @@ class EmailInputComponent extends Component {
                         className={this.state.hasError  ? 'error-input form-control' : 'form-control'}
                         onChange={this.changeHandler}
                         name={this.props.name ? this.props.name : 'email'}
-                        defaultValue={this.props.defaultValue}
+                        value={this.props.value}
                         required={this.props.isRequired}/>
                 {
                     this.state.hasError  && !this.state.isEmailNotValid?

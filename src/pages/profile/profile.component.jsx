@@ -74,9 +74,7 @@ class ProfileComponent extends Component {
         }
 
         const data2 = {
-            full_name:  full_name,
             bio: bio,
-            email: email,
             mobile: tele,
             // nationality: Nationality2
         }
@@ -174,10 +172,10 @@ class ProfileComponent extends Component {
                                        <div className="col-md-10 col-sm-12">
                                            <div className="row overflow-auto">
                                                <div className="col-sm-12">
-                                                   <InputTextComponent defaultValue={this.state.data && this.state.data.profile.full_name} name='full_name'  isRequired={false}  labelTitle={t('profile.fullName')} />
+                                                   <InputTextComponent value={this.state.data && this.state.data.profile.full_name} name='full_name'  isRequired={false}  labelTitle={t('profile.fullName')} />
                                                </div>
                                                <div className="col-sm-12 mt-2">
-                                                   <EmailInputComponent isRequired={false} defaultValue={this.state.data && this.state.data.profile.email} name='email'  isArabic={t('local') === 'ar'} />
+                                                   <EmailInputComponent isRequired={false} value={this.state.data && this.state.data.profile.email} name='email'  isArabic={t('local') === 'ar'} />
                                                </div>
                                                <div className="col-sm-12 mt-2">
                                                    <InputTextComponent isRequired={false} labelTitle={t('profile.tele')} defaultValue={this.state.data && this.state.data.profile.mobile.replace(/\s+/g, '').replace('+','')} name='mobile' />
