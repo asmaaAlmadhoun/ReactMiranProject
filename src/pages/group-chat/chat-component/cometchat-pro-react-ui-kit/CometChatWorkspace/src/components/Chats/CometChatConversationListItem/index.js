@@ -22,7 +22,7 @@ import {
   itemLastMsgStyle,
   itemLastMsgTimeStyle
 } from "./style";
-
+let loggedInUser='';
 class CometChatConversationListItem extends React.Component {
 
   constructor(props) {
@@ -33,8 +33,15 @@ class CometChatConversationListItem extends React.Component {
       lastMessage: "",
       lastMessageTimestamp: "",
     }
+    loggedInUser = this.props.loggedInUser;
+
   }
 
+  componentWillMount() {
+    if(this.props.loggedInUser === null){
+      loggedInUser = localStorage.getItem('loggedInUser')
+    }
+  }
   componentDidMount() {
 
     const message = this.getLastMessage();
@@ -71,8 +78,10 @@ class CometChatConversationListItem extends React.Component {
     const lastMessage = this.props.conversation.lastMessage;
 
     if (lastMessage.hasOwnProperty("deletedAt")) {
+      console.log(this.props.loggedInUser)
+      console.log('loggedInUser')
 
-      message = (this.props.loggedInUser.uid === lastMessage.sender.uid) ? `${Translator.translate("YOU_DELETED_THIS_MESSAGE", this.props.lang)}` : `${Translator.translate("THIS_MESSAGE_DELETED", this.props.lang)}`;
+      message = (loggedInUser.uid === lastMessage.sender.uid) ? `${Translator.translate("YOU_DELETED_THIS_MESSAGE", this.props.lang)}` : `${Translator.translate("THIS_MESSAGE_DELETED", this.props.lang)}`;
 
     } else {
 
@@ -120,7 +129,7 @@ class CometChatConversationListItem extends React.Component {
   getCustomMessage = (lastMessage) => {
 
     let message = null;
-    const sender = (this.props.loggedInUser.uid !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
+    const sender = (loggedInUser.uid !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
 
     switch(lastMessage.type) {
       case enums.CUSTOM_TYPE_POLL: {
@@ -250,7 +259,7 @@ class CometChatConversationListItem extends React.Component {
   getCallMessage = (lastMessage) => {
 
     let message = null;
-    const sender = (this.props.loggedInUser.uid !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
+    const sender = (loggedInUser.uid !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
 
     switch (lastMessage.type) {
       case CometChat.MESSAGE_TYPE.VIDEO: {
