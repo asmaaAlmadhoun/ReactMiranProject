@@ -434,7 +434,7 @@ class ExerciseComponent extends Component {
                             <FiPlus />
                             <div><small>{t('traineeModal.addExercise')}</small></div>
                         </button>
-                        <button className="btn danger-color" onClick={(e)=>this.addTemplateBreakDay(!planMode ?exerciseMealData.day.id : exerciseMealData.subscribtion)}>
+                        <button className="btn danger-color" onClick={(e)=>this.addTemplateBreakDay(!planMode ?exerciseMealData.day.id : exerciseMealData.subscribtion)} disabled={planMode?exerciseMealData.break_day:exerciseMealData.break_day_exercise}>
                             <BsClockHistory />
                             <div><small>{t('traineeModal.breakDay')}</small></div>
                         </button>

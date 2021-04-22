@@ -7,6 +7,8 @@ import {GiWaterBottle, GiWeightLiftingUp} from "react-icons/gi";
 import {FaWeight} from "react-icons/fa";
 import ProgressMeasure from "./progress-measure.component";
 import ProgressPicture from "./progress-picture.component";
+import ProgressWeight from "./progress-weight.component";
+import ProgressWater from "./progress-water.component";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 
 
@@ -38,7 +40,6 @@ class progressComponent extends Component {
                             render: () =>
                                 <Tab.Pane attached={false}>
                                     <ProgressMeasure />
-
                                 </Tab.Pane>,
                         },
                         {
@@ -51,7 +52,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-
+                                    <ProgressWeight/>
                                 </Tab.Pane>,
                         },
                         {
@@ -64,7 +65,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-
+                                    <ProgressWater/>
                                 </Tab.Pane>,
                         },
                         {

@@ -28,7 +28,8 @@ class TemplateDetailsComponent extends Component {
             ExceriseDataItem: [],
             openDetails: false,
             openExceriseDetails: false,
-            loading: false
+            loading: false,
+            templateName: ''
         }
     }
     clickNumberHandler= (e) =>{
@@ -45,7 +46,7 @@ class TemplateDetailsComponent extends Component {
         const templateServices = new TemplateServices();
         templateServices.getTemplateForDay(tempId, activeDay).then(response => {
             if (response) {
-                this.setState({exerciseMealForThisDay :response.result, loader : false, templateId: response.result.id });
+                this.setState({exerciseMealForThisDay :response.result, templateId: response.result.id , templateName: response.result.name , loader : false,});
             }
         })
         return this.state.exerciseMealForThisDay
@@ -80,10 +81,10 @@ class TemplateDetailsComponent extends Component {
                                     <ToasterComponent />
                                     <h1 className='mb-3 bg-light text-center p-3'>
                                         <Image src={templateIcon} className='icon d-inline mx-3' width={25} />
-                                        {item.name}
+                                        {this.state.templateName}
                                     </h1>
 
-                                    <AddDaysTemplateComponent templateId={item.id}  daysNumber={item.days} getTemplateForDay2={(e,z) => this.getTemplateForDay(e,z)} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>{this.setState({activeDay: e, loading: true}); setTimeout( () => this.setState({ loading: false}),500)} } clickNumberHandler={this.clickNumberHandler} />
+                                    <AddDaysTemplateComponent templateId={this.state.templateId}  daysNumber={item.days} getTemplateForDay2={(e,z) => this.getTemplateForDay(e,z)} exerciseMealData={exerciseMealForThisDay} parentCallback={(e)=>{this.setState({activeDay: e, loading: true}); setTimeout( () => this.setState({ loading: false}),500)} } clickNumberHandler={this.clickNumberHandler} />
                                     {
                                         this.state.loading ? <Loader active={true} inline='centered'/> :
 
@@ -122,7 +123,7 @@ class TemplateDetailsComponent extends Component {
 
                                 {!openDetails?
                                     '':
-                                    <MealItemComponent getTemplateForDay2={(e)=> this.getTemplateForDay(item.id,this.state.activeDay)} parentCall={(e,status)=> {this.setState({openDetails: e}); toast.done(t('shared.success.addedSuccess'))}} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
+                                    <MealItemComponent getTemplateForDay2={(e)=> this.getTemplateForDay(templateId,this.state.activeDay)} parentCall={(e,status)=> {this.setState({openDetails: e}); toast.done(t('shared.success.addedSuccess'))}} openDetails={openDetails} mealDataItem={mealDataItem}  mealTitle={mealDataItem.meal.title}  />
                                 }
                                 {!openExceriseDetails?
                                     '':
