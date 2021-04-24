@@ -68,7 +68,7 @@ class ProfileModalComponent extends Component {
                     this.setState({openModalNote:false, isOpenProfile:false})
                 }}  subscriptionID={subscriptionID} traineesId={traineesId} />
 
-                <ModalComponent size="tiny" isOpen={this.state.isOpenProfile}  handleClosed={e => {
+                <ModalComponent size="tiny" modalCenter={true} isOpen={this.state.isOpenProfile}  handleClosed={e => {
                     this.setState({isOpenProfile:false, openModalNote:false})
                 }}>
                         {
@@ -154,12 +154,14 @@ class ProfileModalComponent extends Component {
 
                                             </div>
                                         </div>
-                                    :  <EmptyComponent /> :''
+                                        :
+                                            <EmptyComponent />
+
+                                    :<EmptyComponent />
                                 )
                                 :
                                 <EmptyComponent />
                         }
-
                 </ModalComponent>
 
             </div>

@@ -54,7 +54,10 @@ class TraineeCardComponent extends Component {
                     <div className="ico" >
                         <Button className='p-0' basic color='blue' onClick={e => {
                             e.stopPropagation();
-                            this.props.history.push('/progress');
+                            this.props.history.push({
+                                pathname: '/progress',
+                                state: { traineesId: traineesId },
+                            });
                         }}>
                             <GiChart/>
                         </Button>

@@ -127,5 +127,5 @@
     overflow-y: scroll;
 }
 .react-confirm-alert-overlay{
-    z-index: 9999;
+    z-index: 9999 !important;
 }

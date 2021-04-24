@@ -12,6 +12,7 @@ import EmptyComponent from "../../components/common/empty-page/empty.component";
 import { Card,Button } from 'semantic-ui-react'
 import './home.component.css';
 import ToasterComponent from "../../components/common/toaster/toaster.component";
+import RequestModalComponent from "../../components/request-modal/request-modal.component";
 
 class HomeComponent extends Component {
     constructor(props) {
@@ -128,8 +129,7 @@ class HomeComponent extends Component {
                                                                      </button>
                                                                  }
                                                              />
-                                                             {console.log(item.profile)}
-                                                             <ProfileModalComponent isOpenProfile={openModalRequest} profileData={this.state.trainees} requestClass={true} traineesId={item.trainee} requestId={item.id}/>
+                                                             <RequestModalComponent isOpenRequest={openModalRequest} profileData={this.state.trainees} requestClass={true} traineesId={item.trainee} requestId={item.id}/>
                                                          </div>
                                                      );
                                                  }): ''

@@ -11,13 +11,14 @@ import ProgressWeight from "./progress-weight.component";
 import ProgressWater from "./progress-water.component";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 
-
 class progressComponent extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            traineesId: this.props.location.state.traineesId
+        }
     }
-
     render() {
         const {t} = this.props;
         return (
@@ -39,7 +40,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ProgressMeasure />
+                                    <ProgressMeasure traineesId={this.state.traineesId} />
                                 </Tab.Pane>,
                         },
                         {
@@ -52,7 +53,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ProgressWeight/>
+                                    <ProgressWeight traineesId={this.state.traineesId} />
                                 </Tab.Pane>,
                         },
                         {
@@ -65,7 +66,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ProgressWater/>
+                                    <ProgressWater traineesId={this.state.traineesId} />
                                 </Tab.Pane>,
                         },
                         {
@@ -78,7 +79,7 @@ class progressComponent extends Component {
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ProgressPicture />
+                                    <ProgressPicture traineesId={this.state.traineesId} />
                                 </Tab.Pane>,
                         },
                     ]}/>

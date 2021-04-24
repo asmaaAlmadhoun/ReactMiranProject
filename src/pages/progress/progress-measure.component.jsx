@@ -4,7 +4,9 @@ import './progress.component.css';
 import waistIcon from '../../assets/icons/waist-diet.svg'
 import {Image, Menu} from "semantic-ui-react";
 import chatIcon from "../../assets/icons/chat.svg";
-
+import UserService from "../../services/user-service/user.service";
+import {toast} from "react-toastify";
+import UserVersionServices from "../../services/user-service/user-version.services";
 
 class progressMeasureComponent extends Component {
 
@@ -12,29 +14,37 @@ class progressMeasureComponent extends Component {
         super(props);
     }
 
+    componentWillMount() {
+        this.userBodyMeasurementsHistory(this.props.traineesId)
+    }
+
+    userBodyMeasurementsHistory = (traineesId) =>{
+        const {t} = this.props;
+        const userService  = new UserVersionServices();
+        userService.userBodyMeasurementsHistory(traineesId).then(response => {
+            this.setState({isLoading : false})
+            console.log(response)
+            if(response.status) {
+                console.log(response)
+            }else {
+            }
+        }).catch(error => {
+            // todo: handling error.
+            toast.error("Error")
+        });
+    }
     render() {
         const {t} = this.props;
         return (
             <>
-               <div className="text-center">
-                   <button className='ui button icon bg-light'>
-                       <span className='text-primary'>{t('progressPage.current')}</span>
-                       <div className='f-2 mt-3'>80</div>
-                   </button>
-                   <button className='ui button icon bg-light'>
-                       <span className='text-primary'>{t('progressPage.target')}</span>
-                       <div className='f-2 mt-3'>3</div>
-                   </button>
 
-               </div>
                 <div className="header">
                     <div className='row'>
                         <div className="col-sm-5">
-                            <img src={waistIcon} className='icon w-25' />
-                            <h3 className='d-inline-block'>{t('progressPage.changesWaist')}</h3>
+                            <img src={waistIcon} className='icon w-25 d-inline-block' />
+                            <h3 className='text-primary d-inline-block f-3'>{t('progressPage.changesWaist')}</h3>
                         </div>
                         <div className="col-sm-7">
-                            <h3>{t('progressPage.weightChanges')}</h3>
                         </div>
                     </div>
                 </div>
