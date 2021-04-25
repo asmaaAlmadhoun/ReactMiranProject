@@ -180,8 +180,10 @@ const EnglishTranslation = {
         value: 'Value',
         change: 'Change',
         weightChanges: 'Weight Changes',
-        changesWaist: 'Changes Waist'
-
+        changesWaist: 'Changes Waist',
+        front: 'Front',
+        side: 'Side',
+        back: 'Back'
     }
   };
 

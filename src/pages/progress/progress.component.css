@@ -17,3 +17,15 @@
 .progressComponent .ui.segment.active.tab{
     border-right: 1px solid #d4d4d5 !important;
 }
+.progress-picture{
+    max-height: 100px;
+    border-radius: 13px;
+}
+.progress-picture-date{
+    display: table;
+    /*height: 111px;*/
+}
+.progress-picture-date p{
+    display: table-cell;
+    vertical-align: middle;
+}

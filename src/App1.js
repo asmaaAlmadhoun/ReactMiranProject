@@ -13,8 +13,6 @@ import {ChatService} from "./pages/group-chat/service/chat.service";
 import TraineeService from "./services/trainee-service/traniee.service";
 import {CometChat} from "@cometchat-pro/chat";
 
-
-
 class App1 extends  React.Component {
     constructor(props) {
         super(props);

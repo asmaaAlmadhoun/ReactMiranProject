@@ -71,7 +71,6 @@ class progressWeightComponent extends Component {
             console.log(response)
             if(response.status) {
                 this.setState({loader:false,weightHistory:response.result})
-                console.log(response)
             }else {
             }
         }).catch(error => {
@@ -143,7 +142,7 @@ class progressWeightComponent extends Component {
                                         <p>{item.value}</p>
                                     </div>
                                     <div className="col-sm-4 my-1">
-                                        <p>{item.value}</p>
+                                        <p className='text-success'>{item.value}</p>
                                     </div>
                                         </>
                                 })}

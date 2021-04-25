@@ -183,7 +183,10 @@ ArabicTranslation = {
     value: 'القيمة',
     change: 'التغيير',
     weightChanges: 'تغيير الوزن',
-    changesWaist: 'تغييرات الخصر'
+    changesWaist: 'تغييرات الخصر',
+    front: 'الأمام',
+    side: 'الجانب',
+    back: 'الخلف'
   }
 
 };

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
 import './progress.component.css';
 import waistIcon from '../../assets/icons/waist-diet.svg'
-import {Image, Menu} from "semantic-ui-react";
+import {Image, Loader, Menu} from "semantic-ui-react";
 import chatIcon from "../../assets/icons/chat.svg";
 import UserService from "../../services/user-service/user.service";
 import {toast} from "react-toastify";
@@ -12,6 +12,10 @@ class progressMeasureComponent extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            measureHistory: [],
+            loader: true
+        }
     }
 
     componentWillMount() {
@@ -25,7 +29,7 @@ class progressMeasureComponent extends Component {
             this.setState({isLoading : false})
             console.log(response)
             if(response.status) {
-                console.log(response)
+                this.setState({loader:false,measureHistory:response.result})
             }else {
             }
         }).catch(error => {
@@ -35,9 +39,10 @@ class progressMeasureComponent extends Component {
     }
     render() {
         const {t} = this.props;
+        const {measureHistory} = this.state;
         return (
+            this.state.loader ? <Loader active={true} inline='centered'/> :
             <>
-
                 <div className="header">
                     <div className='row'>
                         <div className="col-sm-5">
@@ -49,18 +54,35 @@ class progressMeasureComponent extends Component {
                     </div>
                 </div>
                 <div className="row mt-3 text-center">
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 mb-2">
                         <h4>{t('progressPage.day')}</h4>
-
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 mb-2">
                         <h4>{t('progressPage.value')}</h4>
-
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 mb-2">
                         <h4>{t('progressPage.change')}</h4>
-
                     </div>
+                    {
+                        measureHistory.map(items => {
+                            return <>
+                                {items.pucket.map(item =>{
+                                    return<>
+                                        <div className="col-sm-4 my-1">
+                                            <p>{item.date}</p>
+                                        </div>
+                                        <div className="col-sm-4 my-1">
+                                            <p>{item.value}</p>
+                                        </div>
+                                        <div className="col-sm-4 my-1">
+                                            <p className='text-success'>{item.value}</p>
+                                        </div>
+                                    </>
+                                })}
+                            </>
+                        })
+                    }
+
                 </div>
             </>
         );
