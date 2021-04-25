@@ -64,7 +64,7 @@ class progressPictureComponent extends Component {
                                 {items.pucket.map(item =>{
                                     return<>
                                         <div className="col-sm-3 my-2">
-                                            <img src={'https://miranapp.com/media/resources/'+item.image} className='w-75 m-auto progress-picture' id={item.id}/>
+                                            <img src={'https://testing.miranapp.com/media/'+item.image} className='w-75 m-auto progress-picture' id={item.id}/>
                                         </div>
                                     </>
                                 })}
