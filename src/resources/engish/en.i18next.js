@@ -183,7 +183,10 @@ const EnglishTranslation = {
         changesWaist: 'Changes Waist',
         front: 'Front',
         side: 'Side',
-        back: 'Back'
+        back: 'Back',
+        consumed: 'You consumed',
+        ml: 'ml',
+        stay: 'Almost there! Stay hydrated'
     }
   };
 

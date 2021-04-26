@@ -186,7 +186,10 @@ ArabicTranslation = {
     changesWaist: 'تغييرات الخصر',
     front: 'الأمام',
     side: 'الجانب',
-    back: 'الخلف'
+    back: 'الخلف',
+    consumed: 'لقد استهلكت',
+    ml: 'مل',
+    stay: 'اوشكت على الوصول! حافظ على رطوبتك'
   }
 
 };

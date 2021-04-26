@@ -59,6 +59,10 @@ class UserVersionServices extends BaseService {
         const url = this._endPoint + "/user-picture/"+id+"/for_trainer/?page=1&page_size=20";
         return HTTP_REQUEST.get({target:url});
     }
+    extraProgressData (id) {
+        const url = this._endPoint + "/missing-data-for-trainer-progress?trainee_id="+id+"/for_trainer/?page=1&page_size=20";
+        return HTTP_REQUEST.get({target:url});
+    }
 }
 
 export default UserVersionServices;

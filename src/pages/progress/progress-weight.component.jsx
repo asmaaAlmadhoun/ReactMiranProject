@@ -39,6 +39,7 @@ class progressWeightComponent extends Component {
             traineesId: '',
             weightHistory: '',
             loader: true,
+            extraData:'',
             options: {
                 data: this.data,
                 title: { text: 'Beverage Expenses' },
@@ -67,7 +68,7 @@ class progressWeightComponent extends Component {
     getTraineeWeightHistory = (traineesId) =>{
         const userService  = new UserVersionServices();
         userService.traineeWeightHistory(traineesId).then(response => {
-            this.setState({isLoading : false})
+            this.setState({loader:true})
             console.log(response)
             if(response.status) {
                 this.setState({loader:false,weightHistory:response.result})
@@ -81,7 +82,7 @@ class progressWeightComponent extends Component {
     traineeWeightHistoryChart = (traineesId,period) =>{
         const userService  = new UserVersionServices();
         userService.traineeWeightHistoryChart(traineesId,period).then(response => {
-            this.setState({isLoading : false})
+            this.setState({loader:true})
             console.log(response)
             if(response.status) {
                 // this.setState({loader:false,weightHistory:response.result})
@@ -95,7 +96,7 @@ class progressWeightComponent extends Component {
     }
 
     render() {
-        const {t} = this.props;
+        const {t, weight_goal,weight} = this.props;
         const {weightHistory} = this.state;
         return (
             this.state.loader ? <Loader active={true} inline='centered'/> :
@@ -103,11 +104,11 @@ class progressWeightComponent extends Component {
                 <div className="text-center">
                     <button className='ui button icon bg-light'>
                         <span className='text-primary'>{t('progressPage.current')}</span>
-                        <div className='f-2 mt-3'>80</div>
+                        <div className='f-2 mt-3'>{weight}</div>
                     </button>
                     <button className='ui button icon bg-light'>
                         <span className='text-primary'>{t('progressPage.target')}</span>
-                        <div className='f-2 mt-3'>3</div>
+                        <div className='f-2 mt-3'>{weight_goal}</div>
                     </button>
                 </div>
                 <div className='row'>
@@ -149,7 +150,6 @@ class progressWeightComponent extends Component {
                                 </>
                             })
                         }
-
                     </div>
                 </div>
             </>
