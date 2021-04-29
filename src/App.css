@@ -182,11 +182,15 @@ ul {
 .chat__composer div:first-child{
   overflow: hidden;
 }
+.receiver__message__container, .sender__message__container{
+  max-height: 200px;
+}
 .message__img__wrapper{
   overflow: hidden;
 }
-.message__img__wrapper img{
+.message__img__wrapper img, .message__image__wrapper img{
   height: 100%;
+  max-height: 200px;
 }
 .react-confirm-alert-button-group{
   justify-content: flex-end;
@@ -249,4 +253,20 @@ input{
 .ui.vertical.tabular.menu .active.item:first-child{
   background: rgba(0,0,0,0.02);
   border-color: snow;
+}
+ul.message__actions li:first-child {
+ display: none!important;
+}
+.input__sticky__buttons{
+  display: none!important;
+}
+.cometchat {
+  height: 80% !important;
+}
+.message__file__wrapper p,.message__txt__wrapper a{
+  color: white !important;
+}
+.item.item__image img{
+  height: 100%;
+  margin: auto;
 }

@@ -106,9 +106,13 @@ class CometChatMessages extends React.PureComponent {
     const newMessage = JSON.stringify(this.props.newMessage);
 
     if (previousMessage !== newMessage) {
+      console.log('previousMessage')
+      console.log(previousMessage)
+      console.log(newMessage)
 
       const message = this.props.newMessage[0];
       if (message.hasOwnProperty("_composedAt")) {
+
         this.appendMessage(this.props.newMessage);
         this.props.actionGenerated(enums.ACTIONS["MESSAGE_COMPOSED"], this.props.newMessage);
       } else {
@@ -601,6 +605,7 @@ class CometChatMessages extends React.PureComponent {
   appendMessage = (message) => {
 
     let messages = [...this.state.messageList, ...message];
+    console.log('message 44 '+ message);
     this.setState({ messageList: messages, scrollToBottom: true });
   }
 

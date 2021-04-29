@@ -695,9 +695,6 @@ class CometChatMessageList extends React.PureComponent {
   getComponent = (message, key) => {
 
     let component;
-    console.log(' *&$$v ')
-    console.log(this.loggedInUser )
-    console.log(message.sender )
 
     switch(message.category) {
       case CometChat.CATEGORY_ACTION:

@@ -96,6 +96,8 @@ class CometChatUserList extends React.PureComponent {
         if (userKey > -1) {
 
           let userObj = { ...userlist[userKey] };
+          console.log('entries')
+          console.log(userObj)
           this.setState({ selectedUser: userObj });
         }
       }

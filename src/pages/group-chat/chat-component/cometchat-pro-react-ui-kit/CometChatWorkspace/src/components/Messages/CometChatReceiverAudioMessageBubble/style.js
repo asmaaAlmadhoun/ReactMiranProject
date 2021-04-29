@@ -13,7 +13,7 @@ export const messageContainerStyle = () => {
         flexShrink: "0",
         ":hover": {
             "ul.message__actions": {
-                display: "flex"
+                display: "flex",
             }
         }
     }
