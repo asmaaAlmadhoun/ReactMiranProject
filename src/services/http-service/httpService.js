@@ -11,7 +11,6 @@ const base_url = 'https://testing.miranapp.com/api'
                 'Content-Type': 'application/json',
                 'Authorization': token ? `token ${token}` : null,
                 'App-Version' : '2.1.6'
-
             },
             body: JSON.stringify(body)
         })
