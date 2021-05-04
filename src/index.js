@@ -30,6 +30,8 @@ import {
     CometChatUserList,
     CometChatUserListWithMessages
 } from "./pages/group-chat/chat-component/cometchat-pro-react-ui-kit/CometChatWorkspace/src";
+import CometChatMessages
+    from "./pages/group-chat/chat-component/cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/Messages/CometChatMessages";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -51,6 +53,8 @@ ReactDOM.render(
                   <Route path="/plan"  component={PlanComponent} />
                   <Route path="/faq"  component={FaqComponent} />
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
+                  <Route path="/chat-message" component={CometChatMessages} />
+
                   {/*<Route path="/users" component={CometChatUserListWithMessages} />*/}
                   <Route path="/chat-app" component={CometChatUI} />
                   {/*<Route path="/chat2" component={LoginChatComponent} />*/}

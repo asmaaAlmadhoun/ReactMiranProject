@@ -16,14 +16,15 @@ import DateComponent from "../../components/trainee-modal/dates-components/date.
 import PlanService from "../../services/plan-service/plan.service";
 import {toast} from "react-toastify";
 import tempIco from "../../assets/icons/temp.svg";
-
+import moment from "moment";
+let activeDay= moment().format('YYYY-M-D');
 class Plan extends Component {
     constructor(props) {
         super(props);
         this.state = {
             planId : null,
             data: [],
-            activeDay: '',
+            activeDay: moment().format('YYYY-MM-DD'),
             fullTemplateDataForThisDay: [],
             exerciseMealForThisDay: [],
             activeIndex: '',
@@ -38,33 +39,30 @@ class Plan extends Component {
             planList: '',
             fullData: [],
             calendarDays:[],
-            subscriptionData: []
+            subscriptionData: [],
+            slickGoTo: 13
         }
     }
     clickNumberHandler= (i,month,year) =>{
         this.setCalendarPlan();
         this.setState({loading: true, activeDay: year+'-'+month+'-'+i})
+        activeDay=year+'-'+month+'-'+i
         const {planId} = this.state;
         this.getTemplateForDay(planId, year+'-'+month+'-'+i);
         this.setState({loading: false});
     }
-    getTemplateForDay = (tempId,activeDay) =>{
+    getTemplateForDay = (tempId,activeDay1) =>{
         const {t} = this.props;
-        if(activeDay === undefined){
-            console.log(' long3 ' + tempId)
-
-            activeDay = this.state.activeDay;
+        if(activeDay1 === undefined){
+            activeDay1 = activeDay;
         }
         if(tempId === undefined){
             console.log(' long2 ' + tempId)
             tempId = this.state.planId;
         }
-        // else {
-        //     console.log(' long ' + tempId)
-        //     this.setState({planId: tempId, traineesId: tempId})
-        // }
         const planServices = new PlanServices();
-        planServices.getPlanSchedule(tempId, activeDay).then(response => {
+
+        planServices.getPlanSchedule(tempId, activeDay1).then(response => {
             if (response) {
                 if(response.result && response.result.length){
                     this.setState({exerciseMealForThisDay :response.result[0], loader : false });
@@ -162,13 +160,14 @@ class Plan extends Component {
         for (let i = startDateDay, k=0; i <= total_days , k <= (total_days-startDateDay); i++, k++) {
             calendarDays.push(year+'-'+month+'-'+i+' \n '+week[(dayName  + k) % 7]);
             Component.push(
-                <DateComponent isActive={(this.state.activeDay === year+'-'+month+'-'+i)} onClick={(e)=> this.clickNumberHandler(i,month,year)} dateNumber={i} dateName={week[(dayName  + k) % 7]} dateMonth={month} />
+                <DateComponent isActive={activeDay === year+'-'+month+'-'+i} onClick={(e)=> {activeDay=year+'-'+month+'-'+i;this.clickNumberHandler(i,month,year)}} dateNumber={i} dateName={week[(dayName  + k) % 7]} dateYear={year} dateMonth={month} />
             )
             if(i === daysInMonth){
+                console.log(activeDay);
                 for (let j = 1, k = ((total_days-startDateDay) +1); j <= endDateDay, k<= total_days; j++, k++) {
-                    calendarDays.push(year2+'-'+month+'-'+j +' \n '+week[(dayName  + k) % 7]);
+                    calendarDays.push(year2+'-'+secondMonth+'-'+j +' \n '+week[(dayName  + k) % 7]);
                     Component.push(
-                        <DateComponent isActive={(this.state.activeDay === year2+'-'+month+'-'+j)} onClick={(e)=> this.clickNumberHandler(j,month,year2)} dateNumber={j} dateName={week[(dayName  + k) % 7]}  dateMonth={secondMonth}/>
+                        <DateComponent isActive={activeDay === year2 + '-' + secondMonth + '-' + j} onClick={(e)=> {activeDay=year2+'-'+secondMonth+'-'+j;this.clickNumberHandler(j,secondMonth,year2)}} dateYear={year2} dateNumber={j} dateName={week[(dayName  + k) % 7]} dateMonth={secondMonth}/>
                     )
                 }
             }
@@ -189,6 +188,7 @@ class Plan extends Component {
             rtl: false,
             draggable:false,
             lazyLoad: true,
+            slickGoTo: this.state.slickGoTo || 0,
             nextArrow: <this.SampleNextArrow />,
             prevArrow: <this.SamplePrevArrow />
         };
@@ -221,7 +221,8 @@ class Plan extends Component {
                                                 </Link>
                                             </div>
                                             <div className="dates">
-                                                <Slider {...settings}>
+                                                {/*this.slider.slickGoTo(13)*/}
+                                                <Slider ref={slider => (this.slider = slider)} {...settings}>
                                                     {
                                                        this.state.calendarReturned.map(item => item)
                                                     } 

@@ -118,7 +118,7 @@ class CometChatUI extends React.Component {
       if(loginStatus) {
         chatService.login('').then(logging => {
           if(logging.status === "online") {
-            alert("Logged into chat")
+            console.log("Logged into chat")
           }
         })
       }else {

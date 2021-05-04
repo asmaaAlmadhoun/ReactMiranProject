@@ -318,8 +318,8 @@ class CometChatMessageHeader extends React.Component {
           </div>
         </div>
         <div style={chatOptionWrapStyle()} className="chat__options">
-          {audioCallBtn}
-          {videoCallBtn}
+          {/*{audioCallBtn}*/}
+          {/*{videoCallBtn}*/}
           {viewDetailBtn}
         </div>
       </div>

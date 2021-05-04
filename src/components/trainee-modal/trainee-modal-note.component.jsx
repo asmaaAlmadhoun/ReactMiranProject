@@ -30,9 +30,9 @@ class TraineeModalNoteComponent extends Component {
     componentWillReceiveProps(nextProps, nextContext) {
         const {isOpen} = nextProps;
         this.setState({ isOpen});
-        this.fetchData();
+        //this.fetchData();
     }
-    componentWillMount() {
+    componentDidMount() {
         this.fetchData();
     }
     fetchData = () => {

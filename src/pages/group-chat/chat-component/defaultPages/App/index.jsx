@@ -20,6 +20,8 @@ import {
 import {
     wrapperStyle
 } from "./style";
+import CometChatMessages
+    from "../../cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/Messages/CometChatMessages";
 
 const history = createBrowserHistory();
 
@@ -40,6 +42,10 @@ class App extends React.Component {
                 <Router history={history}>
                     <Switch>
                         <Route path="/chat-app" component={CometChatUI} />
+                        <Route path="/chat-message" render={(props)=>{
+                            console.log('sdkmkn');
+                            <CometChatMessages />
+                        }} />
                         {/*<Route path="/users"  component={CometChatUserListWithMessages} />*/}
                         {/*<Route path="/users2"  component={CometChatConversationListWithMessages} />*/}
                         <PrivateRoute path="/conversation-list" component={CometChatConversationList} />

@@ -41,7 +41,7 @@ import {
 } from "./style";
 
 class CometChatMessageList extends React.PureComponent {
-  loggedInUser = null;
+  loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
   lastScrollTop = 0;
   times = 0;
   decoratorMessage = Translator.translate("LOADING", Translator.getDefaultLanguage());
@@ -702,6 +702,7 @@ class CometChatMessageList extends React.PureComponent {
         component = this.getActionMessageComponent(message, key);
       break;
       case CometChat.CATEGORY_MESSAGE:
+        console.log(this.loggedInUser);
         if(this.loggedInUser.uid === message.sender.uid) {
           component = this.getSenderMessageComponent(message, key);
         } else {

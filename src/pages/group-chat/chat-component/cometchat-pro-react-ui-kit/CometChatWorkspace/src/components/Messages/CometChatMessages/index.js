@@ -47,7 +47,18 @@ class CometChatMessages extends React.PureComponent {
       unreadMessages: [],
       outgoingCall: null,
       startDirectCall: false,
-      joinDirectCall: false
+      joinDirectCall: false,
+      item: this.props.item ? this.props.item :
+          {
+            "hasBlockedMe":false,
+            "blockedByMe":false,
+            "uid":"19655_omar_t",
+            "name":"Omar Al tawashi",
+            "lastActiveAt":1582134150,
+            "role":"Trainee",
+            "status":"offline",
+            "guid":"19655_omar_t"
+          }
     }
 
     CometChat.getLoggedinUser().then(user => this.loggedInUser = user).catch((error) => {
@@ -69,12 +80,13 @@ class CometChatMessages extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps);
 
-    if (this.props.type === 'user' && prevProps.item.uid !== this.props.item.uid) {
+    if (this.props.type === 'user' && prevProps.item.uid !==  this.state.item.uid) {
       
       this.setState({ messageList: [], scrollToBottom: true, messageToBeEdited: "", unreadMessages: [] });
 
-    } else if (this.props.type === 'group' && prevProps.item.guid !== this.props.item.guid) {
+    } else if (this.props.type === 'group' && prevProps.item.guid !==  this.state.item.guid) {
       
       this.setState({ messageList: [], scrollToBottom: true, messageToBeEdited: "", unreadMessages: [] });
 
@@ -304,7 +316,7 @@ class CometChatMessages extends React.PureComponent {
 
   rejectedIncomingCall = (incomingCallMessage, rejectedCallMessage) => {
 
-    let item = this.props.item;
+    let item =  this.state.item;
     let type = this.props.type;
 
     const receiverType = rejectedCallMessage.receiverType;
@@ -326,12 +338,12 @@ class CometChatMessages extends React.PureComponent {
 
     if (this.props.type === "user") {
 
-      receiverId = this.props.item.uid;
+      receiverId =  this.state.item.uid;
       receiverType = CometChat.RECEIVER_TYPE.USER;
 
     } else if (this.props.type === "group") {
 
-      receiverId = this.props.item.guid;
+      receiverId =  this.state.item.guid;
       receiverType = CometChat.RECEIVER_TYPE.GROUP;
     }
 
@@ -685,7 +697,7 @@ class CometChatMessages extends React.PureComponent {
       <CometChatMessageComposer 
       ref={(el) => { this.composerRef = el; } }
       theme={this.props.theme}
-      item={this.props.item} 
+      item={ this.state.item}
       type={this.props.type}
       lang={this.state.lang}
       widgetsettings={this.props.widgetsettings}
@@ -751,7 +763,7 @@ class CometChatMessages extends React.PureComponent {
         open={open} 
         close={() => this.actionHandler("directCallEnded")}
         theme={this.props.theme} 
-        item={this.props.item} 
+        item={ this.state.item}
         type={this.props.type}
         lang={this.state.lang}
         callType={CometChat.CALL_TYPE.VIDEO}
@@ -768,7 +780,7 @@ class CometChatMessages extends React.PureComponent {
         <CometChatOutgoingCall
         ref={(el) => { this.outgoingCallRef = el; }}
         theme={this.props.theme}
-        item={this.props.item}
+        item={ this.state.item}
         type={this.props.type}
         lang={this.state.lang}
         incomingCall={this.state.incomingCall}
@@ -784,20 +796,20 @@ class CometChatMessages extends React.PureComponent {
           <CometChatMessageHeader 
           sidebar={this.props.sidebar}
           theme={this.props.theme}
-          item={this.props.item} 
+          item={ this.state.item}
           type={this.props.type} 
           lang={this.state.lang}
           viewdetail={this.props.viewdetail === false ? false : true}
           audiocall={this.props.audiocall === false ? false : true}
           videocall={this.props.videocall === false ? false : true}
           widgetsettings={this.props.widgetsettings}
-          loggedInUser={this.loggedInUser}
+          loggedInUser={localStorage.getItem('loggedInUser')}
           actionGenerated={this.actionHandler} />
           <CometChatMessageList
           ref={(el) => { this.messageListRef = el; }}
           theme={this.props.theme}
-          messages={this.state.messageList} 
-          item={this.props.item} 
+          messages={this.state.messageList}
+          item={ this.state.item}
           type={this.props.type}
           lang={this.state.lang}
           scrollToBottom={this.state.scrollToBottom}

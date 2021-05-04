@@ -471,7 +471,7 @@ class ExerciseComponent extends Component {
                         </button>
                     </div>
 
-                } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter={!planMode} handleClosed={(e)=> this.setState({'openCopyModel': false})}>
+                } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter={true} handleClosed={(e)=> this.setState({'openCopyModel': false})}>
                     <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
                     <div className="add-days-template row px-4">
                         {(planMode) ?

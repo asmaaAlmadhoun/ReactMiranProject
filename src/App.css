@@ -263,6 +263,12 @@ ul.message__actions li:first-child {
 .cometchat {
   height: 80% !important;
 }
+.main__chat {
+  height: 75% !important;
+}
+.cometchat .main__chat {
+  height: 100% !important;
+}
 .message__file__wrapper p,.message__txt__wrapper a{
   color: white !important;
 }
