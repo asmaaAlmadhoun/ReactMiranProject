@@ -51,7 +51,7 @@
 /*
 Media query ;
 */
-@media (min-width: 781px) and (max-width: 990px) {
+@media (minWidth: 781px) and (maxWidth: 990px) {
     .pre-auth .miran-card {
         width: 60%;
         padding: 25px 80px;

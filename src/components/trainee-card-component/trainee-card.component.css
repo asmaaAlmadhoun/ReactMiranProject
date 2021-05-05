@@ -36,6 +36,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: pre;
+    direction: ltr;
 }
 .trainee-card .user-name  span {
     font-weight: 600;

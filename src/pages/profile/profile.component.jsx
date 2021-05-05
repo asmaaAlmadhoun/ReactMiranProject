@@ -211,7 +211,7 @@ class ProfileComponent extends Component {
                                                    <div>
                                                        {this.state.data && this.state.data.profile ? this.state.data.profile.languages.map((item) =>
                                                            <>
-                                                               <button className='btn-secondary d-inline-block w-25 mx-1'>{t('local') === 'ar' ? item.title_ar: item.title}</button>
+                                                               <button className='btn-secondary d-inline-block w-25 mx-1' key={item.id}>{t('local') === 'ar' ? item.title_ar: item.title}</button>
                                                            </>
 
                                                        ): '' }

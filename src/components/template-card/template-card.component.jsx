@@ -22,7 +22,7 @@ class TemplateCardComponent extends Component {
         this.state = {
             __addModal__: false,
             id: this.props.id,
-            traineeList: [],
+            traineeList: this.props.traineeList,
             selectedTrainerList: [],
             startDate: new Date()
         }
@@ -33,24 +33,6 @@ class TemplateCardComponent extends Component {
     }
     closeModalHandler = () =>  {
         this.setState({__addModal__ : false});
-    }
-
-    componentWillMount() {
-        this.fetchData();
-    }
-
-    fetchData = () => {
-        const userService = new UserService();
-        this.setState({loading:true})
-        userService.traineeList.then(data => {
-            this.setState({loading:false})
-            if(data) {
-                this.setState({traineeList : data.result})
-            }
-        }).catch(error => {
-            this.setState({loading:false})
-            console.log(error);
-        })
     }
     addTrainers(pushObj){
         let trainerButton = this.state.selectedTrainerList;
@@ -147,7 +129,7 @@ class TemplateCardComponent extends Component {
                     <hr/>
                     {
                         this.state.loading ?  <Loader active={true} inline='centered' /> :
-                            this.state.traineeList && this.state.traineeList.length > 0 ?  this.state.traineeList.map( (item , i) => {
+                            this.props.traineeList && this.props.traineeList.length > 0 ?  this.props.traineeList.map( (item , i) => {
                                 const _imgPath = item.profile && item.profile.avatar ? 'https://miranapp.com/media/' +  item.profile.avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                 return (
                                     <a key={item.id}
@@ -175,6 +157,7 @@ TemplateCardComponent.propTypes = {
     deleteFn: PropTypes.func,
     openAssignModal : PropTypes.func.isRequired,
     data : PropTypes.array,
+    traineeList : PropTypes.array,
 }
 
 export default withTranslation('translation') (withRouter(TemplateCardComponent));

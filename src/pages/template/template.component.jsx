@@ -15,6 +15,7 @@ import AssignTemplateComponent from "../../components/assign-template/assign-tem
 import {confirmAlert} from "react-confirm-alert";
 import PlanService from "../../services/plan-service/plan.service";
 import TemplateServices from "../../services/template-service/template.service";
+import UserService from "../../services/user-service/user.service";
 class TemplateComponent extends Component {
     constructor(props) {
         super(props);
@@ -22,12 +23,14 @@ class TemplateComponent extends Component {
             data : null,
             loading:false,
             openAssignModal: false,
-            templateModalId : null
+            templateModalId : null,
+            traineeList: []
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchData();
+        this.getTraineeList();
     }
     
     openAssignTemplateModal = (templateId) => {
@@ -36,7 +39,20 @@ class TemplateComponent extends Component {
         this.setState({openAssignModal : true ,templateModalId : templateId })
         
     }
-
+    getTraineeList = () => {
+        console.log('test')
+        const userService = new UserService();
+        this.setState({loading:true})
+        userService.traineeList.then(data => {
+            this.setState({loading:false})
+            if(data) {
+                this.setState({traineeList : data.result})
+            }
+        }).catch(error => {
+            this.setState({loading:false})
+            console.log(error);
+        })
+    }
     fetchData = () => {
         const templateService = new TemplateService();
         this.setState({loading:true})
@@ -53,7 +69,6 @@ class TemplateComponent extends Component {
     }
     deleteTemplateHandler = async (id) => {
         const {t} = this.props;
-
         confirmAlert({
             title: t('shared.confirmTitle'),
             message: t('shared.confirmMessage'),
@@ -127,7 +142,7 @@ class TemplateComponent extends Component {
                                 this.state.data && this.state.data.length > 0 ?  this.state.data.map( (item , i) => {
                                     return (
                                         <div className="col-md-3 mt-4" key={i}>
-                                            <TemplateCardComponent  openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name} data={this.state.data}  id={item.id}/>
+                                            <TemplateCardComponent traineeList={this.state.traineeList} openAssignModal={this.openAssignTemplateModal} deleteFn={this.deleteTemplateHandler} tempName={item.name} data={this.state.data}  id={item.id}/>
                                         </div>
                                     );
                                 } ) : <EmptyComponent />

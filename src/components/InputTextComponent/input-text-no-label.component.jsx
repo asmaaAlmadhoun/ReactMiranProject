@@ -68,10 +68,10 @@ const classInput = {
 * */
 InputTextComponent.propTypes = {
 
-    isRequired : PropTypes.bool.isRequired,
+    isRequired : PropTypes.bool,
     minLength: PropTypes.number,
     maxLength: PropTypes.number ,
-    labelTitle : PropTypes.string.isRequired ,
+    labelTitle : PropTypes.number ,
     isPassword : PropTypes.bool ,
     isNumber : PropTypes.bool,
     paceHolderTitle : PropTypes.string,

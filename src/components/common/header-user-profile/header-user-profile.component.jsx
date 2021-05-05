@@ -14,7 +14,7 @@ class HeaderUserProfileComponent extends Component {
             <>
              <div className="profile-data">
                  <div className="user-img" >
-                     <img src={imgPath}   alt="profile"/>
+                     <img src={'https://testing.miranapp.com/media/'+imgPath}   alt="profile"/>
                  </div>
                  <div className="user-data" style={{marginRight:isArabic ? '10px' : 0 , marginLeft: isArabic ? 0 : '10px'}}>
                      <span> {t('header.trainer')} </span>

@@ -76,11 +76,10 @@ const classInput = {
 * component validation
 * */
 InputTextComponent.propTypes = {
-
-    isRequired : PropTypes.bool.isRequired,
+    isRequired : PropTypes.bool,
     minLength: PropTypes.number,
     maxLength: PropTypes.number ,
-    labelTitle : PropTypes.string.isRequired ,
+    labelTitle : PropTypes.string ,
     isPassword : PropTypes.bool ,
     isNumber : PropTypes.bool,
     paceHolderTitle : PropTypes.string,

@@ -19,6 +19,8 @@ import tempIco from "../../assets/icons/temp.svg";
 import moment from "moment";
 let activeDay= moment().format('YYYY-M-D');
 class Plan extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -76,7 +78,6 @@ class Plan extends Component {
                         if(response.result[0] && response.result[0].length){
                             if (response.result[0].subscribtion === item.profile.subscription.id){
                                 this.setState({loader : false, subscription: item.profile.subscription, traineesId: item.id });
-                                console.log(item.profile.subscription);
                             }
                         }
                     })
@@ -89,14 +90,22 @@ class Plan extends Component {
         const dataFromLocation = this.props.location.state;
         this.setState({planId: dataFromLocation.planId, traineesId: dataFromLocation.traineesId, fullData: dataFromLocation.fullData, subscription: dataFromLocation.subscription, activeDay: dataFromLocation.subscription.start_date});
     }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
     componentDidMount() {
+        this._isMounted = true;
         const planId = this.state.planId;
         this.getTemplateForDay(planId);
         this.setCalendarPlan();
-        this.getSubscriptionData();
+        this.getSubscriptionData(this.state.subscription);
+
+
+        // this.state.calendarReturned.map((item) =>  {
+        //     console.log(item)
+        // })
     }
-    getSubscriptionData = () =>{
-        let {subscription} =this.state;
+    getSubscriptionData = (subscription) =>{
         const planService = new PlanService();
         planService.getSubscriptionData(subscription.subscription_goal_id).then(response => {
             if (response) {
@@ -163,7 +172,6 @@ class Plan extends Component {
                 <DateComponent isActive={activeDay === year+'-'+month+'-'+i} onClick={(e)=> {activeDay=year+'-'+month+'-'+i;this.clickNumberHandler(i,month,year)}} dateNumber={i} dateName={week[(dayName  + k) % 7]} dateYear={year} dateMonth={month} />
             )
             if(i === daysInMonth){
-                console.log(activeDay);
                 for (let j = 1, k = ((total_days-startDateDay) +1); j <= endDateDay, k<= total_days; j++, k++) {
                     calendarDays.push(year2+'-'+secondMonth+'-'+j +' \n '+week[(dayName  + k) % 7]);
                     Component.push(

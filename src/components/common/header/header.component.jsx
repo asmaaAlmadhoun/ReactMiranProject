@@ -12,14 +12,16 @@ class HeaderComponent extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            username : null
+            username : null,
+            imgPath: '',
+            userData: []
         }
     }
     componentWillMount() {
         const accountService = new AccountService();
         const userData = JSON.parse( accountService.userData);
         if(userData) {
-            this.setState({username: userData.full_name})
+            this.setState({username: userData.full_name, userData:userData, imgPath: userData.profile.avatar})
         }
     }
 
@@ -57,7 +59,7 @@ class HeaderComponent extends React.PureComponent {
                       </div>
                   </div>
                   <div className="col-md-3">
-                     <HeaderUserProfileComponent username={this.state.username} t={t} />
+                     <HeaderUserProfileComponent imgPath={this.state.imgPath} username={this.state.username} t={t} />
                   </div>
                   <div className="col-md-2">
                       <ChangeLanguageComponent />

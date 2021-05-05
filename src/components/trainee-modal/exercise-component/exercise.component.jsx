@@ -305,7 +305,7 @@ class ExerciseComponent extends Component {
         if(this.props.planMode){
             for (let i = 1; i <= this.props.daysNumber; i++) {
                 daysButton.push(
-                    <span key={this.props.calendarDays[i]} className={i === 1 ? 'active' : ''}>
+                    <span key={this.props.calendarDays[i]}>
                     {this.props.calendarDays[i]}
                </span>
                 )
@@ -314,7 +314,7 @@ class ExerciseComponent extends Component {
         else {
             for (let i = 1; i <= this.props.daysNumber; i++) {
                 daysButton.push(
-                    <span key={i} className={i === 1 ? 'active' : ''}>
+                    <span key={i} >
                     {i}
                </span>
                 )
