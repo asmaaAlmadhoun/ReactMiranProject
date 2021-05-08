@@ -12,7 +12,6 @@ import {toast} from "react-toastify";
 import PrimaryButtonComponent from "../ButtonComponent/primary-button.component";
 import {confirmAlert} from "react-confirm-alert";
 import './trainee-modal.css'
-
 class TraineeModalNoteComponent extends Component {
 
     constructor(props) {
@@ -30,7 +29,7 @@ class TraineeModalNoteComponent extends Component {
     componentWillReceiveProps(nextProps, nextContext) {
         const {isOpen} = nextProps;
         this.setState({ isOpen});
-        //this.fetchData();
+        this.fetchData();
     }
     componentDidMount() {
         this.fetchData();
@@ -138,7 +137,7 @@ class TraineeModalNoteComponent extends Component {
                 }} Actions={
                     <div>
                         <button className="ui button icon primary p-2" onClick={e => {
-                            this.setState({__addNoteModal__:true, editStatus: false})
+                            this.setState({editStatus: false,__addNoteModal__:true })
                         }}>
                             <FiPlus />
                             <div><small>{t('traineeModal.note')}</small></div>
@@ -184,8 +183,8 @@ class TraineeModalNoteComponent extends Component {
                 }} >
                     <div className="text-center mini-shared-modal px-3">
                         <h4 className='mb-4'>  {t('traineeModal.addNote')} </h4>
-                        <TextArea rows={7}  className='form-control mb-4' onChange={(e)=>this.handleChange(e)} defaultValue={this.state.itemToEdit? this.state.itemToEdit.note :  this.state.newNote} />
-                        <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn='true' className='btn w-50' clickHandler={this.onSubmit} title={t('shared.add')}> </PrimaryButtonComponent>
+                        <TextArea rows={7}  className='form-control mb-4' onChange={(e)=>this.handleChange(e)} defaultValue={this.state.editStatus? this.state.itemToEdit.note :  this.state.newNote} />
+                        <PrimaryButtonComponent switchLoading={this.state.isLoading} isSecondaryBtn={true} className='btn w-50' clickHandler={this.onSubmit} title={this.state.editStatus?t('shared.edit'):t('shared.add')}> </PrimaryButtonComponent>
                     </div>
                 </ModalComponent>
 

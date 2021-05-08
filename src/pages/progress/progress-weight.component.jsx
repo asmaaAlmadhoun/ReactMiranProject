@@ -2,37 +2,13 @@ import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
 import './progress.component.css';
 import { AgChartsReact } from 'ag-charts-react';
-import TranieeService from "../../services/trainee-service/trainer.service";
-import UserService from "../../services/user-service/user.service";
 import {toast} from "react-toastify";
 import UserVersionServices from "../../services/user-service/user-version.services";
-import waistIcon from "../../assets/icons/waist-diet.svg";
 import {Loader} from "semantic-ui-react";
 
 class progressWeightComponent extends Component {
-    data = [
-        {
-            beverage: 'Coffee',
-            Q1: 450,
-            Q2: 560,
-            Q3: 600,
-            Q4: 700,
-        },
-        {
-            beverage: 'Tea',
-            Q1: 270,
-            Q2: 380,
-            Q3: 450,
-            Q4: 520,
-        },
-        {
-            beverage: 'Milk',
-            Q1: 180,
-            Q2: 170,
-            Q3: 190,
-            Q4: 200,
-        },
-    ];
+    _isMounted = false;
+    data = []
     constructor(props) {
         super(props);
         this.state = {
@@ -41,27 +17,38 @@ class progressWeightComponent extends Component {
             loader: true,
             extraData:'',
             options: {
+                autoSize: true,
                 data: this.data,
-                title: { text: 'Beverage Expenses' },
-                subtitle: { text: 'per quarter' },
-                padding: {
-                    top: 40,
-                    right: 40,
-                    bottom: 40,
-                    left: 40,
-                },
                 series: [
                     {
-                        type: 'column',
-                        xKey: 'beverage',
-                        yKeys: ['Q1', 'Q2', 'Q3', 'Q4'],
+                        type: 'line',
+                        xKey: 'date',
+                        yKey: 'value',
+                        stroke: '#01c185',
+                        marker: {
+                            stroke: '#01c185',
+                            fill: '#01c185',
+                        },
+                    },
+                    {
+                        type: 'line',
+                        xKey: 'date',
+                        yKey: 'change',
+                        stroke: '#000000',
+                        marker: {
+                            stroke: '#000000',
+                            fill: '#000000',
+                        },
                     },
                 ],
-                legend: { spacing: 40 },
             },
         };
     }
-    componentWillMount() {
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+    componentDidMount() {
+        this._isMounted = true;
         this.getTraineeWeightHistory(this.props.traineesId)
         this.traineeWeightHistoryChart(this.props.traineesId,'year_now')
     }
@@ -69,7 +56,6 @@ class progressWeightComponent extends Component {
         const userService  = new UserVersionServices();
         userService.traineeWeightHistory(traineesId).then(response => {
             this.setState({loader:true})
-            console.log(response)
             if(response.status) {
                 this.setState({loader:false,weightHistory:response.result})
             }else {
@@ -83,10 +69,20 @@ class progressWeightComponent extends Component {
         const userService  = new UserVersionServices();
         userService.traineeWeightHistoryChart(traineesId,period).then(response => {
             this.setState({loader:true})
-            console.log(response)
             if(response.status) {
-                // this.setState({loader:false,weightHistory:response.result})
-                console.log(response)
+                 this.setState({loader:false,weightHistory:response.result})
+                response.result.map(items => {
+                        {
+                            items.pucket.map((item,index) => {
+                                let change= 0
+                                if(index!==0){
+                                    change = item.value - items.pucket[index-1].value
+                                }
+                                this.data.push({date: item.date, value: item.value, change: change})
+                            })
+                        }
+                    })
+
             }else {
             }
         }).catch(error => {
@@ -131,30 +127,34 @@ class progressWeightComponent extends Component {
                         <div className="col-sm-4 mb-2">
                             <h4>{t('progressPage.change')}</h4>
                         </div>
-                        {
-                            weightHistory.map(items => {
-                                return <>
-                                {items.pucket.map(item =>{
-                                    return<>
-                                    <div className="col-sm-4 my-1">
-                                        <p>{item.date}</p>
-                                    </div>
-                                    <div className="col-sm-4 my-1">
-                                        <p>{item.value}</p>
-                                    </div>
-                                    <div className="col-sm-4 my-1">
-                                        <p className='text-success'>{item.value}</p>
-                                    </div>
-                                        </>
-                                })}
-                                </>
-                            })
-                        }
+
                     </div>
+                    {
+                        weightHistory.map(items => {
+                            return <div key={items.id} >
+                                {items.pucket.map((item,index) =>{
+                                    let change= 0
+                                    if(index!==0){
+                                        change = item.value - items.pucket[index-1].value
+                                    }
+                                    return<div key={items.id} className='row mx-0 text-center'>
+                                        <div className="col-sm-4 my-1">
+                                            <p>{item.date}</p>
+                                        </div>
+                                        <div className="col-sm-4 my-1">
+                                            <p>{item.value}</p>
+                                        </div>
+                                        <div className="col-sm-4 my-1">
+                                            <p className={change >= 0 ?'text-success':'text-danger'}>{change} {t('progressPage.wightUnit')}</p>
+                                        </div>
+                                    </div>
+                                })}
+                            </div>
+                        })
+                    }
                 </div>
             </>
         );
     }
 }
-
 export default withTranslation('translation') (progressWeightComponent);

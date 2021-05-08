@@ -18,7 +18,7 @@ class progressMeasureComponent extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.userBodyMeasurementsHistory(this.props.traineesId)
     }
 

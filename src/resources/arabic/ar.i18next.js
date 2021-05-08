@@ -15,6 +15,7 @@ ArabicTranslation = {
     update: 'تحديث',
     empty: 'لا يوجد بيانات',
     breakday: 'يوم إستراحة',
+    currentDate: 'التاريخ الحالي',
     errors: {
       notFoundUser: 'مستخدم غير موجود',
       globalError: 'لقد حدث خطأ يرجى المحاولة ثانية'
@@ -189,7 +190,17 @@ ArabicTranslation = {
     back: 'الخلف',
     consumed: 'لقد استهلكت',
     ml: 'مل',
-    stay: 'اوشكت على الوصول! حافظ على رطوبتك'
+    stay: 'اوشكت على الوصول! حافظ على رطوبتك',
+    wightUnit: 'كجم',
+    waterUnit: 'لتر',
+    waistUnit: 'سم',
+    chest: 'صدر',
+    biceps:'العضلة ذات الرأسين',
+    waist:'وسط',
+    triceps:'ثلاثية الرؤوس',
+    hips: 'الفخذين',
+    thighs:'الفخذين',
+    calves:'الفخذين'
   }
 
 };

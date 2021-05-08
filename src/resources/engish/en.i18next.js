@@ -13,6 +13,7 @@ const EnglishTranslation = {
         update:'Update',
         empty: 'Empty Data',
         breakday: 'Break Day',
+        currentDate: 'Current Date',
         errors: {
             notFoundUser : 'User Not Found',
             globalError : 'Error has been happened! try again'
@@ -186,7 +187,17 @@ const EnglishTranslation = {
         back: 'Back',
         consumed: 'You consumed',
         ml: 'ml',
-        stay: 'Almost there! Stay hydrated'
+        stay: 'Almost there! Stay hydrated',
+        wightUnit: 'كجم',
+        waterUnit: 'لتر',
+        waistUnit: 'سم',
+        chest: 'Chest',
+        biceps:'Biceps',
+        waist:'Waist',
+        triceps:'Triceps',
+        hips: 'Hips',
+        thighs:'Thighs',
+        calves:'Calves'
     }
   };
 

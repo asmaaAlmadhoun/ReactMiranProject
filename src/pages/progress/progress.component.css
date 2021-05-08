@@ -77,3 +77,26 @@ a.item{
 a.item.active{
     color: #0cadff !important;
 }
+.custom-dropdown.ui.dropdown .menu{
+    left: auto;
+    background: #f7f7f7;
+    border: none;
+    top: 34px;
+}
+.custom-dropdown.ui.dropdown .menu:before{
+    content: " ";
+    position: absolute;
+    right: 0;
+    top: -14px;
+    border-top: 0;
+    border-right: 1px solid transparent;
+    border-left: 15px solid transparent;
+    border-bottom: 15px solid#f7f7f7;
+}
+.progressComponent  .ui.vertical.tabular.menu .custom-dropdown .active.item, .progressComponent  .ui.vertical.tabular.menu .custom-dropdown .selected.item{
+    color: #03A9F4 !important;
+    background: transparent!important;
+    border-bottom-color: transparent;
+}.progressComponent  .ui.vertical.tabular.menu .custom-dropdown .item{
+    border-bottom-color: transparent;
+}

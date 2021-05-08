@@ -103,10 +103,12 @@ class ExerciseComponent extends Component {
         let {planMode}= this.props
         let daysButton = this.state.copyDays;
         if(planMode){
-            if (!daysButton.includes(pushObj.item.key)) {
-                daysButton.push(pushObj.item.key);
+            let itemSliced = pushObj.item.key + '';
+            itemSliced = itemSliced.slice(0, -6);
+            if (!daysButton.includes(itemSliced)) {
+                daysButton.push(itemSliced);
             } else {
-                let objToDelete = (pushObj.item.key);
+                let objToDelete = (itemSliced);
                 daysButton.splice(daysButton.indexOf(objToDelete), 1);
             }
         }
@@ -478,21 +480,21 @@ class ExerciseComponent extends Component {
                             <div className="row">
                                 {buttons && buttons.length > 0 && buttons.map((item, key) => {
                                     return (
-                                        <div className='col-sm-2 p-0 my-2 text-center'>
-                                            <div key={item}
-                                                 className={['item-num item-num-custom custom-item', this.state.copyDays.includes(item.key) ? ' active' : '']}
+                                        <div className='col-sm-2 p-0 my-2 text-center' key={key}>
+                                            <div
+                                                 className={['item-num item-num-custom custom-item', this.state.copyDays.includes(item.key.toString().slice(0, -6)) ? ' active' : '']}
                                                  onClick={(e) => this.addDays({item})}>
                                                 {item}
                                             </div>
                                         </div>
                                     );
-                                })}
+                                })} 
                             </div>
                             :
                             buttons && buttons.length > 0 && buttons.map((item, key) => {
                                 return (
-                                    <div className='col-sm-2 p-0 my-2'>
-                                        <div key={key}
+                                    <div className='col-sm-2 p-0 my-2' key={key}>
+                                        <div
                                              className={['item-num  custom-item ', this.state.copyDays.includes((key + 1) + '') ? ' active' : '']}
                                              onClick={(e) => this.addDays({key})}>
                                             {item}

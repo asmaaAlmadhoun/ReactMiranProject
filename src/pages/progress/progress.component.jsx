@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
-import {Loader, Menu, Tab} from 'semantic-ui-react';
+import {Loader, Menu, Tab,Dropdown} from 'semantic-ui-react';
 import './progress.component.css';
 import {RiRuler2Line} from "react-icons/ri";
 import {GiWaterBottle, GiWeightLiftingUp} from "react-icons/gi";
@@ -9,9 +9,10 @@ import ProgressMeasure from "./progress-measure.component";
 import ProgressPicture from "./progress-picture.component";
 import ProgressWeight from "./progress-weight.component";
 import ProgressWater from "./progress-water.component";
-import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
+import {IoIosArrowBack,IoMdArrowDropdown, IoIosArrowForward} from "react-icons/io";
 import UserVersionServices from "../../services/user-service/user-version.services";
 import {toast} from "react-toastify";
+
 
 class progressComponent extends Component {
 
@@ -26,7 +27,7 @@ class progressComponent extends Component {
             loader: false
         }
     }
-    componentWillMount() {
+    componentDidMount() {
          this.extraProgressData(this.props.location.state.traineesId)
     }
     extraProgressData = (traineesId) =>{
@@ -47,12 +48,38 @@ class progressComponent extends Component {
             toast.error("Error")
         });
     }
+    handleSelect=(e)=>{
+        console.log(e);
+
+    }
     render() {
         const {t} = this.props;
         const {traineesId,water_consumed,water_goal,weight,weight_goal} = this.state;
+        let chest=  t('progressPage.chest');
+        let biceps=  t('progressPage.biceps');
+        let waist=  t('progressPage.waist');
+        let triceps=  t('progressPage.triceps');
+        let hips=  t('progressPage.hips');
+        let thighs=  t('progressPage.thighs');
+        let calves=  t('progressPage.calves');
+        const options = [
+            { key: 1, text: chest, value: 1 },
+            { key: 2, text: biceps, value: 2 },
+            { key: 3, text: waist, value: 3 },
+            { key: 4, text: triceps, value: 4 },
+            { key: 5, text: hips, value: 5 },
+            { key: 6, text: thighs, value: 6 },
+            { key: 7, text: calves, value: 7 },
+        ]
+        const DropdownExampleSimple = () => (
+            <Menu compact>
+                <Dropdown text='Dropdown' options={options} simple item />
+            </Menu>
+        )
         return (
             this.state.loader ? <Loader active={true} inline='centered'/> :
             <>
+
                 <button className='ui button icon primary p-1 mb-3' onClick={(e)=>   this.props.history.push({pathname: '/'})}>
                     {t('local') === 'ar'?  <i><IoIosArrowForward/> </i>: <i><IoIosArrowBack/></i> }
                 </button>
@@ -62,15 +89,15 @@ class progressComponent extends Component {
                     <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={[
                         {
                             menuItem:
-                                <Menu.Item className=''>
+                                <Menu.Item>
                                     <i className='f-2 p-2'>
-                                        <RiRuler2Line/>
+                                        <RiRuler2Line/><IoMdArrowDropdown/>
                                     </i>
-                                    {t('progressPage.measurement')}
+                                    <Dropdown text={t('progressPage.measurement')}   onChange={(e)=>this.handleSelect(e)} className='custom-dropdown' options={options}   />
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ProgressMeasure traineesId={traineesId} />
+                                    <ProgressMeasure traineesId={traineesId}  />
                                 </Tab.Pane>,
                         },
                         {

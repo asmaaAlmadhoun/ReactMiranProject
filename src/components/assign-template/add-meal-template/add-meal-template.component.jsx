@@ -182,7 +182,7 @@ class AddMealTemplateComponent extends Component {
                              style={{textAlign:t('local') === 'ar' ? 'right' : 'left'}}
                             required />
                         <PrimaryButtonComponent switchLoading={this.state.isLoading}
-                                                isSecondaryBtn='true' className='btn w-50'
+                                                isSecondaryBtn={true} className='btn w-50'
                                                 clickHandler={this.submitNewMeal}
                                                 title={t('shared.add')}> </PrimaryButtonComponent>
 

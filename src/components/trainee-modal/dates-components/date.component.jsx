@@ -13,7 +13,7 @@ class DateComponent extends Component {
 
 DateComponent.propTypes= {
     dateNumber : PropTypes.number.isRequired,
-    dateMonth : PropTypes.number.isRequired,
+    dateMonth : PropTypes.number,
     dateName : PropTypes.string.isRequired,
     isActive : PropTypes.bool
 }

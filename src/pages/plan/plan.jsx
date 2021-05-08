@@ -42,7 +42,8 @@ class Plan extends Component {
             fullData: [],
             calendarDays:[],
             subscriptionData: [],
-            slickGoTo: 13
+            slickGoTo: 13,
+            dateIndex: 1
         }
     }
     clickNumberHandler= (i,month,year) =>{
@@ -101,9 +102,6 @@ class Plan extends Component {
         this.getSubscriptionData(this.state.subscription);
 
 
-        // this.state.calendarReturned.map((item) =>  {
-        //     console.log(item)
-        // })
     }
     getSubscriptionData = (subscription) =>{
         const planService = new PlanService();
@@ -120,8 +118,12 @@ class Plan extends Component {
     setCalendarPlan(){
         let calendarReturned =  this.setCalendar();
         this.setState({calendarReturned: calendarReturned})
+        calendarReturned.map((item,index) =>{
+            if (item.props.dateYear+'-'+item.props.dateMonth+'-'+item.props.dateNumber===activeDay){
+                this.setState({dateIndex:index})
+            }
+        })
     }
-
     SampleNextArrow(props) {
         const { className, style, onClick } = props;
         return (
@@ -202,7 +204,7 @@ class Plan extends Component {
         };
         const panes = this.state.fullData.length > 0 ? this.state.fullData.map(item =>({
             menuItem:
-                <Menu.Item key={item.id} activeIndex={item.id} className={this.state.planId === item.id? ' active ':''}  onClick={()=>this.getTemplateForDay(item.id)}>
+                <Menu.Item key={item.id} activeIndex={item.id} className={['' + this.state.planId === item.id? ' active ':'']}  onClick={()=>this.getTemplateForDay(item.id)}>
                     <a className='row'>
                         <div className="col-8"> {item.profile.full_name}</div>
                         <div className="col-4 text-left"><BsThreeDotsVertical/></div>
@@ -227,9 +229,19 @@ class Plan extends Component {
                                                 <Link to={""}>
                                                     {t('traineeModal.Calories')}
                                                 </Link>
+                                                <div className='d-none'>
+                                                {
+                                                    setTimeout(()=>{
+                                                        return(
+                                                                <button className='btn btn-secondary w-25 m-auto' ref={button => this.button = button} onClick={this.slider.slickGoTo(this.state.dateIndex)}>{t('progressPage.day')}</button>
+                                                        )
+                                                    },100)
+                                                }
+                                                </div>
+
                                             </div>
+
                                             <div className="dates">
-                                                {/*this.slider.slickGoTo(13)*/}
                                                 <Slider ref={slider => (this.slider = slider)} {...settings}>
                                                     {
                                                        this.state.calendarReturned.map(item => item)

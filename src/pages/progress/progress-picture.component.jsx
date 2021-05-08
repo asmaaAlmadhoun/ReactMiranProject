@@ -16,7 +16,7 @@ class progressPictureComponent extends Component {
             loader: true
         }
     }
-    componentWillMount() {
+    componentDidMount() {
         this.userPicturesHistory(this.props.traineesId)
     }
 
@@ -62,11 +62,10 @@ class progressPictureComponent extends Component {
                                     <p>{items.date}</p>
                                 </div>
                                 {items.pucket.map(item =>{
-                                    return<>
-                                        <div className="col-sm-3 my-2">
+                                    return <div className="col-sm-3 my-2" key={item.id}>
                                             <img src={'https://testing.miranapp.com/media/'+item.image} className='w-75 m-auto progress-picture' id={item.id}/>
                                         </div>
-                                    </>
+
                                 })}
                             </>
                         })
