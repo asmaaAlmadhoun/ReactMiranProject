@@ -163,7 +163,6 @@ class MealComponent extends Component {
         } else {
             copyDays = JSON.stringify(copyDays);
             if(planMode){
-                console.log(copyDays);
                 const planService = new PlanService();
                 const data = {
                     "schedule_meal_id": mealId_selected,
@@ -276,8 +275,6 @@ class MealComponent extends Component {
         if(planMode){
             if (!daysButton.includes(pushObj.item.key)) {
                 daysButton.push(pushObj.item.key);
-                console.log(pushObj.item.key);
-                console.log(daysButton);
 
             } else {
                 let objToDelete = (pushObj.item.key);
@@ -304,7 +301,7 @@ class MealComponent extends Component {
                     [hoverIndex, 0, dragCard],
                 ],
             }}));
-        setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2})); console.log('asma')},1000)
+        setTimeout(()=>{this.setState(prevState => ({...prevState,fullCards: fullCards2}));},1000)
     });
 
     generateMealList=(item)=>{
@@ -476,7 +473,6 @@ class MealComponent extends Component {
 
         if(this.state.fullCards.length !== cards3.length){
             if(cards3.length === MealLength){
-                console.log('test ' +MealLength)
                 // this.setState( prevState => ({...prevState,fullCards:cards3}))
                 this.setState( {fullCards:cards3})
             }

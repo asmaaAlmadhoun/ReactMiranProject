@@ -100,3 +100,6 @@ a.item.active{
 }.progressComponent  .ui.vertical.tabular.menu .custom-dropdown .item{
     border-bottom-color: transparent;
 }
+.waistIcon{
+ max-width: 60px;
+}

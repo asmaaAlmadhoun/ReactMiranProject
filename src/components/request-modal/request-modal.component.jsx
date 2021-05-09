@@ -35,7 +35,6 @@ class RequestModalComponent extends Component {
             'request' : requestId,
             'status' : Status
         }
-        console.log('status' + data  );
         const tranieeService  = new TranieeService();
         this.setState({isLoading:true})
         confirmAlert({

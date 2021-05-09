@@ -41,8 +41,8 @@ class UserVersionServices extends BaseService {
         const url = this._endPoint + "/user-measurements/"+id+"/for_trainer/?period="+period + "&name=chest";
         return HTTP_REQUEST.get({target:url});
     }
-    userBodyMeasurementsHistory (id) {
-        const url = this._endPoint + "/user-measurements/"+id+"/for_trainer/?name=thigh&page=1&page_size=20";
+    userBodyMeasurementsHistory (id,measureType) {
+        const url = this._endPoint + "/user-measurements/"+id+"/for_trainer/?name="+measureType+"&page=1&page_size=20";
         return HTTP_REQUEST.get({target:url});
     }
 

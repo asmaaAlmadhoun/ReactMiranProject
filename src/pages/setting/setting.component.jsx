@@ -18,8 +18,6 @@ class SettingComponent extends Component {
         }
     }
     componentWillMount() {
-
-        console.log(this.props)
         const currentLang = this.props.i18n.language;
         this.setState({currentLang});
     }

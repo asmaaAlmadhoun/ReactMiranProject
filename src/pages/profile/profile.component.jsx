@@ -55,7 +55,6 @@ class ProfileComponent extends Component {
         })
     }
     submitUpdate = () =>{
-        console.log('asma')
         const {t} = this.props;
         const {full_name, bio, email,tele,nationality, data} = this.state;
         const userService = new UserService();

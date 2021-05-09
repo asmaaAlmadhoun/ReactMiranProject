@@ -36,7 +36,7 @@ class TraineeCardComponent extends Component {
                     <Button className='p-0 boxShadow-none ml-2 mr-2 chat-icon' basic color='blue'onClick={e => {
                         e.stopPropagation();
                         this.props.history.push({
-                            pathname: '/chat-message',
+                            pathname: '/chat-app',
                             state: { fullData: fullData, traineesId: traineesId },
                         });
                     }}>

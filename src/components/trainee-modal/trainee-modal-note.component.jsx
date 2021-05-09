@@ -49,7 +49,6 @@ class TraineeModalNoteComponent extends Component {
     }
 
     onSubmit =  () => {
-        console.log('click');
         const { newNote, editStatus, itemToEdit } = this.state;
         this.setState({isLoading:true})
         const { traineesId, subscriptionID,t } = this.props;
@@ -118,7 +117,6 @@ class TraineeModalNoteComponent extends Component {
         });
     }
     handleChange = (e) =>{
-        console.log('   dd '+ e)
         this.setState({'newNote':e.target.value})
         return e
     }

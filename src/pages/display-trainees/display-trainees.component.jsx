@@ -24,7 +24,6 @@ class DisplayTraineesComponent extends Component {
             if(res && res.status) {
                 // get data successfully;
                 this.setState({invitations:  res.result} , () => {
-                    console.log('Current State' , this.state);
                 });
             }
         }).catch(error => {

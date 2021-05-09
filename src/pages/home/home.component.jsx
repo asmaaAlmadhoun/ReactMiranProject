@@ -171,7 +171,6 @@ class HomeComponent extends Component {
                          ]} />
                      </div>
                  </div>
-                 <ToasterComponent />
 
              </div>
             </>

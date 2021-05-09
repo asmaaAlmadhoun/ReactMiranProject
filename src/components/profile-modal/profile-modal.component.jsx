@@ -32,7 +32,6 @@ class ProfileModalComponent extends Component {
             'request' : requestId,
             'status' : Status
         }
-        console.log('status' + data  );
         const tranieeService  = new TranieeService();
         this.setState({isLoading:true})
         tranieeService.acceptRequest(data).then(response => {

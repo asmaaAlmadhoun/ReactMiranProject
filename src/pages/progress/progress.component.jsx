@@ -49,8 +49,8 @@ class progressComponent extends Component {
         });
     }
     handleSelect=(e)=>{
-        console.log(e);
-
+        localStorage.setItem('measureType',e.target.id);
+       // this.refs.child.userBodyMeasurementsHistory(this.state.traineesId,localStorage.getItem('measureType'));
     }
     render() {
         const {t} = this.props;
@@ -63,13 +63,13 @@ class progressComponent extends Component {
         let thighs=  t('progressPage.thighs');
         let calves=  t('progressPage.calves');
         const options = [
-            { key: 1, text: chest, value: 1 },
-            { key: 2, text: biceps, value: 2 },
-            { key: 3, text: waist, value: 3 },
-            { key: 4, text: triceps, value: 4 },
-            { key: 5, text: hips, value: 5 },
-            { key: 6, text: thighs, value: 6 },
-            { key: 7, text: calves, value: 7 },
+            { key: 1, text: chest, value: 1, id: 'chest' },
+            { key: 2, text: biceps, value: 2, id: 'biceps' },
+            { key: 3, text: waist, value: 3, id: 'waist' },
+            { key: 4, text: triceps, value: 4, id: 'triceps' },
+            { key: 5, text: hips, value: 5, id: 'hips' },
+            { key: 6, text: thighs, value: 6, id: 'thighs' },
+            { key: 7, text: calves, value: 7, id: 'calves' },
         ]
         const DropdownExampleSimple = () => (
             <Menu compact>
@@ -93,11 +93,11 @@ class progressComponent extends Component {
                                     <i className='f-2 p-2'>
                                         <RiRuler2Line/><IoMdArrowDropdown/>
                                     </i>
-                                    <Dropdown text={t('progressPage.measurement')}   onChange={(e)=>this.handleSelect(e)} className='custom-dropdown' options={options}   />
+                                    <Dropdown text={t('progressPage.measurement')}   onChange={e=>this.handleSelect(e)} className='custom-dropdown' options={options}   />
                                 </Menu.Item>,
                             render: () =>
                                 <Tab.Pane attached={false}>
-                                    <ProgressMeasure traineesId={traineesId}  />
+                                    <ProgressMeasure ref="child" traineesId={traineesId}  />
                                 </Tab.Pane>,
                         },
                         {

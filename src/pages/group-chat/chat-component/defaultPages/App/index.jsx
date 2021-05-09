@@ -32,7 +32,6 @@ class App extends React.Component {
 
     componentDidMount() {
         this.props.getLoggedinUser();
-        // console.log('asma 2 ');
     }
 
     render() {
@@ -43,7 +42,6 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/chat-app" component={CometChatUI} />
                         <Route path="/chat-message" render={(props)=>{
-                            console.log('sdkmkn');
                             <CometChatMessages />
                         }} />
                         {/*<Route path="/users"  component={CometChatUserListWithMessages} />*/}

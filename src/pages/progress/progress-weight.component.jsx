@@ -114,7 +114,7 @@ class progressWeightComponent extends Component {
                     <div className="col-sm-7">
                     </div>
                 </div>
-                <div className='h-50'>
+                <div className='h-75'>
                     <AgChartsReact options={this.state.options} />
 
                     <div className="row mt-3 text-center">

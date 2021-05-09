@@ -148,7 +148,6 @@ class ExerciseComponent extends Component {
         else {
             copyDays =JSON.stringify(copyDays);
             if(planMode){
-                console.log(copyDays);
                 const planService = new PlanService();
                 const data = {
                     "schedule_exercise_id": exerciseMealData.schedule_id,

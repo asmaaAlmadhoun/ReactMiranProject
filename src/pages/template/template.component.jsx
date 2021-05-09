@@ -40,7 +40,6 @@ class TemplateComponent extends Component {
         
     }
     getTraineeList = () => {
-        console.log('test')
         const userService = new UserService();
         this.setState({loading:true})
         userService.traineeList.then(data => {
