@@ -78,7 +78,7 @@ class TemplateDetailsComponent extends Component {
                         </a>
                     </Menu.Item>,
                 render: () =>
-                    <Tab.Pane attached={false} key={templateId}>
+                    <Tab.Pane attached={false} key={templateId} className='containerTab'>
                         {
                             this.state.loader ? <Loader active={true} inline='centered'/> :
                                 <>

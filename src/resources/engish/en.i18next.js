@@ -28,6 +28,7 @@ const EnglishTranslation = {
         },
         confirmMessage: 'Are you sure to delete this.',
         confirmMessageBreak: 'Are you sure to add break day',
+        confirmMessageRequest: 'Are you sure to do this action',
         confirmTitle: 'Confirm to submit',
         yes: 'Yes',
         no: 'No',

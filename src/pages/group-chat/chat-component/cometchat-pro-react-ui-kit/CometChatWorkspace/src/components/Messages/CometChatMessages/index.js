@@ -662,7 +662,61 @@ class CometChatMessages extends React.PureComponent {
       this.setState({ messageList: messageList, scrollToBottom: false });
     }
   }
+  getMessage = (lastMessage) => {
 
+    let message = null;
+    const sender = (localStorage.getItem('chat_uid') !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
+
+    switch (lastMessage.type) {
+
+      case CometChat.MESSAGE_TYPE.TEXT: {
+
+        const textMessage = this.getTextMessage(lastMessage);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${textMessage}` : `${textMessage}`;
+      }
+        break;
+      case CometChat.MESSAGE_TYPE.MEDIA: {
+
+        const mediaMessage = Translator.translate("MEDIA_MESSAGE", this.props.lang);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${mediaMessage}` : `${mediaMessage}`;
+      }
+        break;
+      case CometChat.MESSAGE_TYPE.IMAGE: {
+
+        const imageMessage = Translator.translate("MESSAGE_IMAGE", this.props.lang);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${imageMessage}` : `${imageMessage}`;
+      }
+        break
+      case CometChat.MESSAGE_TYPE.FILE: {
+
+        const fileMessage = Translator.translate("MESSAGE_FILE", this.props.lang);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${fileMessage}` : `${fileMessage}`;
+      }
+        break;
+      case CometChat.MESSAGE_TYPE.VIDEO: {
+
+        const videoMessage = Translator.translate("MESSAGE_VIDEO", this.props.lang);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${videoMessage}` : `${videoMessage}`;
+      }
+        break;
+      case CometChat.MESSAGE_TYPE.AUDIO: {
+
+        const audioMessage = Translator.translate("MESSAGE_AUDIO", this.props.lang);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${audioMessage}` : `${audioMessage}`;
+      }
+        break;
+      case CometChat.MESSAGE_TYPE.CUSTOM: {
+
+        const customMessage = Translator.translate("CUSTOM_MESSAGE", this.props.lang);
+        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${customMessage}` : `${customMessage}`;
+      }
+        break;
+      default:
+        break;
+    }
+
+    return message;
+  }
   smartReplyPreview = (messages) => {
 
     const message = messages[0];

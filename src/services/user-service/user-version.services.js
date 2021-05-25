@@ -29,6 +29,10 @@ class UserVersionServices extends BaseService {
         return  HTTP_REQUEST._delete({target:url });
     }
 
+    sassInvitation () {
+        const url = this._endPoint + "/saas-invitation/";
+        return HTTP_REQUEST.get({target:url});
+    }
     traineeWeightHistory (id) {
         const url = this._endPoint + "/weight/"+id+"/for_trainer/?page=1&page_size=20";
         return HTTP_REQUEST.get({target:url});

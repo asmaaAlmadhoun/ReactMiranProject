@@ -61,7 +61,7 @@ class AddTemplateComponent extends Component {
                         e.preventDefault();
                         this.setState({open:true})
                     }}
-                    className="btn btn-outline-primary" style={{borderRadius:'50px'}}>
+                    className="btn btn-outline-primary btn-add-template">
                      {t('templatePage.add')}
                     <FiPlus />
                 </button>

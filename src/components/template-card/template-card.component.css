@@ -73,8 +73,7 @@
     border-radius: 15px;
     transition: all 0.3s ease;
     color: black;
-    height: 140px !important;
-    min-height: auto;
+    min-height: 140px !important;
     overflow: hidden;
 }
 .card-custom:hover, .card-custom.active{

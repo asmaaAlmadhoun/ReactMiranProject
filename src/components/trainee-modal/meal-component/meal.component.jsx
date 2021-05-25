@@ -273,11 +273,12 @@ class MealComponent extends Component {
         let daysButton = this.state.copyDays;
 
         if(planMode){
-            if (!daysButton.includes(pushObj.item.key)) {
-                daysButton.push(pushObj.item.key);
-
+            let itemSliced = pushObj.item.key + '';
+            itemSliced = itemSliced.slice(0, -6);
+            if (!daysButton.includes(itemSliced)) {
+                daysButton.push(itemSliced);
             } else {
-                let objToDelete = (pushObj.item.key);
+                let objToDelete = (itemSliced);
                 daysButton.splice(daysButton.indexOf(objToDelete), 1);
             }
         }
@@ -601,7 +602,7 @@ class MealComponent extends Component {
                                 {t('shared.add')}
                             </button>
                         </div>
-                    } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter={!planMode}
+                    } isOpen={this.state.openCopyModel} size={planMode ? 'small' :'tiny'} modalCenter='true'
                                     handleClosed={(e) => this.setState({'openCopyModel': false})}>
                         <h3 className='text-center'>  {t('traineeModal.titleCopyMeal')} </h3>
                         <div className="add-days-template ">
@@ -611,7 +612,7 @@ class MealComponent extends Component {
                                             return (
                                                 <div className='col-sm-2 p-0 my-2 text-center'>
                                                     <div key={item}
-                                                         className={['item-num item-num-custom custom-item', this.state.copyDays.includes(item.key) ? ' active' : '']}
+                                                         className={['item-num item-num-custom custom-item', this.state.copyDays.includes(item.key.toString().slice(0, -6)) ? ' active' : '']}
                                                          onClick={(e) => this.addDays({item})}>
                                                         {item}
                                                     </div>

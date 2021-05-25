@@ -13,6 +13,8 @@ import { Card,Button } from 'semantic-ui-react'
 import './home.component.css';
 import ToasterComponent from "../../components/common/toaster/toaster.component";
 import RequestModalComponent from "../../components/request-modal/request-modal.component";
+import UserService from "../../services/user-service/user.service";
+import UserVersionServices from "../../services/user-service/user-version.services";
 
 class HomeComponent extends Component {
     constructor(props) {
@@ -25,11 +27,28 @@ class HomeComponent extends Component {
             openModalRequest : false,
             modalRequestProfile: false,
             traineesId: 1,
-            subscriptionID: ''
+            subscriptionID: '',
+            sassInvitation:[],
+            requestData: []
         }
     }
 
     componentWillMount() {
+        this.updateTrainersRequest();
+    }
+    updateTrainersRequest(){
+        if(localStorage.getItem('is_sass')==='true'){
+            const userService  = new UserVersionServices();
+            this.setState({isLoading : true})
+            userService.sassInvitation().then(data => {
+                this.setState({isLoading : false})
+                if(data && data.status) {
+                    this.setState({sassInvitation : data.result})
+                }
+            }).catch(error => {
+                this.setState({isLoading : false})
+            })
+        }
         const traineeService  = new TraineeService();
         this.setState({isLoading : true})
         traineeService.trainees.then(data => {
@@ -53,6 +72,12 @@ class HomeComponent extends Component {
     openModalHandler = (traineeId) => {
         this.setState({openModal : true})
     }
+    onCloseRequest = () => {
+        this.setState({openModalRequest : false})
+    }
+    onCloseProfile = () => {
+        this.setState({modalRequestProfile : false})
+    }
     openModalRequestProfile = (id,subscriptionID) => {
         this.setState({modalRequestProfile : true, traineesId: id, subscriptionID: subscriptionID})
     }
@@ -62,7 +87,9 @@ class HomeComponent extends Component {
         return (
             <>
                 <TraineeModalComponent isOpen={openModal} />
-                <ProfileModalComponent isOpenProfile={modalRequestProfile}  noteClass={true} profileData={this.state.trainees} subscriptionID={this.state.subscriptionID} traineesId={this.state.traineesId}/>
+                <ProfileModalComponent isOpenProfile={modalRequestProfile} onCloseProfile={e=> this.onCloseProfile() }   noteClass={true} profileData={this.state.trainees} subscriptionID={this.state.subscriptionID} traineesId={this.state.traineesId}/>
+                <RequestModalComponent updateTrainersRequest={e=> this.updateTrainersRequest()} onCloseRequest={e=> this.onCloseRequest() }  isOpenRequest={openModalRequest} requestClass={true} traineesId={this.state.requestData.trainee} requestId={this.state.requestData.id} data={this.state.requestData}/>
+
                 <div className="container">
 
                    <div className="row" style={{marginLeft:0, marginRight:0}}>
@@ -121,7 +148,7 @@ class HomeComponent extends Component {
                                                          <div className="col-md-3 mt-4" key={i}>
                                                              <Card
                                                                  image={_imgPath}
-                                                                 header={item.trainee_name} onClick={(e)=>this.setState({'openModalRequest':true})}
+                                                                 header={item.trainee_name} onClick={(e)=>this.setState({'openModalRequest':true, 'requestData': item})}
                                                                  className='text-center card-custom'
                                                                  extra={
                                                                      <button className='btn-secondary w-75 m-auto' >
@@ -129,7 +156,6 @@ class HomeComponent extends Component {
                                                                      </button>
                                                                  }
                                                              />
-                                                             <RequestModalComponent isOpenRequest={openModalRequest} profileData={this.state.trainees} requestClass={true} traineesId={item.trainee} requestId={item.id}/>
                                                          </div>
                                                      );
                                                  }): ''
@@ -141,8 +167,8 @@ class HomeComponent extends Component {
                                          <h4>{t('request.invitationsTrainees')}</h4>
                                          <div className="row">
                                              {
-                                                 this.state.requests.length >0 ?
-                                                     this.state.requests.map( (item,i) => {
+                                                 localStorage.getItem('is_sass')?
+                                                     this.state.sassInvitation.map( (item,i) => {
                                                          const _imgPath = item.trainee_avatar ? 'https://miranapp.com/media/' +  item.trainee_avatar : 'https://www.w3schools.com/howto/img_avatar.png'
                                                          return (
                                                              <div className="col-md-3 mt-4" key={i}>
@@ -152,7 +178,7 @@ class HomeComponent extends Component {
                                                                      className='text-center card-custom'
                                                                      extra={
                                                                          <button className='btn-secondary w-75 m-auto' onClick={(e) => {
-                                                                             this.setState({openModalRequest:true});
+                                                                             this.setState({openModalRequest:true, 'requestData': item});
                                                                          }}>
                                                                              {t('request.viewRequest')}
                                                                          </button>

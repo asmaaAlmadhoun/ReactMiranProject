@@ -124,7 +124,7 @@
 }
 .container-note-list{
     max-height: 70vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .react-confirm-alert-overlay{
     z-index: 9999 !important;

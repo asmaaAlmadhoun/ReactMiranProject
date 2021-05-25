@@ -131,7 +131,8 @@ class TraineeModalNoteComponent extends Component {
         return (
             <div>
                 <ModalComponent size="tiny" modalCenter={true} isOpen={this.state.isOpen}  handleClosed={e => {
-                    this.setState({isOpen:false})
+                    this.setState({isOpen:false});
+                    this.props.onCloseNote();
                 }} Actions={
                     <div>
                         <button className="ui button icon primary p-2" onClick={e => {

@@ -211,7 +211,7 @@ class Plan extends Component {
                     </a>
                 </Menu.Item>,
             render: () =>
-                <Tab.Pane attached={false} key={this.state.planId}>
+                <Tab.Pane attached={false} key={this.state.planId} className='containerTab'>
                     {
                         this.state.loader ? <Loader active={true} inline='centered'/> :
                             <>
@@ -226,9 +226,9 @@ class Plan extends Component {
                                             <div className="headings d-flex align-items-center mb-3">
                                                 <img src={Report} alt="icon" className='mx-2' width="20px" />
                                                 <h3 className="flex-grow-1"> {t('traineeModal.title')} </h3>
-                                                <Link to={""}>
-                                                    {t('traineeModal.Calories')}
-                                                </Link>
+                                                {/*<Link to={""}>*/}
+                                                {/*    {t('traineeModal.Calories')}*/}
+                                                {/*</Link>*/}
                                                 <div className='d-none'>
                                                 {
                                                     setTimeout(()=>{

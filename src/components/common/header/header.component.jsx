@@ -22,6 +22,7 @@ class HeaderComponent extends React.PureComponent {
         const userData = JSON.parse( accountService.userData);
         if(userData) {
             this.setState({username: userData.full_name, userData:userData, imgPath: userData.profile.avatar})
+            localStorage.setItem('is_sass',userData.is_saas)
         }
     }
 

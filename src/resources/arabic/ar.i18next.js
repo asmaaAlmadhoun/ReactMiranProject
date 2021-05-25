@@ -31,6 +31,7 @@ ArabicTranslation = {
     },
     confirmMessage: 'هل تريد بالفعل حذف هذا العنصر',
     confirmMessageBreak: 'هل تريد بالفعل انشاء يوم عطلة',
+    confirmMessageRequest: 'هل تريد بالفعل تنفيذ الطلب',
     confirmTitle: 'تأكيد',
     yes: 'نعم',
     no: 'لا',

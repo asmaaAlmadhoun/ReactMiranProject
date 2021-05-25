@@ -5,7 +5,7 @@ class EmptyComponent extends Component {
     render() {
         return (
             <div className="text-center mt-4" style={{width:'100%'}}>
-                <img src={EmptyPage} alt="empty"
+                <img src={EmptyPage} alt="empty" className='m-auto'
                      style={{
                          width:'500px'
                 }} />

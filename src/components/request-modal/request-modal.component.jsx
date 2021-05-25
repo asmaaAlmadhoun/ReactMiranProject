@@ -39,7 +39,7 @@ class RequestModalComponent extends Component {
         this.setState({isLoading:true})
         confirmAlert({
             title: t('shared.confirmTitle'),
-            message: t('shared.confirmMessageBreak'),
+            message: t('shared.confirmMessageRequest'),
             buttons: [
                 {
                     label: t('shared.yes'),
@@ -47,8 +47,9 @@ class RequestModalComponent extends Component {
                         tranieeService.acceptRequest(data).then(response => {
                             this.setState({isLoading : false})
                             if(response.status) {
-                                toast.done(t('shared.success.addedSuccess'));
+                                this.props.updateTrainersRequest();
                                 this.onClose();
+                                toast.done(t('shared.success.addedSuccess'));
                             }else {
                                 toast.error(t('shared.errors.globalError'))
                             }
@@ -59,106 +60,56 @@ class RequestModalComponent extends Component {
                     }
                 },
                 {
-                    label: t('shared.no'),
+                    label: t('shared.no')
                 }
             ]
         });
     }
     onClose = (e) => {
+        this.setState({isOpenRequest:false});
+        this.props.onCloseRequest()
         if(e) {
             e.preventDefault();
         }
-        this.setState({isOpenRequest:false});
     }
 
     render() {
-        const { t,profileData, traineesId, requestClass, noteClass, subscriptionID } = this.props;
+        const { t,profileData,data, traineesId, requestClass, noteClass, subscriptionID } = this.props;
 
         return (
             <div>
-                <ModalComponent size="tiny" hideAction={true} modalCenter={true} isOpen={this.state.isOpenRequest}  handleClosed={e => {
-                    this.setState({isOpenRequest:false, openModalNote:false})
-                }}>
-                        {
-                            (profileData && profileData.length) ?
-                                profileData.map(item =>
-                                    <div className='card' key={item.id}>
-                                        <div className="card-header text-right">
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <img src={'https://miranapp.com/media/' + item.profile.avatar} className='w-100' alt="img_avatar"/>
-                                                </div>
-                                                <div className="col-8">
-                                                    <h3 className='pb-3'>{item.full_name}</h3>
-                                                    <div className={requestClass ? '': 'd-none'}>
-                                                        <button className="ui button icon red py-2 px-3" onClick={()=>
-                                                            this.submitRequest('rejected')
-                                                        }>
-                                                            <i><AiOutlineClose /></i>
-                                                            <span>{t('shared.reject')}</span>
-                                                        </button>
-                                                        <button className="ui button icon primary py-2 px-3" onClick={()=>{
-                                                            this.submitRequest('approved')
-                                                        }}>
-                                                            <i><BsCheck /></i>
-                                                            <span>{t('shared.accept')}</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                <ModalComponent size="tiny" hideAction={true} modalCenter={true} isOpen={this.state.isOpenRequest}  handleClosed={e=>this.onClose(e)}>
+                    {data !== null?
+                        <div className='card' key={data.id}>
+                            <div className="card-body text-right">
+                                <div className="row">
+                                    <div className="col-4">
 
-                                        </div>
-                                        <div className='card-body text-right'>
-                                            <div className='my-2'>
-                                                <label className='text-primary'>{t('profile.BirthDate')}</label>
-                                                <p>{item.profile.birthdate}</p>
-                                                <hr/>
-                                            </div>
-                                            <div className='my-2'>
-                                                <label className='text-primary'>{t('profile.nationality')}</label>
-                                                {item.profile.nationality?
-                                                    <p>{t('local')==='ar' ? item.profile.nationality.name_ar : item.profile.nationality.name }</p>
-                                                    :''}
-                                                <hr/>
-                                            </div>
-                                            <div className='my-2'>
-                                                <label className='text-primary'>{t('profile.height')}</label>
-                                                <p>{item.profile.height}</p>
-                                                <hr/>
-                                            </div>
-                                            <div className='my-2'>
-                                                <label className='text-primary'>{t('progressPage.weight')}</label>
-                                                <p>{item.profile.weight}</p>
-                                                <hr/>
-                                            </div>
-
-                                            <div className='my-2'>
-                                                <label className='text-primary'>{t('profile.levelOfActivity')}</label>
-                                                <p>{t('local')==='ar' ? item.profile.activity_level.title_ar: item.profile.activity_level.title}</p>
-
-                                                <div className="row">
-                                                    <div className="col-6">
-                                                        <label className='text-primary'>{t('profile.warning')}</label>
-                                                        <p>{item.profile.warnings}</p>
-                                                    </div>
-                                                    <div className="col-6">
-                                                        <label className='text-primary'>{t('profile.Allergies')}</label>
-                                                        <p>{item.profile.allergies}</p>
-                                                    </div>
-                                                </div>
-                                                <hr/>
-                                            </div>
-                                            <div className='my-2'>
-                                                <label className='text-primary'>{t('profile.myGoal')}</label>
-                                                <p>{t('local')==='ar' ? item.goal.title_ar : item.goal.title}</p>
-                                            </div>
-
+                                        <img src={data.trainee_avatar !== null?'https://miranapp.com/media/' + data.trainee_avatar : 'https://www.w3schools.com/howto/img_avatar.png'} className='w-100' alt="img_avatar"/>
+                                    </div>
+                                    <div className="col-8">
+                                        <h3 className='pb-3'>{data.trainee_name}</h3>
+                                        <div>
+                                            <button className="ui button icon red py-2 px-3" onClick={()=>
+                                                this.submitRequest('rejected')
+                                            }>
+                                                <i><AiOutlineClose /></i>
+                                                <span>{t('shared.reject')}</span>
+                                            </button>
+                                            <button className="ui button icon primary py-2 px-3" onClick={()=>{
+                                                this.submitRequest('approved')
+                                            }}>
+                                                <i><BsCheck /></i>
+                                                <span>{t('shared.accept')}</span>
+                                            </button>
                                         </div>
                                     </div>
-                                )
-                                :
-                                <EmptyComponent />
-                        }
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        ''
+                    }
                 </ModalComponent>
 
             </div>
@@ -170,6 +121,7 @@ RequestModalComponent.propTypes = {
     isOpenRequest : PropTypes.bool,
     requestId : PropTypes.number,
     profileData : PropTypes.array,
+    data : PropTypes.array,
 }
 
 export default  withTranslation('translation')(RequestModalComponent);

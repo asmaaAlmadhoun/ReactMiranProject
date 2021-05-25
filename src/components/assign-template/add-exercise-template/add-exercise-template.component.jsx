@@ -36,7 +36,7 @@ class AddExerciseTemplateComponent extends  React.Component {
     }
     async addExerciseToTemplate(e) {
         const {weight, comment, sets, count, rest_period, ExerciseId, activeDay} = this.state;
-        const {planMode, traineesId,exerciseMealData} = this.props;
+        const {planMode, traineesId,exerciseMealData,t} = this.props;
         if(planMode){
             const planService= new PlanService();
             const data = {
@@ -69,11 +69,11 @@ class AddExerciseTemplateComponent extends  React.Component {
             }
             templateServices.addExerciseToTemplate(data).then(response => {
                 if (response) {
-                    //      toast.done(t('shared.success.addedSuccess'));
+                    toast.done(t('shared.success.addedSuccess'));
                     this.props.getTemplateForDay2();
                     this.props.closeModal();
                 } else {
-                    //  toast.done(t('shared.success.addedSuccess'));
+                     toast.done(t('shared.success.addedSuccess'));
                 }
             })
         }

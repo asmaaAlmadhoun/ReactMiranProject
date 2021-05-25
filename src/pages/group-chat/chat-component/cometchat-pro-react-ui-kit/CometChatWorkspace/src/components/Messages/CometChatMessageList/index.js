@@ -693,6 +693,10 @@ class CometChatMessageList extends React.PureComponent {
   }
   
   getComponent = (message, key) => {
+    console.log(message)
+    console.log(key)
+    debugger;
+
 
     let component;
 

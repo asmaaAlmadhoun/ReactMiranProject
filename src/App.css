@@ -276,3 +276,8 @@ ul.message__actions li:first-child {
   height: 100%;
   margin: auto;
 }
+.containerTab{
+  max-height: 90vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

@@ -53,9 +53,16 @@ class ProfileModalComponent extends Component {
         }
         this.setState({isOpen:false});
     }
+    onCloseNote = (e) => {
+        if(e) {
+            e.preventDefault();
+        }
+        this.setState({openModalNote:false});
+    }
 
     openModalHandlerNote = () => {
-        this.setState({openModalNote : true, isOpenProfile: false})
+        this.setState({openModalNote : true, isOpenProfile: false});
+        this.props.onCloseProfile();
     }
     render() {
         const { t,profileData, traineesId, requestClass, noteClass, subscriptionID } = this.props;
@@ -64,11 +71,11 @@ class ProfileModalComponent extends Component {
             <div>
                 <TraineeModalNoteComponent isOpen={this.state.openModalNote} handleClosed={e => {
                     e.stopPropagation();
-                    this.setState({openModalNote:false, isOpenProfile:false})
-                }}  subscriptionID={subscriptionID} traineesId={traineesId} />
+                    this.setState({openModalNote:false, isOpenProfile:false});this.props.onCloseProfile()
+                }} onCloseNote={e=> this.onCloseNote()}  subscriptionID={subscriptionID} traineesId={traineesId} />
 
                 <ModalComponent size="tiny" modalCenter={true} isOpen={this.state.isOpenProfile}  handleClosed={e => {
-                    this.setState({isOpenProfile:false, openModalNote:false})
+                    this.setState({isOpenProfile:false, openModalNote:false}); this.props.onCloseProfile()
                 }}>
                         {
                             (profileData && profileData.length) ?
@@ -154,9 +161,8 @@ class ProfileModalComponent extends Component {
                                             </div>
                                         </div>
                                         :
-                                            <EmptyComponent />
-
-                                    :<EmptyComponent />
+                                        ''
+                                    :''
                                 )
                                 :
                                 <EmptyComponent />

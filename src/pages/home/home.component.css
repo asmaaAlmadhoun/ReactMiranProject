@@ -30,3 +30,7 @@
 .chat-icon svg{
     font-size: 2.7rem;
 }
+.tab-custom{
+    overflow-y: auto;
+    max-height: 430px;
+}
