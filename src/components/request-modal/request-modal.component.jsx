@@ -85,7 +85,7 @@ class RequestModalComponent extends Component {
                                 <div className="row">
                                     <div className="col-4">
 
-                                        <img src={data.trainee_avatar !== null?'https://miranapp.com/media/' + data.trainee_avatar : 'https://www.w3schools.com/howto/img_avatar.png'} className='w-100' alt="img_avatar"/>
+                                        <img src={(data.trainee_avatar !== null && data.trainee_avatar !== undefined)?'https://miranapp.com/media/' + data.trainee_avatar : 'https://www.w3schools.com/howto/img_avatar.png'} className='w-100' alt="img_avatar"/>
                                     </div>
                                     <div className="col-8">
                                         <h3 className='pb-3'>{data.trainee_name}</h3>
