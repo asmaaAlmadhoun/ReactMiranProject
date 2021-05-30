@@ -11,6 +11,7 @@ import QierPlayer from "qier-player";
 import DetailListItemTemplateComponent
     from "../searchable-list-template/detail-list-item-template/detail-list-item-template.component";
 import PlanService from "../../../services/plan-service/plan.service";
+import MessageErrorComponent from "../../common/message/message.error.component";
 
 class AddExerciseTemplateComponent extends  React.Component {
 
@@ -21,7 +22,8 @@ class AddExerciseTemplateComponent extends  React.Component {
             openExceriseListDetails: false,
             weight:'', comment:'', count:'', rest_period:'', sets: '',
             ExerciseId :  this.props.exerciseMealForThisDay.exercise_id || {},
-            activeDay :  this.props.activeDay
+            activeDay :  this.props.activeDay,
+            successState: false
         }
     }
     componentWillMount() {
@@ -68,12 +70,12 @@ class AddExerciseTemplateComponent extends  React.Component {
                 'rest_period': rest_period
             }
             templateServices.addExerciseToTemplate(data).then(response => {
-                if (response) {
-                    toast.done(t('shared.success.addedSuccess'));
+                if (response.status) {
                     this.props.getTemplateForDay2();
                     this.props.closeModal();
                 } else {
-                     toast.done(t('shared.success.addedSuccess'));
+                    this.setState({'successState':true})
+                    toast.done(t('shared.success.addedSuccess'));
                 }
             })
         }
@@ -113,7 +115,20 @@ class AddExerciseTemplateComponent extends  React.Component {
                             <InputTextComponent  valueHandler={this.onChangeHandler} name='count' className='w-100 text-center' isRequired/>
                         </div>
                     </div>
-                    <div className="col-sm-4"></div>
+                    <div className="col-sm-4">
+                        {this.state.successState ?
+                            <>
+                                <MessageErrorComponent status='true'
+                                                       onClick={(e)=> this.setState({successState: false})}
+                                                       content={t('shared.errors.globalError')}/>
+                                <div className='d-none'> { setTimeout(function(){
+                                    this.setState({successState:false});
+                                }.bind(this),8000)}
+                                </div>
+                            </>
+                            : ''
+                        }
+                    </div>
                     <div className="col-sm-4 text-center">
                         <div>
                             <label className='primary d-block'>
