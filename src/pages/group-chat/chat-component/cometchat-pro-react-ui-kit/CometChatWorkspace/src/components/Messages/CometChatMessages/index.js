@@ -82,11 +82,11 @@ class CometChatMessages extends React.PureComponent {
   componentDidUpdate(prevProps, prevState) {
     console.log(prevProps);
 
-    if (this.props.type === 'user' && prevProps.item.uid !==  this.state.item.uid) {
+    if (this.props.type === 'user' && prevProps.item.uid !==  this.props.item.uid) {
       
       this.setState({ messageList: [], scrollToBottom: true, messageToBeEdited: "", unreadMessages: [] });
 
-    } else if (this.props.type === 'group' && prevProps.item.guid !==  this.state.item.guid) {
+    } else if (this.props.type === 'group' && prevProps.item.guid !==  this.props.item.guid) {
       
       this.setState({ messageList: [], scrollToBottom: true, messageToBeEdited: "", unreadMessages: [] });
 
@@ -316,7 +316,7 @@ class CometChatMessages extends React.PureComponent {
 
   rejectedIncomingCall = (incomingCallMessage, rejectedCallMessage) => {
 
-    let item =  this.state.item;
+    let item =  this.props.item;
     let type = this.props.type;
 
     const receiverType = rejectedCallMessage.receiverType;
@@ -338,12 +338,12 @@ class CometChatMessages extends React.PureComponent {
 
     if (this.props.type === "user") {
 
-      receiverId =  this.state.item.uid;
+      receiverId =  this.props.item.uid;
       receiverType = CometChat.RECEIVER_TYPE.USER;
 
     } else if (this.props.type === "group") {
 
-      receiverId =  this.state.item.guid;
+      receiverId =  this.props.item.guid;
       receiverType = CometChat.RECEIVER_TYPE.GROUP;
     }
 
@@ -662,61 +662,6 @@ class CometChatMessages extends React.PureComponent {
       this.setState({ messageList: messageList, scrollToBottom: false });
     }
   }
-  getMessage = (lastMessage) => {
-
-    let message = null;
-    const sender = (localStorage.getItem('chat_uid') !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
-
-    switch (lastMessage.type) {
-
-      case CometChat.MESSAGE_TYPE.TEXT: {
-
-        const textMessage = this.getTextMessage(lastMessage);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${textMessage}` : `${textMessage}`;
-      }
-        break;
-      case CometChat.MESSAGE_TYPE.MEDIA: {
-
-        const mediaMessage = Translator.translate("MEDIA_MESSAGE", this.props.lang);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${mediaMessage}` : `${mediaMessage}`;
-      }
-        break;
-      case CometChat.MESSAGE_TYPE.IMAGE: {
-
-        const imageMessage = Translator.translate("MESSAGE_IMAGE", this.props.lang);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${imageMessage}` : `${imageMessage}`;
-      }
-        break
-      case CometChat.MESSAGE_TYPE.FILE: {
-
-        const fileMessage = Translator.translate("MESSAGE_FILE", this.props.lang);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${fileMessage}` : `${fileMessage}`;
-      }
-        break;
-      case CometChat.MESSAGE_TYPE.VIDEO: {
-
-        const videoMessage = Translator.translate("MESSAGE_VIDEO", this.props.lang);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${videoMessage}` : `${videoMessage}`;
-      }
-        break;
-      case CometChat.MESSAGE_TYPE.AUDIO: {
-
-        const audioMessage = Translator.translate("MESSAGE_AUDIO", this.props.lang);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${audioMessage}` : `${audioMessage}`;
-      }
-        break;
-      case CometChat.MESSAGE_TYPE.CUSTOM: {
-
-        const customMessage = Translator.translate("CUSTOM_MESSAGE", this.props.lang);
-        message = (lastMessage.receiverType === CometChat.RECEIVER_TYPE.GROUP) ? `${sender} ${customMessage}` : `${customMessage}`;
-      }
-        break;
-      default:
-        break;
-    }
-
-    return message;
-  }
   smartReplyPreview = (messages) => {
 
     const message = messages[0];
@@ -751,7 +696,7 @@ class CometChatMessages extends React.PureComponent {
       <CometChatMessageComposer 
       ref={(el) => { this.composerRef = el; } }
       theme={this.props.theme}
-      item={ this.state.item}
+      item={ this.props.item}
       type={this.props.type}
       lang={this.state.lang}
       widgetsettings={this.props.widgetsettings}
@@ -817,7 +762,7 @@ class CometChatMessages extends React.PureComponent {
         open={open} 
         close={() => this.actionHandler("directCallEnded")}
         theme={this.props.theme} 
-        item={ this.state.item}
+        item={ this.props.item}
         type={this.props.type}
         lang={this.state.lang}
         callType={CometChat.CALL_TYPE.VIDEO}
@@ -834,7 +779,7 @@ class CometChatMessages extends React.PureComponent {
         <CometChatOutgoingCall
         ref={(el) => { this.outgoingCallRef = el; }}
         theme={this.props.theme}
-        item={ this.state.item}
+        item={ this.props.item}
         type={this.props.type}
         lang={this.state.lang}
         incomingCall={this.state.incomingCall}
@@ -850,7 +795,7 @@ class CometChatMessages extends React.PureComponent {
           <CometChatMessageHeader 
           sidebar={this.props.sidebar}
           theme={this.props.theme}
-          item={ this.state.item}
+          item={ this.props.item}
           type={this.props.type} 
           lang={this.state.lang}
           viewdetail={this.props.viewdetail === false ? false : true}
@@ -863,7 +808,7 @@ class CometChatMessages extends React.PureComponent {
           ref={(el) => { this.messageListRef = el; }}
           theme={this.props.theme}
           messages={this.state.messageList}
-          item={ this.state.item}
+          item={ this.props.item}
           type={this.props.type}
           lang={this.state.lang}
           scrollToBottom={this.state.scrollToBottom}

@@ -46,6 +46,7 @@ class App1 extends  React.Component {
         //  Generate UID
         const chatService  = new ChatService(userData.id+"listen");
         localStorage.setItem('chat_uid', userData.id+'_t');
+        localStorage.setItem('loggedInUser',JSON.stringify(userData));
         localStorage.setItem('ChatServiceID', userData.id+"listen");
         chatService.login(chatService.getAuthToken(userData.id.toString() + "_t" )).then(logging => {
             if(logging.status === "online") {
