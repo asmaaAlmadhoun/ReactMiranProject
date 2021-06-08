@@ -693,6 +693,9 @@ class CometChatMessageList extends React.PureComponent {
   }
   
   getComponent = (message, key) => {
+    if(typeof(message.receiverId) === "number"){
+      message.receiverId=message.receiverId+'_t'
+    }
     console.log(message)
     console.log(key)
     debugger;
@@ -707,11 +710,11 @@ class CometChatMessageList extends React.PureComponent {
       break;
       case CometChat.CATEGORY_MESSAGE:
         console.log(this.loggedInUser);
-        if(this.loggedInUser.uid === message.sender.uid) {
+        //if(this.loggedInUser.uid === message.sender.uid) {
           component = this.getSenderMessageComponent(message, key);
-        } else {
-          component = this.getReceiverMessageComponent(message, key);
-        }
+        // } else {
+        //   component = this.getReceiverMessageComponent(message, key);
+        // }
       break;
       case enums.CATEGORY_CUSTOM:
         if (this.loggedInUser.uid === message.sender.uid) {
