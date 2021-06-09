@@ -63,8 +63,8 @@ class CometChatUserList extends React.PureComponent {
         case "friends":
           this.friendsOnly = true;
         break;
-        default:
-        break;
+       // default:
+       // break;
       }
     }
 
@@ -76,7 +76,7 @@ class CometChatUserList extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-
+    debugger
     const previousItem = JSON.stringify(prevProps.item);
     const currentItem = JSON.stringify(this.props.item);
 
@@ -97,6 +97,7 @@ class CometChatUserList extends React.PureComponent {
 
           let userObj = { ...userlist[userKey] };
           console.log('entries')
+          debugger
           console.log(userObj)
           this.setState({ selectedUser: userObj });
         }

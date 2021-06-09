@@ -106,7 +106,6 @@ class AccountService extends BaseService {
     //     let keyCiphertext = await this.sodium.crypto_secretbox(key, this.nonce, this.key);
     //     console.log(keyCiphertext);
     //     let decrypted = await sodium.crypto_secretbox_open(ciphertext, nonce, key);
-    //     console.log(decrypted.toString('utf-8'));
     // }
     //
     becomeActive = async (value) => {

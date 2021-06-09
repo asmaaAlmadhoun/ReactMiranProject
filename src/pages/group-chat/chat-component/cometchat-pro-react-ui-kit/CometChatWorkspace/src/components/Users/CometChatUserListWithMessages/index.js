@@ -36,7 +36,7 @@ class CometChatUserListWithMessages extends React.Component {
     this.state = {
       darktheme: false,
       viewdetailscreen: false,
-      item: {},
+      item: this.props.location.state.item===null?this.props.location.state.item:{},
       type: "user",
       tab: "contacts",
       threadmessageview: false,
@@ -54,7 +54,6 @@ class CometChatUserListWithMessages extends React.Component {
     this.messageScreenRef = React.createRef();
     this.loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
     this.setState({loggedInUser: this.loggedInUser})
-    console.log(this.loggedInUser + 'Asmaa Chat')
     this.init();
     // CometChat.getLoggedinUser().then((user) => {
     //   this.loggedInUser = user;
@@ -64,15 +63,11 @@ class CometChatUserListWithMessages extends React.Component {
   }
   init = () =>{
     CometChat.init(appID, appSetting).then(() => {
-          // console.log('jjjj');
           let chatService= new ChatService();
           this.loggedInUser= chatService.getCurrentUser();
-          // console.log('jjjj'+ chatService.getCurrentUser());
-
           if(CometChat.setSource) {
             CometChat.setSource("ui-kit", "web", "reactjs");
           }
-          console.log("Initialization completed successfully");
         },
         error => {
           console.log("Initialization failed with error:", error);
@@ -80,10 +75,8 @@ class CometChatUserListWithMessages extends React.Component {
         }
     )
     // CometChat.getLoggedinUser().then((user) => {
-    //   // console.log('asma 111')
     //
     //   this.loggedInUser = user;
-    //   console.log(this.loggedInUser)
     //
     // }).catch((error) => {
     //   console.log("[CometChatUnified] getLoggedinUser error", error);
@@ -91,8 +84,9 @@ class CometChatUserListWithMessages extends React.Component {
   }
 
   componentDidMount() {
-
-    if(!Object.keys(this.state.item).length) {
+    if(this.props.location.state.item!==null){
+      this.setState({item: this.props.location.state.item})
+    }    if(!Object.keys(this.state.item).length) {
       this.toggleSideBar();
     }
   }

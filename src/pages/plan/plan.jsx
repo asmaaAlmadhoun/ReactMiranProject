@@ -60,7 +60,6 @@ class Plan extends Component {
             activeDay1 = activeDay;
         }
         if(tempId === undefined){
-            console.log(' long2 ' + tempId)
             tempId = this.state.planId;
         }
         const planServices = new PlanServices();

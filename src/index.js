@@ -55,7 +55,7 @@ ReactDOM.render(
                   <Route path="/trainees"  component={DisplayTraineesComponent} />
                   <Route path="/chat-message" component={CometChatMessages} />
 
-                  {/*<Route path="/users" component={CometChatUserListWithMessages} />*/}
+                  <Route path="/users" component={CometChatUserListWithMessages} />
                   <Route path="/chat-app" component={CometChatUI} />
                   {/*<Route path="/chat2" component={LoginChatComponent} />*/}
               </App1>

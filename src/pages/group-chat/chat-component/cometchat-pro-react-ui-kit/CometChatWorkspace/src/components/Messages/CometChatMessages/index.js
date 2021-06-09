@@ -617,7 +617,6 @@ class CometChatMessages extends React.PureComponent {
   appendMessage = (message) => {
 
     let messages = [...this.state.messageList, ...message];
-    console.log('message 44 '+ message);
     this.setState({ messageList: messages, scrollToBottom: true });
   }
 

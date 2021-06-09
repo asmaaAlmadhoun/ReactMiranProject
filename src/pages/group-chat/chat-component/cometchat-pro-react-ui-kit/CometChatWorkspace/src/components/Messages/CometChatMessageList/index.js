@@ -135,7 +135,10 @@ class CometChatMessageList extends React.PureComponent {
   }
 
   messageHandler = (item, actionGenerated = "messageFetched") => {
-
+    if(typeof(item.uid) === "number"){
+      item.uid=item.uid+'_t'
+    }
+    debugger
     this.fetchMessages().then(messageList => {
 
       if (messageList.length === 0) {
@@ -182,9 +185,9 @@ class CometChatMessageList extends React.PureComponent {
   fetchMessages = () => {
 
     const promise = new Promise((resolve, reject) => {
-
+      debugger
       this.MessageListManager.fetchPreviousMessages().then(messageList => {
-
+        debugger
         resolve(messageList);
 
       }).catch(error => reject(error));
@@ -696,10 +699,6 @@ class CometChatMessageList extends React.PureComponent {
     if(typeof(message.receiverId) === "number"){
       message.receiverId=message.receiverId+'_t'
     }
-    console.log(message)
-    console.log(key)
-    debugger;
-
 
     let component;
 
@@ -709,7 +708,6 @@ class CometChatMessageList extends React.PureComponent {
         component = this.getActionMessageComponent(message, key);
       break;
       case CometChat.CATEGORY_MESSAGE:
-        console.log(this.loggedInUser);
         //if(this.loggedInUser.uid === message.sender.uid) {
           component = this.getSenderMessageComponent(message, key);
         // } else {

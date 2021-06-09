@@ -34,17 +34,14 @@ class KitchenSinkApp extends React.PureComponent {
     this.myRef = React.createRef();
   }
   componentDidMount() {
-    // console.log('asmaa 3444');
     CometChat.getLoggedinUser().then((user) => {
       localStorage.setItem('loggedInUser',JSON.stringify(user));
-      // console.log('asma 44 ');
       this.UserListManager.fetchNextUsers().then((userList) => {
         if(userList.length !== 0) {
           localStorage.setItem('userlist', userList);
         }
       }).catch((error) => {
         console.error("[CometChatUserList] getUsers fetchNext error", error);
-        // console.log('asma 44 12 ');
 
       });
     }).catch((error) => {
@@ -58,8 +55,6 @@ class KitchenSinkApp extends React.PureComponent {
     if(!uid) {
       uid = localStorage.getItem('chat_uid') ;
     }
-    // console.log('asma 44 ');
-
     this.uid = uid ;
     this.props.onLogin(this.uid, COMETCHAT_CONSTANTS.AUTH_KEY);
     // return <Redirect to="/users" />

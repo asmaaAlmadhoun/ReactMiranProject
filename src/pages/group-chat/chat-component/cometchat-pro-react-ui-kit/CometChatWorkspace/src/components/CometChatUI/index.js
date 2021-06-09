@@ -83,12 +83,10 @@ class CometChatUI extends React.Component {
   }
   init = () =>{
     CometChat.init(appID, appSetting).then(() => {
-           console.log('asma 8888888' + CometChat.getLoggedinUser())
           this.loggedInUser = CometChat.getLoggedinUser()
           if(CometChat.setSource) {
             CometChat.setSource("ui-kit", "web", "reactjs");
           }
-          console.log("Initialization completed successfully");
         },
         error => {
           console.log("Initialization failed with error:", error);
@@ -101,7 +99,6 @@ class CometChatUI extends React.Component {
    // },2000)
   }
   chatLoginHandler = async () => {
-    console.log('login auth');
     const accountService = new AccountService();
     const userData = JSON.parse( accountService.userData);
     if (!userData)
@@ -117,9 +114,6 @@ class CometChatUI extends React.Component {
       localStorage.setItem('ChatServiceAuthToken', loginStatus);
       if(loginStatus) {
         chatService.login('').then(logging => {
-          if(logging.status === "online") {
-            console.log("Logged into chat")
-          }
         })
       }else {
         chatService.createUser({userId: userData.id.toString() + "_t" , userName : userData.email , metadata:accountService.userData }).then(user => {
@@ -137,8 +131,6 @@ class CometChatUI extends React.Component {
   }
 
   componentDidMount() {
-    console.log('done 4 ');
-    console.log('done LoggedInUser '+ this.loggedInUser);
     setTimeout(()=>{
       this.setState({loading:false});
     },1000)

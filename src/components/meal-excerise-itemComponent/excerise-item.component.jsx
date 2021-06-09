@@ -86,7 +86,6 @@ class ExceriseItemComponent extends Component {
     async updateExcerise(template_day_exercises_id){
         const {t, templateId, planId, activeDay,ExceriseDataItem, planMode}= this.props;
          let data = await this.props.getTemplateForDay2(planMode?planId:templateId, activeDay);
-        console.log('planId '+planId)
 
         setTimeout(() => {
             if(planMode){

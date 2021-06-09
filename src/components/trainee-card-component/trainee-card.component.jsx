@@ -36,8 +36,15 @@ class TraineeCardComponent extends Component {
                     <Button className='p-0 boxShadow-none ml-2 mr-2 chat-icon' basic color='blue'onClick={e => {
                         e.stopPropagation();
                         this.props.history.push({
-                            pathname: '/chat-app',
-                            state: { fullData: fullData, traineesId: traineesId },
+                            pathname: '/users',
+                            state: { fullData: fullData, traineesId: traineesId, item: {
+                                    "hasBlockedMe": false,
+                                    "blockedByMe": false,
+                                    "uid": traineesId+'_t',
+                                    "name": full_name,
+                                    "role": "trainee",
+                                    "status": "offline"
+                                } },
                         });
                     }}>
                         <BsChatDots />

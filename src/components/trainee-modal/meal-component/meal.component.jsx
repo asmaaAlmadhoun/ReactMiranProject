@@ -202,7 +202,6 @@ class MealComponent extends Component {
     }
 
     parentCallback = (e) => {
-        console.log(e)
     }
     templateCopyMaelDay(copyDays) {
         const {t, exerciseMealData, planMode, traineesId} = this.props;

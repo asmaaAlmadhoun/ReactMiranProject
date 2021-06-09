@@ -44,7 +44,7 @@ class App extends React.Component {
                         <Route path="/chat-message" render={(props)=>{
                             <CometChatMessages />
                         }} />
-                        {/*<Route path="/users"  component={CometChatUserListWithMessages} />*/}
+                        <Route path="/users"  component={CometChatUserListWithMessages} />
                         {/*<Route path="/users2"  component={CometChatConversationListWithMessages} />*/}
                         <PrivateRoute path="/conversation-list" component={CometChatConversationList} />
                         <PrivateRoute exact path="/" component={HomePage} />
