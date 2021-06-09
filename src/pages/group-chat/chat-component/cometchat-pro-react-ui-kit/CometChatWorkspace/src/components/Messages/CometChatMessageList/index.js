@@ -42,6 +42,7 @@ import {
 
 class CometChatMessageList extends React.PureComponent {
   loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+  loggedInUserChatUid = this.loggedInUser.chat_uid;
   lastScrollTop = 0;
   times = 0;
   decoratorMessage = Translator.translate("LOADING", Translator.getDefaultLanguage());
@@ -149,9 +150,9 @@ class CometChatMessageList extends React.PureComponent {
       this.messageCount = messageList.length;
 
       messageList.forEach((message) => {
-
+        debugger
         //if the sender of the message is not the loggedin user, mark it as read.
-        if (message.getSender().getUid() !== this.loggedInUser.getUid() && !message.getReadAt()) {
+        if (message.getSender().getUid() !== this.loggedInUserChatUid && !message.getReadAt()) {
 
           if (message.getReceiverType() === CometChat.RECEIVER_TYPE.USER) {
 

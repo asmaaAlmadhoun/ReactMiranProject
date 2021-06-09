@@ -17,7 +17,6 @@ class AssignTemplateComponent extends Component {
     }
 
     clickNumberHandler = (number) => {
-       console.log(number);
     }
 
     render() {

@@ -66,7 +66,6 @@ export class ConversationListManager {
             this.conversationListenerId,
             new CometChat.MessageListener({
                 onTextMessageReceived: textMessage => {
-                    console.log(textMessage)
                     callback(enums.TEXT_MESSAGE_RECEIVED, null, textMessage);
                 },
                 onMediaMessageReceived: mediaMessage => {

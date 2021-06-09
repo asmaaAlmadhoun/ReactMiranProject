@@ -80,7 +80,6 @@ class CometChatMessages extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps);
 
     if (this.props.type === 'user' && prevProps.item.uid !==  this.props.item.uid) {
       
@@ -118,9 +117,6 @@ class CometChatMessages extends React.PureComponent {
     const newMessage = JSON.stringify(this.props.newMessage);
 
     if (previousMessage !== newMessage) {
-      console.log('previousMessage')
-      console.log(previousMessage)
-      console.log(newMessage)
 
       const message = this.props.newMessage[0];
       if (message.hasOwnProperty("_composedAt")) {

@@ -66,9 +66,6 @@ export  class  ChatService  {
             .hideBlockedUsers(true)
             .build();
        const userList = await  usersRequest.fetchNext();
-       console.log('users');
-       console.log(userList);
-
     }
 
     fetchSpecificUsers = async (userIds) => {
@@ -93,7 +90,6 @@ export  class  ChatService  {
     }
     listenToLogin = (listenerId) => {
         CometChat.addLoginListener(listenerId , {loginSuccess : () => {
-         console.log('listenerId '+listenerId);
            // alert("Login success")
             } , loginFailure: () => {
           //  alert('login failed')

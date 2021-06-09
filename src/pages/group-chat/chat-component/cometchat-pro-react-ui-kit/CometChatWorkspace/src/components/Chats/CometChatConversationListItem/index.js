@@ -78,8 +78,6 @@ class CometChatConversationListItem extends React.Component {
     const lastMessage = this.props.conversation.lastMessage;
 
     if (lastMessage.hasOwnProperty("deletedAt")) {
-      console.log(this.props.loggedInUser)
-      console.log('loggedInUser')
       if(loggedInUser===null){
         message = (localStorage.getItem('chat_uid') === lastMessage.sender.uid) ? `${Translator.translate("YOU_DELETED_THIS_MESSAGE", this.props.lang)}` : `${Translator.translate("THIS_MESSAGE_DELETED", this.props.lang)}`;
       }

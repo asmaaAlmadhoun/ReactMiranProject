@@ -96,9 +96,7 @@ class CometChatUserList extends React.PureComponent {
         if (userKey > -1) {
 
           let userObj = { ...userlist[userKey] };
-          console.log('entries')
           debugger
-          console.log(userObj)
           this.setState({ selectedUser: userObj });
         }
       }
@@ -210,7 +208,6 @@ class CometChatUserList extends React.PureComponent {
 
 
     setTimeout(()=>{
-      console.log(userListTrainees)
       this.setState({ userlist: [...this.state.userlist, ...userListTrainees],  loading: false })
     },1500)
 
