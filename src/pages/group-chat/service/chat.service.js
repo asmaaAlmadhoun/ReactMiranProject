@@ -7,6 +7,7 @@ export  class  ChatService  {
         if(listenId === undefined){
             listenId = localStorage.getItem('ChatServiceID');
         }
+        debugger
         this.listenToLogin(listenId)
     }
     static LISTENER_KEY_MESSAGE = "msgListener";
@@ -24,15 +25,28 @@ export  class  ChatService  {
     createUser  =  async ({userId , userName ,role , avatar, metadata } ) => {
 
         await ChatService.init()
-        const user = new CometChat.User({uid:userId, name:userName , role, avatar , metadata});
 
+        const user = new CometChat.User({uid:userId, name:userName , role, avatar , metadata});
+        console.log(user)
+        debugger
         return await CometChat.createUser(user,ChatService.apiKey);
     }
 
     getAuthToken = async (uid) => {
         const apiKEY =  ChatService.apiKey;
         debugger;
-        return await CometChat.login(uid ,apiKEY)
+        const login = await CometChat.login(uid ,apiKEY).then(
+            User => {
+                console.log("Login successfully:", { User });
+                // User loged in successfully.
+            },
+            error => {
+                console.log("Login failed with exception:", { error });
+                // User login failed, check error and take appropriate action.
+            }
+        );
+        debugger;
+        return login
     }
 
     login = async (authToken) => {
@@ -40,6 +54,10 @@ export  class  ChatService  {
             authToken = localStorage.getItem('ChatServiceAuthToken')
         }
         return await  CometChat.login(authToken);
+    }
+
+    logout = async () => {
+        return await CometChat.logout();
     }
 
     getCurrentUser = async () => {

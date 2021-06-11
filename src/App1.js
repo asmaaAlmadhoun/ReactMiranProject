@@ -12,6 +12,7 @@ import AccountService from "./services/account-service/account.service";
 import {ChatService} from "./pages/group-chat/service/chat.service";
 import TraineeService from "./services/trainee-service/traniee.service";
 import {CometChat} from "@cometchat-pro/chat";
+import config from "../src/config";
 
 class App1 extends  React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class App1 extends  React.Component {
             hasVerticalScrollbar:false,
             isActive:false
         }
+        CometChat.init(config.appId).then(r => console.log('init'));
     }
    async componentWillMount() {
 
@@ -45,39 +47,55 @@ class App1 extends  React.Component {
             return ;
         //  Generate UID
         const chatService  = new ChatService(userData.id+"listen");
+        chatService.createUser({userId: userData.chat_uid , userName : userData.email , metadata:accountService.userData }).then(user => {
+            console.log(user);
+            setTimeout(()=>{
+            let loginStatus = chatService.getAuthToken(user.uid).then(token => {
+                localStorage.setItem('ChatServiceAuthToken', loginStatus);
+                debugger
+                chatService.login(token.authToken).then(logging => {
+                    if(logging.status === "online") {
+                        debugger
+                    }
+                })
+            })},500)
+        })
         localStorage.setItem('chat_uid', userData.id+'_t');
         localStorage.setItem('loggedInUser',JSON.stringify(userData));
         localStorage.setItem('ChatServiceID', userData.id+"listen");
-        chatService.login(chatService.getAuthToken(userData.id.toString() + "_t" )).then(logging => {
-            if(logging.status === "online") {
-                alert("Logged into chat")
+        let loginStatus = chatService.getAuthToken(userData.chat_uid);
+        await CometChat.login(userData.chat_uid ,config.apiKey).then(
+            User => {
+                console.log("Login successfully:", { User });
+                // User loged in successfully.
+            },
+            error => {
+                console.log("Login failed with exception:", { error });
+                // User login failed, check error and take appropriate action.
             }
-        })
+        );
         debugger;
         try {
-            debugger;
             // the user may be have an account in cometchat or not.
-            const loginStatus =      await  chatService.getAuthToken(userData.id.toString() + "_t" )
-            localStorage.setItem('ChatServiceAuthToken', loginStatus);
-
-            if(loginStatus) {
-                chatService.login('').then(logging => {
-                    if(logging.status === "online") {
-                        alert("Logged into chat")
-                    }
-                })
-            }else {
-                chatService.createUser({userId: userData.id.toString() + "_t" , userName : userData.email , metadata:accountService.userData }).then(user => {
-                    chatService.getAuthToken(user.uid).then(token => {
-                        chatService.login(token.authToken).then(logging => {
-                            if(logging.status === "online") {
-                            }
+            setTimeout(()=>{
+                debugger;
+                if(loginStatus) {
+                    chatService.login('').then(logging => {
+                        if(logging.status === "online") {
+                            alert("Logged into chat")
+                        }
+                    })
+                }else {
+                    chatService.createUser({userId: userData.chat_uid , userName : userData.email , metadata:accountService.userData }).then(user => {
+                        chatService.getAuthToken(user.uid).then(token => {
+                            chatService.login(token.authToken).then(logging => {
+                                if(logging.status === "online") {
+                                }
+                            })
                         })
                     })
-                })
-            }
-
-
+                }
+            },500)
 
         }catch(error) {
             console.log(error)

@@ -24,6 +24,7 @@ import AccountService from "../../../services/account-service/account.service";
 import {Link, withRouter } from "react-router-dom";
 import addUSerICo from '../../../assets/icons/add-user-01.svg';
 import fitnessIco from '../../../assets/icons/fitness-01.svg';
+import {ChatService} from "../../../pages/group-chat/service/chat.service";
 class SideBarComponent extends Component {
 
     constructor(props) {
@@ -41,7 +42,15 @@ class SideBarComponent extends Component {
 
     logoutHandler = () => {
         const accountService = new AccountService() ;
+        const chatService  = new ChatService();
+
         accountService.logout().then(_ => {
+            chatService.logout().then({
+                //Logout completed successfully
+            },error=>{
+                console.log("Logout failed with exception:",{error});
+            });
+            localStorage.clear();
             debugger;
             this.props.history.push('/login')
         })

@@ -111,9 +111,7 @@ class LoginComponent extends Component {
         if(!e)
             return ;
         const value = e.target.value;
-        this.setState({[e.target.name] : value} , () => {
-            console.log('current state = ', this.state);
-        });
+        this.setState({[e.target.name] : value});
     }
     render() {
         const {t} = this.props;

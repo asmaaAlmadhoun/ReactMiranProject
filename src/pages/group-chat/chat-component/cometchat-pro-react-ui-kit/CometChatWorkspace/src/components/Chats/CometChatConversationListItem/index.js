@@ -22,7 +22,7 @@ import {
   itemLastMsgStyle,
   itemLastMsgTimeStyle
 } from "./style";
-let loggedInUser='';
+let loggedInUser=localStorage.getItem('loggedInUser');
 class CometChatConversationListItem extends React.Component {
 
   constructor(props) {
@@ -206,6 +206,19 @@ class CometChatConversationListItem extends React.Component {
   getMessage = (lastMessage) => {
 
     let message = null;
+    debugger;
+    let loggedInUser =  JSON.parse(localStorage.getItem('loggedInUser'))
+    if(lastMessage.sender===null){
+      lastMessage.sender= {
+        "hasBlockedMe": false,
+        "blockedByMe": false,
+        "uid": loggedInUser.chat_uid,
+        "name": loggedInUser.full_name,
+        "lastActiveAt": 1622635931,
+        "role": "trainer",
+        "status": "offline"
+      }
+    }
     const sender = (localStorage.getItem('chat_uid') !== lastMessage.sender.uid) ? `${lastMessage.sender.name}: ` : ``;
 
     switch (lastMessage.type) {
